@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.article.mapper.ArticleMapper">
+    
+    <resultMap type="Article" id="ArticleResult">
+        <result property="articleId"    column="article_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="articleCategory"    column="article_category"    />
+        <result property="articleCover"    column="article_cover"    />
+        <result property="articleTitle"    column="article_title"    />
+        <result property="articleContent"    column="article_content"    />
+        <result property="articleType"    column="article_type"    />
+        <result property="originalUrl"    column="original_url"    />
+        <result property="articleLike"    column="article_like"    />
+        <result property="articleView"    column="article_view"    />
+        <result property="articleCollect"    column="article_collect"    />
+        <result property="isTop"    column="is_top"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="isOk"    column="is_ok"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="judgeBy"    column="judge_by"    />
+        <result property="judgeTime"    column="judge_time"    />
+    </resultMap>
+
+    <sql id="selectArticleVo">
+        select article_id, user_id, article_category, article_cover, article_title, article_content,
+               article_type, original_url, article_like, article_view, article_collect, is_top, is_delete,
+               is_ok, status, create_time, update_time, create_by, update_by, judge_by, judge_time from article
+    </sql>
+
+    <select id="selectArticleList" parameterType="Article" resultMap="ArticleResult">
+        <include refid="selectArticleVo"/>
+        <where>  
+            <if test="articleCategory != null  and articleCategory != ''"> and article_category = #{articleCategory}</if>
+            <if test="articleTitle != null  and articleTitle != ''"> and article_title = #{articleTitle}</if>
+            <if test="articleType != null  and articleType != ''"> and article_type = #{articleType}</if>
+            <if test="isDelete != null  and isDelete != ''"> and is_delete = #{isDelete}</if>
+            <if test="isOk != null  and isOk != ''"> and is_ok = #{isOk}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="judgeBy != null  and judgeBy != ''"> and judge_by = #{judgeBy}</if>
+            <if test="judgeTime != null "> and judge_time = #{judgeTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectArticleByArticleId" parameterType="Long" resultMap="ArticleResult">
+        <include refid="selectArticleVo"/>
+        where article_id = #{articleId}
+    </select>
+    <select id="selectArticleInSearchList" resultType="com.ruoyi.article.domain.Article" resultMap="ArticleResult">
+        select a.article_id,a.user_id,a.article_category,a.article_cover,a.article_title,a.article_content,a.original_url from article a
+        <where>
+            <if test="articleTitle != null  and articleTitle != ''"> or article_title like concat('%',#{articleTitle},'%')</if>
+            <if test="articleContent != null  and articleContent != ''"> or article_content like concat('%',#{articleContent},'%')</if>
+        </where>
+        and a.is_delete='N' and a.is_ok='Y' and a.status='1'
+        order by a.create_time
+    </select>
+
+    <insert id="insertArticle" parameterType="Article" useGeneratedKeys="true" keyProperty="articleId">
+        insert into article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="articleCategory != null">article_category,</if>
+            <if test="articleCover != null">article_cover,</if>
+            <if test="articleTitle != null">article_title,</if>
+            <if test="articleContent != null">article_content,</if>
+            <if test="articleType != null">article_type,</if>
+            <if test="originalUrl != null">original_url,</if>
+            <if test="articleLike != null">article_like,</if>
+            <if test="articleView != null">article_view,</if>
+            <if test="articleCollect != null">article_collect,</if>
+            <if test="isTop != null">is_top,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="isOk != null">is_ok,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="judgeBy != null">judge_by,</if>
+            <if test="judgeTime != null">judge_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="articleCategory != null">#{articleCategory},</if>
+            <if test="articleCover != null">#{articleCover},</if>
+            <if test="articleTitle != null">#{articleTitle},</if>
+            <if test="articleContent != null">#{articleContent},</if>
+            <if test="articleType != null">#{articleType},</if>
+            <if test="originalUrl != null">#{originalUrl},</if>
+            <if test="articleLike != null">#{articleLike},</if>
+            <if test="articleView != null">#{articleView},</if>
+            <if test="articleCollect != null">#{articleCollect},</if>
+            <if test="isTop != null">#{isTop},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="isOk != null">#{isOk},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="judgeBy != null">#{judgeBy},</if>
+            <if test="judgeTime != null">#{judgeTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateArticle" parameterType="Article">
+        update article
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="articleCategory != null">article_category = #{articleCategory},</if>
+            <if test="articleCover != null">article_cover = #{articleCover},</if>
+            <if test="articleTitle != null">article_title = #{articleTitle},</if>
+            <if test="articleContent != null">article_content = #{articleContent},</if>
+            <if test="articleType != null">article_type = #{articleType},</if>
+            <if test="originalUrl != null">original_url = #{originalUrl},</if>
+            <if test="articleLike != null">article_like = #{articleLike},</if>
+            <if test="articleView != null">article_view = #{articleView},</if>
+            <if test="articleCollect != null">article_collect = #{articleCollect},</if>
+            <if test="isTop != null">is_top = #{isTop},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="isOk != null">is_ok = #{isOk},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="judgeBy != null">judge_by = #{judgeBy},</if>
+            <if test="judgeTime != null">judge_time = #{judgeTime},</if>
+        </trim>
+        where article_id = #{articleId}
+    </update>
+
+    <delete id="deleteArticleByArticleId" parameterType="Long">
+        delete from article where article_id = #{articleId}
+    </delete>
+
+    <delete id="deleteArticleByArticleIds" parameterType="String">
+        delete from article where article_id in 
+        <foreach item="articleId" collection="array" open="(" separator="," close=")">
+            #{articleId}
+        </foreach>
+    </delete>
+</mapper>

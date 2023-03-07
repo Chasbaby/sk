@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.sights.mapper.SightsBulletinMapper">
+    
+    <resultMap type="SightsBulletin" id="SightsBulletinResult">
+        <result property="bulletinId"    column="bulletin_id"    />
+        <result property="sightsId"    column="sights_id"    />
+        <result property="bulletinTitle"    column="bulletin_title"    />
+        <result property="bulletinType"    column="bulletin_type"    />
+        <result property="bulletinIntro"    column="bulletin_intro"    />
+        <result property="bulletinContent"    column="bulletin_content"    />
+        <result property="bulletinMultiparts"    column="bulletin_multiparts"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="topFlag"    column="top_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSightsBulletinVo">
+        select bulletin_id, sights_id, bulletin_title, bulletin_type, bulletin_intro, bulletin_content, bulletin_multiparts, status, del_flag, top_flag, create_by, create_time, update_by, update_time, remark from sights_bulletin
+    </sql>
+
+    <select id="selectSightsBulletinList" parameterType="SightsBulletin" resultMap="SightsBulletinResult">
+        <include refid="selectSightsBulletinVo"/>
+        <where>  
+            <if test="bulletinTitle != null  and bulletinTitle != ''"> and bulletin_title like concat('%', #{bulletinTitle}, '%')</if>
+            <if test="bulletinType != null  and bulletinType != ''"> and bulletin_type = #{bulletinType}</if>
+            <if test="bulletinIntro != null  and bulletinIntro != ''"> and bulletin_intro like concat('%', #{bulletinIntro}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="delFlag != null  and delFlag != ''"> and del_flag = #{delFlag}</if>
+            <if test="topFlag != null  and topFlag != ''"> and top_flag = #{topFlag}</if>
+        </where>
+    </select>
+    
+    <select id="selectSightsBulletinByBulletinId" parameterType="Long" resultMap="SightsBulletinResult">
+        <include refid="selectSightsBulletinVo"/>
+        where bulletin_id = #{bulletinId}
+    </select>
+        
+    <insert id="insertSightsBulletin" parameterType="SightsBulletin" useGeneratedKeys="true" keyProperty="bulletinId">
+        insert into sights_bulletin
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sightsId != null">sights_id,</if>
+            <if test="bulletinTitle != null and bulletinTitle != ''">bulletin_title,</if>
+            <if test="bulletinType != null and bulletinType != ''">bulletin_type,</if>
+            <if test="bulletinIntro != null">bulletin_intro,</if>
+            <if test="bulletinContent != null">bulletin_content,</if>
+            <if test="bulletinMultiparts != null">bulletin_multiparts,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null and delFlag != ''">del_flag,</if>
+            <if test="topFlag != null and topFlag != ''">top_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sightsId != null">#{sightsId},</if>
+            <if test="bulletinTitle != null and bulletinTitle != ''">#{bulletinTitle},</if>
+            <if test="bulletinType != null and bulletinType != ''">#{bulletinType},</if>
+            <if test="bulletinIntro != null">#{bulletinIntro},</if>
+            <if test="bulletinContent != null">#{bulletinContent},</if>
+            <if test="bulletinMultiparts != null">#{bulletinMultiparts},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null and delFlag != ''">#{delFlag},</if>
+            <if test="topFlag != null and topFlag != ''">#{topFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSightsBulletin" parameterType="SightsBulletin">
+        update sights_bulletin
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sightsId != null">sights_id = #{sightsId},</if>
+            <if test="bulletinTitle != null and bulletinTitle != ''">bulletin_title = #{bulletinTitle},</if>
+            <if test="bulletinType != null and bulletinType != ''">bulletin_type = #{bulletinType},</if>
+            <if test="bulletinIntro != null">bulletin_intro = #{bulletinIntro},</if>
+            <if test="bulletinContent != null">bulletin_content = #{bulletinContent},</if>
+            <if test="bulletinMultiparts != null">bulletin_multiparts = #{bulletinMultiparts},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="topFlag != null and topFlag != ''">top_flag = #{topFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where bulletin_id = #{bulletinId}
+    </update>
+
+    <delete id="deleteSightsBulletinByBulletinId" parameterType="Long">
+        delete from sights_bulletin where bulletin_id = #{bulletinId}
+    </delete>
+
+    <delete id="deleteSightsBulletinByBulletinIds" parameterType="String">
+        delete from sights_bulletin where bulletin_id in 
+        <foreach item="bulletinId" collection="array" open="(" separator="," close=")">
+            #{bulletinId}
+        </foreach>
+    </delete>
+</mapper>

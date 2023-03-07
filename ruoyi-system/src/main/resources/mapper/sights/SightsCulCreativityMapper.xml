@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.sights.mapper.SightsCulCreativityMapper">
+    
+    <resultMap type="SightsCulCreativity" id="SightsCulCreativityResult">
+        <result property="culCreativityId"    column="cul_creativity_id"    />
+        <result property="sightsId"    column="sights_id"    />
+        <result property="culCreativityTitle"    column="cul_creativity_title"    />
+        <result property="culCreativityIntro"    column="cul_creativity_intro"    />
+        <result property="culCreativityCategory"    column="cul_creativity_category"    />
+        <result property="culCreativityTags"    column="cul_creativity_tags"    />
+        <result property="culCreativityImage" column="cul_creativity_image"/>
+        <result property="culCreativityKey"    column="cul_creativity_key"    />
+        <result property="culCreativityLike"    column="cul_creativity_like"    />
+        <result property="culCreativityDislike"    column="cul_creativity_dislike"    />
+        <result property="culCreativityCollection"    column="cul_creativity_collection"    />
+        <result property="culCreativityHits"    column="cul_creativity_hits"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="topFlag"    column="top_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSightsCulCreativityVo">
+        select cul_creativity_id, sights_id, cul_creativity_title,cul_creativity_image, cul_creativity_intro, cul_creativity_category,
+               cul_creativity_tags, cul_creativity_key, cul_creativity_like, cul_creativity_dislike, cul_creativity_collection,
+               cul_creativity_hits, del_flag, top_flag, create_by, create_time, update_by, update_time from sights_cul_creativity
+    </sql>
+
+    <select id="selectSightsCulCreativityList" parameterType="SightsCulCreativity" resultMap="SightsCulCreativityResult">
+        <include refid="selectSightsCulCreativityVo"/>
+        <where>  
+            <if test="culCreativityTitle != null  and culCreativityTitle != ''"> and cul_creativity_title like concat('%', #{culCreativityTitle}, '%')</if>
+            <if test="culCreativityCategory != null  and culCreativityCategory != ''"> and cul_creativity_category like concat('%', #{culCreativityCategory}, '%')</if>
+            <if test="culCreativityTags != null  and culCreativityTags != ''"> and cul_creativity_tags like concat('%', #{culCreativityTags}, '%')</if>
+            <if test="culCreativityKey != null  and culCreativityKey != ''"> and cul_creativity_key like concat('%', #{culCreativityKey}, '%')</if>
+            <if test="culCreativityImage !=null and culCreativityImage !=''"> and cul_creativity_image like concat('%',#{culCreativityImage},'%')</if>
+            <if test="delFlag != null  and delFlag != ''"> and del_flag = #{delFlag}</if>
+            <if test="topFlag != null  and topFlag != ''"> and top_flag = #{topFlag}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by like concat('%', #{createBy}, '%')</if>
+            <if test="createTime != null "> and create_time &gt;= #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and update_by like concat('%', #{updateBy}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSightsCulCreativityByCulCreativityId" parameterType="Long" resultMap="SightsCulCreativityResult">
+        <include refid="selectSightsCulCreativityVo"/>
+        where cul_creativity_id = #{culCreativityId}
+    </select>
+    <select id="selectSightsInSearchList" resultType="com.ruoyi.sights.domain.SightsCulCreativity" resultMap="SightsCulCreativityResult">
+        select cul_creativity_title,cul_creativity_id,sights_id,
+               cul_creativity_image,cul_creativity_intro,cul_creativity_key,cul_creativity_tags from sights_cul_creativity
+        <where>
+            <if test="culCreativityTitle !=null and culCreativityTitle !=''" >or cul_creativity_title like concat('%',#{culCreativityTitle},'%')</if>
+            <if test="culCreativityIntro !=null and culCreativityIntro !=''">or cul_creativity_intro like concat('%',#{culCreativityIntro},'%')</if>
+            <if test="culCreativityKey !=null and culCreativityKey !=''">or cul_creativity_key like concat('%',#{culCreativityKey},'%')</if>
+            <if test="culCreativityTags !=null and culCreativityTags !=''">or cul_creativity_tags like concat('%',#{culCreativityTags} ,'%')</if>
+        </where>
+        and del_flag !='Y'
+        order by cul_creativity_collection,cul_creativity_like,cul_creativity_hits
+    </select>
+
+    <insert id="insertSightsCulCreativity" parameterType="SightsCulCreativity" useGeneratedKeys="true" keyProperty="culCreativityId">
+        insert into sights_cul_creativity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sightsId != null">sights_id,</if>
+            <if test="culCreativityTitle != null and culCreativityTitle != ''">cul_creativity_title,</if>
+            <if test="culCreativityIntro != null">cul_creativity_intro,</if>
+            <if test="culCreativityCategory != null">cul_creativity_category,</if>
+            <if test="culCreativityImage !=null and culCreativityImage !=''">cul_creativity_image,</if>
+            <if test="culCreativityTags != null">cul_creativity_tags,</if>
+            <if test="culCreativityKey != null">cul_creativity_key,</if>
+            <if test="culCreativityLike != null">cul_creativity_like,</if>
+            <if test="culCreativityDislike != null">cul_creativity_dislike,</if>
+            <if test="culCreativityCollection != null">cul_creativity_collection,</if>
+            <if test="culCreativityHits != null">cul_creativity_hits,</if>
+            <if test="delFlag != null and delFlag != ''">del_flag,</if>
+            <if test="topFlag != null and topFlag != ''">top_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sightsId != null">#{sightsId},</if>
+            <if test="culCreativityTitle != null and culCreativityTitle != ''">#{culCreativityTitle},</if>
+            <if test="culCreativityIntro != null">#{culCreativityIntro},</if>
+            <if test="culCreativityCategory != null">#{culCreativityCategory},</if>
+            <if test="culCreativityImage !=null and culCreativityImage !=''">#{culCreativityImage},</if>
+            <if test="culCreativityTags != null">#{culCreativityTags},</if>
+            <if test="culCreativityKey != null">#{culCreativityKey},</if>
+            <if test="culCreativityLike != null">#{culCreativityLike},</if>
+            <if test="culCreativityDislike != null">#{culCreativityDislike},</if>
+            <if test="culCreativityCollection != null">#{culCreativityCollection},</if>
+            <if test="culCreativityHits != null">#{culCreativityHits},</if>
+            <if test="delFlag != null and delFlag != ''">#{delFlag},</if>
+            <if test="topFlag != null and topFlag != ''">#{topFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSightsCulCreativity" parameterType="SightsCulCreativity">
+        update sights_cul_creativity
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sightsId != null">sights_id = #{sightsId},</if>
+            <if test="culCreativityTitle != null and culCreativityTitle != ''">cul_creativity_title = #{culCreativityTitle},</if>
+            <if test="culCreativityIntro != null">cul_creativity_intro = #{culCreativityIntro},</if>
+            <if test="culCreativityCategory != null">cul_creativity_category = #{culCreativityCategory},</if>
+            <if test="culCreativityImage !=null and culCreativityImage !=''">cul_creativity_image = #{culCreativityImage},</if>
+            <if test="culCreativityTags != null">cul_creativity_tags = #{culCreativityTags},</if>
+            <if test="culCreativityKey != null">cul_creativity_key = #{culCreativityKey},</if>
+            <if test="culCreativityLike != null">cul_creativity_like = #{culCreativityLike},</if>
+            <if test="culCreativityDislike != null">cul_creativity_dislike = #{culCreativityDislike},</if>
+            <if test="culCreativityCollection != null">cul_creativity_collection = #{culCreativityCollection},</if>
+            <if test="culCreativityHits != null">cul_creativity_hits = #{culCreativityHits},</if>
+            <if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="topFlag != null and topFlag != ''">top_flag = #{topFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where cul_creativity_id = #{culCreativityId}
+    </update>
+
+    <delete id="deleteSightsCulCreativityByCulCreativityId" parameterType="Long">
+        delete from sights_cul_creativity where cul_creativity_id = #{culCreativityId}
+    </delete>
+
+    <delete id="deleteSightsCulCreativityByCulCreativityIds" parameterType="String">
+        delete from sights_cul_creativity where cul_creativity_id in 
+        <foreach item="culCreativityId" collection="array" open="(" separator="," close=")">
+            #{culCreativityId}
+        </foreach>
+    </delete>
+</mapper>

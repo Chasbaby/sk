@@ -1,0 +1,59 @@
+#RecommendList {
+    width: 100%;
+}
+
+#RecommendList li {
+    margin-bottom: 10px;
+}
+
+#RecommendList .img_div {
+    display: inline-block;
+    width: 150px;
+    height: 100px;
+}
+
+#RecommendList .img_div img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+#RecommendList .Info {
+    float: right;
+    width: 200px;
+    height: 100px;
+    position: relative;
+}
+
+#RecommendList .Info h3 {
+    font-weight: 400;
+}
+
+#RecommendList .Info .rating {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #409EFF;
+    margin-top: 15px;
+}
+
+#RecommendList .Info .comment {
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+#RecommendList .Info .bottom {
+    position: absolute;
+    font-size: 13px;
+    bottom: 0px;
+    left: 0;
+}
+
+#RecommendList .link {
+    text-align: right;
+    margin: 0 auto;
+    margin-top: 20px;
+}

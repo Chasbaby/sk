@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.sights.mapper.SightsRecordScoreMapper">
+    <resultMap id="SightsRecordScoreResult" type="SightsRecordScore">
+        <result property="userId" column="user_id"/>
+        <result property="sightsId" column="sights_id"/>
+        <result property="score" column="score"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <insert id="insertUserSightsScore" parameterType="SightsRecordScore">
+        insert sights_record_like
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user_id !=null">user_id,</if>
+            <if test="sights_id !=null">sights_id,</if>
+            <if test="score !=null">score,</if>
+            <if test="createTime !=null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="user_id !=null">#{userId},</if>
+            <if test="sights_id !=null">#{sightsId},</if>
+            <if test="score !=null">#{score},</if>
+            <if test="createTime !=null">#{createTime},</if>
+        </trim>
+#插入 用户 景点 评分
+    </insert>
+
+    <update id="updateUserSightsScore" parameterType="SightsRecordScore">
+        update sights_record_like set score = #{score} where user_id = #{userId} and sights_id = #{sightsId}
+#修改 用户 对某景点的评分
+    </update>
+
+    <select id="checkUserSightsScore" resultType="java.lang.Integer" parameterType="SightsRecordScore">
+        select 1 from sights_record_like
+        where user_id = #{userId} and sights_id = #{sightsId}
+        limit 1
+#判断 用户 是否对景点评分
+    </select>
+
+    <select id="selectAverageSightsScore" resultType="java.lang.Double" parameterType="long">
+        select AVG(score) from sights_record_like where sights_id = #{sightsId}
+#统计某景点的平均评分
+    </select>
+
+    <select id="selectCountScoreNumBySightsId" resultType="java.lang.Integer" parameterType="long">
+        select count(0) from sights_record_like where sights_id = #{sightsId}
+        #获取某景点的评分总数
+    </select>
+    <select id="getRatingListByUserId" resultType="com.ruoyi.sights.domain.SightsRecordScore">
+        select user_id ,sights_id,score,create_time from sights_record_like where user_id = #{userId}
+    </select>
+
+</mapper>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.page.mapper.SysTypesetMapper">
+    
+    <resultMap type="SysTypeset" id="SysTypesetResult">
+        <result property="typesetId"    column="typeset_id"    />
+        <result property="typesetImage"    column="typeset_image"    />
+        <result property="typesetPage"    column="typeset_page"    />
+        <result property="typesetPosition"    column="typeset_position"    />
+        <result property="typesetIntroduction"    column="typeset_introduction"    />
+        <result property="typesetText"    column="typeset_text"    />
+        <result property="typesetAttachment"    column="typeset_attachment"    />
+        <result property="typesetRoute"    column="typeset_route"    />
+        <result property="flag"    column="flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updayeBy"    column="updaye_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysTypesetVo">
+        select typeset_id, typeset_image, typeset_page, typeset_position, typeset_introduction, typeset_text, typeset_attachment, typeset_route, flag, create_by, create_time, updaye_by, update_time, remark from sys_typeset
+    </sql>
+
+    <select id="selectSysTypesetList" parameterType="SysTypeset" resultMap="SysTypesetResult">
+        <include refid="selectSysTypesetVo"/>
+        <where>  
+            <if test="typesetPage != null "> and typeset_page = #{typesetPage}</if>
+            <if test="typesetPosition != null "> and typeset_position = #{typesetPosition}</if>
+            <if test="flag != null  and flag != ''"> and flag = #{flag}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysTypesetByTypesetId" parameterType="Long" resultMap="SysTypesetResult">
+        <include refid="selectSysTypesetVo"/>
+        where typeset_id = #{typesetId}
+    </select>
+        
+    <insert id="insertSysTypeset" parameterType="SysTypeset">
+        insert into sys_typeset
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="typesetId != null">typeset_id,</if>
+            <if test="typesetImage != null">typeset_image,</if>
+            <if test="typesetPage != null">typeset_page,</if>
+            <if test="typesetPosition != null">typeset_position,</if>
+            <if test="typesetIntroduction != null">typeset_introduction,</if>
+            <if test="typesetText != null">typeset_text,</if>
+            <if test="typesetAttachment != null">typeset_attachment,</if>
+            <if test="typesetRoute != null">typeset_route,</if>
+            <if test="flag != null">flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updayeBy != null">updaye_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="typesetId != null">#{typesetId},</if>
+            <if test="typesetImage != null">#{typesetImage},</if>
+            <if test="typesetPage != null">#{typesetPage},</if>
+            <if test="typesetPosition != null">#{typesetPosition},</if>
+            <if test="typesetIntroduction != null">#{typesetIntroduction},</if>
+            <if test="typesetText != null">#{typesetText},</if>
+            <if test="typesetAttachment != null">#{typesetAttachment},</if>
+            <if test="typesetRoute != null">#{typesetRoute},</if>
+            <if test="flag != null">#{flag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updayeBy != null">#{updayeBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysTypeset" parameterType="SysTypeset">
+        update sys_typeset
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="typesetImage != null">typeset_image = #{typesetImage},</if>
+            <if test="typesetPage != null">typeset_page = #{typesetPage},</if>
+            <if test="typesetPosition != null">typeset_position = #{typesetPosition},</if>
+            <if test="typesetIntroduction != null">typeset_introduction = #{typesetIntroduction},</if>
+            <if test="typesetText != null">typeset_text = #{typesetText},</if>
+            <if test="typesetAttachment != null">typeset_attachment = #{typesetAttachment},</if>
+            <if test="typesetRoute != null">typeset_route = #{typesetRoute},</if>
+            <if test="flag != null">flag = #{flag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updayeBy != null">updaye_by = #{updayeBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where typeset_id = #{typesetId}
+    </update>
+
+    <delete id="deleteSysTypesetByTypesetId" parameterType="Long">
+        delete from sys_typeset where typeset_id = #{typesetId}
+    </delete>
+
+    <delete id="deleteSysTypesetByTypesetIds" parameterType="String">
+        delete from sys_typeset where typeset_id in 
+        <foreach item="typesetId" collection="array" open="(" separator="," close=")">
+            #{typesetId}
+        </foreach>
+    </delete>
+</mapper>

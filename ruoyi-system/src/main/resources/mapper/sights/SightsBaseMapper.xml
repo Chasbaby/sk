@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.sights.mapper.SightsBaseMapper">
+    
+    <resultMap type="SightsBase" id="SightsBaseResult">
+        <result property="sightsId"    column="sights_id"/>
+        <result property="sightsHits" column="sights_hits"/>
+        <result property="sightsLike" column="sights_like"/>
+        <result property="sightsView" column="sights_view"/>
+        <result property="sightsScore" column="sights_score"/>
+        <result property="sightsName"    column="sights_name"/>
+        <result property="sightsLocation"    column="sights_location"    />
+        <result property="sightsLongitude"    column="sights_longitude"    />
+        <result property="sightsLatitude"    column="sights_latitude"    />
+        <result property="sightsImage"    column="sights_image"    />
+        <result property="sightsCode"      column="sights_code"/>
+        <result property="sightsIntro"    column="sights_intro"    />
+        <result property="sightsDetail"    column="sights_detail"    />
+        <result property="sightsCategory"    column="sights_category"    />
+        <result property="sightsNation"    column="sights_nation"    />
+        <result property="sightsCity"    column="sights_city"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <resultMap id="SightsRecordHistoryResult" type="SightsRecordHistory">
+        <result property="userId" column="user_id"/>
+        <result property="sightsId" column="sights_id"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectSightsBaseVo">
+        select sights_id,sights_hits,sights_like,sights_view,sights_score,
+               sights_name, sights_location, sights_longitude, sights_latitude,
+               sights_image,sights_code,sights_intro, sights_detail, sights_category,
+               sights_nation, sights_city, create_by, create_time, update_by,
+               update_time from sights_base
+    </sql>
+
+    <select id="selectSightsBaseList" parameterType="SightsBase" resultMap="SightsBaseResult">
+        <include refid="selectSightsBaseVo"/>
+        <where>
+            <if test="sightsView != null "> and sights_view &gt;= #{sightsView}</if>
+            <if test="sightsHits != null "> and sights_hits &gt;= #{sightsHits}</if>
+            <if test="sightsLike != null "> and sights_like >= #{sightsLike}</if>
+            <if test="sightsName != null  and sightsName != ''"> and sights_name like concat('%', #{sightsName}, '%')</if>
+            <if test="sightsLocation != null  and sightsLocation != ''"> and sights_location like concat('%', #{sightsLocation}, '%')</if>
+            <if test="sightsIntro != null  and sightsIntro != ''"> and sights_intro like concat('%', #{sightsIntro}, '%')</if>
+            <if test="sightsCategory != null  and sightsCategory != ''"> and sights_category = #{sightsCategory}</if>
+            <if test="sightsNation != null  and sightsNation != ''"> and sights_nation like concat('%', #{sightsNation}, '%')</if>
+            <if test="sightsCity != null  and sightsCity != ''"> and sights_city like concat('%', #{sightsCity}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectSightsInSearchList" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="SightsBase" resultMap="SightsBaseResult">
+        select sights_id,sights_name,sights_location,sights_detail,sights_intro from sights_base
+        <where>
+            <if test="sightsName != null  and sightsName != ''"> or sights_name like concat('%', #{sightsName}, '%')</if>
+            <if test="sightsLocation != null  and sightsLocation != ''"> or sights_location like concat('%', #{sightsLocation}, '%')</if>
+            <if test="sightsIntro != null  and sightsIntro != ''"> or sights_intro like concat('%', #{sightsIntro}, '%')</if>
+            <if test="sightsDetail !=null and sightsDetail !=''"> or sights_detail like concat('%', #{sightsDetail},'%')</if>
+        </where>
+    </select>
+
+
+    <select id="selectSightsBaseBySightsId" parameterType="Long" resultMap="SightsBaseResult">
+        <include refid="selectSightsBaseVo"/>
+        where sights_id = #{sightsId}
+    </select>
+    <select id="selectSightsTopViaScore" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="int">
+        <include refid="selectSightsBaseVo"/>
+        order by sights_score asc
+        limit #{num}
+        #获取评分最高的 一定量的景点
+    </select>
+    <select id="selectSightsTopViaLike" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="int">
+        <include refid="selectSightsBaseVo"/>
+        order by sights_like asc
+        limit #{num}
+        #获取点赞最高的一定量的景点
+    </select>
+    <select id="selectSightsTopViaHit" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="int">
+        <include refid="selectSightsBaseVo"/>
+        order by sights_hits asc
+        limit #{num}
+        #获取点击最高的一定量的景点
+    </select>
+    <select id="selectSightsTopViaView" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="int">
+        <include refid="selectSightsBaseVo"/>
+        order by sights_view asc
+        limit #{num}
+        #获取浏览最高的一定量的景点
+    </select>
+    <select id="getRecommendSights" resultType="com.ruoyi.sights.domain.SightsBase">
+        #获取某用户推荐的景点信息
+    </select>
+    <select id="getHistoryHotSights" resultType="com.ruoyi.sights.domain.SightsBase">
+        #获取历史热门景点信息
+    </select>
+    <select id="getRecentHotSights" resultType="com.ruoyi.sights.domain.SightsBase">
+        #获取近期热门景点信息
+    </select>
+    <select id="getGoodSights" resultType="com.ruoyi.sights.domain.SightsBase">
+        #获取优质景点信息
+    </select>
+    <select id="getHistoryRecord" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="long">
+        select u.sights_id,u.sights_hits,u.sights_like,u.sights_view,u.sights_score,
+               u.sights_name, u.sights_location, u.sights_longitude, u.sights_latitude,
+               u.sights_image, u.sights_code,u.sights_intro, u.sights_detail, u.sights_category,
+               u.sights_nation, u.sights_city, u.create_by, u.create_time, u.update_by,
+               u.update_time
+        from sights_base u
+        left join sights_record_history sr on u.sights_id = sr.sights_id
+        where sr.user_id = #{userId}
+        order by sr.create_time
+        #历史浏览记录   表连接
+    </select>
+    <select id="judgeSightsHistoryOnlyOne" resultType="java.lang.Integer" parameterType="SightsRecordHistory">
+        select 1 from sights_record_history
+        where user_id = #{userId} and sights_id=#{sightsId}
+        limit 1
+        #判断用户浏览记录是否唯一
+    </select>
+
+
+    <insert id="insertSightsBase" parameterType="SightsBase" useGeneratedKeys="true" keyProperty="sightsId">
+        insert into sights_base
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sightsName != null and sightsName != ''">sights_name,</if>
+            <if test="sightsView != null">sights_view,</if>
+            <if test="sightsHits != null">sights_hits,</if>
+            <if test="sightsLike != null">sights_like,</if>
+            <if test="sightsLocation != null and sightsLocation != ''">sights_location,</if>
+            <if test="sightsLongitude != null">sights_longitude,</if>
+            <if test="sightsLatitude != null">sights_latitude,</if>
+            <if test="sightsImage != null">sights_image,</if>
+            <if test="sightsCode !=null">sights_code,</if>
+            <if test="sightsIntro != null">sights_intro,</if>
+            <if test="sightsDetail != null">sights_detail,</if>
+            <if test="sightsCategory != null">sights_category,</if>
+            <if test="sightsNation != null">sights_nation,</if>
+            <if test="sightsCity != null">sights_city,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sightsView != null">#{sightsView},</if>
+            <if test="sightsHits != null">#{sightsHits},</if>
+            <if test="sightsLike != null">#{sightsLike},</if>
+            <if test="sightsName != null and sightsName != ''">#{sightsName},</if>
+            <if test="sightsLocation != null and sightsLocation != ''">#{sightsLocation},</if>
+            <if test="sightsLongitude != null">#{sightsLongitude},</if>
+            <if test="sightsLatitude != null">#{sightsLatitude},</if>
+            <if test="sightsImage != null">#{sightsImage},</if>
+            <if test="sightsCode !=null">#{sightsCode},</if>
+            <if test="sightsIntro != null">#{sightsIntro},</if>
+            <if test="sightsDetail != null">#{sightsDetail},</if>
+            <if test="sightsCategory != null">#{sightsCategory},</if>
+            <if test="sightsNation != null">#{sightsNation},</if>
+            <if test="sightsCity != null">#{sightsCity},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+    <insert id="addSightsHistoryRecord" parameterType="SightsRecordHistory" useGeneratedKeys="true">
+        insert into sights_record_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId !=null">user_id,</if>
+            <if test="sights !=null">sights_id,</if>
+            <if test="createTime !=null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId !=null">#{userId},</if>
+            <if test="sightsId !=null">#{sightsId},</if>
+            <if test="createTime !=null">#{createTime},</if>
+        </trim>
+    </insert>
+    <insert id="insertSightsHistoryByBatches">
+        # 批量添加景点历史浏览记录
+    </insert>
+
+
+    <update id="updateSightsBase" parameterType="SightsBase">
+        update sights_base
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sightsName != null and sightsName != ''">sights_name = #{sightsName},</if>
+            <if test="sightsLocation != null and sightsLocation != ''">sights_location = #{sightsLocation},</if>
+            <if test="sightsLongitude != null">sights_longitude = #{sightsLongitude},</if>
+            <if test="sightsLatitude != null">sights_latitude = #{sightsLatitude},</if>
+            <if test="sightsImage != null">sights_image = #{sightsImage},</if>
+            <if test="sightsIntro != null">sights_intro = #{sightsIntro},</if>
+            <if test="sightsDetail != null">sights_detail = #{sightsDetail},</if>
+            <if test="sightsCategory != null">sights_category = #{sightsCategory},</if>
+            <if test="sightsNation != null">sights_nation = #{sightsNation},</if>
+            <if test="sightsCity != null">sights_city = #{sightsCity},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where sights_id = #{sightsId}
+    </update>
+    <update id="updateSightsViaHits" parameterType="long">
+        update sights_base set sights_hits = sights_hits +1 where sights_id = #{sightsId}
+        #点击量++
+    </update>
+    <update id="updateSightsViaView" parameterType="long">
+        update sights_base set sights_view = sights_view +1 where sights_id = #{sightsId}
+        #浏览量++
+    </update>
+    <update id="updateSightsHistory" parameterType="SightsRecordHistory">
+        # 更新用户浏览记录
+        update sights_record_history set create_time = #{createTime} where sights_id =#{sightsId} and user_id =#{userId}
+    </update>
+
+    <update id="updateSightsHitBySightsIds">
+        update sights_base set sights_hits = sights_hits + #{value} where sights_id = #{sightsId}
+    </update>
+    <update id="updateSightsViewBySightsIds">
+        update sights_base set sights_view = sights_view + #{value} where sightsId = #{sightsId}
+    </update>
+
+
+    <delete id="deleteSightsBaseBySightsId" parameterType="Long">
+        delete from sights_base where sights_id = #{sightsId}
+    </delete>
+    <delete id="deleteSightsBaseBySightsIds" parameterType="String">
+        delete from sights_base where sights_id in 
+        <foreach item="sightsId" collection="array" open="(" separator="," close=")">
+            #{sightsId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.use.mapper.CreativeConventionMapper">
+    
+    <resultMap type="CreativeConvention" id="CreativeConventionResult">
+        <id property="conventionId"    column="convention_id"    />
+        <result property="conventionLabel"    column="convention_label"    />
+        <result property="conventionName"    column="convention_name"    />
+        <result property="conventionContent"    column="convention_content"    />
+        <result property="conventionIcon"   column="convention_icon"/>
+        <result property="conventionDisabled"    column="convention_disabled"    />
+        <result property="conventionClosable"    column="convention_closable"    />
+        <result property="conventionLazy"    column="convention_lazy"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectCreativeConventionVo">
+        select convention_id, convention_label,convention_icon, convention_name, convention_content, convention_disabled, convention_closable, convention_lazy, create_by, create_time, update_by, update_time, remark from creative_convention
+    </sql>
+
+    <select id="selectCreativeConventionList" parameterType="CreativeConvention" resultMap="CreativeConventionResult">
+        <include refid="selectCreativeConventionVo"/>
+        <where>  
+            <if test="conventionLabel != null  and conventionLabel != ''"> and convention_label like concat('%', #{conventionLabel}, '%')</if>
+            <if test="conventionName != null  and conventionName != ''"> and convention_name like concat('%', #{conventionName}, '%')</if>
+            <if test="conventionDisabled != null  and conventionDisabled != ''"> and convention_disabled = #{conventionDisabled}</if>
+            <if test="conventionClosable != null  and conventionClosable != ''"> and convention_closable = #{conventionClosable}</if>
+            <if test="conventionLazy != null  and conventionLazy != ''"> and convention_lazy = #{conventionLazy}</if>
+        </where>
+    </select>
+    
+    <select id="selectCreativeConventionByConventionId" parameterType="Long" resultMap="CreativeConventionResult">
+        <include refid="selectCreativeConventionVo"/>
+        where convention_id = #{conventionId}
+    </select>
+        
+    <insert id="insertCreativeConvention" parameterType="CreativeConvention" useGeneratedKeys="true" keyProperty="conventionId">
+        insert into creative_convention
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="conventionLabel != null">convention_label,</if>
+            <if test="conventionName != null">convention_name,</if>
+            <if test="conventionContent != null">convention_content,</if>
+            <if test="conventionIcon != null">convention_icon,</if>
+            <if test="conventionDisabled != null">convention_disabled,</if>
+            <if test="conventionClosable != null">convention_closable,</if>
+            <if test="conventionLazy != null">convention_lazy,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="conventionLabel != null">#{conventionLabel},</if>
+            <if test="conventionName != null">#{conventionName},</if>
+            <if test="conventionContent != null">#{conventionContent},</if>
+            <if test="conventionIcon != null">convention_icon,</if>
+            <if test="conventionDisabled != null">#{conventionDisabled},</if>
+            <if test="conventionClosable != null">#{conventionClosable},</if>
+            <if test="conventionLazy != null">#{conventionLazy},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCreativeConvention" parameterType="CreativeConvention">
+        update creative_convention
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="conventionLabel != null">convention_label = #{conventionLabel},</if>
+            <if test="conventionName != null">convention_name = #{conventionName},</if>
+            <if test="conventionContent != null">convention_content = #{conventionContent},</if>
+            <if test="conventionIcon !=null">convention_icon = #{conventionIcon},</if>
+            <if test="conventionDisabled != null">convention_disabled = #{conventionDisabled},</if>
+            <if test="conventionClosable != null">convention_closable = #{conventionClosable},</if>
+            <if test="conventionLazy != null">convention_lazy = #{conventionLazy},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where convention_id = #{conventionId}
+    </update>
+
+    <delete id="deleteCreativeConventionByConventionId" parameterType="Long">
+        delete from creative_convention where convention_id = #{conventionId}
+    </delete>
+
+    <delete id="deleteCreativeConventionByConventionIds" parameterType="String">
+        delete from creative_convention where convention_id in 
+        <foreach item="conventionId" collection="array" open="(" separator="," close=")">
+            #{conventionId}
+        </foreach>
+    </delete>
+</mapper>

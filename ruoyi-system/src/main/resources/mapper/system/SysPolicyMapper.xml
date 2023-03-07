@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysPolicyMapper">
+    
+    <resultMap type="SysPolicy" id="SysPolicyResult">
+        <result property="policyId"    column="policy_id"    />
+        <result property="policyTitle"    column="policy_title"    />
+        <result property="policyContent"    column="policy_content"    />
+        <result property="policyType"    column="policy_type"    />
+        <result property="policyScope"    column="policy_scope"    />
+        <result property="policyImportant"    column="policy_important"    />
+        <result property="policyLaw"    column="policy_law"    />
+        <result property="policyExecuteTime"    column="policy_execute_time"    />
+        <result property="policyEndingTime"    column="policy_ending_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSysPolicyVo">
+        select policy_id, policy_title, policy_content, policy_type, policy_scope, policy_important, policy_law, policy_execute_time, policy_ending_time, create_by, create_time, update_by, update_time from sys_policy
+    </sql>
+
+    <select id="selectSysPolicyList" parameterType="SysPolicy" resultMap="SysPolicyResult">
+        <include refid="selectSysPolicyVo"/>
+        <where>  
+            <if test="policyTitle != null  and policyTitle != ''"> and policy_title like concat('%', #{policyTitle}, '%')</if>
+            <if test="policyType != null "> and policy_type = #{policyType}</if>
+            <if test="policyScope != null "> and policy_scope like concat('%', #{policyScope}, '%')</if>
+            <if test="policyImportant != null "> and policy_important = #{policyImportant}</if>
+            <if test="policyExecuteTime != null "> and policy_execute_time &gt;= #{policyExecuteTime}</if>
+            <if test="policyEndingTime != null "> and policy_ending_time &lt;= #{policyEndingTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysPolicyByPolicyId" parameterType="Long" resultMap="SysPolicyResult">
+        <include refid="selectSysPolicyVo"/>
+        where policy_id = #{policyId}
+    </select>
+        
+    <insert id="insertSysPolicy" parameterType="SysPolicy" useGeneratedKeys="true" keyProperty="policyId">
+        insert into sys_policy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="policyTitle != null and policyTitle != ''">policy_title,</if>
+            <if test="policyContent != null and policyContent != ''">policy_content,</if>
+            <if test="policyType != null">policy_type,</if>
+            <if test="policyScope != null">policy_scope,</if>
+            <if test="policyImportant != null">policy_important,</if>
+            <if test="policyLaw != null">policy_law,</if>
+            <if test="policyExecuteTime != null">policy_execute_time,</if>
+            <if test="policyEndingTime != null">policy_ending_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="policyTitle != null and policyTitle != ''">#{policyTitle},</if>
+            <if test="policyContent != null and policyContent != ''">#{policyContent},</if>
+            <if test="policyType != null">#{policyType},</if>
+            <if test="policyScope != null">#{policyScope},</if>
+            <if test="policyImportant != null">#{policyImportant},</if>
+            <if test="policyLaw != null">#{policyLaw},</if>
+            <if test="policyExecuteTime != null">#{policyExecuteTime},</if>
+            <if test="policyEndingTime != null">#{policyEndingTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysPolicy" parameterType="SysPolicy">
+        update sys_policy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="policyTitle != null and policyTitle != ''">policy_title = #{policyTitle},</if>
+            <if test="policyContent != null and policyContent != ''">policy_content = #{policyContent},</if>
+            <if test="policyType != null">policy_type = #{policyType},</if>
+            <if test="policyScope != null">policy_scope = #{policyScope},</if>
+            <if test="policyImportant != null">policy_important = #{policyImportant},</if>
+            <if test="policyLaw != null">policy_law = #{policyLaw},</if>
+            <if test="policyExecuteTime != null">policy_execute_time = #{policyExecuteTime},</if>
+            <if test="policyEndingTime != null">policy_ending_time = #{policyEndingTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where policy_id = #{policyId}
+    </update>
+
+    <delete id="deleteSysPolicyByPolicyId" parameterType="Long">
+        delete from sys_policy where policy_id = #{policyId}
+    </delete>
+
+    <delete id="deleteSysPolicyByPolicyIds" parameterType="String">
+        delete from sys_policy where policy_id in 
+        <foreach item="policyId" collection="array" open="(" separator="," close=")">
+            #{policyId}
+        </foreach>
+    </delete>
+</mapper>

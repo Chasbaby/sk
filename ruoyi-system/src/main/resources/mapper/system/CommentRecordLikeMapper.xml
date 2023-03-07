@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CommentRecordLikeMapper">
+    <resultMap id="CommentLike" type="CommentRecordLike">
+        <result property="userId" column="user_id"/>
+        <result property="commentId" column="comment_id"/>
+        <result property="commentSource" column="comment_source"/>
+    </resultMap>
+
+    <insert id="insertUserCommentLike" parameterType="CommentRecordLike" useGeneratedKeys="true">
+        insert comment_record_hits
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId !=null">user_id,</if>
+            <if test="commentId !=null">comment_id,</if>
+            <if test="commentSource !=null">comment_source,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId !=null">#{userId},</if>
+            <if test="commentId !=null">#{commentId},</if>
+            <if test="commentSource !=null">#{commentSource},</if>
+        </trim>
+        # 插入 用户 点赞评论信息
+    </insert>
+    <delete id="deleteUserCommentLike" parameterType="CommentRecordLike">
+        delete from comment_record_hits where user_id =#{userId} and comment_id =#{commentId}
+        # 取消 用户 点赞评论信息
+    </delete>
+    <select id="checkUserCommentLike" resultType="java.lang.Integer" parameterType="CommentRecordLike">
+       # 判断 用户 对某评论是否点赞
+        select 1 from comment_record_hits where user_id=#{userId} and comment_id =#{commentId}
+    </select>
+    <select id="selectCommentAllLikeNum" resultType="java.lang.Integer" parameterType="long">
+        # 获取某评论的点赞总数
+        select count(0) from comment_record_hits where comment_id = #{commentId}
+    </select>
+</mapper>

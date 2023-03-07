@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.sights.mapper.SightsRecordLikeMapper">
+    <resultMap id="SightsRecordLikeResult" type="SightsRecordLike">
+        <result property="userId" column="user_id"/>
+        <result property="sightsId" column="sights_id"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <insert id="insertUserSightsLike" parameterType="SightsRecordLike" useGeneratedKeys="true">
+        insert sights_record_like
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId !=null ">user_id,</if>
+            <if test="sightsId !=null">sights_id,</if>
+            <if test="createTime !=null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId !=null">#{userId},</if>
+            <if test="sightsId !=null">#{sightsId},</if>
+            <if test="createTime !=null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSightsViaLike" parameterType="long">
+        update sights_base set sights_like = sights_like +1 where sights_id = #{sightsId}
+    </update>
+
+    <update id="declineSightsViaLike" parameterType="long">
+        update sights_base set sights_like = sights_like -1 where sights_id = #{sightsId}
+    </update>
+
+    <delete id="deleteUserSightsLike" parameterType="SightsRecordLike" >
+        delete from sights_record_like where user_id = #{userId} and sights_id = #{sightsId}
+    </delete>
+
+    <select id="judgeUserSightsExistLike" resultType="java.lang.Integer" parameterType="SightsRecordLike">
+        select 1 from  sights_record_like
+        where user_id = #{userId} and sights_id = #{sightsId}
+        limit 1
+    </select>
+</mapper>

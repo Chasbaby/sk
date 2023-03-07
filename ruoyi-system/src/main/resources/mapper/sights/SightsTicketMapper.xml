@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.sights.mapper.SightsTicketMapper">
+    
+    <resultMap type="SightsTicket" id="SightsTicketResult">
+        <result property="ticketId"    column="ticket_id"    />
+        <result property="sightsId"    column="sights_id"    />
+        <result property="ticketNum"    column="ticket_num"    />
+        <result property="ticketPrice"    column="ticket_price"    />
+        <result property="ticketCode"    column="ticket_code"    />
+        <result property="discount"    column="discount"    />
+        <result property="selfService"    column="self_service"    />
+        <result property="ticketStatus"    column="ticket_status"    />
+        <result property="ticketBegintime"    column="ticket_begintime"    />
+        <result property="ticketEndtime"    column="ticket_endtime"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSightsTicketVo">
+        select ticket_id, sights_id, ticket_num, ticket_price, ticket_code, discount, self_service, ticket_status, ticket_begintime, ticket_endtime, create_by, create_time, update_by, update_time, remark from sights_ticket
+    </sql>
+
+    <select id="selectSightsTicketList" parameterType="SightsTicket" resultMap="SightsTicketResult">
+        <include refid="selectSightsTicketVo"/>
+        <where>  
+            <if test="ticketStatus != null  and ticketStatus != ''"> and ticket_status = #{ticketStatus}</if>
+            <if test="ticketBegintime != null "> and ticket_begintime &gt;= #{ticketBegintime}</if>
+            <if test="ticketEndtime != null "> and ticket_endtime &lt;= #{ticketEndtime}</if>
+        </where>
+    </select>
+    
+    <select id="selectSightsTicketByTicketId" parameterType="Long" resultMap="SightsTicketResult">
+        <include refid="selectSightsTicketVo"/>
+        where ticket_id = #{ticketId}
+    </select>
+        
+    <insert id="insertSightsTicket" parameterType="SightsTicket" useGeneratedKeys="true" keyProperty="ticketId">
+        insert into sights_ticket
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sightsId != null">sights_id,</if>
+            <if test="ticketNum != null">ticket_num,</if>
+            <if test="ticketPrice != null">ticket_price,</if>
+            <if test="ticketCode != null and ticketCode != ''">ticket_code,</if>
+            <if test="discount != null">discount,</if>
+            <if test="selfService != null">self_service,</if>
+            <if test="ticketStatus != null">ticket_status,</if>
+            <if test="ticketBegintime != null">ticket_begintime,</if>
+            <if test="ticketEndtime != null">ticket_endtime,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sightsId != null">#{sightsId},</if>
+            <if test="ticketNum != null">#{ticketNum},</if>
+            <if test="ticketPrice != null">#{ticketPrice},</if>
+            <if test="ticketCode != null and ticketCode != ''">#{ticketCode},</if>
+            <if test="discount != null">#{discount},</if>
+            <if test="selfService != null">#{selfService},</if>
+            <if test="ticketStatus != null">#{ticketStatus},</if>
+            <if test="ticketBegintime != null">#{ticketBegintime},</if>
+            <if test="ticketEndtime != null">#{ticketEndtime},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSightsTicket" parameterType="SightsTicket">
+        update sights_ticket
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sightsId != null">sights_id = #{sightsId},</if>
+            <if test="ticketNum != null">ticket_num = #{ticketNum},</if>
+            <if test="ticketPrice != null">ticket_price = #{ticketPrice},</if>
+            <if test="ticketCode != null and ticketCode != ''">ticket_code = #{ticketCode},</if>
+            <if test="discount != null">discount = #{discount},</if>
+            <if test="selfService != null">self_service = #{selfService},</if>
+            <if test="ticketStatus != null">ticket_status = #{ticketStatus},</if>
+            <if test="ticketBegintime != null">ticket_begintime = #{ticketBegintime},</if>
+            <if test="ticketEndtime != null">ticket_endtime = #{ticketEndtime},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where ticket_id = #{ticketId}
+    </update>
+
+    <delete id="deleteSightsTicketByTicketId" parameterType="Long">
+        delete from sights_ticket where ticket_id = #{ticketId}
+    </delete>
+
+    <delete id="deleteSightsTicketByTicketIds" parameterType="String">
+        delete from sights_ticket where ticket_id in 
+        <foreach item="ticketId" collection="array" open="(" separator="," close=")">
+            #{ticketId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.sights.mapper.SightsAroundRestaurantMapper">
+    
+    <resultMap type="SightsAroundRestaurant" id="SightsAroundRestaurantResult">
+        <result property="restaurantId"    column="restaurant_id"    />
+        <result property="sightsId"    column="sights_id"    />
+        <result property="restaurantName"    column="restaurant_name"    />
+        <result property="restaurantAddress"    column="restaurant_address"    />
+        <result property="restaurantManager"    column="restaurant_manager"    />
+        <result property="restaurantHotline"    column="restaurant_hotline"    />
+        <result property="restaurantIntro"    column="restaurant_intro"    />
+        <result property="restaurantDetail"    column="restaurant_detail"    />
+        <result property="restaurantStyle"    column="restaurant_style"    />
+        <result property="restaurantNotice"    column="restaurant_notice"    />
+        <result property="restaurantPhoto"    column="restaurant_photo"    />
+        <result property="restaurantMaindish"    column="restaurant_maindish"    />
+        <result property="restaurantCertificate"    column="restaurant_certificate"    />
+        <result property="restaurantScore"    column="restaurant_score"    />
+        <result property="restaurantReviewers"    column="restaurant_reviewers"    />
+        <result property="showFlag"    column="show_flag"    />
+        <result property="contract"    column="contract"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSightsAroundRestaurantVo">
+        select restaurant_id, sights_id, restaurant_name, restaurant_address, restaurant_manager, restaurant_hotline, restaurant_intro, restaurant_detail, restaurant_style, restaurant_notice, restaurant_photo, restaurant_maindish, restaurant_certificate, restaurant_score, restaurant_reviewers, show_flag, contract, create_by, create_time, update_by, update_time, remark from sights_around_restaurant
+    </sql>
+
+    <select id="selectSightsAroundRestaurantList" parameterType="SightsAroundRestaurant" resultMap="SightsAroundRestaurantResult">
+        <include refid="selectSightsAroundRestaurantVo"/>
+        <where>  
+            <if test="restaurantName != null  and restaurantName != ''"> and restaurant_name like concat('%', #{restaurantName}, '%')</if>
+            <if test="restaurantAddress != null  and restaurantAddress != ''"> and restaurant_address like concat('%', #{restaurantAddress}, '%')</if>
+            <if test="restaurantManager != null  and restaurantManager != ''"> and restaurant_manager like concat('%', #{restaurantManager}, '%')</if>
+            <if test="restaurantStyle != null  and restaurantStyle != ''"> and restaurant_style like concat('%', #{restaurantStyle}, '%')</if>
+            <if test="showFlag != null  and showFlag != ''"> and show_flag = #{showFlag}</if>
+        </where>
+    </select>
+    
+    <select id="selectSightsAroundRestaurantByRestaurantId" parameterType="Long" resultMap="SightsAroundRestaurantResult">
+        <include refid="selectSightsAroundRestaurantVo"/>
+        where restaurant_id = #{restaurantId}
+    </select>
+    <select id="selectAroundRestBySights" resultType="com.ruoyi.sights.domain.SightsAroundRestaurant">
+        <include refid="selectSightsAroundRestaurantVo"/>
+        where sights_id = #{sightsId} and show_flag = 'Y'
+    </select>
+
+    <insert id="insertSightsAroundRestaurant" parameterType="SightsAroundRestaurant" useGeneratedKeys="true" keyProperty="restaurantId">
+        insert into sights_around_restaurant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sightsId != null">sights_id,</if>
+            <if test="restaurantName != null and restaurantName != ''">restaurant_name,</if>
+            <if test="restaurantAddress != null and restaurantAddress != ''">restaurant_address,</if>
+            <if test="restaurantManager != null and restaurantManager != ''">restaurant_manager,</if>
+            <if test="restaurantHotline != null and restaurantHotline != ''">restaurant_hotline,</if>
+            <if test="restaurantIntro != null and restaurantIntro != ''">restaurant_intro,</if>
+            <if test="restaurantDetail != null and restaurantDetail != ''">restaurant_detail,</if>
+            <if test="restaurantStyle != null">restaurant_style,</if>
+            <if test="restaurantNotice != null">restaurant_notice,</if>
+            <if test="restaurantPhoto != null and restaurantPhoto != ''">restaurant_photo,</if>
+            <if test="restaurantMaindish != null">restaurant_maindish,</if>
+            <if test="restaurantCertificate != null and restaurantCertificate != ''">restaurant_certificate,</if>
+            <if test="restaurantScore != null">restaurant_score,</if>
+            <if test="restaurantReviewers != null">restaurant_reviewers,</if>
+            <if test="showFlag != null">show_flag,</if>
+            <if test="contract != null">contract,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sightsId != null">#{sightsId},</if>
+            <if test="restaurantName != null and restaurantName != ''">#{restaurantName},</if>
+            <if test="restaurantAddress != null and restaurantAddress != ''">#{restaurantAddress},</if>
+            <if test="restaurantManager != null and restaurantManager != ''">#{restaurantManager},</if>
+            <if test="restaurantHotline != null and restaurantHotline != ''">#{restaurantHotline},</if>
+            <if test="restaurantIntro != null and restaurantIntro != ''">#{restaurantIntro},</if>
+            <if test="restaurantDetail != null and restaurantDetail != ''">#{restaurantDetail},</if>
+            <if test="restaurantStyle != null">#{restaurantStyle},</if>
+            <if test="restaurantNotice != null">#{restaurantNotice},</if>
+            <if test="restaurantPhoto != null and restaurantPhoto != ''">#{restaurantPhoto},</if>
+            <if test="restaurantMaindish != null">#{restaurantMaindish},</if>
+            <if test="restaurantCertificate != null and restaurantCertificate != ''">#{restaurantCertificate},</if>
+            <if test="restaurantScore != null">#{restaurantScore},</if>
+            <if test="restaurantReviewers != null">#{restaurantReviewers},</if>
+            <if test="showFlag != null">#{showFlag},</if>
+            <if test="contract != null">#{contract},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSightsAroundRestaurant" parameterType="SightsAroundRestaurant">
+        update sights_around_restaurant
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sightsId != null">sights_id = #{sightsId},</if>
+            <if test="restaurantName != null and restaurantName != ''">restaurant_name = #{restaurantName},</if>
+            <if test="restaurantAddress != null and restaurantAddress != ''">restaurant_address = #{restaurantAddress},</if>
+            <if test="restaurantManager != null and restaurantManager != ''">restaurant_manager = #{restaurantManager},</if>
+            <if test="restaurantHotline != null and restaurantHotline != ''">restaurant_hotline = #{restaurantHotline},</if>
+            <if test="restaurantIntro != null and restaurantIntro != ''">restaurant_intro = #{restaurantIntro},</if>
+            <if test="restaurantDetail != null and restaurantDetail != ''">restaurant_detail = #{restaurantDetail},</if>
+            <if test="restaurantStyle != null">restaurant_style = #{restaurantStyle},</if>
+            <if test="restaurantNotice != null">restaurant_notice = #{restaurantNotice},</if>
+            <if test="restaurantPhoto != null and restaurantPhoto != ''">restaurant_photo = #{restaurantPhoto},</if>
+            <if test="restaurantMaindish != null">restaurant_maindish = #{restaurantMaindish},</if>
+            <if test="restaurantCertificate != null and restaurantCertificate != ''">restaurant_certificate = #{restaurantCertificate},</if>
+            <if test="restaurantScore != null">restaurant_score = #{restaurantScore},</if>
+            <if test="restaurantReviewers != null">restaurant_reviewers = #{restaurantReviewers},</if>
+            <if test="showFlag != null">show_flag = #{showFlag},</if>
+            <if test="contract != null">contract = #{contract},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where restaurant_id = #{restaurantId}
+    </update>
+
+    <delete id="deleteSightsAroundRestaurantByRestaurantId" parameterType="Long">
+        delete from sights_around_restaurant where restaurant_id = #{restaurantId}
+    </delete>
+
+    <delete id="deleteSightsAroundRestaurantByRestaurantIds" parameterType="String">
+        delete from sights_around_restaurant where restaurant_id in 
+        <foreach item="restaurantId" collection="array" open="(" separator="," close=")">
+            #{restaurantId}
+        </foreach>
+    </delete>
+</mapper>

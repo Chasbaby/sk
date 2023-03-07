@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.home.mapper.HomeAdMapper">
+<!--    已经对于 逻辑删除部分进行了修改    删除成功 则 flag 设为 Y  否则  设为 N -->
+    <resultMap type="HomeAd" id="HomeAdResult">
+        <result property="adId"    column="ad_id"    />
+        <result property="adTitle"    column="ad_title"    />
+        <result property="adType"    column="ad_type"    />
+        <result property="adContent"    column="ad_content"    />
+        <result property="adHits"    column="ad_hits"    />
+        <result property="adImage"    column="ad_image"    />
+        <result property="adKey"    column="ad_key"    />
+        <result property="adDocument"    column="ad_document"    />
+        <result property="adTeam"    column="ad_team"    />
+        <result property="adSponsor"    column="ad_sponsor"    />
+        <result property="beginTime"    column="begin_time"    />
+        <result property="overTime"    column="over_time"    />
+        <result property="topFlag"    column="top_flag"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHomeAdVo">
+        select ad_id, ad_title, ad_type, ad_content, ad_hits, ad_image, ad_key, ad_document, ad_team, ad_sponsor, begin_time, over_time, top_flag, del_flag, create_time, create_by, update_time, update_by, remark from home_ad
+    </sql>
+    <delete id="deleteHomeAdByQuartz">
+        delete from home_Ad Where del_flag = "Y"
+    </delete>
+
+    <select id="selectHomeAdList" parameterType="HomeAd" resultMap="HomeAdResult">
+        <include refid="selectHomeAdVo"/>
+        <where>  
+            <if test="adTitle != null  and adTitle != ''"> and ad_title like concat('%', #{adTitle}, '%')</if>
+            <if test="adType != null "> and ad_type = #{adType}</if>
+            <if test="adHits != null "> and ad_hits &gt;= #{adHits}</if>
+            <if test="adKey != null  and adKey != ''"> and ad_key like concat('%', #{adKey}, '%')</if>
+            <if test="adTeam != null  and adTeam != ''"> and ad_team like concat('%', #{adTeam}, '%')</if>
+            <if test="adSponsor != null  and adSponsor != ''"> and ad_sponsor like concat('%', #{adSponsor}, '%')</if>
+            <if test="beginTime != null "> and begin_time &gt;= #{beginTime}</if>
+            <if test="overTime != null "> and over_time &lt;= #{overTime}</if>
+            <if test="topFlag != null  and topFlag != ''"> and top_flag = #{topFlag}</if>
+            <if test="delFlag !=null and delFlag !=''"> and del_flag = #{delFlag}</if>
+        </where>
+    </select>
+    
+    <select id="selectHomeAdByAdId" parameterType="Long" resultMap="HomeAdResult">
+        <include refid="selectHomeAdVo"/>
+        where ad_id = #{adId}
+    </select>
+
+    <select id="selectHistoryByDate" resultType="com.ruoyi.home.domain.HomeAd" resultMap="HomeAdResult">
+        <include refid="selectHomeAdVo"/>
+        <where>
+            <if test="adHits != null "> and ad_hits &gt;= #{adHits}</if>
+            <if test="adKey != null  and adKey != ''"> and ad_key like concat('%', #{adKey}, '%')</if>
+            <if test="adTeam != null  and adTeam != ''"> and ad_team like concat('%', #{adTeam}, '%')</if>
+            <if test="adSponsor != null  and adSponsor != ''"> and ad_sponsor like concat('%', #{adSponsor}, '%')</if>
+            <if test="beginTime != null "> and begin_time &gt;= #{beginTime}</if>
+            <if test="overTime != null "> and over_time &lt;= #{overTime}</if>
+            <if test="topFlag != null  and topFlag != ''"> and top_flag = #{topFlag}</if>
+            <if test="delFlag !=null and delFlag !=''"> and del_flag = #{delFlag}</if>
+            <if test="createTime !=null ">and create_time &lt;= #{createTime}</if>
+        </where>
+        order by ad_hits desc
+    </select>
+
+    <select id="selectRecentByDate" resultType="com.ruoyi.home.domain.HomeAd" resultMap="HomeAdResult">
+        <include refid="selectHomeAdVo"/>
+        <where>
+            <if test="topFlag != null  and topFlag != ''"> and top_flag = #{topFlag}</if>
+            <if test="delFlag !=null and delFlag !=''"> and del_flag = #{delFlag}</if>
+            <if test="createTime !=null ">and create_time >= #{createTime}</if>
+        </where>
+         order by ad_hits desc
+    </select>
+    <select id="selectTopNum" resultType="java.lang.Integer">
+        select count(0) from home_ad where top_flag ="Y"
+    </select>
+    <select id="selectDeleteAdNumByLogic" resultType="java.lang.Integer">
+        select count(0) from home_ad where del_flag ="Y"
+    </select>
+
+    <insert id="insertHomeAd" parameterType="HomeAd" useGeneratedKeys="true" keyProperty="adId">
+        insert into home_ad
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adTitle != null and adTitle != ''">ad_title,</if>
+            <if test="adType != null">ad_type,</if>
+            <if test="adContent != null and adContent != ''">ad_content,</if>
+            <if test="adHits != null">ad_hits,</if>
+            <if test="adImage != null">ad_image,</if>
+            <if test="adKey != null">ad_key,</if>
+            <if test="adDocument != null">ad_document,</if>
+            <if test="adTeam != null">ad_team,</if>
+            <if test="adSponsor != null">ad_sponsor,</if>
+            <if test="beginTime != null">begin_time,</if>
+            <if test="overTime != null">over_time,</if>
+            <if test="topFlag != null">top_flag,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="adTitle != null and adTitle != ''">#{adTitle},</if>
+            <if test="adType != null">#{adType},</if>
+            <if test="adContent != null and adContent != ''">#{adContent},</if>
+            <if test="adHits != null">#{adHits},</if>
+            <if test="adImage != null">#{adImage},</if>
+            <if test="adKey != null">#{adKey},</if>
+            <if test="adDocument != null">#{adDocument},</if>
+            <if test="adTeam != null">#{adTeam},</if>
+            <if test="adSponsor != null">#{adSponsor},</if>
+            <if test="beginTime != null">#{beginTime},</if>
+            <if test="overTime != null">#{overTime},</if>
+            <if test="topFlag != null">#{topFlag},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHomeAd" parameterType="HomeAd">
+        update home_ad
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="adTitle != null and adTitle != ''">ad_title = #{adTitle},</if>
+            <if test="adType != null">ad_type = #{adType},</if>
+            <if test="adContent != null and adContent != ''">ad_content = #{adContent},</if>
+            <if test="adHits != null">ad_hits = #{adHits},</if>
+            <if test="adImage != null">ad_image = #{adImage},</if>
+            <if test="adKey != null">ad_key = #{adKey},</if>
+            <if test="adDocument != null">ad_document = #{adDocument},</if>
+            <if test="adTeam != null">ad_team = #{adTeam},</if>
+            <if test="adSponsor != null">ad_sponsor = #{adSponsor},</if>
+            <if test="beginTime != null">begin_time = #{beginTime},</if>
+            <if test="overTime != null">over_time = #{overTime},</if>
+            <if test="topFlag != null">top_flag = #{topFlag},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where ad_id = #{adId}
+    </update>
+
+<!--    <delete id="deleteHomeAdByAdId" parameterType="Long">-->
+<!--        delete from home_ad where ad_id = #{adId}-->
+<!--    </delete>-->
+    <update id="deleteHomeAdByAdIdByLogic" parameterType="Long">
+        update home_Ad set del_flag ="Y"
+        where ad_id = #{adId}
+    </update>
+
+<!--    <delete id="deleteHomeAdByAdIds" parameterType="String">-->
+<!--        delete from home_ad where ad_id in -->
+<!--        <foreach item="adId" collection="array" open="(" separator="," close=")">-->
+<!--            #{adId}-->
+<!--        </foreach>-->
+<!--    </delete>-->
+
+    <update id="deleteHomeAdByAdIdsByLogic" parameterType="Long">
+        update home_Ad set del_flag = "Y"
+        where ad_id in
+        <foreach item="adId" collection="array" open="(" separator="," close=")">
+            #{adId}
+        </foreach>
+    </update>
+
+    <update id="updateAdHits" parameterType="long">
+        update home_Ad set ad_hits = ad_hits + 1
+        where ad_id = #{adId}
+    </update>
+</mapper>

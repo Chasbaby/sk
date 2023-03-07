@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.sights.mapper.SightsAroundHotelMapper">
+    
+    <resultMap type="SightsAroundHotel" id="SightsAroundHotelResult">
+        <result property="hotelId"    column="hotel_id"    />
+        <result property="sightsId"    column="sights_id"    />
+        <result property="hotelName"    column="hotel_name"    />
+        <result property="hotelHotline"    column="hotel_hotline"    />
+        <result property="hotelManager"    column="hotel_manager"    />
+        <result property="hotelAddress"    column="hotel_address"    />
+        <result property="hotelPhoto"    column="hotel_photo"    />
+        <result property="hotelIntro"    column="hotel_intro"    />
+        <result property="hotelDetail"    column="hotel_detail"    />
+        <result property="hotelNotice"    column="hotel_notice"    />
+        <result property="hotelCertificate"    column="hotel_certificate"    />
+        <result property="hotelReviewers"    column="hotel_reviewers"    />
+        <result property="hotelScore"    column="hotel_score"    />
+        <result property="showFlag"    column="show_flag"    />
+        <result property="contract"    column="contract"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSightsAroundHotelVo">
+        select hotel_id, sights_id, hotel_name, hotel_hotline, hotel_manager, hotel_address, hotel_photo, hotel_intro, hotel_detail, hotel_notice, hotel_certificate, hotel_reviewers, hotel_score, show_flag, contract, create_by, create_time, update_by, update_time, remark from sights_around_hotel
+    </sql>
+
+    <select id="selectSightsAroundHotelList" parameterType="SightsAroundHotel" resultMap="SightsAroundHotelResult">
+        <include refid="selectSightsAroundHotelVo"/>
+        <where>  
+            <if test="hotelName != null  and hotelName != ''"> and hotel_name like concat('%', #{hotelName}, '%')</if>
+            <if test="hotelHotline != null  and hotelHotline != ''"> and hotel_hotline = #{hotelHotline}</if>
+            <if test="hotelManager != null  and hotelManager != ''"> and hotel_manager like concat('%', #{hotelManager}, '%')</if>
+            <if test="hotelAddress != null  and hotelAddress != ''"> and hotel_address like concat('%', #{hotelAddress}, '%')</if>
+            <if test="hotelIntro != null  and hotelIntro != ''"> and hotel_intro like concat('%', #{hotelIntro}, '%')</if>
+            <if test="showFlag != null  and showFlag != ''"> and show_flag = #{showFlag}</if>
+        </where>
+    </select>
+    
+    <select id="selectSightsAroundHotelByHotelId" parameterType="Long" resultMap="SightsAroundHotelResult">
+        <include refid="selectSightsAroundHotelVo"/>
+        where hotel_id = #{hotelId}
+    </select>
+    <select id="selectAroundHotelsBySightsId" resultType="com.ruoyi.sights.domain.SightsAroundHotel">
+        <include refid="selectSightsAroundHotelVo"/>
+        where sights_id = #{sightsId} and show_flag = 'Y'
+    </select>
+
+    <insert id="insertSightsAroundHotel" parameterType="SightsAroundHotel" useGeneratedKeys="true" keyProperty="hotelId">
+        insert into sights_around_hotel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sightsId != null">sights_id,</if>
+            <if test="hotelName != null and hotelName != ''">hotel_name,</if>
+            <if test="hotelHotline != null and hotelHotline != ''">hotel_hotline,</if>
+            <if test="hotelManager != null and hotelManager != ''">hotel_manager,</if>
+            <if test="hotelAddress != null and hotelAddress != ''">hotel_address,</if>
+            <if test="hotelPhoto != null and hotelPhoto != ''">hotel_photo,</if>
+            <if test="hotelIntro != null and hotelIntro != ''">hotel_intro,</if>
+            <if test="hotelDetail != null">hotel_detail,</if>
+            <if test="hotelNotice != null">hotel_notice,</if>
+            <if test="hotelCertificate != null and hotelCertificate != ''">hotel_certificate,</if>
+            <if test="hotelReviewers != null">hotel_reviewers,</if>
+            <if test="hotelScore != null">hotel_score,</if>
+            <if test="showFlag != null">show_flag,</if>
+            <if test="contract != null">contract,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sightsId != null">#{sightsId},</if>
+            <if test="hotelName != null and hotelName != ''">#{hotelName},</if>
+            <if test="hotelHotline != null and hotelHotline != ''">#{hotelHotline},</if>
+            <if test="hotelManager != null and hotelManager != ''">#{hotelManager},</if>
+            <if test="hotelAddress != null and hotelAddress != ''">#{hotelAddress},</if>
+            <if test="hotelPhoto != null and hotelPhoto != ''">#{hotelPhoto},</if>
+            <if test="hotelIntro != null and hotelIntro != ''">#{hotelIntro},</if>
+            <if test="hotelDetail != null">#{hotelDetail},</if>
+            <if test="hotelNotice != null">#{hotelNotice},</if>
+            <if test="hotelCertificate != null and hotelCertificate != ''">#{hotelCertificate},</if>
+            <if test="hotelReviewers != null">#{hotelReviewers},</if>
+            <if test="hotelScore != null">#{hotelScore},</if>
+            <if test="showFlag != null">#{showFlag},</if>
+            <if test="contract != null">#{contract},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSightsAroundHotel" parameterType="SightsAroundHotel">
+        update sights_around_hotel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sightsId != null">sights_id = #{sightsId},</if>
+            <if test="hotelName != null and hotelName != ''">hotel_name = #{hotelName},</if>
+            <if test="hotelHotline != null and hotelHotline != ''">hotel_hotline = #{hotelHotline},</if>
+            <if test="hotelManager != null and hotelManager != ''">hotel_manager = #{hotelManager},</if>
+            <if test="hotelAddress != null and hotelAddress != ''">hotel_address = #{hotelAddress},</if>
+            <if test="hotelPhoto != null and hotelPhoto != ''">hotel_photo = #{hotelPhoto},</if>
+            <if test="hotelIntro != null and hotelIntro != ''">hotel_intro = #{hotelIntro},</if>
+            <if test="hotelDetail != null">hotel_detail = #{hotelDetail},</if>
+            <if test="hotelNotice != null">hotel_notice = #{hotelNotice},</if>
+            <if test="hotelCertificate != null and hotelCertificate != ''">hotel_certificate = #{hotelCertificate},</if>
+            <if test="hotelReviewers != null">hotel_reviewers = #{hotelReviewers},</if>
+            <if test="hotelScore != null">hotel_score = #{hotelScore},</if>
+            <if test="showFlag != null">show_flag = #{showFlag},</if>
+            <if test="contract != null">contract = #{contract},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where hotel_id = #{hotelId}
+    </update>
+
+    <delete id="deleteSightsAroundHotelByHotelId" parameterType="Long">
+        delete from sights_around_hotel where hotel_id = #{hotelId}
+    </delete>
+
+    <delete id="deleteSightsAroundHotelByHotelIds" parameterType="String">
+        delete from sights_around_hotel where hotel_id in 
+        <foreach item="hotelId" collection="array" open="(" separator="," close=")">
+            #{hotelId}
+        </foreach>
+    </delete>
+</mapper>

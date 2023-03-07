@@ -1,0 +1,219 @@
+package com.ruoyi.system.service.impl;
+
+import java.util.List;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.system.domain.CommentRecordLike;
+import com.ruoyi.system.mapper.CommentRecordLikeMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.ruoyi.system.mapper.CommentMapper;
+import com.ruoyi.system.domain.Comment;
+import com.ruoyi.system.service.ICommentService;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * 评论Service业务层处理
+ * 
+ * @author ruoyi chas
+ * @date 2022-10-19
+ */
+@Service
+public class CommentServiceImpl implements ICommentService 
+{
+
+    @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private CommentRecordLikeMapper commentRecordLikeMapper;
+
+    /**
+     * 下面几个是后台的函数
+     * 管理员的增删改查
+     */
+
+    /**
+     * 查询评论
+     * 
+     * @param commentId 评论主键
+     * @return 评论
+     */
+    @Override
+    public Comment selectCommentByCommentId(Long commentId)
+    {
+        return commentMapper.selectCommentByCommentId(commentId);
+    }
+
+    /**
+     * 查询评论列表
+     * 
+     * @param comment 评论
+     * @return 评论
+     */
+    @Override
+    public List<Comment> selectCommentList(Comment comment)
+    {
+        return commentMapper.selectCommentList(comment);
+    }
+
+    /**
+     * 新增评论
+     * 
+     * @param comment 评论
+     * @return 结果
+     */
+    @Override
+    public int insertComment(Comment comment)
+    {
+        comment.setCreateTime(DateUtils.getNowDate());
+        return commentMapper.insertComment(comment);
+    }
+
+    /**
+     * 修改评论
+     * 
+     * @param comment 评论
+     * @return 结果
+     */
+    @Override
+    public int updateComment(Comment comment)
+    {
+        comment.setUpdateTime(DateUtils.getNowDate());
+        return commentMapper.updateComment(comment);
+    }
+
+    /**
+     * 批量删除评论
+     * 
+     * @param commentIds 需要删除的评论主键
+     * @return 结果
+     */
+    @Override
+    public int deleteCommentByCommentIds(Long[] commentIds)
+    {
+        return commentMapper.deleteCommentByCommentIds(commentIds);
+    }
+
+    @Override
+    public int getNoJudgeCommentNum() {
+        return commentMapper.selectCommentNoJudgeNum();
+    }
+
+    @Override
+    public String getMaxCommentSource() {
+        return commentMapper.getMaxCommentSource();
+    }
+
+
+    /**
+     * 下面几个是 面向游客 的业务逻辑
+     */
+
+    /**
+     * 点赞总管理 ( controller 调这个啦)
+     * @param commentRecordLike
+     */
+    @Transactional
+    @Override
+    public void CommentManageViaLike(CommentRecordLike commentRecordLike) {
+        int i = checkUserCommentLike(commentRecordLike);
+        // 如果 i=1 说明存在点赞 再次点赞 = 取消点赞
+        if(i==1){
+            //1.点赞量 --
+            //2.删除关联表中记录
+            deleteUserCommentLike(commentRecordLike);
+            //3.记录到日志中 (这其实没必要)
+
+        }else {
+            //1.点赞量++
+            updateCommentViaLike(commentRecordLike.getCommentId());
+            //2.记录到关联表中
+            insertUserCommentLike(commentRecordLike);
+            //3.记录到日志中
+
+        }
+    }
+
+
+    /**
+     * 删除评论信息
+     * 
+     * @param commentId 评论主键
+     * @return 结果
+     */
+    @Override
+    public int deleteCommentByCommentId(Long commentId)
+    {
+        return commentMapper.deleteCommentByCommentId(commentId);
+    }
+
+
+    /**
+     * 点击量
+     * @param commentId
+     * @return
+     */
+    @Override
+    public int updateCommentViaHits(Long commentId) {
+        return commentMapper.updateCommentViaHits(commentId);
+    }
+
+    /**
+     * 点赞量
+     * @param commentId
+     * @return
+     */
+    @Override
+    public int updateCommentViaLike(Long commentId) {
+        return commentMapper.updateCommentViaLike(commentId);
+    }
+
+    /**
+     * 浏览量
+     * @param commentId
+     * @return
+     */
+    @Override
+    public int updateCommentViaView(Long commentId) {
+        return commentMapper.updateCommentViaView(commentId);
+    }
+
+    /**
+     * 获取某个景点的评论个数
+     *
+     * 在获得单个景点数据的时候顺便把这个也送过去
+     */
+    @Override
+    public int selectCommentNumBySightsId(Long sightsId) {
+
+        return commentMapper.selectAllCommentNumBySightsId(sightsId);
+    }
+
+    /**
+     * 插入 用户 点赞评论信息
+     */
+    @Override
+    public int insertUserCommentLike(CommentRecordLike commentRecordLike) {
+        return commentRecordLikeMapper.insertUserCommentLike(commentRecordLike);
+    }
+
+    /**
+     * 用户 取消 点赞评论信息
+     */
+    @Override
+    public int deleteUserCommentLike(CommentRecordLike commentRecordLike) {
+        return commentRecordLikeMapper.deleteUserCommentLike(commentRecordLike);
+    }
+
+    /**
+     * 判断 用户 对某评论是否点赞
+     */
+    @Override
+    public int checkUserCommentLike(CommentRecordLike commentRecordLike) {
+        return commentRecordLikeMapper.checkUserCommentLike(commentRecordLike);
+    }
+
+
+
+
+}

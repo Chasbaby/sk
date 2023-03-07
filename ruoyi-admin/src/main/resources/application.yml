@@ -1,0 +1,181 @@
+# 项目相关配置
+ruoyi:
+  # 名称
+  name: RuoYi
+  # 版本
+  version: 3.8.0
+  # 版权年份
+  copyrightYear: 2022
+  # 实例演示开关
+  demoEnabled: true
+  # 文件路径 示例（ Windows配置 D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
+  profile: C:/ruoyi/uploadPath
+  # 获取ip地址开关
+  addressEnabled: true
+  # 验证码类型 math 数组计算 char 字符验证
+  captchaType: char
+baidu:
+  map:
+    ak: qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt
+
+# 搜索模式 可选 elasticsearch或mysql
+search:
+  mode: mysql
+# 开发环境配置
+server:
+  # 服务器的HTTP端口，默认为8080
+  port: 8080
+  servlet:
+    # 应用的访问路径
+    context-path: /
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # tomcat最大线程数，默认为200
+    max-threads: 800
+    # Tomcat启动初始化的线程数，默认值25
+    min-spare-threads: 30
+
+# 日志配置
+logging:
+  level:
+    com.ruoyi: debug
+    org.springframework: warn
+
+# Spring配置
+spring:
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
+  profiles: 
+    active: druid
+  # 文件上传
+  servlet:
+     multipart:
+       # 单个文件大小
+       max-file-size:  10MB
+       # 设置总上传的文件大小
+       max-request-size:  20MB
+  # 服务模块
+  devtools:
+    restart:
+      # 热部署开关
+      enabled: true
+  # redis 配置
+  redis:
+    # 地址
+    host: localhost
+    # 端口，默认为6379
+    port: 6379
+    # 数据库索引
+    database: 0
+    # 密码
+    password: 
+    # 连接超时时间
+    timeout: 10s
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池的最大数据库连接数
+        max-active: 8
+        # #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 3436919768@qq.com
+    password: ardzrpxuzulccgjf
+    default-encoding: utf-8
+    properties:
+      mail:
+        smtp:
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+# kafka配置网
+#  https://blog:
+#    csdn:
+#      net/qq_34819372/article/details/107243194:
+  kafka:
+    bootstrap-servers: localhost:9092
+    #消费者 写入失败时，重试次数。当leader节点失效，一个repli节点会替代成为leader节点，此时可能出现写入失败，
+    ## 当retris为0时，produce不会重复。retirs重发，此时repli节点完全成为leader节点，不会产生消息丢失。
+    producer:
+      retries: 0
+      acks: 1
+      # 每次批量发送消息的数量,produce积累到一定数据，一次发送
+      batch-size: 16384
+      properties:
+        linger:
+          ms: 0
+      # produce积累数据一次发送，缓存大小达到buffer.memory就发送数据
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    #消费者
+    consumer:
+      # 指定默认消费者group id --> 由于在kafka中，同一组中的consumer不会读取到同一个消息，依靠groud.id设置组名
+      group-id: kafkaGroup
+      # smallest和largest才有效，如果smallest重新0开始读取，如果是largest从logfile的offset读取。一般情况下我们都是设置smallest
+      auto-offset-reset: earliest
+      # enable.auto.commit:true --> 设置自动提交offset
+      enable-auto-commit: true
+      #如果'enable.auto.commit'为true，则消费者偏移自动提交给Kafka的频率（以毫秒为单位），默认值为5000
+      auto-commit-interval: 100
+      max-poll-records: 1000
+#https://blog.csdn.net/tutian2000/article/details/110948695          spark的小案例 没啥用
+  spark:
+    task:
+      topic:
+
+
+# token配置
+token:
+    # 令牌自定义标识
+    header: Authorization
+    # 令牌密钥
+    secret: abcdefghijklmnopqrstuvwxyz
+    # 令牌有效期（默认30分钟）
+    expireTime: 200
+
+# MyBatis配置
+mybatis:
+    # 搜索指定包别名
+    typeAliasesPackage: com.ruoyi.**.domain
+    # 配置mapper的扫描，找到所有的mapper.xml映射文件
+    mapperLocations: classpath*:mapper/**/*Mapper.xml
+    # 加载全局的配置文件
+    configLocation: classpath:mybatis/mybatis-config.xml
+
+# PageHelper分页插件
+pagehelper: 
+  helperDialect: mysql
+  supportMethodsArguments: true
+  params: count=countSql 
+
+# Swagger配置
+swagger:
+  # 是否开启swagger
+  enabled: true
+  # 请求前缀
+  pathMapping: /dev-api
+
+# 防止XSS攻击  就是 html 标签
+xss: 
+  # 过滤开关
+  enabled: true
+  # 排除链接（多个用逗号分隔）
+  excludes: /system/notice,/system/convention
+  # 匹配链接
+  urlPatterns: /system/*,/monitor/*,/tool/*
+
+
+
+
+
+
+

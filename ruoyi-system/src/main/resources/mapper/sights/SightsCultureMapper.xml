@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.sights.mapper.SightsCultureMapper">
+    
+    <resultMap type="SightsCulture" id="SightsCultureResult">
+        <result property="cultureId"    column="culture_id"    />
+        <result property="cultureTitle"    column="culture_title"    />
+        <result property="cultureHistory"    column="culture_history"    />
+        <result property="cultureFeature"    column="culture_feature"    />
+        <result property="cultureIntro"    column="culture_intro"    />
+        <result property="cultureDocument"    column="culture_document"    />
+        <result property="cultureCategory"    column="culture_category"    />
+        <result property="cultureKey"    column="culture_key"    />
+        <result property="showFlag"    column="show_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSightsCultureVo">
+        select culture_id, culture_title, culture_history, culture_feature, culture_intro, culture_document, culture_category, culture_key, show_flag, create_by, create_time, update_by, update_time from sights_culture
+    </sql>
+
+    <select id="selectSightsCultureList" parameterType="SightsCulture" resultMap="SightsCultureResult">
+        <include refid="selectSightsCultureVo"/>
+        <where>  
+            <if test="cultureTitle != null  and cultureTitle != ''"> and culture_title like concat('%', #{cultureTitle}, '%')</if>
+            <if test="cultureFeature != null  and cultureFeature != ''"> and culture_feature like concat('%', #{cultureFeature}, '%')</if>
+            <if test="cultureCategory != null  and cultureCategory != ''"> and culture_category = #{cultureCategory}</if>
+            <if test="cultureKey != null  and cultureKey != ''"> and culture_key like concat('%', #{cultureKey}, '%')</if>
+            <if test="showFlag != null "> and show_flag = #{showFlag}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+        </where>
+    </select>
+    
+    <select id="selectSightsCultureByCultureId" parameterType="Long" resultMap="SightsCultureResult">
+        <include refid="selectSightsCultureVo"/>
+        where culture_id = #{cultureId}
+    </select>
+        
+    <insert id="insertSightsCulture" parameterType="SightsCulture" useGeneratedKeys="true" keyProperty="cultureId">
+        insert into sights_culture
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cultureTitle != null and cultureTitle != ''">culture_title,</if>
+            <if test="cultureHistory != null">culture_history,</if>
+            <if test="cultureFeature != null and cultureFeature != ''">culture_feature,</if>
+            <if test="cultureIntro != null">culture_intro,</if>
+            <if test="cultureDocument != null">culture_document,</if>
+            <if test="cultureCategory != null">culture_category,</if>
+            <if test="cultureKey != null">culture_key,</if>
+            <if test="showFlag != null">show_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cultureTitle != null and cultureTitle != ''">#{cultureTitle},</if>
+            <if test="cultureHistory != null">#{cultureHistory},</if>
+            <if test="cultureFeature != null and cultureFeature != ''">#{cultureFeature},</if>
+            <if test="cultureIntro != null">#{cultureIntro},</if>
+            <if test="cultureDocument != null">#{cultureDocument},</if>
+            <if test="cultureCategory != null">#{cultureCategory},</if>
+            <if test="cultureKey != null">#{cultureKey},</if>
+            <if test="showFlag != null">#{showFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSightsCulture" parameterType="SightsCulture">
+        update sights_culture
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cultureTitle != null and cultureTitle != ''">culture_title = #{cultureTitle},</if>
+            <if test="cultureHistory != null">culture_history = #{cultureHistory},</if>
+            <if test="cultureFeature != null and cultureFeature != ''">culture_feature = #{cultureFeature},</if>
+            <if test="cultureIntro != null">culture_intro = #{cultureIntro},</if>
+            <if test="cultureDocument != null">culture_document = #{cultureDocument},</if>
+            <if test="cultureCategory != null">culture_category = #{cultureCategory},</if>
+            <if test="cultureKey != null">culture_key = #{cultureKey},</if>
+            <if test="showFlag != null">show_flag = #{showFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where culture_id = #{cultureId}
+    </update>
+
+    <delete id="deleteSightsCultureByCultureId" parameterType="Long">
+        delete from sights_culture where culture_id = #{cultureId}
+    </delete>
+
+    <delete id="deleteSightsCultureByCultureIds" parameterType="String">
+        delete from sights_culture where culture_id in 
+        <foreach item="cultureId" collection="array" open="(" separator="," close=")">
+            #{cultureId}
+        </foreach>
+    </delete>
+</mapper>

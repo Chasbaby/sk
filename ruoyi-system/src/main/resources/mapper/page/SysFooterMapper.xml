@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.page.mapper.SysFooterMapper">
+    
+    <resultMap type="SysFooter" id="SysFooterResult">
+        <result property="footerId"    column="footer_id"    />
+        <result property="footerLabel"    column="footer_label"    />
+        <result property="footerType"    column="footer_type"    />
+        <result property="flag"    column="flag"    />
+        <result property="footerContent"    column="footer_content"    />
+        <result property="footerShow" column="footer_show"/>
+        <result property="footerRoute"    column="footer_route"    />
+        <result property="footerComponent"    column="footer_component"    />
+        <result property="footerSrc"    column="footer_src"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSysFooterVo">
+        select footer_id, footer_label,footer_show, footer_type, flag, footer_content, footer_route, footer_component, footer_src, create_by, create_time, update_by, update_time from sys_footer
+    </sql>
+
+    <select id="selectSysFooterList" parameterType="SysFooter" resultMap="SysFooterResult">
+        <include refid="selectSysFooterVo"/>
+        <where>  
+            <if test="footerLabel != null  and footerLabel != ''"> and footer_label like concat('%', #{footerLabel}, '%')</if>
+            <if test="footerType != null "> and footer_type = #{footerType}</if>
+            <if test="flag != null  and flag != ''"> and flag = #{flag}</if>
+            <if test="footerRoute != null  and footerRoute != ''"> and footer_route like concat('%', #{footerRoute}, '%')</if>
+            <if test="footerComponent != null  and footerComponent != ''"> and footer_component like concat('%', #{footerComponent}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSysFooterByFooterId" parameterType="Long" resultMap="SysFooterResult">
+        <include refid="selectSysFooterVo"/>
+        where footer_id = #{footerId}
+    </select>
+        
+    <insert id="insertSysFooter" parameterType="SysFooter" useGeneratedKeys="true" keyProperty="footerId">
+        insert into sys_footer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="footerLabel != null and footerLabel != ''">footer_label,</if>
+            <if test="footerType != null">footer_type,</if>
+            <if test="flag != null">flag,</if>
+            <if test="footerContent != null">footer_content,</if>
+            <if test="footerShow !=null">footer_show,</if>
+            <if test="footerRoute != null">footer_route,</if>
+            <if test="footerComponent != null">footer_component,</if>
+            <if test="footerSrc != null">footer_src,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="footerLabel != null and footerLabel != ''">#{footerLabel},</if>
+            <if test="footerType != null">#{footerType},</if>
+            <if test="flag != null">#{flag},</if>
+            <if test="footerContent != null">#{footerContent},</if>
+            <if test="footerShow !=null">#{footerShow},</if>
+            <if test="footerRoute != null">#{footerRoute},</if>
+            <if test="footerComponent != null">#{footerComponent},</if>
+            <if test="footerSrc != null">#{footerSrc},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysFooter" parameterType="SysFooter">
+        update sys_footer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="footerLabel != null and footerLabel != ''">footer_label = #{footerLabel},</if>
+            <if test="footerType != null">footer_type = #{footerType},</if>
+            <if test="flag != null">flag = #{flag},</if>
+            <if test="footerContent != null">footer_content = #{footerContent},</if>
+            <if test="footerShow !=null">footer_show= #{footerShow},</if>
+            <if test="footerRoute != null">footer_route = #{footerRoute},</if>
+            <if test="footerComponent != null">footer_component = #{footerComponent},</if>
+            <if test="footerSrc != null">footer_src = #{footerSrc},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where footer_id = #{footerId}
+    </update>
+
+    <delete id="deleteSysFooterByFooterId" parameterType="Long">
+        delete from sys_footer where footer_id = #{footerId}
+    </delete>
+
+    <delete id="deleteSysFooterByFooterIds" parameterType="String">
+        delete from sys_footer where footer_id in 
+        <foreach item="footerId" collection="array" open="(" separator="," close=")">
+            #{footerId}
+        </foreach>
+    </delete>
+</mapper>

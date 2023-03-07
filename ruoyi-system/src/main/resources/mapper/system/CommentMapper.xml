@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CommentMapper">
+    
+    <resultMap type="Comment" id="CommentResult">
+        <result property="commentId"    column="comment_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="id" column="id"/>
+        <result property="commentContent"    column="comment_content"    />
+        <result property="commentView"    column="comment_view"    />
+        <result property="commentHits"    column="comment_hits"    />
+        <result property="commentLike"    column="comment_like"    />
+        <result property="commentSource"    column="comment_source"    />
+        <result property="commentIp"    column="comment_ip"    />
+        <result property="judgeStatus"    column="judge_status"    />
+        <result property="judger"    column="judger"    />
+        <result property="visableStatus"    column="visable_status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectCommentVo">
+        select comment_id, id,parent_id, user_id, comment_content,
+               comment_view, comment_hits, comment_like, comment_source,
+               comment_ip, judge_status, judger, visable_status, del_flag,
+               create_by, create_time, update_by, update_time from comment
+    </sql>
+
+    <select id="selectCommentList" parameterType="Comment" resultMap="CommentResult">
+        <include refid="selectCommentVo"/>
+        <where>
+            <if test="id !=null">and id = #{id}</if>
+            <if test="commentView != null "> and comment_view &gt;= #{commentView}</if>
+            <if test="commentHits != null "> and comment_hits &gt;= #{commentHits}</if>
+            <if test="commentLike != null "> and comment_like &gt;= #{commentLike}</if>
+            <if test="commentSource != null  and commentSource != ''"> and comment_source = #{commentSource}</if>
+            <if test="commentIp != null  and commentIp != ''"> and comment_ip like concat('%', #{commentIp}, '%')</if>
+            <if test="judgeStatus != null  and judgeStatus != ''"> and judge_status = #{judgeStatus}</if>
+            <if test="judger != null  and judger != ''"> and judger like concat('%', #{judger}, '%')</if>
+            <if test="visableStatus != null  and visableStatus != ''"> and visable_status = #{visableStatus}</if>
+            <if test="delFlag != null  and delFlag != ''"> and del_flag = #{delFlag}</if>
+            <if test="createTime != null "> and create_time &gt;= #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectCommentByCommentId" parameterType="Long" resultMap="CommentResult">
+        <include refid="selectCommentVo"/>
+        where comment_id = #{commentId}
+    </select>
+
+
+    <select id="selectAllCommentNumBySightsId" resultType="java.lang.Integer" >
+        select count(0) from comment where  comment_source="0" and id = #{sightsId}
+#         获取某景点的评论总数   多表关联
+    </select>
+    <select id="selectAllParentCommentBySightsId" resultType="com.ruoyi.system.domain.Comment" parameterType="integer">
+        <include refid="selectCommentVo"/>
+        where comment_source = "0" and id = #{sightsId} and  parent_id = -1
+        order by create_time dec
+#         获取某景点的所有父级评论 多表关联
+    </select>
+    <select id="selectAllChildrenCommentByParentId" resultType="com.ruoyi.system.domain.Comment" parameterType="integer">
+        <include refid="selectCommentVo"/>
+        where parent_id = #{parentId}
+        order by create_time dec
+#         根据父级评论查找 所有子集
+    </select>
+
+    <select id="selectCommentNoJudgeNum" resultType="java.lang.Integer">
+        select count(0) from comment where judge_status ="2"
+    </select>
+
+    <select id="getMaxCommentSource" resultType="string">
+    select comment_source from
+        (select comment_source,count(comment_source) num from comment
+            where judge_status !="1"
+            group by comment_source ) as csn
+        order by num DESC
+        limit 1
+    </select>
+
+
+    <insert id="insertComment" parameterType="Comment" useGeneratedKeys="true" keyProperty="commentId">
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">parent_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="commentContent != null">comment_content,</if>
+            <if test="commentView != null">comment_view,</if>
+            <if test="commentHits != null">comment_hits,</if>
+            <if test="commentLike != null">comment_like,</if>
+            <if test="commentSource != null">comment_source,</if>
+            <if test="commentIp != null">comment_ip,</if>
+            <if test="judgeStatus != null and judgeStatus != ''">judge_status,</if>
+            <if test="judger != null">judger,</if>
+            <if test="visableStatus != null and visableStatus != ''">visable_status,</if>
+            <if test="delFlag != null and delFlag != ''">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">#{parentId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="commentContent != null">#{commentContent},</if>
+            <if test="commentView != null">#{commentView},</if>
+            <if test="commentHits != null">#{commentHits},</if>
+            <if test="commentLike != null">#{commentLike},</if>
+            <if test="commentSource != null">#{commentSource},</if>
+            <if test="commentIp != null">#{commentIp},</if>
+            <if test="judgeStatus != null and judgeStatus != ''">#{judgeStatus},</if>
+            <if test="judger != null">#{judger},</if>
+            <if test="visableStatus != null and visableStatus != ''">#{visableStatus},</if>
+            <if test="delFlag != null and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateComment" parameterType="Comment">
+        update comment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="commentContent != null">comment_content = #{commentContent},</if>
+            <if test="commentView != null">comment_view = #{commentView},</if>
+            <if test="commentHits != null">comment_hits = #{commentHits},</if>
+            <if test="commentLike != null">comment_like = #{commentLike},</if>
+            <if test="commentSource != null">comment_source = #{commentSource},</if>
+            <if test="commentIp != null">comment_ip = #{commentIp},</if>
+            <if test="judgeStatus != null and judgeStatus != ''">judge_status = #{judgeStatus},</if>
+            <if test="judger != null">judger = #{judger},</if>
+            <if test="visableStatus != null and visableStatus != ''">visable_status = #{visableStatus},</if>
+            <if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where comment_id = #{commentId}
+    </update>
+
+    <update id="updateCommentViaView" parameterType="long">
+        update comment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="commentView != null">comment_view = comment_view +1</if>
+        </trim>
+        where comment_id = #{commentId}
+    </update>
+
+    <update id="updateCommentViaLike" parameterType="long">
+        update comment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="commentLike != null">comment_like = comment_like +1</if>
+        </trim>
+        where comment_id = #{commentId}
+    </update>
+
+    <update id="updateCommentViaHits" parameterType="long">
+        update comment set comment_hits = comment_hits + 1
+        where comment_id = #{commentId}
+    </update>
+
+    <delete id="deleteCommentByCommentId" parameterType="Long">
+        delete from comment where comment_id = #{commentId}
+    </delete>
+
+    <delete id="deleteCommentByCommentIds" parameterType="String">
+        delete from comment where comment_id in 
+        <foreach item="commentId" collection="array" open="(" separator="," close=")">
+            #{commentId}
+        </foreach>
+    </delete>
+</mapper>

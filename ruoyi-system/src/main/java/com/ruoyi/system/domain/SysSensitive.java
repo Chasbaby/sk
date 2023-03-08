@@ -7,7 +7,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author Chas
  * @data 2023.3
  */
-public class SysSensitive extends BaseEntity {
+public class SysSensitive{
 
     /** 敏感词ID */
     private Long sensitiveId;

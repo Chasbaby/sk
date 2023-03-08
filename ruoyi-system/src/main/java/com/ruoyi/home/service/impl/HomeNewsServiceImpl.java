@@ -119,7 +119,7 @@ public class HomeNewsServiceImpl implements IHomeNewsService
             List<HomeNews> list = homeNewsMapper.selectHomeNewsList(homeNews);
             int size = list.size();
             if (size>=n){
-                list.sort((Comparator.comparingInt(HomeNews::getNewsHits)));
+                list.sort((Comparator.comparingInt(HomeNews::getNewsHits)).reversed());
                 return list.subList(0,n);
             }else {
                 homeNews.setTopFlag("N");
@@ -168,7 +168,7 @@ public class HomeNewsServiceImpl implements IHomeNewsService
     @Override
     public List<HomeNews> selectGoodNews(HomeNews homeNews, int num) {
         List<HomeNews> list = homeNewsMapper.selectHomeNewsList(homeNews);
-        list.sort(Comparator.comparingInt(HomeNews::getNewsHits));
+        list.sort(Comparator.comparingInt(HomeNews::getNewsHits).reversed());
         if (list.size()>=num){
             return list.subList(0,num);
         }

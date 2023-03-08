@@ -1,7 +1,10 @@
 package com.ruoyi.home.service.impl;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.function.ToIntFunction;
 
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,8 +130,8 @@ public class HomeAdServiceImpl implements IHomeAdService {
             int size = list.size();
             // 如果需要的数量比规定的多
             if (size >= n){
-                // 那么 按照 热度排序 取前 num个
-                list.sort((o1, o2) -> o1.getAdHits() - o2.getAdHits() > 0 ? 1 : 0 );
+                // 那么 按照 热度排序 取前 num个  有reversed是倒序 也就是大的在前面小的在后面
+                list.sort(Comparator.comparingInt(HomeAd::getAdHits).reversed());
                 return list.subList(0, n);
             }else {
                 //如果 size 少 从不置顶的里面选
@@ -195,7 +198,7 @@ public class HomeAdServiceImpl implements IHomeAdService {
     @Override
     public List<HomeAd> selectGoodAd(HomeAd homeAd, int number) {
         List<HomeAd> list = homeAdMapper.selectHomeAdList(homeAd);
-        list.sort(((o1, o2) -> o1.getAdHits()-o2.getAdHits()>0?1:0));
+        list.sort(Comparator.comparingInt(HomeAd::getAdHits).reversed());
         // 如果 需求小 则
         if (list.size()>=number){
             return list.subList(0,number);
@@ -219,6 +222,7 @@ public class HomeAdServiceImpl implements IHomeAdService {
     public int selectDeleteAdNumByLogic() {
         return homeAdMapper.selectDeleteAdNumByLogic();
     }
+
 
 
 }

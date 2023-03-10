@@ -147,14 +147,22 @@ public class ArticleServiceImpl implements IArticleService
 
     /**
      *  增加浏览量
-     * @param articleId
+     * @param record
      * @return
      */
     @Transactional()
     @Override
-    public int articleAddView(Long articleId) {
+    public int articleAddView(ArticleRecord record) {
 
-        return articleRecordMapper.addViewArticle(articleId);
+        int i = articleRecordMapper.judgeOnlyOneViewArticle(record);
+        // 说明之前已经浏览过了 那么更改时间
+        if (i==1){
+            articleRecordMapper.updateViewTime(record.getCreateTime());
+        }else {
+            // 没有浏览 增加即可
+            articleRecordMapper.addViewArticle(record.getArticleId());
+        }
+        return i;
     }
 
     /**
@@ -193,16 +201,38 @@ public class ArticleServiceImpl implements IArticleService
 
     @Override
     public List<ArticleReturnDTO> getAllArticleView(Long userId) {
-        return null;
+        List<Article> articles = articleMapper.selectArticleViewByUserId(userId);
+        List<ArticleReturnDTO> collect = getReturnDTOList(articles);
+        return collect;
     }
 
     @Override
     public List<ArticleCreateDTO> getAllArticleByUserId(Long userId) {
+//        Article article = new Article();
+//        article.setUserId(userId);
+//        article.setStatus("1");
+//        article.setIsDelete("N");
+//        article.setIsOk("Y");
+//        articleMapper.selectArticleList(article);
         return null;
     }
 
+    /**
+     * 如果是查询自己的话 未审核的也可以看
+     * 如果是看别人的话必须审核后才可以
+     * @param articleId
+     * @param userId
+     * @return
+     */
     @Override
-    public List<ArticleDetail> getArticleDetail() {
+    public ArticleDetail getArticleDetail(Long articleId, Long userId) {
+
+//        Article article = new Article();
+//        article.setUserId(userId);
+//        article.setStatus("1");
+//        article.setIsDelete("N");
+//        article.setIsOk("Y");
+//        articleMapper.selectArticleList(article);
         return null;
     }
 

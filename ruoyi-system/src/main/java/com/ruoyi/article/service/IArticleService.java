@@ -83,7 +83,7 @@ public interface IArticleService
      * 增加浏览量
      * @return int
      */
-    public int articleAddView(Long articleId);
+    public int articleAddView(ArticleRecord record);
 
     /**
      * 获取某用户的收藏信息
@@ -120,7 +120,7 @@ public interface IArticleService
      * 包括的内容很多
      * @return
      */
-    public List<ArticleDetail> getArticleDetail();
+    public ArticleDetail getArticleDetail(Long articleId,Long userId);
 
 
 

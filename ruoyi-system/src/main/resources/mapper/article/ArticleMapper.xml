@@ -36,7 +36,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectArticleList" parameterType="Article" resultMap="ArticleResult">
         <include refid="selectArticleVo"/>
-        <where>  
+        <where>
+            <if test=" userId !=null and userId !=''">and user_id = #{userId}</if>
             <if test="articleCategory != null  and articleCategory != ''"> and article_category = #{articleCategory}</if>
             <if test="articleTitle != null  and articleTitle != ''"> and article_title = #{articleTitle}</if>
             <if test="articleType != null  and articleType != ''"> and article_type = #{articleType}</if>

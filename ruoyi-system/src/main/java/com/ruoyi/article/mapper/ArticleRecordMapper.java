@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.Date;
+
 /**
  * @author chas
  * @introduction 点赞 浏览 收藏
@@ -71,9 +73,20 @@ public interface ArticleRecordMapper{
      * @param articleId
      * @return
      */
-    @Update("update article set article_view = article_view + 1 " +
-            "where articleId = #{articleId} limit 1 ")
+//    @Update("update article set article_view = article_view + 1 " +
+//            "where articleId = #{articleId} limit 1 ")
+    @Insert("insert into article_record_view(article_id,user_id,create_time) " +
+            "values (#{articleId},#{userId},#{createTime})")
     public int addViewArticle(Long articleId);
+
+    @Select("select 1 from article_record_view " +
+            "where article_id = #{articleId} and user_id = #{userId} limit 1")
+    public int judgeOnlyOneViewArticle(ArticleRecord articleRecord);
+
+    @Update("update article_record_view set create_time = #{createTime} " +
+            "where article_id = #{articleId} and user_id = #{userId} limit 1")
+    public int updateViewTime(Date createTime);
+    //public int addView();
 
 
 

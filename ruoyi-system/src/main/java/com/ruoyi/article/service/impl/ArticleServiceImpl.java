@@ -1,13 +1,21 @@
 package com.ruoyi.article.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.article.domain.ArticleRecord;
+import com.ruoyi.article.domain.dto.ArticleCreateDTO;
+import com.ruoyi.article.domain.dto.ArticleDetail;
+import com.ruoyi.article.domain.dto.ArticleReturnDTO;
 import com.ruoyi.article.mapper.ArticleMapper;
 import com.ruoyi.article.mapper.ArticleRecordMapper;
 import com.ruoyi.article.service.IArticleService;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.search.ArticleSearchDTO;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -149,8 +157,54 @@ public class ArticleServiceImpl implements IArticleService
         return articleRecordMapper.addViewArticle(articleId);
     }
 
+    /**
+     * 获取某用户的收藏列表
+     * @param userId 用户id
+     * @return articleReturnDTO 列表
+     */
+    @Override
+    public List<ArticleReturnDTO> getAllArticleCollect(Long userId) {
+        List<Article> articles = articleMapper.selectArticleCollectByUserId(userId);
+        List<ArticleReturnDTO> collect = getReturnDTOList(articles);
+        return collect;
+    }
 
+    @Override
+    public List<ArticleReturnDTO> getAllArticleLike(Long userId) {
+        List<Article> articles = articleMapper.selectArticleLikeByUserId(userId);
+        List<ArticleReturnDTO> collect = getReturnDTOList(articles);
+        return collect;
+    }
 
+    private List<ArticleReturnDTO> getReturnDTOList(List<Article> articles) {
+        return articles.stream().map(item -> {
+            ArticleReturnDTO returnDTO = new ArticleReturnDTO();
+            try {
+                BeanUtils.copyProperties(returnDTO, item);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+            return returnDTO;
+        }).collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<ArticleReturnDTO> getAllArticleView(Long userId) {
+        return null;
+    }
+
+    @Override
+    public List<ArticleCreateDTO> getAllArticleByUserId(Long userId) {
+        return null;
+    }
+
+    @Override
+    public List<ArticleDetail> getArticleDetail() {
+        return null;
+    }
 
 
 }

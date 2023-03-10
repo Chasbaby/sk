@@ -29,9 +29,24 @@ public class RedisCache
     @Autowired
     public RedisTemplate redisTemplate;
 
-    public void main(String[] args) {
-        // redisTemplate.watch(); 乐观锁
+
+    /**
+     * 给单个键加锁
+     * @param key 缓存的键值
+     */
+    public void lock(String key){
+        redisTemplate.watch(key);
     }
+
+    /**
+     * 给多个键加锁
+     * @param keys 缓存的键值们
+     * @param <K>
+     */
+    public <K> void lockManyKey(Collection<K> keys){
+        redisTemplate.watch(keys);
+    }
+
     /**
      * 缓存基本的对象，Integer、String、实体类等
      *

@@ -3,13 +3,13 @@ package com.ruoyi.article.mapper;
 import java.util.List;
 
 import com.ruoyi.article.domain.Article;
-import com.ruoyi.article.domain.vo.ArticleCreateDTO;
+import com.ruoyi.article.domain.dto.ArticleCreateDTO;
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
 
 /**
  * 文章Mapper接口
  * 
- * @author ruoyi
+ * @author chas ruoyi
  * @date 2023-03-05
  */
 public interface ArticleMapper extends BaseMapperPlus<ArticleMapper,Article, ArticleCreateDTO>
@@ -67,4 +67,26 @@ public interface ArticleMapper extends BaseMapperPlus<ArticleMapper,Article, Art
      * @return 列表
      */
     public List<Article> selectArticleInSearchList(Article article);
+
+    /**
+     * 获取用户收藏列表
+     * @param userId
+     * @return list
+     */
+    public List<Article> selectArticleCollectByUserId(Long userId);
+
+    /**
+     * 获取用户点赞列表
+     * @param userId
+     * @return list
+     */
+    public List<Article> selectArticleLikeByUserId(Long userId);
+
+    /**
+     * 获取用户浏览记录
+     * @param userId
+     * @return list
+     */
+    public List<Article> selectArticleViewByUserId(Long userId);
+
 }

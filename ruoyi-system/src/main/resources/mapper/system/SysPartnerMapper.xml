@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysPartnerMapper">
+    
+    <resultMap type="SysPartner" id="SysPartnerResult">
+        <result property="partnerId"    column="partner_id"    />
+        <result property="partnerIntro"    column="partner_intro"    />
+        <result property="pertnerLogo"    column="pertner_logo"    />
+        <result property="cooperationCore"    column="cooperation_core"    />
+        <result property="cooperationBegin"    column="cooperation_begin"    />
+        <result property="cooperationEnd"    column="cooperation_end"    />
+        <result property="cooperationDocument"    column="cooperation_document"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysPartnerVo">
+        select partner_id, partner_intro, pertner_logo, cooperation_core, cooperation_begin, cooperation_end, cooperation_document, create_by, create_time, update_by, update_time, remark from sys_partner
+    </sql>
+
+    <select id="selectSysPartnerList" parameterType="SysPartner" resultMap="SysPartnerResult">
+        <include refid="selectSysPartnerVo"/>
+        <where>  
+            <if test="cooperationCore != null  and cooperationCore != ''"> and cooperation_core = #{cooperationCore}</if>
+            <if test="cooperationBegin != null "> and cooperation_begin = #{cooperationBegin}</if>
+            <if test="cooperationEnd != null "> and cooperation_end = #{cooperationEnd}</if>
+            <if test="cooperationDocument != null  and cooperationDocument != ''"> and cooperation_document = #{cooperationDocument}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysPartnerByPartnerId" parameterType="Long" resultMap="SysPartnerResult">
+        <include refid="selectSysPartnerVo"/>
+        where partner_id = #{partnerId}
+    </select>
+        
+    <insert id="insertSysPartner" parameterType="SysPartner" useGeneratedKeys="true" keyProperty="partnerId">
+        insert into sys_partner
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="partnerIntro != null and partnerIntro != ''">partner_intro,</if>
+            <if test="pertnerLogo != null and pertnerLogo != ''">pertner_logo,</if>
+            <if test="cooperationCore != null">cooperation_core,</if>
+            <if test="cooperationBegin != null">cooperation_begin,</if>
+            <if test="cooperationEnd != null">cooperation_end,</if>
+            <if test="cooperationDocument != null and cooperationDocument != ''">cooperation_document,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="partnerIntro != null and partnerIntro != ''">#{partnerIntro},</if>
+            <if test="pertnerLogo != null and pertnerLogo != ''">#{pertnerLogo},</if>
+            <if test="cooperationCore != null">#{cooperationCore},</if>
+            <if test="cooperationBegin != null">#{cooperationBegin},</if>
+            <if test="cooperationEnd != null">#{cooperationEnd},</if>
+            <if test="cooperationDocument != null and cooperationDocument != ''">#{cooperationDocument},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysPartner" parameterType="SysPartner">
+        update sys_partner
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="partnerIntro != null and partnerIntro != ''">partner_intro = #{partnerIntro},</if>
+            <if test="pertnerLogo != null and pertnerLogo != ''">pertner_logo = #{pertnerLogo},</if>
+            <if test="cooperationCore != null">cooperation_core = #{cooperationCore},</if>
+            <if test="cooperationBegin != null">cooperation_begin = #{cooperationBegin},</if>
+            <if test="cooperationEnd != null">cooperation_end = #{cooperationEnd},</if>
+            <if test="cooperationDocument != null and cooperationDocument != ''">cooperation_document = #{cooperationDocument},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where partner_id = #{partnerId}
+    </update>
+
+    <delete id="deleteSysPartnerByPartnerId" parameterType="Long">
+        delete from sys_partner where partner_id = #{partnerId}
+    </delete>
+
+    <delete id="deleteSysPartnerByPartnerIds" parameterType="String">
+        delete from sys_partner where partner_id in 
+        <foreach item="partnerId" collection="array" open="(" separator="," close=")">
+            #{partnerId}
+        </foreach>
+    </delete>
+</mapper>

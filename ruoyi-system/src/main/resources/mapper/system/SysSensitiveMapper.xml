@@ -1,16 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.SysSensitiveMapper">
 
-<!--    <resultMap id="SensitiveResult" type="SysSensitive">-->
-<!--        <result column="sensitive_id" property="sensitiveId"/>-->
-<!--        <result property="sensitiveWord" column="sensitive_word"/>-->
-<!--    </resultMap>-->
-<!--    <select id="selectAllSen" resultType="com.ruoyi.system.domain.SysSensitive" resultMap="SensitiveResult">-->
-<!--        select sensitive_id , sensitive_word from sys_sensitive-->
-<!--    </select>-->
+    <resultMap type="SysSensitive" id="SysSensitiveResult">
+        <result property="sensitiveId"    column="sensitive_id"    />
+        <result property="sensitiveWord"    column="sensitive_word"    />
+    </resultMap>
 
+    <sql id="selectSysSensitiveVo">
+        select sensitive_id, sensitive_word from sys_sensitive
+    </sql>
 
+    <select id="selectSysSensitiveList" parameterType="SysSensitive" resultMap="SysSensitiveResult">
+        <include refid="selectSysSensitiveVo"/>
+        <where>
+            <if test="sensitiveWord != null  and sensitiveWord != ''"> and sensitive_word = #{sensitiveWord}</if>
+        </where>
+    </select>
+
+    <select id="selectSysSensitiveBySensitiveId" parameterType="Long" resultMap="SysSensitiveResult">
+        <include refid="selectSysSensitiveVo"/>
+        where sensitive_id = #{sensitiveId}
+    </select>
+
+    <insert id="insertSysSensitive" parameterType="SysSensitive" useGeneratedKeys="true" keyProperty="sensitiveId">
+        insert into sys_sensitive
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sensitiveWord != null and sensitiveWord != ''">sensitive_word,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sensitiveWord != null and sensitiveWord != ''">#{sensitiveWord},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysSensitive" parameterType="SysSensitive">
+        update sys_sensitive
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sensitiveWord != null and sensitiveWord != ''">sensitive_word = #{sensitiveWord},</if>
+        </trim>
+        where sensitive_id = #{sensitiveId}
+    </update>
+
+    <delete id="deleteSysSensitiveBySensitiveId" parameterType="Long">
+        delete from sys_sensitive where sensitive_id = #{sensitiveId}
+    </delete>
+
+    <delete id="deleteSysSensitiveBySensitiveIds" parameterType="String">
+        delete from sys_sensitive where sensitive_id in
+        <foreach item="sensitiveId" collection="array" open="(" separator="," close=")">
+            #{sensitiveId}
+        </foreach>
+    </delete>
 </mapper>

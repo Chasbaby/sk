@@ -1,6 +1,8 @@
 package com.ruoyi.system.domain;
 
 import com.ruoyi.common.core.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 敏感词
@@ -30,5 +32,11 @@ public class SysSensitive{
         this.sensitiveWord = sensitiveWord;
     }
 
-
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                .append("sensitiveId", getSensitiveId())
+                .append("sensitiveWord", getSensitiveWord())
+                .toString();
+    }
 }

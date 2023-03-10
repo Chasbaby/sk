@@ -3,16 +3,22 @@ package com.ruoyi.web.controller.article.permit;
 
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.article.domain.ArticleRecord;
-import com.ruoyi.article.domain.vo.ArticleCreateDTO;
+import com.ruoyi.article.domain.dto.ArticleCreateDTO;
+import com.ruoyi.article.domain.dto.ArticleReturnCore;
+import com.ruoyi.article.domain.dto.ArticleReturnDTO;
 import com.ruoyi.article.service.IArticleService;
 import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.SearchCaseType;
 import com.ruoyi.common.utils.DateUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.ruoyi.common.utils.BeanCopyUtils.copyObject;
 import static com.ruoyi.framework.config.SensitiveConfig.filter;
@@ -114,10 +120,12 @@ public class ArticleAnController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/collect/getAll")
     public AjaxResult readArticleCollect(){
-
-        return null;
+        List<ArticleReturnDTO> articles = articleService.getAllArticleCollect(getUserId());
+        ArticleReturnCore ArticlesCore = new ArticleReturnCore();
+        ArticlesCore.setArticles(articles);
+        ArticlesCore.setRoute(SearchCaseType.ARTICLE.getRoute());
+        return AjaxResult.success(ArticlesCore);
     }
-
 
     /**
      * 获取历史点赞记录
@@ -126,8 +134,8 @@ public class ArticleAnController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/like/getAll")
     public AjaxResult readArticleLike(){
-
-        return null;
+        List<ArticleReturnDTO> articles = articleService.getAllArticleLike(getUserId());
+        return AjaxResult.success();
     }
 
     /**
@@ -137,29 +145,30 @@ public class ArticleAnController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/view/getAll")
     public AjaxResult readArticleView(){
-
-        return null;
+        return AjaxResult.success(articleService.getAllArticleView(getUserId()));
     }
 
     /**
-     * 分页获取用户所有文章
+     * 分页获取某用户所有文章
      * 默认按照时间排序
      * @return 文章列表
      */
     @PreAuthorize("@ss.hasRole('common')")
     @PostMapping("/getAllArticle")
-    public AjaxResult getAllArticle(){
-
-        // 分页获取
-        return null;
+    public TableDataInfo getAllArticle(){
+        startPage();
+        return getDataTable(articleService.getAllArticleByUserId(getUserId()));
     }
 
-    @PostMapping("/")
-    public AjaxResult getArticleDetail(){
+    /**
+     * 获取文章的详细信息
+     * @return 信息
+     */
+    @PostMapping("/getDetail/{articleId}")
+    public AjaxResult getArticleDetail(@PathVariable Long articleId){
 
         return null;
     }
-
 
     /**
      *  创建记录

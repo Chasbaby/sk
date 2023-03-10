@@ -1,6 +1,4 @@
-package com.ruoyi.article.domain.vo;
-
-import com.ruoyi.common.annotation.Excel;
+package com.ruoyi.article.domain.dto;
 
 import java.io.Serializable;
 

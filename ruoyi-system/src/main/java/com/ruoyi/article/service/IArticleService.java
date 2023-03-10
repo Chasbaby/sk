@@ -2,6 +2,9 @@ package com.ruoyi.article.service;
 
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.article.domain.ArticleRecord;
+import com.ruoyi.article.domain.dto.ArticleCreateDTO;
+import com.ruoyi.article.domain.dto.ArticleDetail;
+import com.ruoyi.article.domain.dto.ArticleReturnDTO;
 
 import java.util.List;
 
@@ -81,6 +84,45 @@ public interface IArticleService
      * @return int
      */
     public int articleAddView(Long articleId);
+
+    /**
+     * 获取某用户的收藏信息
+     * @param userId 用户id
+     * @return 收藏列表
+     */
+    public List<ArticleReturnDTO> getAllArticleCollect(Long userId);
+
+    /**
+     * 获取某用户点赞信息
+     * @param userId 用户
+     * @return 文章列表
+     */
+    public List<ArticleReturnDTO> getAllArticleLike(Long userId);
+
+    /**
+     * 获取用户浏览记录
+     * @param userId 用户id
+     * @return 浏览列表
+     */
+    public List<ArticleReturnDTO> getAllArticleView(Long userId);
+
+    /**
+     * 获取某用户所有文章列表
+     *
+     * 可以未通过审核
+     *
+     * @return
+     */
+    public List<ArticleCreateDTO> getAllArticleByUserId(Long userId);
+
+    /**
+     * 获取文章详细信息
+     * 包括的内容很多
+     * @return
+     */
+    public List<ArticleDetail> getArticleDetail();
+
+
 
 
 }

@@ -13,7 +13,6 @@ import org.apache.ibatis.annotations.Update;
  */
 public interface ArticleRecordMapper{
 
-
     /**
      * 点赞
      * @param articleRecord
@@ -75,6 +74,9 @@ public interface ArticleRecordMapper{
     @Update("update article set article_view = article_view + 1 " +
             "where articleId = #{articleId} limit 1 ")
     public int addViewArticle(Long articleId);
+
+
+
 
 
 

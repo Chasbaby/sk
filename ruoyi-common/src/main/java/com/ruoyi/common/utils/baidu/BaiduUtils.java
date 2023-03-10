@@ -44,11 +44,16 @@ public class BaiduUtils {
 
 
     public static void main(String[] args) {
-        ParaGeo paraGeo = new ParaGeo();
-        paraGeo.setAk(AK);
-        paraGeo.setAddress("江苏省泰州市靖江市斜桥镇美尔惠服饰");
-        paraGeo.setOutput("json");
-        Geocoder geocoder = getGeocoder(paraGeo);
-        geocoder.getResult();
+//        ParaGeo paraGeo = new ParaGeo();
+//        paraGeo.setAk(AK);
+//        paraGeo.setAddress("江苏省泰州市靖江市斜桥镇美尔惠服饰");
+//        paraGeo.setOutput("json");
+//        Geocoder geocoder = getGeocoder(paraGeo);
+//        geocoder.getResult();
+
+        String s = HttpUtils.sendGet("https://api.map.baidu.com/place/v2/search?query=景点&region=广州市&output=json&ak=qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt");
+        System.out.println(s);
+
+
     }
 }

@@ -225,7 +225,7 @@ public class ArticleServiceImpl implements IArticleService
      * @return
      */
     @Override
-    public ArticleDetail getArticleDetail(Long articleId, Long userId) {
+    public ArticleDetail getArticleDetail(Long articleId) {
 
 //        Article article = new Article();
 //        article.setUserId(userId);

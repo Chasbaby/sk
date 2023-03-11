@@ -11,6 +11,7 @@ import com.ruoyi.article.service.IArticleService;
 import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.SearchCaseType;
 import com.ruoyi.common.utils.DateUtils;
@@ -65,11 +66,14 @@ public class ArticleAnController extends BaseController {
      * 浏览是不需要 游客 这个身份的 谁都能浏览
      * 浏览里面有一套东西
      * 点击即可触发
+     *
+     * 如果是登录的就到这个入口
+     * 如果没有登录就直接获取信息看就是了
      * @param articleId
-     * @return 浏览的单篇文章信息
+     * @return null
      */
     @Anonymous
-    //@PreAuthorize("@ss.haiRole('common')")
+    @PreAuthorize("@ss.haiRole('common')")
     @GetMapping("/view/{articleId}")
     public AjaxResult articleView(@PathVariable Long articleId){
         ArticleRecord record = getArticleRecord(articleId);
@@ -160,16 +164,20 @@ public class ArticleAnController extends BaseController {
     @PostMapping("/getAllArticle")
     public TableDataInfo getAllArticle(){
         startPage();
+        SysUser
         return getDataTable(articleService.getAllArticleByUserId(getUserId()));
     }
 
     /**
      * 获取文章的详细信息
+     *
+     * 不管你是不是人都可以到这里来哦
      * @return 信息
      */
+    @Anonymous
     @PostMapping("/getDetail/{articleId}")
     public AjaxResult getArticleDetail(@PathVariable Long articleId){
-        ArticleDetail detail = articleService.getArticleDetail(articleId, getUserId());
+        ArticleDetail detail = articleService.getArticleDetail(articleId);
         return AjaxResult.success(detail);
     }
 

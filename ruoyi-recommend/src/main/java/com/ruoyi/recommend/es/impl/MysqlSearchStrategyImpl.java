@@ -55,11 +55,7 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
         List<SearchAjaxDTO> allData= new ArrayList<>();
         SearchAjaxDTO sightsS = new SearchAjaxDTO();
         // 搜索景点
-        SightsBase sightsBase = new SightsBase();
-        sightsBase.setSightsName(keywords);
-        sightsBase.setSightsDetail(keywords);
-        sightsBase.setSightsIntro(keywords);
-        sightsBase.setSightsLocation(keywords);
+        SightsBase sightsBase = createSightsByKey(keywords);
         List<SightsBase> searchList = sightsBaseMapper.selectSightsInSearchList(sightsBase);
         // 高亮处理
         List<SightsSearchDTO> sightsList = addSights(searchList, keywords);
@@ -68,11 +64,7 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
         sightsS.setRoute(SearchCaseType.SIGHTS.getRoute());
         allData.add(sightsS);
 
-        SightsCulCreativity sightsCulCreativity = new SightsCulCreativity();
-        sightsCulCreativity.setCulCreativityIntro(keywords);
-        sightsCulCreativity.setCulCreativityTitle(keywords);
-        sightsCulCreativity.setCulCreativityKey(keywords);
-        sightsCulCreativity.setCulCreativityTags(keywords);
+        SightsCulCreativity sightsCulCreativity = createCulBykey(keywords);
         List<SightsCulCreativity> culCreativityList = sightsCulMapper.selectSightsInSearchList(sightsCulCreativity);
         // 高亮处理
         List<CulCreativitySearchDTO> creativityList = addSightsCulCreativity(culCreativityList, keywords);
@@ -99,6 +91,24 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
         return allData;
     }
 
+    private SightsCulCreativity createCulBykey(String keywords) {
+        SightsCulCreativity sightsCulCreativity = new SightsCulCreativity();
+        sightsCulCreativity.setCulCreativityIntro(keywords);
+        sightsCulCreativity.setCulCreativityTitle(keywords);
+        sightsCulCreativity.setCulCreativityKey(keywords);
+        sightsCulCreativity.setCulCreativityTags(keywords);
+        return sightsCulCreativity;
+    }
+
+    private SightsBase createSightsByKey(String keywords) {
+        SightsBase sightsBase = new SightsBase();
+        sightsBase.setSightsName(keywords);
+        sightsBase.setSightsDetail(keywords);
+        sightsBase.setSightsIntro(keywords);
+        sightsBase.setSightsLocation(keywords);
+        return sightsBase;
+    }
+
     @Override
     public List<MultiSearchDTO> showAllSearch(String keywords) {
         if (!StringUtils.isEmpty(keywords)){
@@ -114,83 +124,26 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
             AtomicReference<Long> i= new AtomicReference<>(0L);
             List<MultiSearchDTO> allData = new ArrayList<>();
 
-            List<MultiSearchDTO> sightsBaseSearch = sightsBases.stream().map(item -> {
-                MultiSearchDTO searchDTO = new MultiSearchDTO();
-                //searchDTO.setMultipleWork();  景点没有作者 只有发布者
-                searchDTO.setMultipleCategory(item.getSightsCategory());
-                searchDTO.setMultipleCollect(item.getSightsCollect());
-                searchDTO.setMultipleContent(item.getSightsDetail().replaceAll(pattern,""));
-                searchDTO.setMultipleHits(item.getSightsHits());
-                // Long andSet = i.getAndSet(i.get() + 1);
-                //searchDTO.setMultipleId(andSet);
+            List<MultiSearchDTO> sightsBaseSearch = sightsToMuti(sightsBases);
+            List<MultiSearchDTO> sightsCulSearch = culToMuti(sightsCul);
+            List<MultiSearchDTO> articleSearch = articleToMuti(articles);
 
-                searchDTO.setMultipleName(item.getSightsName());
-                searchDTO.setMultipleImage(item.getSightsImage());
-                searchDTO.setMultipleRoute(SearchCaseType.SIGHTS.getRoute());
-                searchDTO.setMultipleType(SearchCaseType.SIGHTS.getType());
-                searchDTO.setMultipleScore(item.getSightsScore());
-                searchDTO.setMultipleView(item.getSightsView());
-                searchDTO.setMultipleLike(item.getSightsLike());
-                searchDTO.setMultipleItemId(item.getSightsId());
-                return searchDTO;
-            }).collect(Collectors.toList());
-            List<MultiSearchDTO> sightsCulSearch = sightsCul.stream().map(item -> {
-                MultiSearchDTO searchDTO = new MultiSearchDTO();
-                searchDTO.setMultipleCategory(item.getCulCreativityCategory());
-                searchDTO.setMultipleCollect(item.getCulCreativityCollection());
-                searchDTO.setMultipleContent(item.getCulCreativityIntro().replaceAll(pattern,""));
-                searchDTO.setMultipleHits(item.getCulCreativityHits());
-                //searchDTO.setMultipleId(i.getAndSet(i.get() + 1));
-                searchDTO.setMultipleName(item.getCulCreativityTitle());
-                searchDTO.setMultipleImage(item.getCulCreativityImage());
-                searchDTO.setMultipleRoute(SearchCaseType.CREATION.getRoute());
-                searchDTO.setMultipleType(SearchCaseType.CREATION.getType());
-                //searchDTO.setMultipleScore();
-                searchDTO.setMultipleView(item.getCulCreativityView());
-                searchDTO.setMultipleLike(item.getCulCreativityLike());
-                searchDTO.setMultipleItemId(item.getCulCreativityId());
-                return searchDTO;
-            }).collect(Collectors.toList());
-            List<MultiSearchDTO> articleSearch = articles.stream().map(item -> {
-                MultiSearchDTO searchDTO = new MultiSearchDTO();
-                searchDTO.setMultipleWork(item.getUserId());
-                searchDTO.setMultipleCategory(item.getArticleCategory());
-                searchDTO.setMultipleCollect(item.getArticleCollect());
-                searchDTO.setMultipleContent(item.getArticleContent().replaceAll(pattern,""));
-                //searchDTO.setMultipleId(i.getAndSet(i.get() + 1));
-                searchDTO.setMultipleName(item.getArticleTitle());
-                searchDTO.setMultipleImage(item.getArticleCover());
-                searchDTO.setMultipleRoute(SearchCaseType.ARTICLE.getRoute());
-                searchDTO.setMultipleType(SearchCaseType.ARTICLE.getType());
-                searchDTO.setMultipleView(item.getArticleView());
-                searchDTO.setMultipleLike(item.getArticleLike());
-                searchDTO.setMultipleItemId(item.getArticleId());
-                return searchDTO;
-            }).collect(Collectors.toList());
             allData.addAll(sightsBaseSearch);
             allData.addAll(sightsCulSearch);
             allData.addAll(articleSearch);
+            allData.sort(Comparator.comparing(MultiSearchDTO::getMultipleLike).reversed());
             return allData;
         }else {
             AtomicReference<Long> i = new AtomicReference<>(0L);
             // 搜索景点
-            SightsBase sightsBase = new SightsBase();
-            sightsBase.setSightsName(keywords);
-            sightsBase.setSightsDetail(keywords);
-            sightsBase.setSightsIntro(keywords);
-            sightsBase.setSightsLocation(keywords);
+            SightsBase sightsBase = createSightsByKey(keywords);
             List<SightsBase> searchList = sightsBaseMapper.selectSightsInSearchList(sightsBase);
             List<SightsSearchDTO> sightsList = addSights(searchList, keywords);
 
 
-            SightsCulCreativity sightsCulCreativity = new SightsCulCreativity();
-            sightsCulCreativity.setCulCreativityIntro(keywords);
-            sightsCulCreativity.setCulCreativityTitle(keywords);
-            sightsCulCreativity.setCulCreativityKey(keywords);
-            sightsCulCreativity.setCulCreativityTags(keywords);
+            SightsCulCreativity sightsCulCreativity = createCulBykey(keywords);
             List<SightsCulCreativity> culCreativityList = sightsCulMapper.selectSightsInSearchList(sightsCulCreativity);
             List<CulCreativitySearchDTO> creativityList = addSightsCulCreativity(culCreativityList, keywords);
-
 
             Article article = new Article();
             article.setArticleContent(keywords);
@@ -198,11 +151,72 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
             List<Article> ArticleList = articleMapper.selectArticleInSearchList(article);
             List<ArticleSearchDTO> articleList = addArticle(ArticleList, keywords);
 
-
         }
 
-
-
         return null;
+    }
+
+    private List<MultiSearchDTO> articleToMuti(List<Article> articles) {
+        List<MultiSearchDTO> articleSearch = articles.stream().map(item -> {
+            MultiSearchDTO searchDTO = new MultiSearchDTO();
+            searchDTO.setMultipleWork(item.getUserId());
+            searchDTO.setMultipleCategory(item.getArticleCategory());
+            searchDTO.setMultipleCollect(item.getArticleCollect());
+            searchDTO.setMultipleContent(item.getArticleContent().replaceAll(pattern,""));
+            //searchDTO.setMultipleId(i.getAndSet(i.get() + 1));
+            searchDTO.setMultipleName(item.getArticleTitle());
+            searchDTO.setMultipleImage(item.getArticleCover());
+            searchDTO.setMultipleRoute(SearchCaseType.ARTICLE.getRoute());
+            searchDTO.setMultipleType(SearchCaseType.ARTICLE.getType());
+            searchDTO.setMultipleView(item.getArticleView());
+            searchDTO.setMultipleLike(item.getArticleLike());
+            searchDTO.setMultipleItemId(item.getArticleId());
+            return searchDTO;
+        }).collect(Collectors.toList());
+        return articleSearch;
+    }
+
+    private List<MultiSearchDTO> culToMuti(List<SightsCulCreativity> sightsCul) {
+        List<MultiSearchDTO> sightsCulSearch = sightsCul.stream().map(item -> {
+            MultiSearchDTO searchDTO = new MultiSearchDTO();
+            searchDTO.setMultipleCategory(item.getCulCreativityCategory());
+            searchDTO.setMultipleCollect(item.getCulCreativityCollection());
+            searchDTO.setMultipleContent(item.getCulCreativityIntro().replaceAll(pattern,""));
+            searchDTO.setMultipleHits(item.getCulCreativityHits());
+            //searchDTO.setMultipleId(i.getAndSet(i.get() + 1));
+            searchDTO.setMultipleName(item.getCulCreativityTitle());
+            searchDTO.setMultipleImage(item.getCulCreativityImage());
+            searchDTO.setMultipleRoute(SearchCaseType.CREATION.getRoute());
+            searchDTO.setMultipleType(SearchCaseType.CREATION.getType());
+            searchDTO.setMultipleView(item.getCulCreativityView());
+            searchDTO.setMultipleLike(item.getCulCreativityLike());
+            searchDTO.setMultipleItemId(item.getCulCreativityId());
+            return searchDTO;
+        }).collect(Collectors.toList());
+        return sightsCulSearch;
+    }
+
+    private List<MultiSearchDTO> sightsToMuti(List<SightsBase> sightsBases) {
+        List<MultiSearchDTO> sightsBaseSearch = sightsBases.stream().map(item -> {
+            MultiSearchDTO searchDTO = new MultiSearchDTO();
+            //searchDTO.setMultipleWork();  景点没有作者 只有发布者
+            searchDTO.setMultipleCategory(item.getSightsCategory());
+            searchDTO.setMultipleCollect(item.getSightsCollect());
+            searchDTO.setMultipleContent(item.getSightsDetail().replaceAll(pattern,""));
+            searchDTO.setMultipleHits(item.getSightsHits());
+            // Long andSet = i.getAndSet(i.get() + 1);
+            //searchDTO.setMultipleId(andSet);
+
+            searchDTO.setMultipleName(item.getSightsName());
+            searchDTO.setMultipleImage(item.getSightsImage());
+            searchDTO.setMultipleRoute(SearchCaseType.SIGHTS.getRoute());
+            searchDTO.setMultipleType(SearchCaseType.SIGHTS.getType());
+            searchDTO.setMultipleScore(item.getSightsScore());
+            searchDTO.setMultipleView(item.getSightsView());
+            searchDTO.setMultipleLike(item.getSightsLike());
+            searchDTO.setMultipleItemId(item.getSightsId());
+            return searchDTO;
+        }).collect(Collectors.toList());
+        return sightsBaseSearch;
     }
 }

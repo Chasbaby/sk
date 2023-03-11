@@ -120,7 +120,7 @@ public interface IArticleService
      * 包括的内容很多
      * @return
      */
-    public ArticleDetail getArticleDetail(Long articleId,Long userId);
+    public ArticleDetail getArticleDetail(Long articleId);
 
 
 

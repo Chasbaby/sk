@@ -1,9 +1,11 @@
 package com.ruoyi.article.domain.dto;
 
-import com.ruoyi.common.annotation.Excel;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.domain.entity.SysVisitor;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author chas
@@ -19,6 +21,9 @@ public class ArticleDetail implements Serializable {
 
     /** 作者部分信息 */
     private SysUser user;
+
+    /** 作者部分信息*/
+    private SysVisitor visitor;
 
     /** 文章分类 */
     private String articleCategory;
@@ -47,4 +52,130 @@ public class ArticleDetail implements Serializable {
     /** 收藏量 */
     private Long articleCollect;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date updateTime;
+
+    /** 创建时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Long getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(Long articleId) {
+        this.articleId = articleId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public SysUser getUser() {
+        return user;
+    }
+
+    public void setUser(SysUser user) {
+        this.user = user;
+    }
+
+    public SysVisitor getVisitor() {
+        return visitor;
+    }
+
+    public void setVisitor(SysVisitor visitor) {
+        this.visitor = visitor;
+    }
+
+    public String getArticleCategory() {
+        return articleCategory;
+    }
+
+    public void setArticleCategory(String articleCategory) {
+        this.articleCategory = articleCategory;
+    }
+
+    public String getArticleCover() {
+        return articleCover;
+    }
+
+    public void setArticleCover(String articleCover) {
+        this.articleCover = articleCover;
+    }
+
+    public String getArticleTitle() {
+        return articleTitle;
+    }
+
+    public void setArticleTitle(String articleTitle) {
+        this.articleTitle = articleTitle;
+    }
+
+    public String getArticleContent() {
+        return articleContent;
+    }
+
+    public void setArticleContent(String articleContent) {
+        this.articleContent = articleContent;
+    }
+
+    public String getArticleType() {
+        return articleType;
+    }
+
+    public void setArticleType(String articleType) {
+        this.articleType = articleType;
+    }
+
+    public String getOriginalUrl() {
+        return originalUrl;
+    }
+
+    public void setOriginalUrl(String originalUrl) {
+        this.originalUrl = originalUrl;
+    }
+
+    public Long getArticleLike() {
+        return articleLike;
+    }
+
+    public void setArticleLike(Long articleLike) {
+        this.articleLike = articleLike;
+    }
+
+    public Long getArticleView() {
+        return articleView;
+    }
+
+    public void setArticleView(Long articleView) {
+        this.articleView = articleView;
+    }
+
+    public Long getArticleCollect() {
+        return articleCollect;
+    }
+
+    public void setArticleCollect(Long articleCollect) {
+        this.articleCollect = articleCollect;
+    }
 }

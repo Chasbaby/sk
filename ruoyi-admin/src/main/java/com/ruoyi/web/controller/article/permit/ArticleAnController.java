@@ -164,7 +164,6 @@ public class ArticleAnController extends BaseController {
     @PostMapping("/getAllArticle")
     public TableDataInfo getAllArticle(){
         startPage();
-        SysUser
         return getDataTable(articleService.getAllArticleByUserId(getUserId()));
     }
 

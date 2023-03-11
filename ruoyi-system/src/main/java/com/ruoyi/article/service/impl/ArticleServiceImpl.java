@@ -13,8 +13,12 @@ import com.ruoyi.article.domain.dto.ArticleReturnDTO;
 import com.ruoyi.article.mapper.ArticleMapper;
 import com.ruoyi.article.mapper.ArticleRecordMapper;
 import com.ruoyi.article.service.IArticleService;
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.domain.entity.SysVisitor;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.search.ArticleSearchDTO;
+import com.ruoyi.system.mapper.SysUserMapper;
+import com.ruoyi.system.mapper.SysVisitorMapper;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +38,14 @@ public class ArticleServiceImpl implements IArticleService
 
     @Autowired
     private ArticleRecordMapper articleRecordMapper;
+
+    @Autowired
+    private SysUserMapper userMapper;
+
+    @Autowired
+    private SysVisitorMapper visitorMapper;
+
+
 
     /**
      * 查询文章
@@ -221,19 +233,33 @@ public class ArticleServiceImpl implements IArticleService
      * 如果是查询自己的话 未审核的也可以看
      * 如果是看别人的话必须审核后才可以
      * @param articleId
-     * @param userId
      * @return
      */
     @Override
     public ArticleDetail getArticleDetail(Long articleId) {
+        ArticleDetail detail = new ArticleDetail();
+        // 获取单个文章信息
+        Article article = articleMapper.selectArticleByArticleId(articleId);
+        // 获取文章作者的id
+        Long userId = article.getUserId();
+        // 获取用户信息
+        SysUser sysUser = userMapper.selectUserById(userId);
+        // 获取visitor信息
+        SysVisitor visitor = visitorMapper.selectVisitorById(userId);
 
-//        Article article = new Article();
-//        article.setUserId(userId);
-//        article.setStatus("1");
-//        article.setIsDelete("N");
-//        article.setIsOk("Y");
-//        articleMapper.selectArticleList(article);
-        return null;
+        // 复制
+        try {
+            BeanUtils.copyProperties(detail,article);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        detail.setUser(sysUser);
+        detail.setVisitor(visitor);
+
+        return detail;
     }
 
 

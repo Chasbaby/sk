@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ruoyi.common.utils.bean.BeanValidators;
+import com.ruoyi.system.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,6 @@ import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.system.domain.SysPost;
 import com.ruoyi.system.domain.SysUserPost;
 import com.ruoyi.system.domain.SysUserRole;
-import com.ruoyi.system.mapper.SysPostMapper;
-import com.ruoyi.system.mapper.SysRoleMapper;
-import com.ruoyi.system.mapper.SysUserMapper;
-import com.ruoyi.system.mapper.SysUserPostMapper;
-import com.ruoyi.system.mapper.SysUserRoleMapper;
 import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.ISysUserService;
 import org.springframework.util.CollectionUtils;
@@ -65,6 +61,9 @@ public class SysUserServiceImpl implements ISysUserService
 
     @Autowired
     protected Validator validator;
+
+    @Autowired
+    private SysVisitorMapper visitorMapper;
 
     /**
      * 根据条件分页查询用户列表
@@ -297,6 +296,9 @@ public class SysUserServiceImpl implements ISysUserService
 
         // 创建 默认 用户 为 common
         int a =userMapper.insertUser(user);
+
+        visitorMapper.insertVisitor(user.getUserId());
+
         SysUserRole sysUserRole = new SysUserRole();
         sysUserRole.setUserId(user.getUserId());
         sysUserRole.setRoleId(2L);

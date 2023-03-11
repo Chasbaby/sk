@@ -44,6 +44,10 @@ public class SysUser extends BaseEntity
     @Excel(name = "用户邮箱")
     private String email;
 
+    /** 个性签名 */
+    @Excel(name = "个性签名")
+    private String intro;
+
     /** 手机号码 */
     @Excel(name = "手机号码")
     private String phonenumber;
@@ -98,6 +102,14 @@ public class SysUser extends BaseEntity
     public SysUser()
     {
 
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 
     public SysUser(Long userId)

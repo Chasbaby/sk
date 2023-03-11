@@ -21,7 +21,7 @@ public class ArticleReturnDTO implements Serializable {
 
     private String articleType;
 
-    /** 收藏时间*/
+    /** 收藏时间 */
     private Date createTime;
 
 //    private Long articleLike;

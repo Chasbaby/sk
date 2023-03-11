@@ -4,6 +4,7 @@ import com.ruoyi.article.domain.Article;
 import com.ruoyi.article.domain.ArticleRecord;
 import com.ruoyi.article.domain.dto.ArticleCreateDTO;
 import com.ruoyi.article.domain.dto.ArticleDetail;
+import com.ruoyi.article.domain.dto.ArticleHomeDTO;
 import com.ruoyi.article.domain.dto.ArticleReturnDTO;
 
 import java.util.List;
@@ -113,7 +114,7 @@ public interface IArticleService
      *
      * @return
      */
-    public List<ArticleCreateDTO> getAllArticleByUserId(Long userId);
+    public List<ArticleHomeDTO> getAllArticleByUserId(Long userId);
 
     /**
      * 获取文章详细信息

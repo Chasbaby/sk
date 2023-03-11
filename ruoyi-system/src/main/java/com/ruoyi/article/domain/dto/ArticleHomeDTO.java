@@ -1,14 +1,16 @@
 package com.ruoyi.article.domain.dto;
 
+import com.ruoyi.common.annotation.Excel;
+
 import java.io.Serializable;
 
 /**
- * 创作 DTO
- * @author Chas
- * @data 2023-3
+ * @author chas
+ * @introduction
+ * @data
  */
-public class ArticleCreateDTO  implements Serializable {
-
+public class ArticleHomeDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
     /** 文章id */
     private Long articleId;
 
@@ -36,6 +38,17 @@ public class ArticleCreateDTO  implements Serializable {
     /** 状态值 1公开 2私密 3评论可见 */
     private String status;
 
+    /** 点赞数 */
+
+    private Long articleLike;
+
+    /** 浏览量 */
+
+    private Long articleView;
+
+    /** 收藏量 */
+
+    private Long articleCollect;
 
     public Long getArticleId() {
         return articleId;
@@ -107,5 +120,29 @@ public class ArticleCreateDTO  implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getArticleLike() {
+        return articleLike;
+    }
+
+    public void setArticleLike(Long articleLike) {
+        this.articleLike = articleLike;
+    }
+
+    public Long getArticleView() {
+        return articleView;
+    }
+
+    public void setArticleView(Long articleView) {
+        this.articleView = articleView;
+    }
+
+    public Long getArticleCollect() {
+        return articleCollect;
+    }
+
+    public void setArticleCollect(Long articleCollect) {
+        this.articleCollect = articleCollect;
     }
 }

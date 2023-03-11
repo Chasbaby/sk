@@ -9,6 +9,7 @@ import com.ruoyi.article.domain.Article;
 import com.ruoyi.article.domain.ArticleRecord;
 import com.ruoyi.article.domain.dto.ArticleCreateDTO;
 import com.ruoyi.article.domain.dto.ArticleDetail;
+import com.ruoyi.article.domain.dto.ArticleHomeDTO;
 import com.ruoyi.article.domain.dto.ArticleReturnDTO;
 import com.ruoyi.article.mapper.ArticleMapper;
 import com.ruoyi.article.mapper.ArticleRecordMapper;
@@ -219,14 +220,27 @@ public class ArticleServiceImpl implements IArticleService
     }
 
     @Override
-    public List<ArticleCreateDTO> getAllArticleByUserId(Long userId) {
-//        Article article = new Article();
-//        article.setUserId(userId);
-//        article.setStatus("1");
-//        article.setIsDelete("N");
-//        article.setIsOk("Y");
-//        articleMapper.selectArticleList(article);
-        return null;
+    public List<ArticleHomeDTO> getAllArticleByUserId(Long userId) {
+        List<ArticleHomeDTO> createDTOS = new ArrayList<>();
+        Article article = new Article();
+        article.setUserId(userId);
+        article.setStatus("1");
+        article.setIsDelete("N");
+        article.setIsOk("Y");
+        List<Article> articles = articleMapper.selectArticleList(article);
+        articles.stream().forEach(item->{
+            ArticleHomeDTO homeDTO = new ArticleHomeDTO();
+            try {
+                BeanUtils.copyProperties(homeDTO,item);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+            createDTOS.add(homeDTO);
+        });
+
+        return createDTOS;
     }
 
     /**

@@ -169,7 +169,6 @@ public class ArticleAnController extends BaseController {
 
     /**
      * 获取文章的详细信息
-     *
      * 不管你是不是人都可以到这里来哦
      * @return 信息
      */
@@ -193,9 +192,4 @@ public class ArticleAnController extends BaseController {
         record.setCreateTime(DateUtils.getNowDate());
         return record;
     }
-
-
-
-
-
 }

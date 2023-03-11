@@ -1,4 +1,4 @@
-package com.ruoyi.web.controller.sights;
+package com.ruoyi.web.controller.CulCreativity;
 
 import java.util.Date;
 import java.util.List;

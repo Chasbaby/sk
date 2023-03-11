@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruoyi.system.mapper.SysVisitorMapper">
+    <resultMap id="SysVisitorResult" type="SysVisitor">
+        <result column="user_id" property="userId"/>
+        <result column="visitor_id" property="visitorId"/>
+        <result column="visitor_money" property="visitorMoney"/>
+        <result column="visitor_interest" property="visitorInterest"/>
+        <result column="visitor_features" property="visitorFeature"/>
+        <result column="visitor_subscribe" property="visitorSubscribe"/>
+        <result column="visitor_article" property="visitorArticle"/>
+        <result column="visitor_like" property="visitorLike"/>
+        <result column="visitor_view" property="visitorView"/>
+        <result column="visitor_collect" property="visitorCollect"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="subscribe_free" property="subscribeFree"/>
+        <result column="original" property="original"/>
+        <result column="comments" property="comments"/>
+    </resultMap>
+    <select id="selectVisitorById" resultType="com.ruoyi.common.core.domain.entity.SysVisitor" parameterType="Long" resultMap="SysVisitorResult">
+        select user_id,visitor_id,visitor_money,visitor_interest,
+               visitor_features,visitor_subscribe,visitor_article,
+               visitor_like,visitor_view,visitor_collect,update_time,subscribe_free,original,comments
+        from sys_visitor where user_id = #{userId}
+    </select>
+</mapper>

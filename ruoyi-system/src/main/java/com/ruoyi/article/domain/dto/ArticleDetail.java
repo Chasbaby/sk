@@ -1,6 +1,8 @@
 package com.ruoyi.article.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.core.domain.entity.DTO.UserDTO;
+import com.ruoyi.common.core.domain.entity.DTO.VisitorDTO;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.domain.entity.SysVisitor;
 
@@ -20,10 +22,10 @@ public class ArticleDetail implements Serializable {
     private Long userId;
 
     /** 作者部分信息 */
-    private SysUser user;
+    private UserDTO user;
 
     /** 作者部分信息*/
-    private SysVisitor visitor;
+    private VisitorDTO visitor;
 
     /** 文章分类 */
     private String articleCategory;
@@ -91,19 +93,19 @@ public class ArticleDetail implements Serializable {
         this.userId = userId;
     }
 
-    public SysUser getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(SysUser user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 
-    public SysVisitor getVisitor() {
+    public VisitorDTO getVisitor() {
         return visitor;
     }
 
-    public void setVisitor(SysVisitor visitor) {
+    public void setVisitor(VisitorDTO visitor) {
         this.visitor = visitor;
     }
 

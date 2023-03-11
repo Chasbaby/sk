@@ -7,17 +7,17 @@ import java.util.stream.Collectors;
 
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.article.domain.ArticleRecord;
-import com.ruoyi.article.domain.dto.ArticleCreateDTO;
 import com.ruoyi.article.domain.dto.ArticleDetail;
 import com.ruoyi.article.domain.dto.ArticleHomeDTO;
 import com.ruoyi.article.domain.dto.ArticleReturnDTO;
 import com.ruoyi.article.mapper.ArticleMapper;
 import com.ruoyi.article.mapper.ArticleRecordMapper;
 import com.ruoyi.article.service.IArticleService;
+import com.ruoyi.common.core.domain.entity.DTO.UserDTO;
+import com.ruoyi.common.core.domain.entity.DTO.VisitorDTO;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.domain.entity.SysVisitor;
 import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.search.ArticleSearchDTO;
 import com.ruoyi.system.mapper.SysUserMapper;
 import com.ruoyi.system.mapper.SysVisitorMapper;
 import org.apache.commons.beanutils.BeanUtils;
@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * 文章Service业务层处理
  * 
- * @author ruoyi
+ * @author ruoyi chas
  * @date 2023-03-05
  */
 @Service
@@ -221,13 +221,16 @@ public class ArticleServiceImpl implements IArticleService
 
     @Override
     public List<ArticleHomeDTO> getAllArticleByUserId(Long userId) {
+
         List<ArticleHomeDTO> createDTOS = new ArrayList<>();
+
         Article article = new Article();
         article.setUserId(userId);
         article.setStatus("1");
         article.setIsDelete("N");
         article.setIsOk("Y");
         List<Article> articles = articleMapper.selectArticleList(article);
+
         articles.stream().forEach(item->{
             ArticleHomeDTO homeDTO = new ArticleHomeDTO();
             try {
@@ -252,6 +255,9 @@ public class ArticleServiceImpl implements IArticleService
     @Override
     public ArticleDetail getArticleDetail(Long articleId) {
         ArticleDetail detail = new ArticleDetail();
+        UserDTO userDTO = new UserDTO();
+        VisitorDTO visitorDTO = new VisitorDTO();
+
         // 获取单个文章信息
         Article article = articleMapper.selectArticleByArticleId(articleId);
         // 获取文章作者的id
@@ -263,16 +269,16 @@ public class ArticleServiceImpl implements IArticleService
 
         // 复制
         try {
+            BeanUtils.copyProperties(userDTO,sysUser);
+            BeanUtils.copyProperties(visitorDTO,visitor);
             BeanUtils.copyProperties(detail,article);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-
-        detail.setUser(sysUser);
-        detail.setVisitor(visitor);
-
+        detail.setUser(userDTO);
+        detail.setVisitor(visitorDTO);
         return detail;
     }
 

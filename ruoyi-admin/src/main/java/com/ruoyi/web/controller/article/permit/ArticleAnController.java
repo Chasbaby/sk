@@ -162,7 +162,7 @@ public class ArticleAnController extends BaseController {
      */
     @PreAuthorize("@ss.hasRole('common')")
     @PostMapping("/getAllArticle")
-    public TableDataInfo getAllArticle(){
+    public TableDataInfo getAllArticle(Article article){
         startPage();
         return getDataTable(articleService.getAllArticleByUserId(getUserId()));
     }

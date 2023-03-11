@@ -59,6 +59,9 @@ public class SysUser extends BaseEntity
     /** 用户头像 */
     private String avatar;
 
+    /** 主页背景图片 */
+    private String backgroundImage;
+
     /** 密码 */
     private String password;
 
@@ -102,6 +105,14 @@ public class SysUser extends BaseEntity
     public SysUser()
     {
 
+    }
+
+    public String getBackgroundImage() {
+        return backgroundImage;
+    }
+
+    public void setBackgroundImage(String backgroundImage) {
+        this.backgroundImage = backgroundImage;
     }
 
     public String getIntro() {
@@ -336,6 +347,7 @@ public class SysUser extends BaseEntity
             .append("phonenumber", getPhonenumber())
             .append("sex", getSex())
             .append("avatar", getAvatar())
+            .append("BackgroundImage",getBackgroundImage())
             .append("password", getPassword())
             .append("salt", getSalt())
             .append("status", getStatus())

@@ -10,7 +10,7 @@ public enum SearchCaseType {
     /* 景点 */
     SIGHTS("/frontHome/attractions/attraction/","SIGHTS"),
     /* 文章 */
-    ARTICLE("/","ARTICLE"),
+    ARTICLE("/frontHome/articlepage/","ARTICLE"),
     /* 文创 */
     CREATION("/frontHome/culcreation/","CREATION");
 

@@ -2,6 +2,7 @@ package com.ruoyi.sights.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.culCreativity.domain.SightsCulCreativity;
 import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.mapper.SightsCulCreativityRecordLikeMapper;
 import com.ruoyi.sights.mapper.SightsCulCreativityRecordScoreMapper;

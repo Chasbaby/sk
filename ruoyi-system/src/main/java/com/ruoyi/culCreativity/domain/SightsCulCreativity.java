@@ -1,5 +1,7 @@
-package com.ruoyi.sights.domain;
+package com.ruoyi.culCreativity.domain;
 
+import com.alibaba.excel.annotation.format.NumberFormat;
+import com.ruoyi.common.annotation.Excels;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -20,6 +22,9 @@ public class SightsCulCreativity extends BaseEntity
 
     /** 景点ID */
     private Long sightsId;
+
+    /** 用户ID*/
+    private Long userId;
 
     /** 文创标题 */
     @Excel(name = "文创标题")
@@ -51,7 +56,7 @@ public class SightsCulCreativity extends BaseEntity
     /** 不喜欢量 */
     @Excel(name = "不喜欢量")
     private Long culCreativityDislike;
-
+    @NumberFormat
     /** 收藏量 */
     @Excel(name = "收藏量")
     private Long culCreativityCollection;
@@ -205,7 +210,7 @@ public class SightsCulCreativity extends BaseEntity
             .append("culCreativityDislike", getCulCreativityDislike())
             .append("culCreativityCollection", getCulCreativityCollection())
             .append("culCreativityHits", getCulCreativityHits())
-                .append("cul_creativity_view",getCulCreativityView())
+                .append("culCreativityView",getCulCreativityView())
             .append("delFlag", getDelFlag())
             .append("topFlag", getTopFlag())
             .append("createBy", getCreateBy())

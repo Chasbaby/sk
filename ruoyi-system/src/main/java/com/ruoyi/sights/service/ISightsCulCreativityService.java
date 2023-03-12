@@ -2,6 +2,7 @@ package com.ruoyi.sights.service;
 
 import java.util.List;
 
+import com.ruoyi.culCreativity.domain.SightsCulCreativity;
 import com.ruoyi.sights.domain.*;
 
 /**

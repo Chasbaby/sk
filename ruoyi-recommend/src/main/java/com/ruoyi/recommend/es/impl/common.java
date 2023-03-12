@@ -5,7 +5,7 @@ import com.ruoyi.search.ArticleSearchDTO;
 import com.ruoyi.search.CulCreativitySearchDTO;
 import com.ruoyi.search.SightsSearchDTO;
 import com.ruoyi.sights.domain.SightsBase;
-import com.ruoyi.sights.domain.SightsCulCreativity;
+import com.ruoyi.culCreativity.domain.SightsCulCreativity;
 
 import java.util.ArrayList;
 import java.util.List;

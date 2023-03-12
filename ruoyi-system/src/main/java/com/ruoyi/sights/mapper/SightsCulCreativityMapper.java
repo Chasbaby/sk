@@ -2,8 +2,7 @@ package com.ruoyi.sights.mapper;
 
 import java.util.List;
 
-import com.ruoyi.sights.domain.SightsBase;
-import com.ruoyi.sights.domain.SightsCulCreativity;
+import com.ruoyi.culCreativity.domain.SightsCulCreativity;
 
 /**
  * 文创Mapper接口

@@ -6,7 +6,7 @@
 
     <insert id="addSightsCulCreativityCollection"></insert>
     <delete id="cancelSightsCulCreativityCollection"></delete>
-    <select id="selectCollectSightsCulCreativityRecord" resultType="com.ruoyi.sights.domain.SightsCulCreativity">
+    <select id="selectCollectSightsCulCreativityRecord" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity">
 
     </select>
 </mapper>

@@ -3,7 +3,7 @@ package com.ruoyi.web.controller.sights.permit;
 import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.text.Convert;
-import com.ruoyi.sights.domain.SightsCulCreativity;
+import com.ruoyi.culCreativity.domain.SightsCulCreativity;
 import com.ruoyi.sights.service.ISightsCulCreativityService;
 import com.ruoyi.system.service.ISysConfigService;
 import io.swagger.annotations.Api;

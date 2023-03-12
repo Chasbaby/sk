@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSightsCulCreativityVo"/>
         where cul_creativity_id = #{culCreativityId}
     </select>
-    <select id="selectSightsInSearchList" resultType="com.ruoyi.sights.domain.SightsCulCreativity" resultMap="SightsCulCreativityResult">
+    <select id="selectSightsInSearchList" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" resultMap="SightsCulCreativityResult">
         select cul_creativity_title,cul_creativity_id,sights_id,
                cul_creativity_image,cul_creativity_intro,cul_creativity_key,cul_creativity_tags from sights_cul_creativity
         <where>

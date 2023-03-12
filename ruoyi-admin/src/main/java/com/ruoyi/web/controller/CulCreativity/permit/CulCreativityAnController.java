@@ -12,4 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("creativity")
 public class CulCreativityAnController {
 
+
+
+
 }

@@ -38,7 +38,7 @@ public interface ArticleRecordMapper{
      * @param articleRecord
      * @return
      */
-    @Select("select 1 from article_record_like " +
+    @Select("select count(0) from article_record_like " +
             "where article_id = #{articleId} and user_id = #{userId} limit 1")
     public int judgeOnlyOneLikeArticle(ArticleRecord articleRecord);
 
@@ -64,7 +64,7 @@ public interface ArticleRecordMapper{
      * @param articleRecord
      * @return
      */
-    @Select("select 1 from article_record_collect " +
+    @Select("select count(0) from article_record_collect " +
             "where article_id = #{articleId} and user_id = #{userId} limit 1")
     public int judgeOnlyOneCollectArticle(ArticleRecord articleRecord);
 
@@ -79,7 +79,7 @@ public interface ArticleRecordMapper{
             "values (#{articleId},#{userId},#{createTime})")
     public int addViewArticle(Long articleId);
 
-    @Select("select 1 from article_record_view " +
+    @Select("select count(0) from article_record_view " +
             "where article_id = #{articleId} and user_id = #{userId} limit 1")
     public int judgeOnlyOneViewArticle(ArticleRecord articleRecord);
 

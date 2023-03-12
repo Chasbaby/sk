@@ -86,6 +86,8 @@ public interface IArticleService
      */
     public int articleAddView(ArticleRecord record);
 
+    public int articleAddView(Long articleId);
+
     /**
      * 获取某用户的收藏信息
      * @param userId 用户id

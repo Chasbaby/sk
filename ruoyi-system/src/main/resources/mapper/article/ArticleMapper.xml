@@ -163,6 +163,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where article_id = #{articleId}
     </update>
+    <update id="updateArticleView" parameterType="Long">
+        update article
+        set  article_view = article_view + 1
+        where article_id = #{articleId};
+    </update>
 
     <delete id="deleteArticleByArticleId" parameterType="Long">
         delete from article where article_id = #{articleId}

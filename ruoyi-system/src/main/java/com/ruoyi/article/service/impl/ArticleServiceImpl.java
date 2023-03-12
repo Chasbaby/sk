@@ -179,6 +179,16 @@ public class ArticleServiceImpl implements IArticleService
     }
 
     /**
+     * 增加浏览量
+     * @param articleId
+     * @return
+     */
+    @Override
+    public int articleAddView(Long articleId) {
+        return articleMapper.updateArticleView(articleId);
+    }
+
+    /**
      * 获取某用户的收藏列表
      * @param userId 用户id
      * @return articleReturnDTO 列表

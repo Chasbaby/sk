@@ -89,4 +89,11 @@ public interface ArticleMapper extends BaseMapperPlus<ArticleMapper,Article, Art
      */
     public List<Article> selectArticleViewByUserId(Long userId);
 
+    /**
+     * 增加景点 浏览量
+     * @param article
+     * @return
+     */
+    public int updateArticleView(Long article);
+
 }

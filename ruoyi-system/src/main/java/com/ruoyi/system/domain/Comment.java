@@ -35,12 +35,15 @@ public class Comment extends BaseEntity
     private Integer commentView;
 
     /** 评论浏览量 */
-    @Excel(name = "评论浏览量")
+    @Excel(name = "评论点击")
     private Integer commentHits;
 
     /** 评论点赞量 */
     @Excel(name = "评论点赞量")
     private Integer commentLike;
+//
+//    /**评分 可有可无*/
+//    private double commentScore;
 
     /** 评论来源(’0‘景点，’1‘系统) */
     @Excel(name = "评论来源(’0‘景点，’1‘系统)")
@@ -63,6 +66,14 @@ public class Comment extends BaseEntity
 
     /** 是否删除(Y表示已删除N表示未删除) */
     private String delFlag;
+
+//    public double getCommentScore() {
+//        return commentScore;
+//    }
+//
+//    public void setCommentScore(double commentScore) {
+//        this.commentScore = commentScore;
+//    }
 
     public Long getId() {
         return id;

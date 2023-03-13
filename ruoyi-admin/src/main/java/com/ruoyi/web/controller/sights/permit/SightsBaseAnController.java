@@ -99,8 +99,6 @@ public class SightsBaseAnController extends BaseController {
         }
         // 景点信息 (有些在缓存中的信息 并没有加入 但是无所谓)
         SightsDTO sightsDTO = iSightsBaseService.selectDetailSightsById(sightsId);
-        // 评论总数
-        //int commentNum = iCommentService.selectCommentNumBySightsId(sightsId);
         return AjaxResult.success(sightsDTO);
 
     }

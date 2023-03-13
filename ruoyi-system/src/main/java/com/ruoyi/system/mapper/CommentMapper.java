@@ -84,14 +84,14 @@ public interface CommentMapper
     public int updateCommentViaHits(Long commentId);
 
     /**
-     * 获取某景点的评论总数   多表关联
+     * 获取某的评论总数
      */
-    public int selectAllCommentNumBySightsId(Long sightsId);
+    public int selectAllComment(String source,Long id);
 
     /**
-     * 获取某景点的所有父级评论 多表关联
+     * 获取某景点的所有父级评论
      */
-    public List<Comment> selectAllParentCommentBySightsId(Long SightsId);
+    public List<Comment> selectAllParentComment(String source,Long id);
 
     /**
      * 根据父级评论查找 所有子集

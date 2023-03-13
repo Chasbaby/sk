@@ -100,6 +100,13 @@ public class BaseController
         return rspData;
     }
 
+    protected TableDataInfo errorMsg(String msg){
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setCode(HttpStatus.ERROR);
+        rspData.setMsg(msg);
+        return rspData;
+    }
+
     /**
      * 返回成功
      */

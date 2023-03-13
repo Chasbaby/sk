@@ -3,6 +3,9 @@ package com.ruoyi.system.service;
 import java.util.List;
 import com.ruoyi.system.domain.Comment;
 import com.ruoyi.system.domain.CommentRecordLike;
+import com.ruoyi.system.domain.domainVo.CommentDTO;
+import com.ruoyi.system.domain.domainVo.CommentData;
+import com.ruoyi.system.domain.domainVo.CommentGetDTO;
 
 /**
  * 评论Service接口
@@ -102,9 +105,9 @@ public interface ICommentService
     public int updateCommentViaView(Long commentId);
 
     /**
-     * 获取某个景点的评论个数
+     * 获取某个页面的评论总数数
      */
-    public int selectCommentNumBySightsId(Long sights);
+    public int selectCommentNum(String source,Long id);
 
     /**
      * 插入 用户 点赞 评论 信息
@@ -121,5 +124,21 @@ public interface ICommentService
      */
     public int checkUserCommentLike(CommentRecordLike commentRecordLike);
 
+    /**
+     * 获取用户所有的评论
+     * @param userId
+     * @return
+     */
+    public List<CommentDTO> getUserAllComment(Long userId);
+
+    /**
+     * 获取所有的父级评论
+     * @param commentGetDTO
+     * @return
+     */
+    public List<CommentDTO> getPageAllFatherComment(CommentGetDTO commentGetDTO);
+
+    /** 获取某个父级下的所有子级*/
+    public List<CommentDTO> getChildComment(Long commentId);
 
 }

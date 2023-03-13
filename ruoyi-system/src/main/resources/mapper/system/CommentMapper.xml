@@ -55,19 +55,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
-    <select id="selectAllCommentNumBySightsId" resultType="java.lang.Integer" >
-        select count(0) from comment where  comment_source="0" and id = #{sightsId}
-#         获取某景点的评论总数   多表关联
+    <select id="selectAllComment" resultType="java.lang.Integer" >
+        select count(0) from comment where  comment_source = #{source} and id = #{id}
     </select>
-    <select id="selectAllParentCommentBySightsId" resultType="com.ruoyi.system.domain.Comment" parameterType="integer">
+
+    <select id="selectAllParentComment" resultType="com.ruoyi.system.domain.Comment" >
         <include refid="selectCommentVo"/>
-        where comment_source = "0" and id = #{sightsId} and  parent_id = -1
+        where comment_source = #{source} and id = #{id} and  parent_id = -1 and judge_status = '1' and visable_status = 'Y'
         order by create_time dec
-#         获取某景点的所有父级评论 多表关联
+
     </select>
     <select id="selectAllChildrenCommentByParentId" resultType="com.ruoyi.system.domain.Comment" parameterType="integer">
         <include refid="selectCommentVo"/>
-        where parent_id = #{parentId}
+        where comment_id = #{parentId} and judge_status = '1' and visable_status = 'Y'
         order by create_time dec
 #         根据父级评论查找 所有子集
     </select>

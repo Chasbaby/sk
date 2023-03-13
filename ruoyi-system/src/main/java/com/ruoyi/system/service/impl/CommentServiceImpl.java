@@ -1,15 +1,24 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import com.ruoyi.common.core.domain.entity.DTO.UserCommentDTO;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.system.domain.CommentRecordLike;
+import com.ruoyi.system.domain.domainVo.CommentDTO;
+import com.ruoyi.system.domain.domainVo.CommentGetDTO;
 import com.ruoyi.system.mapper.CommentRecordLikeMapper;
+import com.ruoyi.system.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CommentMapper;
 import com.ruoyi.system.domain.Comment;
 import com.ruoyi.system.service.ICommentService;
 import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * 评论Service业务层处理
@@ -20,6 +29,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CommentServiceImpl implements ICommentService 
 {
+
+    @Autowired
+    private SysUserMapper userMapper;
 
     @Autowired
     private CommentMapper commentMapper;
@@ -179,14 +191,14 @@ public class CommentServiceImpl implements ICommentService
     }
 
     /**
-     * 获取某个景点的评论个数
+     * 获取某个评论个数
      *
-     * 在获得单个景点数据的时候顺便把这个也送过去
+     * 在获得单个数据的时候顺便把这个也送过去
      */
     @Override
-    public int selectCommentNumBySightsId(Long sightsId) {
+    public int selectCommentNum(String source,Long id) {
 
-        return commentMapper.selectAllCommentNumBySightsId(sightsId);
+        return commentMapper.selectAllComment(source,id);
     }
 
     /**
@@ -213,7 +225,64 @@ public class CommentServiceImpl implements ICommentService
         return commentRecordLikeMapper.checkUserCommentLike(commentRecordLike);
     }
 
+    @Override
+    public List<CommentDTO> getUserAllComment(Long userId) {
 
+        return null;
+    }
+
+    /**
+     * 获取某地所有父级评论
+     * @param commentGetDTO
+     * @return
+     */
+    @Override
+    public List<CommentDTO> getPageAllFatherComment(CommentGetDTO commentGetDTO) {
+        List<Comment> comments = commentMapper.selectAllParentComment(commentGetDTO.getCommentSource(), commentGetDTO.getId());
+        return comments.stream().map(item -> {
+            CommentDTO commentDTO = new CommentDTO();
+            // 查询用户
+            SysUser sysUser = userMapper.selectUserById(item.getUserId());
+            // 获取部分信息
+            UserCommentDTO user = new UserCommentDTO();
+            BeanUtils.copyBeanProp(user, sysUser);
+            // 放入
+            commentDTO.setUser(user);
+            BeanUtils.copyBeanProp(commentDTO, item);
+            return commentDTO;
+        }).collect(Collectors.toList());
+    }
+
+    /**
+     * 获取某个父级下的所有子级评论
+     * @param commentId 父级 id
+     * @return
+     */
+    @Override
+    public List<CommentDTO> getChildComment(Long commentId) {
+//        Comment comment = commentMapper.selectCommentByCommentId(commentId);
+//        Long userId = comment.getUserId();
+//        SysUser sysUser = userMapper.selectUserById(userId);
+//        String nickName = sysUser.getNickName();
+
+        List<Comment> comments = commentMapper.selectAllChildrenCommentByParentId(commentId);
+        return comments.stream().map(item->{
+            CommentDTO commentDTO = new CommentDTO();
+            // 查询用户
+            SysUser sysUser = userMapper.selectUserById(item.getUserId());
+            // 获取部分信息
+            UserCommentDTO user = new UserCommentDTO();
+            BeanUtils.copyBeanProp(user, sysUser);
+            // 放入
+            commentDTO.setUser(user);
+            BeanUtils.copyBeanProp(commentDTO, item);
+            // 获取父级信息 暂时只展示父级的姓名
+            SysUser father = userMapper.selectUserById(item.getParentId());
+            commentDTO.setFatherName(father.getNickName());
+
+            return commentDTO;
+        }).collect(Collectors.toList());
+    }
 
 
 }

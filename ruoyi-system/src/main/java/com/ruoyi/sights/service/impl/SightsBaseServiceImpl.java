@@ -12,6 +12,8 @@ import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.BulletinDTO;
 import com.ruoyi.sights.domain.DTO.SightsDTO;
 import com.ruoyi.sights.mapper.*;
+import com.ruoyi.system.domain.domainVo.CommentDTO;
+import com.ruoyi.system.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.sights.service.ISightsBaseService;
@@ -41,6 +43,9 @@ public class SightsBaseServiceImpl implements ISightsBaseService
 
     @Autowired
     private SightsBulletinMapper  bulletinMapper ;
+
+    @Autowired
+    private ICommentService commentService;
 
     @Autowired
     private RedisCache redisCache;
@@ -83,8 +88,10 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         SightsBase sightsBase = sightsBaseMapper.selectSightsBaseBySightsId(sightsId);
         BeanUtils.copyBeanProp(sightsDTO,sightsBase);
         sightsDTO.setBulletin(bulletinDTOS);
-        int i = selectCountScoreNumBySightsId(sightsId);
-        sightsDTO.setScoreNum(i);
+        int scoreNum = selectCountScoreNumBySightsId(sightsId);
+        sightsDTO.setScoreNum(scoreNum);
+        int commentNum = commentService.selectCommentNum("0",sightsId);
+        sightsDTO.setCommentNum(commentNum);
         return sightsDTO;
     }
 

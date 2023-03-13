@@ -50,6 +50,16 @@ public class SightsDTO implements Serializable {
 
     private Integer scoreNum;
 
+    private Integer CommentNum;
+
+    public Integer getCommentNum() {
+        return CommentNum;
+    }
+
+    public void setCommentNum(Integer commentNum) {
+        CommentNum = commentNum;
+    }
+
     public Integer getScoreNum() {
         return scoreNum;
     }

@@ -1,4 +1,4 @@
-package com.ruoyi.sights.domain;
+package com.ruoyi.culCreativity.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;

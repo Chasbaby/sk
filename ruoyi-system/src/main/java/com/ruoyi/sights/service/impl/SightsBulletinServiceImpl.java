@@ -5,7 +5,7 @@ import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.sights.mapper.SightsBulletinMapper;
-import com.ruoyi.sights.domain.SightsBulletin;
+import com.ruoyi.sights.SightsBulletin.SightsBulletin;
 import com.ruoyi.sights.service.ISightsBulletinService;
 
 /**

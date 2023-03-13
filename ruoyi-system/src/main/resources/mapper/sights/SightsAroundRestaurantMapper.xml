@@ -48,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSightsAroundRestaurantVo"/>
         where restaurant_id = #{restaurantId}
     </select>
-    <select id="selectAroundRestBySights" resultType="com.ruoyi.sights.domain.SightsAroundRestaurant">
+    <select id="selectAroundRestBySights" resultType="com.ruoyi.sights.SightsAround.SightsAroundRestaurant">
         <include refid="selectSightsAroundRestaurantVo"/>
         where sights_id = #{sightsId} and show_flag = 'Y'
     </select>

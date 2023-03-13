@@ -98,11 +98,13 @@ public class SightsBaseAnController extends BaseController {
         int commentNum = iCommentService.selectCommentNumBySightsId(sightsId);
         // 评分总数
         int scoreNum = iSightsBaseService.selectCountScoreNumBySightsId(sightsId);
+
         AjaxResult ajaxResult = AjaxResult.success();
         ajaxResult.put("sight",base);
         ajaxResult.put("commentNum",commentNum);
         ajaxResult.put("scoreNum",scoreNum);
         return ajaxResult;
+
     }
 
     /**

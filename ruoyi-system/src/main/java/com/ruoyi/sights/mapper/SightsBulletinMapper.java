@@ -1,7 +1,7 @@
 package com.ruoyi.sights.mapper;
 
 import java.util.List;
-import com.ruoyi.sights.domain.SightsBulletin;
+import com.ruoyi.sights.SightsBulletin.SightsBulletin;
 
 /**
  * 景点公告Mapper接口

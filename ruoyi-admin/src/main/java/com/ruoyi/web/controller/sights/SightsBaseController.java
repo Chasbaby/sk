@@ -8,8 +8,9 @@ import com.ruoyi.common.utils.JsonUtils;
 import com.ruoyi.common.utils.baidu.domain.Geocoder;
 import com.ruoyi.common.utils.baidu.domain.GeocoderResultMap;
 import com.ruoyi.common.utils.baidu.domain.ParaGeo;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.springframework.data.redis.core.RedisTemplate;
+import com.ruoyi.recommend.sightsRecommend.ItemCFRecommend;
+import com.ruoyi.recommend.sightsRecommend.OfflineRecommend;
+import com.ruoyi.recommend.sightsRecommend.OnLineRecommend;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,6 +34,8 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 import static com.ruoyi.common.utils.baidu.BaiduUtils.getGeocoder;
+import static com.ruoyi.recommend.sightsRecommend.DataLoad.test444;
+import static com.ruoyi.recommend.sightsRecommend.StatisticRecommend.StatisticService;
 
 /**
  * 景点基本信息Controller
@@ -80,6 +83,8 @@ public class SightsBaseController extends BaseController {
     @PostMapping("/export")
     public void export(HttpServletResponse response, SightsBase sightsBase)
     {
+        ItemCFRecommend offlineRecommend = new ItemCFRecommend();
+        offlineRecommend.ItemCFService();
         List<SightsBase> list = sightsBaseService.selectSightsBaseList(sightsBase);
         ExcelUtil<SightsBase> util = new ExcelUtil<SightsBase>(SightsBase.class);
         util.exportExcel(response, list, "景点基本信息数据");

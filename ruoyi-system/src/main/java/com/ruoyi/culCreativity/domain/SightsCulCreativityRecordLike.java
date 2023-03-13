@@ -1,4 +1,5 @@
-package com.ruoyi.sights.domain;
+package com.ruoyi.culCreativity.domain;
+
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -8,27 +9,23 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 景点评分记录
+ * 文创点赞记录表
  * @author Chas
  * @date 2022-10
  */
-public class SightsCulCreativityRecordScore implements Serializable {
+public class SightsCulCreativityRecordLike implements Serializable {
     private static final long serialVersionUID = 1L;
     private Long userId;
     private Long culCreativityId;
-    private Double score;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
-
-    public SightsCulCreativityRecordScore() {
+    public SightsCulCreativityRecordLike() {
     }
 
-
-    public SightsCulCreativityRecordScore(Long userId, Long culCreativityId, Double score, Date createTime) {
+    public SightsCulCreativityRecordLike(Long userId, Long culCreativityId, Date createTime) {
         this.userId = userId;
         this.culCreativityId = culCreativityId;
-        this.score = score;
         this.createTime = createTime;
     }
 
@@ -48,14 +45,6 @@ public class SightsCulCreativityRecordScore implements Serializable {
         this.culCreativityId = culCreativityId;
     }
 
-    public Double getScore() {
-        return score;
-    }
-
-    public void setScore(Double score) {
-        this.score = score;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -69,7 +58,6 @@ public class SightsCulCreativityRecordScore implements Serializable {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("userId",getUserId())
                 .append("culCreativityId", getCulCreativityId())
-                .append("score",getScore()).append("createTime",getCreateTime())
-                .toString();
+                .append("createTime",getCreateTime()).toString();
     }
 }

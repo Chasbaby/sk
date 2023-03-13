@@ -39,6 +39,15 @@ public class SightsBase extends BaseEntity
     @Excel(name = "景点名称")
     private String sightsName;
 
+    /** 景点热度*/
+    private String sightsHot;
+
+    /** 景点联系电话*/
+    private String sightsTelephone;
+
+    /** 景点英文*/
+    private String sightsEng;
+
     /** 景点位置(文字描述) */
     @Excel(name = "景点位置")
     private String sightsLocation;

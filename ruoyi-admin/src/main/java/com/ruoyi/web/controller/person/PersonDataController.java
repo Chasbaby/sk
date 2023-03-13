@@ -28,7 +28,6 @@ public class PersonDataController extends BaseController {
     @PostMapping("/user/{userId}")
     public AjaxResult getUser(@PathVariable Long userId){
         SysUser sysUser = userService.selectUserById(userId);
-
         return AjaxResult.success(sysUser);
     }
 }

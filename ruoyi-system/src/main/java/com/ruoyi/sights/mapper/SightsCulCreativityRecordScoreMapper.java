@@ -1,7 +1,7 @@
 package com.ruoyi.sights.mapper;
 
 
-import com.ruoyi.sights.domain.SightsCulCreativityRecordScore;
+import com.ruoyi.culCreativity.domain.SightsCulCreativityRecordScore;
 
 /**
  * 景点评分

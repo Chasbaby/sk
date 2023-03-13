@@ -1,4 +1,4 @@
-package com.ruoyi.sights.domain;
+package com.ruoyi.sights.SightsAround;
 
 import java.math.BigDecimal;
 import org.apache.commons.lang3.builder.ToStringBuilder;

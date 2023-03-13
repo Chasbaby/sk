@@ -1,6 +1,6 @@
 package com.ruoyi.sights.mapper;
 
-import com.ruoyi.sights.domain.SightsTags;
+import com.ruoyi.sights.SightsTags.SightsTags;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;

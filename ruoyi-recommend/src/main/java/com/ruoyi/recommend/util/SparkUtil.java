@@ -1,5 +1,6 @@
 package com.ruoyi.recommend.util;
 
+
 import org.apache.spark.SparkConf;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.SparkSession;
@@ -32,7 +33,7 @@ public class SparkUtil {
      * @param implicits
      * @return SparkSession
      */
-    public static SparkSession buildSparkSession(@NotNull String master,@NotNull String appName,boolean implicits){
+    public static SparkSession buildSparkSession(@NotNull String master, @NotNull String appName, boolean implicits){
         SparkConf conf = new SparkConf().setMaster(master).setAppName(appName);
         SparkSession sparkSession = SparkSession.builder().config(conf).getOrCreate();
         if (implicits){
@@ -75,7 +76,7 @@ public class SparkUtil {
      * error:表示如果目标文件目录中数据已经存在了，则抛异常(这个是默认的配置)
      *
      */
-    public static void writeToMysql(@NotNull Dataset<?> map, @NotNull String table,@Nullable String mode){
+    public static void writeToMysql(@NotNull Dataset<?> map, @NotNull String table, @Nullable String mode){
         map.write()
                 .format("jdbc")
                 .option("url","jdbc:mysql://localhost:3306/ruoyi?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8")

@@ -1,7 +1,7 @@
 package com.ruoyi.sights.mapper;
 
 import com.ruoyi.culCreativity.domain.SightsCulCreativity;
-import com.ruoyi.sights.domain.SightsCulCreativityUserCollect;
+import com.ruoyi.culCreativity.domain.SightsCulCreativityUserCollect;
 
 import java.util.List;
 

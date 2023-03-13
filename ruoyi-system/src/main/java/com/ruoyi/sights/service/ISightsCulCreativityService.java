@@ -3,6 +3,9 @@ package com.ruoyi.sights.service;
 import java.util.List;
 
 import com.ruoyi.culCreativity.domain.SightsCulCreativity;
+import com.ruoyi.culCreativity.domain.SightsCulCreativityRecordLike;
+import com.ruoyi.culCreativity.domain.SightsCulCreativityRecordScore;
+import com.ruoyi.culCreativity.domain.SightsCulCreativityUserCollect;
 import com.ruoyi.sights.domain.*;
 
 /**

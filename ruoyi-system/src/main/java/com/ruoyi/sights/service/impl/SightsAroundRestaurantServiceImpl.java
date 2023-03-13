@@ -6,7 +6,7 @@ import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.sights.mapper.SightsAroundRestaurantMapper;
-import com.ruoyi.sights.domain.SightsAroundRestaurant;
+import com.ruoyi.sights.SightsAround.SightsAroundRestaurant;
 import com.ruoyi.sights.service.ISightsAroundRestaurantService;
 
 /**

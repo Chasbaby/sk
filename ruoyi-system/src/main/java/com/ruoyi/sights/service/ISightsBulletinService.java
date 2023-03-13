@@ -1,7 +1,7 @@
 package com.ruoyi.sights.service;
 
 import java.util.List;
-import com.ruoyi.sights.domain.SightsBulletin;
+import com.ruoyi.sights.SightsBulletin.SightsBulletin;
 
 /**
  * 景点公告Service接口

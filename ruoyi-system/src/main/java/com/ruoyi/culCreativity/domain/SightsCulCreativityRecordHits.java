@@ -1,4 +1,4 @@
-package com.ruoyi.sights.domain;
+package com.ruoyi.culCreativity.domain;
 
 import java.io.Serializable;
 

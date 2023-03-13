@@ -76,28 +76,28 @@
 <!--    https://blog.csdn.net/warrah/article/details/78774547-->
 <!--    https://blog.csdn.net/jy02268879/article/details/81024758-->
 <!--    com.gilt.flume.logback.FlumeLogstashV1Appender    用这个没效果啦-->
-	<appender name="Mflume" class="com.teambytes.logback.flume.FlumeLogstashV1Appender">
-        <flumeAgents>
-            localhost:44444
-        </flumeAgents>
-        <flumeProperties>
-            connect-timeout=4000;
-            request-timeout=8000
-        </flumeProperties>
-        <reporterMaxThreadPoolSize>12</reporterMaxThreadPoolSize>
-        <reporterMaxQueueSize>200</reporterMaxQueueSize>
-<!--        测试的时候改为1  原来为100-->
-        <batchSize>1</batchSize>
-        <reportingWindow>1000</reportingWindow>
-        <additionalAvroHeaders>
-            myHeader = myValue
-        </additionalAvroHeaders>
-        <application>ruoyi</application>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - \(%file:%line\) - %message%n%ex</pattern>
-        </layout>
+<!--	<appender name="Mflume" class="com.teambytes.logback.flume.FlumeLogstashV1Appender">-->
+<!--        <flumeAgents>-->
+<!--            localhost:44444-->
+<!--        </flumeAgents>-->
+<!--        <flumeProperties>-->
+<!--            connect-timeout=4000;-->
+<!--            request-timeout=8000-->
+<!--        </flumeProperties>-->
+<!--        <reporterMaxThreadPoolSize>12</reporterMaxThreadPoolSize>-->
+<!--        <reporterMaxQueueSize>200</reporterMaxQueueSize>-->
+<!--&lt;!&ndash;        测试的时候改为1  原来为100&ndash;&gt;-->
+<!--        <batchSize>1</batchSize>-->
+<!--        <reportingWindow>1000</reportingWindow>-->
+<!--        <additionalAvroHeaders>-->
+<!--            myHeader = myValue-->
+<!--        </additionalAvroHeaders>-->
+<!--        <application>ruoyi</application>-->
+<!--        <layout class="ch.qos.logback.classic.PatternLayout">-->
+<!--            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - \(%file:%line\) - %message%n%ex</pattern>-->
+<!--        </layout>-->
 
-    </appender>
+<!--    </appender>-->
 
 <!--    <appender name="MKafka" class="com.github.danielwegener.logback.kafka.KafkaAppender">-->
 <!--        <encoder>-->
@@ -123,7 +123,7 @@
     <logger name="com.ruoyi.framework" level="info" additivity="false">
         <appender-ref ref="console"/>
 
-        <appender-ref ref="Mflume"/>
+<!--        <appender-ref ref="Mflume"/>-->
 
     </logger>
 
@@ -135,7 +135,7 @@
     <root level="info">
         <appender-ref ref="file_info" />
         <appender-ref ref="file_error" />
-        <appender-ref ref="Mflume"/>
+<!--        <appender-ref ref="Mflume"/>-->
     </root>
 	
 	<!--系统用户操作日志-->

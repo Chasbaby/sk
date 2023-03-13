@@ -1,7 +1,7 @@
 package com.ruoyi.sights.service;
 
 import java.util.List;
-import com.ruoyi.sights.domain.SightsCulture;
+import com.ruoyi.sights.SightsCulture.SightsCulture;
 
 /**
  * 景点特色文化Service接口

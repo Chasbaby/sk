@@ -1,6 +1,6 @@
 package com.ruoyi.sights.mapper;
 
-import com.ruoyi.sights.domain.SightsCulCreativityRecordLike;
+import com.ruoyi.culCreativity.domain.SightsCulCreativityRecordLike;
 
 public interface SightsCulCreativityRecordLikeMapper {
 

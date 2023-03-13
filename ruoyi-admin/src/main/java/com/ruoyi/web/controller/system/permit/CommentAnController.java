@@ -134,7 +134,6 @@ public class CommentAnController extends BaseController {
     }
 
     /**
-     *  完成
      *  获取 某个页面 的所有父级评论
      */
     @Anonymous
@@ -151,17 +150,22 @@ public class CommentAnController extends BaseController {
 
     /**
      * 获取某用户的所有评论
+     *
+     *  num = 0 是 通过审核的
+     *  num = 1 是 还没有审核的
+     *  num = 2 是 审核不通过的 可以申诉
      */
     @PreAuthorize("@ss.hasRole('common')")
     @ApiOperation("获取某用户的所有评论")
-    @GetMapping("/person")
-    public TableDataInfo getUserAllComment(){
+    @GetMapping("/person/{num}")
+    public TableDataInfo getUserAllComment(@PathVariable Integer num){
+        if (num !=0 || num !=1 || num !=2){
+            return errorMsg("请联系管理员，数据获取失败");
+        }
         startPage();
         Long userId = getUserId();
-
-
-
-        return getDataTable(null);
+        List<CommentDTO> comments = commentService.getAllCommentsByWays(userId, num);
+        return getDataTable(comments);
     }
 
     /**
@@ -200,7 +204,7 @@ public class CommentAnController extends BaseController {
     @ApiOperation("删除单条评论")
     @DeleteMapping("/delete/{commentId}")
     @PreAuthorize("@ss.hasRole('common')")
-    public AjaxResult deleteComment(Long commentId){
+    public AjaxResult deleteComment(@PathVariable Long commentId){
         int i = commentService.deleteCommentByUser(commentId);
         return AjaxResult.success("成功删除"+i+"条评论");
     }
@@ -208,7 +212,7 @@ public class CommentAnController extends BaseController {
     @ApiOperation("用户批量删除评论")
     @DeleteMapping("/delete/comments")
     @PreAuthorize("@ss.hasRole('common')")
-    public AjaxResult delleteComments(Long[] commentIds){
+    public AjaxResult deleteComments(Long[] commentIds){
         int i = commentService.deleteCommentsByUser(commentIds);
         return AjaxResult.success("成功删除"+i+"条评论");
     }

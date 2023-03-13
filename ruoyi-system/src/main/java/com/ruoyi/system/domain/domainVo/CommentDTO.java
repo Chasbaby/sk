@@ -1,5 +1,6 @@
 package com.ruoyi.system.domain.domainVo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.domain.entity.DTO.UserCommentDTO;
 
 import java.io.Serializable;
@@ -25,6 +26,7 @@ public class CommentDTO implements Serializable {
     private Integer commentLike;
     private String commentSource;
     private String commentIp;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date createTime;
 
     public Long getObjectId() {

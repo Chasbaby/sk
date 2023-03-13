@@ -1,5 +1,6 @@
 package com.ruoyi.system.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -316,13 +317,31 @@ public class CommentServiceImpl implements ICommentService
     }
 
     /**
-     *
+     * 批量删除
      * @param commentIds
      * @return
      */
     @Override
     public int deleteCommentsByUser(Long[] commentIds) {
         return commentMapper.deleteCommentsByUser(commentIds);
+    }
+
+    /**
+     * 分类获取用户所有评论
+     *      *  num = 0 是 通过审核的
+     *      *  num = 1 是 还没有审核的
+     *      *  num = 2 是 审核不通过的 可以申诉
+     * @param userId
+     * @param way
+     * @return
+     */
+    @Override
+    public List<CommentDTO> getAllCommentsByWays(Long userId, Integer way) {
+        List<Comment> comments = commentMapper.getAllCommentsByWays(userId, way);
+        return comments
+                .stream()
+                .map(item-> handleComment(item))
+                .collect(Collectors.toList());
     }
 
 

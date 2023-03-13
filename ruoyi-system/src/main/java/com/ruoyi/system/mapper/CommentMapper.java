@@ -132,6 +132,14 @@ public interface CommentMapper
      */
     public int deleteCommentsByUser(Long[] commentIds);
 
+    /**
+     * 分类获取用户所有评论
+     * @param userId
+     * @param way
+     * @return
+     */
+    public List<Comment> getAllCommentsByWays(Long userId , Integer way);
+
 
 
 }

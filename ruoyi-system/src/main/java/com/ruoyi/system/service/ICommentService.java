@@ -169,4 +169,9 @@ public interface ICommentService
      */
     public int deleteCommentsByUser(Long[] commentIds);
 
+    /**
+     * 分类获取用户所有评论
+     */
+    public List<CommentDTO> getAllCommentsByWays(Long userId,Integer way);
+
 }

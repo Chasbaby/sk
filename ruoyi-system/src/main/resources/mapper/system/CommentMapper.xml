@@ -57,24 +57,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
-    <select id="selectAllComment" resultType="java.lang.Integer" >
+    <select id="selectAllComment" resultType="java.lang.Integer">
         select count(0) from comment where  comment_source = #{source} and id = #{id} and del_flag = 'N'
     </select>
 
-    <select id="selectAllParentComment" resultType="com.ruoyi.system.domain.Comment" >
+    <select id="selectAllParentComment" resultType="com.ruoyi.system.domain.Comment" resultMap="CommentResult">
         <include refid="selectCommentVo"/>
         where comment_source = #{source} and id = #{id} and  parent_id = -1 and judge_status = '0' and del_flag = 'N'
         order by create_time dec
 
     </select>
-    <select id="selectAllChildrenCommentByParentId" resultType="com.ruoyi.system.domain.Comment" parameterType="integer">
+    <select id="selectAllChildrenCommentByParentId" resultType="com.ruoyi.system.domain.Comment" parameterType="integer" resultMap="CommentResult">
         <include refid="selectCommentVo"/>
         where comment_id = #{parentId} and judge_status = '0' and del_flag = 'N'
         order by create_time dec
 #         根据父级评论查找 所有子集
     </select>
 
-    <select id="selectCommentNoJudgeNum" resultType="java.lang.Integer">
+    <select id="selectCommentNoJudgeNum" resultType="java.lang.Integer" >
         select count(0) from comment where judge_status ="2" and del_flag = 'N'
     </select>
 
@@ -87,11 +87,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         limit 1
     </select>
     <select id="countUserUNStatusComment" resultType="java.lang.Integer" parameterType="Long">
-        select count(0) from comment where visable_status = 'N' and judge_status = '0' and object_id = #{userId} and del_flag = 'N'
+        select count(0) from comment
+        where visable_status = 'N' and judge_status = '0'
+          and object_id = #{userId} and del_flag = 'N'
     </select>
-    <select id="selectUserUNStatusComment" resultType="com.ruoyi.system.domain.Comment" parameterType="Long">
+    <select id="selectUserUNStatusComment" resultType="com.ruoyi.system.domain.Comment" parameterType="Long" resultMap="CommentResult">
         <include refid="selectCommentVo"/>
         where visable_status = 'N' and judge_status = '0' and object_id = #{userId} and del_flag = 'N'
+        order by createTime dec
+    </select>
+    <select id="getAllCommentsByWays" resultType="com.ruoyi.system.domain.Comment" resultMap="CommentResult">
+        <include refid="selectCommentVo"/>
+        where
+        <if test="way = 0"> and judge_status = '0'</if>
+        <if test="way = 1"> and judge_status = '2'</if>
+        <if test="way = 2"> and judge_status = '1'</if>
+        and delFlag = 'N' and object_id = #{userId}
+        order by createTime dec
     </select>
 
 
@@ -204,10 +216,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
     <delete id="deleteCommentsByUser" parameterType="String">
         update comment set del_flag = 'Y' where comment_id in
-    <foreach collection="array" item="commentId" open="(" separator="," close=")">
-        #{commentId}
-    </foreach>
-
+        <foreach collection="array" item="commentId" open="(" separator="," close=")">
+            #{commentId}
+        </foreach>
     </delete>
+
+
 
 </mapper>

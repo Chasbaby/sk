@@ -11,6 +11,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="sightsView" column="sights_view"/>
         <result property="sightsScore" column="sights_score"/>
         <result property="sightsName"    column="sights_name"/>
+        <result property="sightsHot" column="sights_hot"/>
+        <result property="sightsTelephone" column="sights_telephone"/>
+        <result property="sightsEng" column="sights_eng"/>
+        <result property="sightsOpen" column="sights_open"/>
         <result property="sightsLocation"    column="sights_location"    />
         <result property="sightsLongitude"    column="sights_longitude"    />
         <result property="sightsLatitude"    column="sights_latitude"    />
@@ -35,6 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <sql id="selectSightsBaseVo">
         select sights_id,sights_hits,sights_like,sights_view,sights_score,
+               sights_hot,sights_telephone,sights_eng,sights_open,
                sights_name, sights_location, sights_longitude, sights_latitude,
                sights_image,sights_code,sights_intro, sights_detail, sights_category,
                sights_nation, sights_city, create_by, create_time, update_by,
@@ -47,6 +52,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sightsView != null "> and sights_view &gt;= #{sightsView}</if>
             <if test="sightsHits != null "> and sights_hits &gt;= #{sightsHits}</if>
             <if test="sightsLike != null "> and sights_like >= #{sightsLike}</if>
+
+            <if test="sightsTelephone !=null and sightsTelephone !=''">and sights_telephone like concat('%',#{sightsTelephone},'%')</if>
+            <if test="sightsHot !=null and sightsHot !=''">and sights_hot like concat('%',#{sightsHot},'%')</if>
+            <if test="sightsEng !=null and sightsEng !=''">and sights_eng like concat('%',#{sightsEng},'%')</if>
+            <if test="sightsOpen !=null and sightsOpen !=''">and sights_open like concat('%',#{sightsOpen},'%')</if>
+
             <if test="sightsName != null  and sightsName != ''"> and sights_name like concat('%', #{sightsName}, '%')</if>
             <if test="sightsLocation != null  and sightsLocation != ''"> and sights_location like concat('%', #{sightsLocation}, '%')</if>
             <if test="sightsIntro != null  and sightsIntro != ''"> and sights_intro like concat('%', #{sightsIntro}, '%')</if>
@@ -110,6 +121,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getHistoryRecord" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="long">
         select u.sights_id,u.sights_hits,u.sights_like,u.sights_view,u.sights_score,
                u.sights_name, u.sights_location, u.sights_longitude, u.sights_latitude,
+               u.sights_hot,u.sights_telephone,u.sights_eng,u.sights_open,
                u.sights_image, u.sights_code,u.sights_intro, u.sights_detail, u.sights_category,
                u.sights_nation, u.sights_city, u.create_by, u.create_time, u.update_by,
                u.update_time
@@ -148,6 +160,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
+            <if test="sightsHot !=null and sightsHot !=''">sights_hot,</if>
+            <if test="sightsEng !=null and sightsEng !=''">sights_eng,</if>
+            <if test="sightsOpen !=null and sightsOpen !=''">sights_open,</if>
+            <if test="sightsTelephone !=null and sightsTelephone !=''">sights_telephone,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="sightsView != null">#{sightsView},</if>
@@ -168,6 +184,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
+            <if test="sightsHot !=null and sightsHot !=''">#{sightsHot},</if>
+            <if test="sightsEng !=null and sightsEng !=''">#{sightsEng},</if>
+            <if test="sightsOpen !=null and sightsOpen !=''">#{sightsOpen},</if>
+            <if test="sightsTelephone !=null and sightsTelephone !=''">#{sightsTelephone},</if>
          </trim>
     </insert>
     <insert id="addSightsHistoryRecord" parameterType="SightsRecordHistory" useGeneratedKeys="true">
@@ -205,6 +225,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="sightsTelephone !=null and sightsTelephone !=''">sights_telephone = #{sightsTelephone},</if>
+            <if test="sightsOpen !=null and sightsOpen !=''">sights_open = #{sightsOpen},</if>
+            <if test="sightsEng !=null and sightsEng !=''">sights_eng = #{sightsEng},</if>
+            <if test="sightsHot !=null and sightsHot !=''">sighst_hot = #{sightsHot},</if>
         </trim>
         where sights_id = #{sightsId}
     </update>

@@ -1,4 +1,4 @@
-package com.ruoyi.sights.SightsTags;
+package com.ruoyi.sights.domain;
 
 import java.io.Serializable;
 

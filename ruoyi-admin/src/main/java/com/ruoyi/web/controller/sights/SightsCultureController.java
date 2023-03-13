@@ -3,7 +3,7 @@ package com.ruoyi.web.controller.sights;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ruoyi.sights.SightsCulture.SightsCulture;
+import com.ruoyi.sights.domain.SightsCulture;
 import com.ruoyi.sights.service.ISightsCultureService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;

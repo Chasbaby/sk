@@ -6,6 +6,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.sights.domain.*;
+import com.ruoyi.sights.domain.DTO.SightsDTO;
 import com.ruoyi.sights.service.ISightsBaseService;
 import com.ruoyi.system.service.ICommentService;
 import com.ruoyi.system.service.ISysConfigService;
@@ -92,18 +93,15 @@ public class SightsBaseAnController extends BaseController {
     @ApiOperation("获取单个景点信息")
     @GetMapping("/{sightsId}")
     public AjaxResult getSightsInfo(@PathVariable Long sightsId){
+        // 如果是空的
+        if (sightsId.equals(null)==true){
+            return AjaxResult.error("请联系官方，没有此景点信息");
+        }
         // 景点信息 (有些在缓存中的信息 并没有加入 但是无所谓)
-        SightsBase base = iSightsBaseService.selectSightsBaseBySightsId(sightsId);
+        SightsDTO sightsDTO = iSightsBaseService.selectDetailSightsById(sightsId);
         // 评论总数
-        int commentNum = iCommentService.selectCommentNumBySightsId(sightsId);
-        // 评分总数
-        int scoreNum = iSightsBaseService.selectCountScoreNumBySightsId(sightsId);
-
-        AjaxResult ajaxResult = AjaxResult.success();
-        ajaxResult.put("sight",base);
-        ajaxResult.put("commentNum",commentNum);
-        ajaxResult.put("scoreNum",scoreNum);
-        return ajaxResult;
+        //int commentNum = iCommentService.selectCommentNumBySightsId(sightsId);
+        return AjaxResult.success(sightsDTO);
 
     }
 

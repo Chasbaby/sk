@@ -2,7 +2,7 @@ package com.ruoyi.sights.service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import com.ruoyi.sights.SightsAround.SightsAroundHotel;
+import com.ruoyi.sights.domain.SightsAroundHotel;
 
 /**
  * 酒店Service接口

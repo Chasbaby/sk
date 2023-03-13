@@ -3,6 +3,7 @@ package com.ruoyi.sights.service;
 import java.util.List;
 
 import com.ruoyi.sights.domain.*;
+import com.ruoyi.sights.domain.DTO.SightsDTO;
 import com.ruoyi.system.domain.CommentRecordLike;
 
 /**
@@ -25,6 +26,13 @@ public interface ISightsBaseService
      * @return 景点基本信息
      */
     public SightsBase selectSightsBaseBySightsId(Long sightsId);
+
+    /**
+     * 返回单个景点信息
+     * @param sightsId
+     * @return
+     */
+    public SightsDTO selectDetailSightsById(Long sightsId);
 
     /**
      * 查询景点基本信息列表

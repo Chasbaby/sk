@@ -1,7 +1,7 @@
 package com.ruoyi.sights.mapper;
 
 import java.util.List;
-import com.ruoyi.sights.SightsAround.SightsAroundHotel;
+import com.ruoyi.sights.domain.SightsAroundHotel;
 
 /**
  * 酒店Mapper接口

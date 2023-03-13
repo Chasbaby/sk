@@ -1,7 +1,7 @@
 package com.ruoyi.recommend.sightsRecommend;
 
 import com.ruoyi.recommend.domain.SightsRecs;
-import com.ruoyi.sights.SightsTags.SightsTags;
+import com.ruoyi.sights.domain.SightsTags;
 import com.ruoyi.sights.mapper.SightsTagsMapper;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;

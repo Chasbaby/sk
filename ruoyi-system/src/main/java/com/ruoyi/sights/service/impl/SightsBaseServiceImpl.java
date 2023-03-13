@@ -1,18 +1,19 @@
 package com.ruoyi.sights.service.impl;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.sights.domain.*;
-import com.ruoyi.sights.mapper.SightsRecordLikeMapper;
-import com.ruoyi.sights.mapper.SightsRecordScoreMapper;
-import com.ruoyi.sights.mapper.SightsUserCollectMapper;
+import com.ruoyi.sights.domain.DTO.BulletinDTO;
+import com.ruoyi.sights.domain.DTO.SightsDTO;
+import com.ruoyi.sights.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.sights.mapper.SightsBaseMapper;
 import com.ruoyi.sights.service.ISightsBaseService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +40,11 @@ public class SightsBaseServiceImpl implements ISightsBaseService
     private SightsUserCollectMapper sightsUserCollectMapper;
 
     @Autowired
+    private SightsBulletinMapper  bulletinMapper ;
+
+    @Autowired
     private RedisCache redisCache;
+
 
 
     /**
@@ -57,6 +62,32 @@ public class SightsBaseServiceImpl implements ISightsBaseService
     {
         return sightsBaseMapper.selectSightsBaseBySightsId(sightsId);
     }
+
+    /**
+     * 查询景点详细信息
+     * @param sightsId id
+     * @return dto
+     */
+    public SightsDTO selectDetailSightsById(Long sightsId){
+        SightsDTO sightsDTO = new SightsDTO();
+        SightsBulletin sightsBulletin = new SightsBulletin();
+        sightsBulletin.setDelFlag("N");// 没有删除
+        sightsBulletin.setTopFlag("Y"); // 置顶啦啦啦啦
+        sightsBulletin.setStatus("0"); // 正常
+        List<SightsBulletin> sightsBulletins = bulletinMapper.selectSightsBulletinList(sightsBulletin).subList(0, 5);// 最多限制5个了啦
+        List<BulletinDTO> bulletinDTOS = sightsBulletins.stream().map(item -> {
+            BulletinDTO dto = new BulletinDTO();
+            BeanUtils.copyBeanProp(dto, item);
+            return dto;
+        }).collect(Collectors.toList());
+        SightsBase sightsBase = sightsBaseMapper.selectSightsBaseBySightsId(sightsId);
+        BeanUtils.copyBeanProp(sightsDTO,sightsBase);
+        sightsDTO.setBulletin(bulletinDTOS);
+        int i = selectCountScoreNumBySightsId(sightsId);
+        sightsDTO.setScoreNum(i);
+        return sightsDTO;
+    }
+
 
     /**
      * 查询景点基本信息列表

@@ -40,13 +40,16 @@ public class SightsBase extends BaseEntity
     private String sightsName;
 
     /** 景点热度*/
-    private String sightsHot;
+    private Long sightsHot;
 
     /** 景点联系电话*/
     private String sightsTelephone;
 
     /** 景点英文*/
     private String sightsEng;
+
+    /** 景点开放信息*/
+    private String sightsOpen;
 
     /** 景点位置(文字描述) */
     @Excel(name = "景点位置")
@@ -59,7 +62,7 @@ public class SightsBase extends BaseEntity
     /** 景点纬度 */
     private Double sightsLatitude;
 
-    /** 景点图片url */
+    /** 景点图片url  最多5张*/
     private String sightsImage;
 
     /**景点购物二维码*/
@@ -84,6 +87,38 @@ public class SightsBase extends BaseEntity
     /** 景点城市 */
     @Excel(name = "景点城市")
     private String sightsCity;
+
+    public Long getSightsHot() {
+        return sightsHot;
+    }
+
+    public void setSightsHot(Long sightsHot) {
+        this.sightsHot = sightsHot;
+    }
+
+    public String getSightsTelephone() {
+        return sightsTelephone;
+    }
+
+    public void setSightsTelephone(String sightsTelephone) {
+        this.sightsTelephone = sightsTelephone;
+    }
+
+    public String getSightsEng() {
+        return sightsEng;
+    }
+
+    public void setSightsEng(String sightsEng) {
+        this.sightsEng = sightsEng;
+    }
+
+    public String getSightsOpen() {
+        return sightsOpen;
+    }
+
+    public void setSightsOpen(String sightsOpen) {
+        this.sightsOpen = sightsOpen;
+    }
 
     public Long getSightsCollect() {
         return sightsCollect;
@@ -230,6 +265,10 @@ public class SightsBase extends BaseEntity
             .append("sightsView",getSightsView())
             .append("sightsCollect",getSightsCollect())
             .append("sightsScore",getSightsScore())
+            .append("hot",getSightsHot())
+            .append("tele",getSightsTelephone())
+            .append("eng",getSightsEng())
+             .append("open",getSightsOpen())
             .append("sightsName", getSightsName())
             .append("sightsLocation", getSightsLocation())
             .append("sightsLongitude", getSightsLongitude())

@@ -1,7 +1,7 @@
 package com.ruoyi.sights.mapper;
 
 import java.util.List;
-import com.ruoyi.sights.SightsCulture.SightsCulture;
+import com.ruoyi.sights.domain.SightsCulture;
 
 /**
  * 景点特色文化Mapper接口

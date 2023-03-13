@@ -124,12 +124,12 @@ public interface ICommentService
      */
     public int checkUserCommentLike(CommentRecordLike commentRecordLike);
 
-    /**
-     * 获取用户所有的评论
-     * @param userId
-     * @return
-     */
-    public List<CommentDTO> getUserAllComment(Long userId);
+//    /**
+//     * 获取用户所有的评论
+//     * @param userId
+//     * @return
+//     */
+//    public List<CommentDTO> getUserAllComment(Long userId);
 
     /**
      * 获取所有的父级评论

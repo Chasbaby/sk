@@ -225,12 +225,12 @@ public class CommentServiceImpl implements ICommentService
     public int checkUserCommentLike(CommentRecordLike commentRecordLike) {
         return commentRecordLikeMapper.checkUserCommentLike(commentRecordLike);
     }
-
-    @Override
-    public List<CommentDTO> getUserAllComment(Long userId) {
-
-        return null;
-    }
+//
+//    @Override
+//    public List<CommentDTO> getUserAllComment(Long userId) {
+//
+//        return null;
+//    }
 
     /**
      * 获取某地所有父级评论

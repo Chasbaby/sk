@@ -194,6 +194,7 @@ public class CommentAnController extends BaseController {
         return AjaxResult.success();
     }
 
+    @PreAuthorize("@ss.hasRole('common')")
     @ApiOperation("获取用户未查看的评论")
     @GetMapping("/getUnStatusComments")
     public TableDataInfo getUnStatusComments(){

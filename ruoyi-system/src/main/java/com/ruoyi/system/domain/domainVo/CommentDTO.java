@@ -18,6 +18,7 @@ public class CommentDTO implements Serializable {
     private UserCommentDTO user;
     private String fatherName;
     private String commentContent;
+    private Long objectId;
     private Long id;
     private Integer commentView;
     private Integer commentHits;
@@ -25,6 +26,14 @@ public class CommentDTO implements Serializable {
     private String commentSource;
     private String commentIp;
     private Date createTime;
+
+    public Long getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(Long objectId) {
+        this.objectId = objectId;
+    }
 
     public String getFatherName() {
         return fatherName;

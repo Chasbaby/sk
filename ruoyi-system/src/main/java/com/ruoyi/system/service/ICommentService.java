@@ -141,4 +141,32 @@ public interface ICommentService
     /** 获取某个父级下的所有子级*/
     public List<CommentDTO> getChildComment(Long commentId);
 
+    /**
+     * 批量更新还没有看的
+     * @param commentIds
+     * @return
+     */
+    public int updateUNStatusComments(Long[] commentIds);
+
+    /**
+     * 获取用户未查看的评论
+     * @param userId
+     * @return
+     */
+    public List<CommentDTO> getUnStatusComments(Long userId);
+
+    /**
+     * 用户删单个评论
+     * @param commentId
+     * @return
+     */
+    public int deleteCommentByUser(Long commentId);
+
+    /**
+     * 批量用户删除评论
+     * @param commentIds
+     * @return
+     */
+    public int deleteCommentsByUser(Long[] commentIds);
+
 }

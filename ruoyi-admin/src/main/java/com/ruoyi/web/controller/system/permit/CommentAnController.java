@@ -62,6 +62,9 @@ public class CommentAnController extends BaseController {
         if (commentVO.getCommentSource().isEmpty() || commentVO.getId().equals(null)){
             return AjaxResult.error("评论失败,未知评论坐标");
         }
+        if (commentVO.getParentId() !=-1 && commentVO.getObjectId()==null){
+            return AjaxResult.error("请选择原评论");
+        }
         String ip = getLoginUser().getIpaddr();
         Comment comment = new Comment();
         BeanUtils.copyBeanProp(comment,commentVO);
@@ -161,6 +164,11 @@ public class CommentAnController extends BaseController {
         return getDataTable(null);
     }
 
+    /**
+     * 获取某个父级下的所有评论
+     * @param commentId  只要父级id
+     * @return list
+     */
     @Anonymous
     @ApiOperation("获取某个父级下的所有评论")
     @GetMapping("/getChildComment/{commentId}")
@@ -169,16 +177,43 @@ public class CommentAnController extends BaseController {
             return errorMsg("请选择评论");
         }
         startPage();
-        List<CommentDTO> childComments = commentService.getChildComment(commentId);
+        List<CommentDTO> childComments = commentService.
+                getChildComment(commentId);
         return getDataTable(childComments);
     }
 
+    @ApiOperation("更新评论可见状态")
+    @GetMapping("/updateComments")
+    @PreAuthorize("@ss.hasRole('common')")
+    public AjaxResult  updateUnStatusComments(Long[] commentIds){
+        commentService.updateUNStatusComments(commentIds);
+        return AjaxResult.success();
+    }
+
+    @ApiOperation("获取用户未查看的评论")
+    @GetMapping("/getUnStatusComments")
+    public TableDataInfo getUnStatusComments(){
+        startPage();
+        return getDataTable(commentService.getUnStatusComments(getUserId()));
+    }
+
+    @ApiOperation("删除单条评论")
     @DeleteMapping("/delete/{commentId}")
     @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult deleteComment(Long commentId){
-
-        return null;
+        int i = commentService.deleteCommentByUser(commentId);
+        return AjaxResult.success("成功删除"+i+"条评论");
     }
+
+    @ApiOperation("用户批量删除评论")
+    @DeleteMapping("/delete/comments")
+    @PreAuthorize("@ss.hasRole('common')")
+    public AjaxResult delleteComments(Long[] commentIds){
+        int i = commentService.deleteCommentsByUser(commentIds);
+        return AjaxResult.success("成功删除"+i+"条评论");
+    }
+
+
 
 
 }

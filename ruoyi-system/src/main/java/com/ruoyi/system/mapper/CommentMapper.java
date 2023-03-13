@@ -98,6 +98,40 @@ public interface CommentMapper
      */
     public List<Comment> selectAllChildrenCommentByParentId(Long parentId);
 
+    /**
+     * 获取用户还没看的评论条数
+     * 也就是 父级的评论 有多少子级还没有看的
+     * @param userId
+     * @return 数量
+     */
+    public int countUserUNStatusComment(Long userId);
+
+    /**
+     * 获取用户还没看的评论回复的信息
+     * @param userId
+     * @return
+     */
+    public List<Comment> selectUserUNStatusComment(Long userId);
+
+    /**
+     * 批量更新将 已经看的评论
+     */
+    public int updateUNStatusComments(Long[] commentIds);
+
+    /**
+     * 用户删单个评论
+     * @param commentId
+     * @return
+     */
+    public int deleteCommentByUser(Long commentId);
+
+    /**
+     * 批量用户删除评论
+     * @param commentIds
+     * @return
+     */
+    public int deleteCommentsByUser(Long[] commentIds);
+
 
 
 }

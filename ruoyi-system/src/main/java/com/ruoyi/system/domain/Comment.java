@@ -24,6 +24,9 @@ public class Comment extends BaseEntity
     /** 评论该条评论用户的id */
     private Long userId;
 
+    /** 这条评论的父亲id*/
+    private Long objectId;
+
     /** 评论内容 */
     private String commentContent;
 
@@ -41,9 +44,7 @@ public class Comment extends BaseEntity
     /** 评论点赞量 */
     @Excel(name = "评论点赞量")
     private Integer commentLike;
-//
-//    /**评分 可有可无*/
-//    private double commentScore;
+
 
     /** 评论来源(’0‘景点，’1‘系统) */
     @Excel(name = "评论来源(’0‘景点，’1‘系统)")
@@ -53,7 +54,7 @@ public class Comment extends BaseEntity
     @Excel(name = "评论者IP")
     private String commentIp;
 
-    /** 审核状态(‘0’表示未审核‘1’表示通过审核 ’2‘未通过审核) */
+    /** 审核状态(‘2’表示未审核‘0’表示通过审核 ’1‘未通过审核) */
     @Excel(name = "审核状态(‘0’表示未审核‘1’表示通过审核 ’2‘未通过审核)")
     private String judgeStatus;
 
@@ -67,13 +68,14 @@ public class Comment extends BaseEntity
     /** 是否删除(Y表示已删除N表示未删除) */
     private String delFlag;
 
-//    public double getCommentScore() {
-//        return commentScore;
-//    }
-//
-//    public void setCommentScore(double commentScore) {
-//        this.commentScore = commentScore;
-//    }
+
+    public Long getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(Long objectId) {
+        this.objectId = objectId;
+    }
 
     public Long getId() {
         return id;
@@ -207,7 +209,8 @@ public class Comment extends BaseEntity
             .append("commentId", getCommentId())
             .append("parentId", getParentId())
             .append("userId", getUserId())
-             .append("id",getId())
+            .append("objectId",getObjectId())
+            .append("id",getId())
             .append("commentContent", getCommentContent())
             .append("commentView", getCommentView())
             .append("commentHits", getCommentHits())

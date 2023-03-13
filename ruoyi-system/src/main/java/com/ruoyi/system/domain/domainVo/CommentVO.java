@@ -10,6 +10,9 @@ public class CommentVO {
     /** 父级ID  -1 表示爹爹  */
     private Long parentId;
 
+    /** 父用户id */
+    private Long objectId;
+
     /** 内容 */
     private String commentContent;
 
@@ -22,6 +25,14 @@ public class CommentVO {
     /**  如果是景点 景点评分*/
     private Double sightsScore;
 
+
+    public Long getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(Long objectId) {
+        this.objectId = objectId;
+    }
 
     public Double getSightsScore() {
         return sightsScore;

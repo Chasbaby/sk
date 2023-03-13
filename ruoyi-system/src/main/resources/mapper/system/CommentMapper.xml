@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="commentLike"    column="comment_like"    />
         <result property="commentSource"    column="comment_source"    />
         <result property="commentIp"    column="comment_ip"    />
+        <result property="objectId" column="object_id"/>
         <result property="judgeStatus"    column="judge_status"    />
         <result property="judger"    column="judger"    />
         <result property="visableStatus"    column="visable_status"    />
@@ -28,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="selectCommentVo">
         select comment_id, id,parent_id, user_id, comment_content,
                comment_view, comment_hits, comment_like, comment_source,
-               comment_ip, judge_status, judger, visable_status, del_flag,
+               object_id,comment_ip, judge_status, judger, visable_status, del_flag,
                create_by, create_time, update_by, update_time from comment
     </sql>
 
@@ -39,6 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="commentView != null "> and comment_view &gt;= #{commentView}</if>
             <if test="commentHits != null "> and comment_hits &gt;= #{commentHits}</if>
             <if test="commentLike != null "> and comment_like &gt;= #{commentLike}</if>
+            <if test="objectId !=null"> and object_id = #{objectId}</if>
             <if test="commentSource != null  and commentSource != ''"> and comment_source = #{commentSource}</if>
             <if test="commentIp != null  and commentIp != ''"> and comment_ip like concat('%', #{commentIp}, '%')</if>
             <if test="judgeStatus != null  and judgeStatus != ''"> and judge_status = #{judgeStatus}</if>
@@ -56,24 +58,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
     <select id="selectAllComment" resultType="java.lang.Integer" >
-        select count(0) from comment where  comment_source = #{source} and id = #{id}
+        select count(0) from comment where  comment_source = #{source} and id = #{id} and del_flag = 'N'
     </select>
 
     <select id="selectAllParentComment" resultType="com.ruoyi.system.domain.Comment" >
         <include refid="selectCommentVo"/>
-        where comment_source = #{source} and id = #{id} and  parent_id = -1 and judge_status = '1' and visable_status = 'Y'
+        where comment_source = #{source} and id = #{id} and  parent_id = -1 and judge_status = '0' and del_flag = 'N'
         order by create_time dec
 
     </select>
     <select id="selectAllChildrenCommentByParentId" resultType="com.ruoyi.system.domain.Comment" parameterType="integer">
         <include refid="selectCommentVo"/>
-        where comment_id = #{parentId} and judge_status = '1' and visable_status = 'Y'
+        where comment_id = #{parentId} and judge_status = '0' and del_flag = 'N'
         order by create_time dec
 #         根据父级评论查找 所有子集
     </select>
 
     <select id="selectCommentNoJudgeNum" resultType="java.lang.Integer">
-        select count(0) from comment where judge_status ="2"
+        select count(0) from comment where judge_status ="2" and del_flag = 'N'
     </select>
 
     <select id="getMaxCommentSource" resultType="string">
@@ -84,6 +86,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by num DESC
         limit 1
     </select>
+    <select id="countUserUNStatusComment" resultType="java.lang.Integer" parameterType="Long">
+        select count(0) from comment where visable_status = 'N' and judge_status = '0' and object_id = #{userId} and del_flag = 'N'
+    </select>
+    <select id="selectUserUNStatusComment" resultType="com.ruoyi.system.domain.Comment" parameterType="Long">
+        <include refid="selectCommentVo"/>
+        where visable_status = 'N' and judge_status = '0' and object_id = #{userId} and del_flag = 'N'
+    </select>
 
 
     <insert id="insertComment" parameterType="Comment" useGeneratedKeys="true" keyProperty="commentId">
@@ -91,6 +100,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="parentId != null">parent_id,</if>
             <if test="userId != null">user_id,</if>
+            <if test="objectId !=null">object_id,</if>
             <if test="commentContent != null">comment_content,</if>
             <if test="commentView != null">comment_view,</if>
             <if test="commentHits != null">comment_hits,</if>
@@ -109,6 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="parentId != null">#{parentId},</if>
             <if test="userId != null">#{userId},</if>
+            <if test="object_id !=null">#{objectId},</if>
             <if test="commentContent != null">#{commentContent},</if>
             <if test="commentView != null">#{commentView},</if>
             <if test="commentHits != null">#{commentHits},</if>
@@ -131,6 +142,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="parentId != null">parent_id = #{parentId},</if>
             <if test="userId != null">user_id = #{userId},</if>
+            <if test="objectId !=null">object_id = #{object_id},</if>
             <if test="commentContent != null">comment_content = #{commentContent},</if>
             <if test="commentView != null">comment_view = #{commentView},</if>
             <if test="commentHits != null">comment_hits = #{commentHits},</if>
@@ -169,6 +181,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update comment set comment_hits = comment_hits + 1
         where comment_id = #{commentId}
     </update>
+    <update id="updateUNStatusComments" parameterType="String">
+        update  comment set visable_status = 'Y' where comment_id in
+        <foreach item="commentId" collection="array" open="(" separator="," close=")">
+            #{commentId}
+        </foreach>
+    </update>
 
     <delete id="deleteCommentByCommentId" parameterType="Long">
         delete from comment where comment_id = #{commentId}
@@ -180,4 +198,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{commentId}
         </foreach>
     </delete>
+
+    <delete id="deleteCommentByUser" parameterType="Long">
+        update comment  set del_flag = 'Y' where comment_id = #{commentId}
+    </delete>
+    <delete id="deleteCommentsByUser" parameterType="String">
+        update comment set del_flag = 'Y' where comment_id in
+    <foreach collection="array" item="commentId" open="(" separator="," close=")">
+        #{commentId}
+    </foreach>
+
+    </delete>
+
 </mapper>

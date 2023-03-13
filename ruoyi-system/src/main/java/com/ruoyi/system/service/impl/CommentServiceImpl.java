@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @date 2022-10-19
  */
 @Service
-public class CommentServiceImpl implements ICommentService 
+public class CommentServiceImpl implements ICommentService
 {
 
     @Autowired
@@ -239,18 +239,26 @@ public class CommentServiceImpl implements ICommentService
     @Override
     public List<CommentDTO> getPageAllFatherComment(CommentGetDTO commentGetDTO) {
         List<Comment> comments = commentMapper.selectAllParentComment(commentGetDTO.getCommentSource(), commentGetDTO.getId());
-        return comments.stream().map(item -> {
-            CommentDTO commentDTO = new CommentDTO();
-            // 查询用户
-            SysUser sysUser = userMapper.selectUserById(item.getUserId());
-            // 获取部分信息
-            UserCommentDTO user = new UserCommentDTO();
-            BeanUtils.copyBeanProp(user, sysUser);
-            // 放入
-            commentDTO.setUser(user);
-            BeanUtils.copyBeanProp(commentDTO, item);
+        return comments
+                .stream()
+                .map(item -> {
+            CommentDTO commentDTO = handleComment(item);
             return commentDTO;
         }).collect(Collectors.toList());
+    }
+
+
+    private CommentDTO handleComment(Comment item) {
+        CommentDTO commentDTO = new CommentDTO();
+        // 查询用户
+        SysUser sysUser = userMapper.selectUserById(item.getUserId());
+        // 获取部分信息
+        UserCommentDTO user = new UserCommentDTO();
+        BeanUtils.copyBeanProp(user, sysUser);
+        // 放入
+        commentDTO.setUser(user);
+        BeanUtils.copyBeanProp(commentDTO, item);
+        return commentDTO;
     }
 
     /**
@@ -260,6 +268,7 @@ public class CommentServiceImpl implements ICommentService
      */
     @Override
     public List<CommentDTO> getChildComment(Long commentId) {
+        // 一定不能先查这个呀
 //        Comment comment = commentMapper.selectCommentByCommentId(commentId);
 //        Long userId = comment.getUserId();
 //        SysUser sysUser = userMapper.selectUserById(userId);
@@ -267,21 +276,53 @@ public class CommentServiceImpl implements ICommentService
 
         List<Comment> comments = commentMapper.selectAllChildrenCommentByParentId(commentId);
         return comments.stream().map(item->{
-            CommentDTO commentDTO = new CommentDTO();
-            // 查询用户
-            SysUser sysUser = userMapper.selectUserById(item.getUserId());
-            // 获取部分信息
-            UserCommentDTO user = new UserCommentDTO();
-            BeanUtils.copyBeanProp(user, sysUser);
-            // 放入
-            commentDTO.setUser(user);
-            BeanUtils.copyBeanProp(commentDTO, item);
+            CommentDTO commentDTO = handleComment(item);
             // 获取父级信息 暂时只展示父级的姓名
             SysUser father = userMapper.selectUserById(item.getParentId());
             commentDTO.setFatherName(father.getNickName());
 
             return commentDTO;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public int updateUNStatusComments(Long[] commentIds) {
+        int i = commentMapper.updateUNStatusComments(commentIds);
+        return i;
+    }
+
+    /**
+     * 获取用户未查看的评论
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<CommentDTO> getUnStatusComments(Long userId) {
+        List<Comment> comments = commentMapper.selectUserUNStatusComment(userId);
+        return comments.stream().map(item->{
+            CommentDTO commentDTO = handleComment(item);
+            return commentDTO;
+        }).collect(Collectors.toList());
+    }
+
+    /**
+     * 删除单条评论
+     * @param commentId
+     * @return
+     */
+    @Override
+    public int deleteCommentByUser(Long commentId) {
+        return commentMapper.deleteCommentByUser(commentId);
+    }
+
+    /**
+     *
+     * @param commentIds
+     * @return
+     */
+    @Override
+    public int deleteCommentsByUser(Long[] commentIds) {
+        return commentMapper.deleteCommentsByUser(commentIds);
     }
 
 

@@ -1,6 +1,8 @@
 package com.ruoyi.sights.service;
 
 import java.util.List;
+
+import com.ruoyi.sights.domain.DTO.TicketDTO;
 import com.ruoyi.sights.domain.SightsTicket;
 
 /**
@@ -58,4 +60,11 @@ public interface ISightsTicketService
      * @return 结果
      */
     public int deleteSightsTicketByTicketId(Long ticketId);
+
+    /**
+     * 获取某景点各种门票
+     * @param sightsId
+     * @return
+     */
+    public List<TicketDTO> selectTicketsBySightsId(Long sightsId);
 }

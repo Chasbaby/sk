@@ -7,6 +7,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.SightsDTO;
+import com.ruoyi.sights.domain.DTO.SightsRecommendDTO;
 import com.ruoyi.sights.service.ISightsBaseService;
 import com.ruoyi.system.service.ICommentService;
 import com.ruoyi.system.service.ISysConfigService;
@@ -34,8 +35,7 @@ public class SightsBaseAnController extends BaseController {
 
     @Autowired
     private ISightsBaseService iSightsBaseService;
-    @Autowired
-    private ICommentService iCommentService;
+
     @Autowired
     private ISysConfigService iSysConfigService;
 
@@ -57,12 +57,6 @@ public class SightsBaseAnController extends BaseController {
         return AjaxResult.success(newList);
     }
 
-    @PostMapping("/all")
-    public AjaxResult getSights(){
-        List<SightsBase> baseList = iSightsBaseService.selectSightsBaseList(new SightsBase());
-        return AjaxResult.success(baseList);
-    }
-
     /**
      * 以下是推荐部分
      */
@@ -82,35 +76,37 @@ public class SightsBaseAnController extends BaseController {
     @PostMapping("/recommend")
     @PreAuthorize("@ss.hasAnyRoles('common')")
     public TableDataInfo getRecommendSights(){
-        List<SightsBase> sights = iSightsBaseService.getRecommendSights(getUserId());
+        startPage();
+        List<SightsRecommendDTO> sights = iSightsBaseService.getRecommendSights(getUserId());
         return getDataTable(sights);
     }
 
     /**
-     * 获得单个景点信息   包含了景点点击量  评论的总数  评分总数
+     * 获得单个景点信息
      * 点击景点之后, 也要加入历史记录哦
      */
     @ApiOperation("获取单个景点信息")
     @GetMapping("/{sightsId}")
     public AjaxResult getSightsInfo(@PathVariable Long sightsId){
         // 如果是空的
-        if (sightsId.equals(null)==true){
+        if (sightsId == null){
             return AjaxResult.error("请联系官方，没有此景点信息");
         }
         // 景点信息 (有些在缓存中的信息 并没有加入 但是无所谓)
         SightsDTO sightsDTO = iSightsBaseService.selectDetailSightsById(sightsId);
         return AjaxResult.success(sightsDTO);
-
     }
 
     /**
      *历史热门景点推荐
      *已经通过 spark 计算完成 直接提取即可
      */
+    @Anonymous
     @ApiOperation("获取历史热门景点列表")
     @PostMapping("/historySights")
     public TableDataInfo getHistoryHotSights(){
-        List<SightsBase> historyHotSights = iSightsBaseService.getHistoryHotSights();
+        startPage();
+        List<SightsRecommendDTO> historyHotSights = iSightsBaseService.getHistoryHotSights();
         return getDataTable(historyHotSights);
     }
 
@@ -118,10 +114,12 @@ public class SightsBaseAnController extends BaseController {
      * 近期热门景点推荐
      * 已经通过spark计算获取 直接提取即可
      */
+    @Anonymous
     @ApiOperation("获取近期热门列表")
     @PostMapping("/recentSights")
     public TableDataInfo getRecentHotSights(){
-        List<SightsBase> recentHotSights = iSightsBaseService.getRecentHotSights();
+        startPage();
+        List<SightsRecommendDTO> recentHotSights = iSightsBaseService.getRecentHotSights();
         return getDataTable(recentHotSights);
     }
 
@@ -129,10 +127,12 @@ public class SightsBaseAnController extends BaseController {
      * 优质景点推荐
      * 已经通过spark计算获得 直接提取即可
      */
+    @Anonymous
     @ApiOperation("获取优质景点列表")
     @PostMapping("/goodSights")
     public TableDataInfo getGoodSights(){
-        List<SightsBase> goodSights = iSightsBaseService.getGoodSights();
+        startPage();
+        List<SightsRecommendDTO> goodSights = iSightsBaseService.getGoodSights();
         return getDataTable(goodSights);
     }
 
@@ -416,17 +416,6 @@ public class SightsBaseAnController extends BaseController {
         List<SightsBase> baseList = iSightsBaseService.selectSightsTopViaScore(Convert.toInt(s));
         return AjaxResult.success(baseList);
     }
-
-
-    /**
-     * 获取配置中固定的信息
-     * @return 景点搜索信息
-     */
-    public SightsBase getRequiredSightsInformation(){
-
-        return new SightsBase();
-    }
-
 
 
 }

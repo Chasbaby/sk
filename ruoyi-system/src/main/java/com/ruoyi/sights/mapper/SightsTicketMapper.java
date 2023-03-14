@@ -58,4 +58,11 @@ public interface SightsTicketMapper
      * @return 结果
      */
     public int deleteSightsTicketByTicketIds(Long[] ticketIds);
+
+    /**
+     * 根据景点获取门票
+     * @param sightsId
+     * @return
+     */
+    public List<SightsTicket> selectTicketsBySightsId(Long sightsId);
 }

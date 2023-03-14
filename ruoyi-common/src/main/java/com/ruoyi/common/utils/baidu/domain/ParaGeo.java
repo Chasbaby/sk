@@ -14,6 +14,7 @@ import java.io.Serializable;
  * @date 2023-1
  */
 public class ParaGeo implements Serializable {
+
     /**
      * 待解析的地址。最多支持84个字节。
      * 可以输入两种样式的值，分别是：

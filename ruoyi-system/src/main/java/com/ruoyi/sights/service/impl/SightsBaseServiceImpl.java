@@ -11,8 +11,10 @@ import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.BulletinDTO;
 import com.ruoyi.sights.domain.DTO.SightsDTO;
+import com.ruoyi.sights.domain.DTO.SightsRecommendDTO;
+import com.ruoyi.sights.domain.DTO.TicketDTO;
 import com.ruoyi.sights.mapper.*;
-import com.ruoyi.system.domain.domainVo.CommentDTO;
+import com.ruoyi.sights.service.ISightsTicketService;
 import com.ruoyi.system.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,9 @@ public class SightsBaseServiceImpl implements ISightsBaseService
 
     @Autowired
     private ICommentService commentService;
+
+    @Autowired
+    private ISightsTicketService ticketService;
 
     @Autowired
     private RedisCache redisCache;
@@ -92,6 +97,8 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         sightsDTO.setScoreNum(scoreNum);
         int commentNum = commentService.selectCommentNum("0",sightsId);
         sightsDTO.setCommentNum(commentNum);
+        List<TicketDTO> ticketDTOS = ticketService.selectTicketsBySightsId(sightsId);
+        sightsDTO.setTickets(ticketDTOS);
         return sightsDTO;
     }
 
@@ -527,23 +534,43 @@ public class SightsBaseServiceImpl implements ISightsBaseService
      */
 
     @Override
-    public List<SightsBase> getRecommendSights(Long userId) {
-        return sightsBaseMapper.getRecommendSights(userId);
+    public List<SightsRecommendDTO> getRecommendSights(Long userId) {
+        List<SightsBase> sights = sightsBaseMapper.getRecommendSights(userId);
+        return sights.stream().map(item->{
+            SightsRecommendDTO recommendDTO = new SightsRecommendDTO();
+            BeanUtils.copyBeanProp(recommendDTO,item);
+            return recommendDTO;
+        }).collect(Collectors.toList());
     }
 
     @Override
-    public List<SightsBase> getHistoryHotSights() {
-        return sightsBaseMapper.getHistoryHotSights();
+    public List<SightsRecommendDTO> getHistoryHotSights() {
+        List<SightsBase> sights = sightsBaseMapper.getHistoryHotSights();
+        return sights.stream().map(item->{
+            SightsRecommendDTO recommendDTO = new SightsRecommendDTO();
+            BeanUtils.copyBeanProp(recommendDTO,item);
+            return recommendDTO;
+        }).collect(Collectors.toList());
     }
 
     @Override
-    public List<SightsBase> getRecentHotSights() {
-        return sightsBaseMapper.getRecentHotSights();
+    public List<SightsRecommendDTO> getRecentHotSights() {
+        List<SightsBase> hotSights = sightsBaseMapper.getRecentHotSights();
+        return hotSights.stream().map(item->{
+            SightsRecommendDTO recommendDTO = new SightsRecommendDTO();
+            BeanUtils.copyBeanProp(recommendDTO,item);
+            return recommendDTO;
+        }).collect(Collectors.toList());
     }
 
     @Override
-    public List<SightsBase> getGoodSights() {
-        return sightsBaseMapper.getGoodSights();
+    public List<SightsRecommendDTO> getGoodSights() {
+        List<SightsBase> goodSights = sightsBaseMapper.getGoodSights();
+        return goodSights.stream().map(item->{
+            SightsRecommendDTO recommendDTO = new SightsRecommendDTO();
+            BeanUtils.copyBeanProp(recommendDTO,item);
+            return recommendDTO;
+        }).collect(Collectors.toList());
     }
 
 

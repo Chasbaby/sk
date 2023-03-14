@@ -40,24 +40,10 @@ public class ContentRecommend {
                     row.getAs("sightsName"), tags);
         });
         Dataset<Row> sightsTagsDF = spark.createDataFrame(temp, SightsTags.class).cache();
+
         // TODO: 用TF-IDF提取商品特征向量
-        // 1. 实例化一个分词器，用来做分词，默认按照空格分
-        Tokenizer tokenizer = new Tokenizer()
-                .setInputCol("tags")
-                .setOutputCol("words");
-        // 用分词器做转换，得到增加一个新列words的DF
-        Dataset<Row> wordsDataDF = tokenizer.transform(sightsTagsDF);
-        // 2. 定义一个HashingTF工具，计算频次
-        HashingTF hashingTF = new HashingTF()
-                .setInputCol("words")
-                .setOutputCol("rawFeatures").setNumFeatures(500);
-        Dataset<Row> featurizedDataDF = hashingTF.transform(wordsDataDF);
-        // 3. 定义一个IDF工具，计算TF-IDF
-        IDF idf = new IDF().setInputCol("rawFeatures").setOutputCol("features");
-        // 训练一个idf模型
-        IDFModel idfModel = idf.fit(featurizedDataDF);
-        // 得到增加新列features的DF
-        Dataset<Row> rescaledDataDF = idfModel.transform(featurizedDataDF);
+        Dataset<Row> rescaledDataDF = getTokenizerResult(sightsTagsDF);
+
         JavaRDD<Tuple2<Long, DoubleMatrix>> sightsFeatures = rescaledDataDF
                 .toJavaRDD()
                 .map((Function<Row, Tuple2<Long, double[]>>) row ->
@@ -78,6 +64,27 @@ public class ContentRecommend {
                 .collect();
         writeToMysql(spark.createDataFrame(sightsRecs,SightsRecs.class),"ContentBasedSightsRecs","overwrite");
         spark.stop();
+    }
+
+    private Dataset<Row> getTokenizerResult(Dataset<Row> sightsTagsDF) {
+        // 1. 实例化一个分词器，用来做分词，默认按照空格分
+        Tokenizer tokenizer = new Tokenizer()
+                .setInputCol("tags")
+                .setOutputCol("words");
+        // 用分词器做转换，得到增加一个新列words的DF
+        Dataset<Row> wordsDataDF = tokenizer.transform(sightsTagsDF);
+        // 2. 定义一个HashingTF工具，计算频次
+        HashingTF hashingTF = new HashingTF()
+                .setInputCol("words")
+                .setOutputCol("rawFeatures").setNumFeatures(500);
+        Dataset<Row> featurizedDataDF = hashingTF.transform(wordsDataDF);
+        // 3. 定义一个IDF工具，计算TF-IDF
+        IDF idf = new IDF().setInputCol("rawFeatures").setOutputCol("features");
+        // 训练一个idf模型
+        IDFModel idfModel = idf.fit(featurizedDataDF);
+        // 得到增加新列features的DF
+        Dataset<Row> rescaledDataDF = idfModel.transform(featurizedDataDF);
+        return rescaledDataDF;
     }
 
 }

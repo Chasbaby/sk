@@ -39,7 +39,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSightsTicketVo"/>
         where ticket_id = #{ticketId}
     </select>
-        
+    <select id="selectTicketsBySightsId" resultType="com.ruoyi.sights.domain.SightsTicket" parameterType="Long" resultMap="SightsTicketResult">
+        <include refid="selectSightsTicketVo"/>
+        where sights_id = #{sightsId}
+        order by create_time desc
+    </select>
+
     <insert id="insertSightsTicket" parameterType="SightsTicket" useGeneratedKeys="true" keyProperty="ticketId">
         insert into sights_ticket
         <trim prefix="(" suffix=")" suffixOverrides=",">

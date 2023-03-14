@@ -57,8 +57,8 @@ public class SightsBaseController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(SightsBase sightsBase)
     {
-        ListenableFuture<SendResult<String, String>> sights = kafkaTemplate.send("sights", JsonUtils.toJsonString(sightsBase));
-        System.out.println("   done     "+sights.isDone());
+//        ListenableFuture<SendResult<String, String>> sights = kafkaTemplate.send("sights", JsonUtils.toJsonString(sightsBase));
+//        System.out.println("   done     "+sights.isDone());
 
         startPage();
         List<SightsBase> list = sightsBaseService.selectSightsBaseList(sightsBase);
@@ -115,6 +115,7 @@ public class SightsBaseController extends BaseController {
         paraGeo.setAk("qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt");
         Geocoder geocoder = getGeocoder(paraGeo);
         GeocoderResultMap result = geocoder.getResult();
+
         sightsBase.setSightsLatitude(result.getLocation().getLat());
         sightsBase.setSightsLongitude(result.getLocation().getLng());
         sightsBase.setCreateBy(getUsername());

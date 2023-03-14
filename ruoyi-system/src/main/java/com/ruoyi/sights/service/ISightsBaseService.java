@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.SightsDTO;
-import com.ruoyi.system.domain.CommentRecordLike;
+import com.ruoyi.sights.domain.DTO.SightsRecommendDTO;
 
 /**
  * 景点基本信息Service接口
@@ -181,22 +181,23 @@ public interface ISightsBaseService
      *
      * 获取某用户推荐列表
      */
-    public List<SightsBase> getRecommendSights(Long userId);
+    public List<SightsRecommendDTO> getRecommendSights(Long userId);
 
     /**
      * 获取历史热门景点推荐
      */
-    public List<SightsBase> getHistoryHotSights();
+    public List<SightsRecommendDTO> getHistoryHotSights();
 
     /**
      * 获取最近热门景点
      */
-    public List<SightsBase> getRecentHotSights();
+    public List<SightsRecommendDTO> getRecentHotSights();
 
     /**
      * 获取优质景点列表
+     * @return
      */
-    public List<SightsBase> getGoodSights();
+    public List<SightsRecommendDTO> getGoodSights();
 
     /**
      * 收藏景点相关

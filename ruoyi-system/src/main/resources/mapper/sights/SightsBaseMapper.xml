@@ -84,19 +84,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="selectSightsTopViaScore" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="int">
         <include refid="selectSightsBaseVo"/>
-        order by sights_score asc
+        order by sights_score desc
         limit #{num}
         #获取评分最高的 一定量的景点
     </select>
     <select id="selectSightsTopViaLike" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="int">
         <include refid="selectSightsBaseVo"/>
-        order by sights_like asc
+        order by sights_like desc
         limit #{num}
         #获取点赞最高的一定量的景点
     </select>
     <select id="selectSightsTopViaHit" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="int">
         <include refid="selectSightsBaseVo"/>
-        order by sights_hits asc
+        order by sights_hits desc
         limit #{num}
         #获取点击最高的一定量的景点
     </select>

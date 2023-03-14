@@ -1,11 +1,13 @@
 package com.ruoyi.sights.domain.DTO;
 
+import com.ruoyi.sights.domain.SightsTicket;
+
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author chas
- * @introduction 景点DTO
+ * @introduction 核心地带 景点DTO
  * @data 2023-3
  */
 public class SightsDTO implements Serializable {
@@ -25,6 +27,7 @@ public class SightsDTO implements Serializable {
 
     /**景点平均分*/
     private Double sightsScore;
+
     private String sightsName;
 
     /** 景点热度*/
@@ -38,23 +41,41 @@ public class SightsDTO implements Serializable {
 
     /** 景点开放信息*/
     private String sightsOpen;
+
     private String sightsLocation;
+
     private String sightsImage;
+
     private String sightsIntro;
+
     private String sightsDetail;
+
     private String sightsCategory;
+
     private String sightsNation;
+
     private String sightsCity;
 
     private List<BulletinDTO> bulletin ;
+
+    private List<TicketDTO> tickets;
 
     private Integer scoreNum;
 
     private Integer CommentNum;
 
+    public List<TicketDTO> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<TicketDTO> tickets) {
+        this.tickets = tickets;
+    }
+
     public Integer getCommentNum() {
         return CommentNum;
     }
+
 
     public void setCommentNum(Integer commentNum) {
         CommentNum = commentNum;

@@ -1,7 +1,11 @@
 package com.ruoyi.sights.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.sights.domain.DTO.TicketDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.sights.mapper.SightsTicketMapper;
@@ -93,5 +97,21 @@ public class SightsTicketServiceImpl implements ISightsTicketService
     public int deleteSightsTicketByTicketId(Long ticketId)
     {
         return sightsTicketMapper.deleteSightsTicketByTicketId(ticketId);
+    }
+
+    /**
+     * 获取某景点的门票信息
+     * 后期记得改数量
+     * @param sightsId
+     * @return
+     */
+    @Override
+    public List<TicketDTO> selectTicketsBySightsId(Long sightsId) {
+        List<SightsTicket> tickets = sightsTicketMapper.selectTicketsBySightsId(sightsId);
+        return tickets.stream().map(item->{
+            TicketDTO ticketDTO = new TicketDTO();
+            BeanUtils.copyBeanProp(ticketDTO,item);
+            return ticketDTO;
+        }).collect(Collectors.toList());
     }
 }

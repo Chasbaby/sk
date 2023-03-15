@@ -97,12 +97,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="getAllCommentsByWays" resultType="com.ruoyi.system.domain.Comment" resultMap="CommentResult">
         <include refid="selectCommentVo"/>
-        where
-        <if test="way = 0"> and judge_status = '0'</if>
-        <if test="way = 1"> and judge_status = '2'</if>
-        <if test="way = 2"> and judge_status = '1'</if>
-        and delFlag = 'N' and object_id = #{userId}
-        order by createTime desc
+        <where>
+            <if test="way == 0"> and judge_status = '0'</if>
+            <if test="way == 1"> and judge_status = '2'</if>
+            <if test="way == 2"> and judge_status = '1'</if>
+        </where>
+        and del_flag = 'N' and object_id = #{userId}
+        order by create_time desc
     </select>
 
 

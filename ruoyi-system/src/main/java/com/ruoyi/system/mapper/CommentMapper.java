@@ -139,7 +139,7 @@ public interface CommentMapper
      * @param way
      * @return
      */
-    public List<Comment> getAllCommentsByWays(Long userId , Integer way);
+    public List<Comment> getAllCommentsByWays(@Param(value = "userId") Long userId ,@Param(value = "way") Integer way);
 
 
 

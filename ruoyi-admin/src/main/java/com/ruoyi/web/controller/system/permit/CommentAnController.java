@@ -163,9 +163,9 @@ public class CommentAnController extends BaseController {
     @ApiOperation("获取某用户的所有评论")
     @GetMapping("/person/{num}")
     public TableDataInfo getUserAllComment(@PathVariable Integer num){
-        if (num !=0 || num !=1 || num !=2){
-            return errorMsg("请联系管理员，数据获取失败");
-        }
+//        if (){
+//            return errorMsg("请联系管理员，数据获取失败");
+//        }
         startPage();
         Long userId = getUserId();
         List<CommentDTO> comments = commentService.getAllCommentsByWays(userId, num);

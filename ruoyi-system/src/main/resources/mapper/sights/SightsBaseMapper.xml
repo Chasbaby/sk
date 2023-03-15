@@ -228,7 +228,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sightsTelephone !=null and sightsTelephone !=''">sights_telephone = #{sightsTelephone},</if>
             <if test="sightsOpen !=null and sightsOpen !=''">sights_open = #{sightsOpen},</if>
             <if test="sightsEng !=null and sightsEng !=''">sights_eng = #{sightsEng},</if>
-            <if test="sightsHot !=null and sightsHot !=''">sighst_hot = #{sightsHot},</if>
+            <if test="sightsHot !=null and sightsHot !=''">sights_hot = #{sightsHot},</if>
         </trim>
         where sights_id = #{sightsId}
     </update>

@@ -26,17 +26,10 @@ public class CommentDTO implements Serializable {
     private Integer commentLike;
     private String commentSource;
     private String commentIp;
-    private Integer showFlag;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date createTime;
 
-    public Integer getShowFlag() {
-        return showFlag;
-    }
-
-    public void setShowFlag(Integer showFlag) {
-        this.showFlag = showFlag;
-    }
 
     public Long getObjectId() {
         return objectId;

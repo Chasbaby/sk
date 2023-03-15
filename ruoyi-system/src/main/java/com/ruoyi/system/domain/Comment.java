@@ -58,11 +58,6 @@ public class Comment extends BaseEntity
     @Excel(name = "审核状态(‘0’表示未审核‘1’表示通过审核 ’2‘未通过审核)")
     private String judgeStatus;
 
-    /**
-     * 样式展示
-     */
-    private Integer showFlag;
-
     /** 审核人 */
     @Excel(name = "审核人")
     private String judger;
@@ -74,13 +69,6 @@ public class Comment extends BaseEntity
     private String delFlag;
 
 
-    public Integer getShowFlag() {
-        return showFlag;
-    }
-
-    public void setShowFlag(Integer showFlag) {
-        this.showFlag = showFlag;
-    }
 
     public Long getObjectId() {
         return objectId;

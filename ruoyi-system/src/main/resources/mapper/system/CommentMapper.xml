@@ -15,7 +15,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="commentLike"    column="comment_like"    />
         <result property="commentSource"    column="comment_source"    />
         <result property="commentIp"    column="comment_ip"    />
-        <result property="showFlag" column="show_flag"/>
         <result property="objectId" column="object_id"/>
         <result property="judgeStatus"    column="judge_status"    />
         <result property="judger"    column="judger"    />
@@ -28,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectCommentVo">
-        select comment_id, id,parent_id, user_id, comment_content,show_flag,
+        select comment_id, id,parent_id, user_id, comment_content,
                comment_view, comment_hits, comment_like, comment_source,
                object_id,comment_ip, judge_status, judger, visable_status, del_flag,
                create_by, create_time, update_by, update_time from comment
@@ -42,7 +41,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="commentHits != null "> and comment_hits &gt;= #{commentHits}</if>
             <if test="commentLike != null "> and comment_like &gt;= #{commentLike}</if>
             <if test="objectId !=null"> and object_id = #{objectId}</if>
-            <if test="showFlag != null ">show_flag = #{showFlag}</if>
             <if test="commentSource != null  and commentSource != ''"> and comment_source = #{commentSource}</if>
             <if test="commentIp != null  and commentIp != ''"> and comment_ip like concat('%', #{commentIp}, '%')</if>
             <if test="judgeStatus != null  and judgeStatus != ''"> and judge_status = #{judgeStatus}</if>
@@ -121,7 +119,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="commentLike != null">comment_like,</if>
             <if test="commentSource != null">comment_source,</if>
             <if test="commentIp != null">comment_ip,</if>
-            <if test="showFlag != null">show_flag,</if>
             <if test="judgeStatus != null and judgeStatus != ''">judge_status,</if>
             <if test="judger != null">judger,</if>
             <if test="visableStatus != null and visableStatus != ''">visable_status,</if>
@@ -142,7 +139,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="commentLike != null">#{commentLike},</if>
             <if test="commentSource != null">#{commentSource},</if>
             <if test="commentIp != null">#{commentIp},</if>
-            <if test="showFlag != null">#{showFlag},</if>
             <if test="judgeStatus != null and judgeStatus != ''">#{judgeStatus},</if>
             <if test="judger != null">#{judger},</if>
             <if test="visableStatus != null and visableStatus != ''">#{visableStatus},</if>
@@ -166,7 +162,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="commentLike != null">comment_like = #{commentLike},</if>
             <if test="commentSource != null">comment_source = #{commentSource},</if>
             <if test="commentIp != null">comment_ip = #{commentIp},</if>
-            <if test="showFlag != null">#{showFlag},</if>
             <if test="judgeStatus != null and judgeStatus != ''">judge_status = #{judgeStatus},</if>
             <if test="judger != null">judger = #{judger},</if>
             <if test="visableStatus != null and visableStatus != ''">visable_status = #{visableStatus},</if>

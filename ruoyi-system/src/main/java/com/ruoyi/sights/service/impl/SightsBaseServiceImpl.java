@@ -84,7 +84,7 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         sightsBulletin.setDelFlag("N");// 没有删除
         sightsBulletin.setTopFlag("Y"); // 置顶啦啦啦啦
         sightsBulletin.setStatus("0"); // 正常
-        List<SightsBulletin> sightsBulletins = bulletinMapper.selectSightsBulletinList(sightsBulletin).subList(0, 5);// 最多限制5个了啦
+        List<SightsBulletin> sightsBulletins = bulletinMapper.selectSightsBulletinList(sightsBulletin);// 最多限制5个了啦
         List<BulletinDTO> bulletinDTOS = sightsBulletins.stream().map(item -> {
             BulletinDTO dto = new BulletinDTO();
             BeanUtils.copyBeanProp(dto, item);

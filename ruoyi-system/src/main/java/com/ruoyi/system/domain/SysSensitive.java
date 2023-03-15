@@ -1,5 +1,6 @@
 package com.ruoyi.system.domain;
 
+import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -14,6 +15,7 @@ public class SysSensitive{
     /** 敏感词ID */
     private Long sensitiveId;
     /** 敏感词汇 **/
+    @Excel(defaultValue = "敏感词")
     private String sensitiveWord;
 
     public Long getSensitiveId() {

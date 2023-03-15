@@ -276,10 +276,14 @@ public class CommentServiceImpl implements ICommentService
 //        String nickName = sysUser.getNickName();
 
         List<Comment> comments = commentMapper.selectAllChildrenCommentByParentId(commentId);
+
+        if (comments.size() == 0){
+            return new ArrayList<>();
+        }
         return comments.stream().map(item->{
             CommentDTO commentDTO = handleComment(item);
             // 获取父级信息 暂时只展示父级的姓名
-            SysUser father = userMapper.selectUserById(item.getParentId());
+            SysUser father = userMapper.selectUserById(item.getObjectId());
             commentDTO.setFatherName(father.getNickName());
 
             return commentDTO;

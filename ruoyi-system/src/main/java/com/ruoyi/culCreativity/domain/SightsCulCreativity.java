@@ -75,6 +75,14 @@ public class SightsCulCreativity extends BaseEntity
     @Excel(name = "是否置顶(Y表示置顶N表示未置顶)")
     private String topFlag;
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public Long getCulCreativityView() {
         return culCreativityView;
     }

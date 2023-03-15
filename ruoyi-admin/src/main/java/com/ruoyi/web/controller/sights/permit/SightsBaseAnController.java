@@ -216,6 +216,7 @@ public class SightsBaseAnController extends BaseController {
      * 6.这里实际上要不断发起请求，因为随时都可能变化，
      *   所以 可以选择固定时间 发起请求 但是时间和展示数量最好有所连续
      */
+    @Anonymous
     @ApiOperation("点击量排行榜")
     @PostMapping("/hits/rank")
     public AjaxResult getHitRank(){

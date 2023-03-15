@@ -27,4 +27,6 @@ public class CommentData implements Serializable {
     public void setCommentNum(int commentNum) {
         this.commentNum = commentNum;
     }
+
+
 }

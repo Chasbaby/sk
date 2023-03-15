@@ -72,7 +72,7 @@ public class ArticleAnController extends BaseController {
      * @param articleId
      * @return null
      */
-    @PreAuthorize("@ss.haiRole('common')")
+    @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/view/{articleId}")
     public AjaxResult articleView(@PathVariable Long articleId){
         ArticleRecord record = getArticleRecord(articleId);
@@ -80,6 +80,11 @@ public class ArticleAnController extends BaseController {
         return AjaxResult.success();
     }
 
+    /**
+     * 非登录用户 浏览
+     * @param articleId
+     * @return
+     */
     @Anonymous
     @GetMapping("/view/anonymous/{articleId}")
     public AjaxResult articleViewAnonymous(@PathVariable Long articleId){

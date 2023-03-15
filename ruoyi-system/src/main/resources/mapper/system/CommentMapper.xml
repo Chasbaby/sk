@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="commentLike"    column="comment_like"    />
         <result property="commentSource"    column="comment_source"    />
         <result property="commentIp"    column="comment_ip"    />
+        <result property="showFlag" column="show_flag"/>
         <result property="objectId" column="object_id"/>
         <result property="judgeStatus"    column="judge_status"    />
         <result property="judger"    column="judger"    />
@@ -27,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectCommentVo">
-        select comment_id, id,parent_id, user_id, comment_content,
+        select comment_id, id,parent_id, user_id, comment_content,show_flag,
                comment_view, comment_hits, comment_like, comment_source,
                object_id,comment_ip, judge_status, judger, visable_status, del_flag,
                create_by, create_time, update_by, update_time from comment
@@ -41,6 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="commentHits != null "> and comment_hits &gt;= #{commentHits}</if>
             <if test="commentLike != null "> and comment_like &gt;= #{commentLike}</if>
             <if test="objectId !=null"> and object_id = #{objectId}</if>
+            <if test="showFlag != null ">show_flag = #{showFlag}</if>
             <if test="commentSource != null  and commentSource != ''"> and comment_source = #{commentSource}</if>
             <if test="commentIp != null  and commentIp != ''"> and comment_ip like concat('%', #{commentIp}, '%')</if>
             <if test="judgeStatus != null  and judgeStatus != ''"> and judge_status = #{judgeStatus}</if>
@@ -64,13 +66,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectAllParentComment" resultType="com.ruoyi.system.domain.Comment" resultMap="CommentResult">
         <include refid="selectCommentVo"/>
         where comment_source = #{source} and id = #{id} and  parent_id = -1 and judge_status = '0' and del_flag = 'N'
-        order by create_time dec
-
+        order by create_time desc
     </select>
-    <select id="selectAllChildrenCommentByParentId" resultType="com.ruoyi.system.domain.Comment" parameterType="integer" resultMap="CommentResult">
+    <select id="selectAllChildrenCommentByParentId" resultType="com.ruoyi.system.domain.Comment" parameterType="Long" resultMap="CommentResult">
         <include refid="selectCommentVo"/>
-        where comment_id = #{parentId} and judge_status = '0' and del_flag = 'N'
-        order by create_time dec
+        where parent_id = #{commentId} and judge_status = '0' and del_flag = 'N'
+        order by create_time desc
 #         根据父级评论查找 所有子集
     </select>
 
@@ -94,7 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectUserUNStatusComment" resultType="com.ruoyi.system.domain.Comment" parameterType="Long" resultMap="CommentResult">
         <include refid="selectCommentVo"/>
         where visable_status = 'N' and judge_status = '0' and object_id = #{userId} and del_flag = 'N'
-        order by createTime dec
+        order by createTime desc
     </select>
     <select id="getAllCommentsByWays" resultType="com.ruoyi.system.domain.Comment" resultMap="CommentResult">
         <include refid="selectCommentVo"/>
@@ -103,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="way = 1"> and judge_status = '2'</if>
         <if test="way = 2"> and judge_status = '1'</if>
         and delFlag = 'N' and object_id = #{userId}
-        order by createTime dec
+        order by createTime desc
     </select>
 
 
@@ -113,12 +114,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="parentId != null">parent_id,</if>
             <if test="userId != null">user_id,</if>
             <if test="objectId !=null">object_id,</if>
+            <if test="id !=null">id,</if>
             <if test="commentContent != null">comment_content,</if>
             <if test="commentView != null">comment_view,</if>
             <if test="commentHits != null">comment_hits,</if>
             <if test="commentLike != null">comment_like,</if>
             <if test="commentSource != null">comment_source,</if>
             <if test="commentIp != null">comment_ip,</if>
+            <if test="showFlag != null">show_flag,</if>
             <if test="judgeStatus != null and judgeStatus != ''">judge_status,</if>
             <if test="judger != null">judger,</if>
             <if test="visableStatus != null and visableStatus != ''">visable_status,</if>
@@ -131,13 +134,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="parentId != null">#{parentId},</if>
             <if test="userId != null">#{userId},</if>
-            <if test="object_id !=null">#{objectId},</if>
+            <if test="objectId !=null">#{objectId},</if>
+            <if test="id !=null">#{id},</if>
             <if test="commentContent != null">#{commentContent},</if>
             <if test="commentView != null">#{commentView},</if>
             <if test="commentHits != null">#{commentHits},</if>
             <if test="commentLike != null">#{commentLike},</if>
             <if test="commentSource != null">#{commentSource},</if>
             <if test="commentIp != null">#{commentIp},</if>
+            <if test="showFlag != null">#{showFlag},</if>
             <if test="judgeStatus != null and judgeStatus != ''">#{judgeStatus},</if>
             <if test="judger != null">#{judger},</if>
             <if test="visableStatus != null and visableStatus != ''">#{visableStatus},</if>
@@ -154,13 +159,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="parentId != null">parent_id = #{parentId},</if>
             <if test="userId != null">user_id = #{userId},</if>
-            <if test="objectId !=null">object_id = #{object_id},</if>
+            <if test="objectId !=null">object_id = #{objectId},</if>
             <if test="commentContent != null">comment_content = #{commentContent},</if>
             <if test="commentView != null">comment_view = #{commentView},</if>
             <if test="commentHits != null">comment_hits = #{commentHits},</if>
             <if test="commentLike != null">comment_like = #{commentLike},</if>
             <if test="commentSource != null">comment_source = #{commentSource},</if>
             <if test="commentIp != null">comment_ip = #{commentIp},</if>
+            <if test="showFlag != null">#{showFlag},</if>
             <if test="judgeStatus != null and judgeStatus != ''">judge_status = #{judgeStatus},</if>
             <if test="judger != null">judger = #{judger},</if>
             <if test="visableStatus != null and visableStatus != ''">visable_status = #{visableStatus},</if>

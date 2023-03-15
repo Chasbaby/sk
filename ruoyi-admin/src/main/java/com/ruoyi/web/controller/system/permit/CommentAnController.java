@@ -71,6 +71,9 @@ public class CommentAnController extends BaseController {
         comment.setCommentIp(ip);
         comment.setUserId(getUserId());
         comment.setCreateBy(getUsername());
+        if (commentVO.getParentId()==-1){
+            comment.setObjectId(getUserId());
+        }
         // 评论一次过滤
         comment.setCommentContent(filter(comment.getCommentContent()));
         commentService.insertComment(comment);
@@ -140,6 +143,7 @@ public class CommentAnController extends BaseController {
     @ApiOperation("获取某个页面的所有父级评论")
     @PostMapping("/getComment")
     public TableDataInfo getFatherComment(CommentGetDTO commentGetDTO){
+
         if (commentGetDTO.getCommentSource().trim().isEmpty() || commentGetDTO.getId() == null){
             return errorMsg("地址定位失败，请联系管理员");
         }

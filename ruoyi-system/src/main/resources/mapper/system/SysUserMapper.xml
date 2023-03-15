@@ -189,8 +189,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="nickName != null and nickName != ''">nick_name = #{nickName},</if>
  			<if test="email != null ">email = #{email},</if>
  			<if test="phonenumber != null ">phonenumber = #{phonenumber},</if>
-			<if test="intro != null and intro != ''">#{intro},</if>
-			<if test="backgroundImage !=null and backgroundImage !=''">#{backgroundImage},</if>
+			<if test="intro != null and intro != ''">intro = #{intro},</if>
+			<if test="backgroundImage !=null and backgroundImage !=''">background_image = #{backgroundImage},</if>
  			<if test="sex != null and sex != ''">sex = #{sex},</if>
  			<if test="avatar != null and avatar != ''">avatar = #{avatar},</if>
  			<if test="password != null and password != ''">password = #{password},</if>

@@ -15,6 +15,7 @@ import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.SearchCaseType;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.system.service.ISysUserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,14 +117,16 @@ public class ArticleAnController extends BaseController {
      */
     @PreAuthorize("@ss.hasRole('common')")
     @PostMapping("/create")
-    public AjaxResult createArticle(ArticleCreateDTO article){
+    public AjaxResult createArticle(@RequestBody ArticleCreateDTO article){
+        System.out.println(article.getArticleContent());
         // 复制对象
-        Article articleHandle = copyObject(article, Article.class);
-        articleHandle.setArticleContent(filter(articleHandle.getArticleContent()));
+        Article articleHandle = new Article();
+        BeanUtils.copyBeanProp(articleHandle,article);
+        articleHandle.setArticleContent(filter(article.getArticleContent()));
         // 设置用户信息
         articleHandle.setUserId(getUserId());
-
         // 存入数据库
+        articleService.insertArticle(articleHandle);
         return AjaxResult.success("创建成功，等待审核即可发表");
     }
 

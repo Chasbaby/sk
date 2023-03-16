@@ -1,18 +1,23 @@
 package com.ruoyi.sights.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.core.domain.entity.DTO.UserDTO;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.culCreativity.domain.SightsCulCreativity;
 import com.ruoyi.culCreativity.domain.SightsCulCreativityRecordLike;
 import com.ruoyi.culCreativity.domain.SightsCulCreativityRecordScore;
 import com.ruoyi.culCreativity.domain.SightsCulCreativityUserCollect;
+import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.sights.domain.*;
-import com.ruoyi.sights.mapper.SightsCulCreativityRecordLikeMapper;
-import com.ruoyi.sights.mapper.SightsCulCreativityRecordScoreMapper;
-import com.ruoyi.sights.mapper.SightsCulCreativityUserCollectMapper;
+import com.ruoyi.sights.domain.DTO.SightsCulDTO;
+import com.ruoyi.sights.mapper.*;
+import com.ruoyi.system.mapper.SysUserMapper;
+import com.ruoyi.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.sights.mapper.SightsCulCreativityMapper;
 import com.ruoyi.sights.service.ISightsCulCreativityService;
 
 /**
@@ -26,6 +31,10 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
 {
     @Autowired
     private SightsCulCreativityMapper sightsCulCreativityMapper;
+    @Autowired
+    private SysUserMapper userMapper;
+    @Autowired
+    private SightsBaseMapper baseMapper;
     @Autowired
     private SightsCulCreativityRecordScoreMapper sightsCulCreativityRecordScoreMapper;
     @Autowired
@@ -105,6 +114,32 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     public int deleteSightsCulCreativityByCulCreativityId(Long culCreativityId)
     {
         return sightsCulCreativityMapper.deleteSightsCulCreativityByCulCreativityId(culCreativityId);
+    }
+
+    @Override
+    public CulDetail getCulDetail(Long culCreativityId) {
+        CulDetail detail = new CulDetail();
+        SightsCulCreativity creativity = sightsCulCreativityMapper.selectDetailById(culCreativityId);
+        BeanUtils.copyBeanProp(detail,creativity);
+        Long userId = creativity.getUserId();
+        // 如果是用户发表的文创
+        if ( userId != null){
+            UserDTO userDTO = new UserDTO();
+            SysUser sysUser = userMapper.selectUserById(userId);
+            BeanUtils.copyBeanProp(userDTO,sysUser);
+            detail.setUser(userDTO);
+            return detail;
+        }
+        Long sightsId = creativity.getSightsId();
+        // 如果是景点发布的文创
+        if (sightsId !=null){
+            SightsCulDTO sightsCulDTO = new SightsCulDTO();
+            SightsBase sightsBase = baseMapper.selectSightsBaseBySightsId(sightsId);
+            BeanUtils.copyBeanProp(sightsCulDTO,sightsBase);
+            detail.setSight(sightsCulDTO);
+            return detail;
+        }
+        return detail;
     }
 
     @Override

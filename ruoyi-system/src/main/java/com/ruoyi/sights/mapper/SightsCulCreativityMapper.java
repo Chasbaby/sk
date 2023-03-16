@@ -66,4 +66,11 @@ public interface SightsCulCreativityMapper
      * @return 基本信息
      */
     public List<SightsCulCreativity> selectSightsInSearchList(SightsCulCreativity sightsCulCreativity);
+
+    /**
+     * 获取详细信息
+     * @param culCreativityId
+     * @return
+     */
+    public SightsCulCreativity selectDetailById(Long culCreativityId);
 }

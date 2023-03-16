@@ -6,6 +6,7 @@ import com.ruoyi.culCreativity.domain.SightsCulCreativity;
 import com.ruoyi.culCreativity.domain.SightsCulCreativityRecordLike;
 import com.ruoyi.culCreativity.domain.SightsCulCreativityRecordScore;
 import com.ruoyi.culCreativity.domain.SightsCulCreativityUserCollect;
+import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.sights.domain.*;
 
 /**
@@ -63,6 +64,14 @@ public interface ISightsCulCreativityService
      * @return 结果
      */
     public int deleteSightsCulCreativityByCulCreativityId(Long culCreativityId);
+
+
+    /**
+     * 获取文创详细信息
+     * @param culCreativityId id
+     * @return 详细信息
+     */
+    public CulDetail getCulDetail(Long culCreativityId);
 
     /**
      * 下面是景点评分系列操作

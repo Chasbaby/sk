@@ -7,6 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="SightsCulCreativity" id="SightsCulCreativityResult">
         <result property="culCreativityId"    column="cul_creativity_id"    />
         <result property="sightsId"    column="sights_id"    />
+        <result property="userId" column="user_id"/>
         <result property="culCreativityTitle"    column="cul_creativity_title"    />
         <result property="culCreativityIntro"    column="cul_creativity_intro"    />
         <result property="culCreativityCategory"    column="cul_creativity_category"    />
@@ -26,14 +27,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSightsCulCreativityVo">
-        select cul_creativity_id, sights_id, cul_creativity_title,cul_creativity_image, cul_creativity_intro, cul_creativity_category,
+        select cul_creativity_id, sights_id, user_id,cul_creativity_title,cul_creativity_image, cul_creativity_intro, cul_creativity_category,
                cul_creativity_tags, cul_creativity_key, cul_creativity_like, cul_creativity_dislike, cul_creativity_collection,
                cul_creativity_hits, del_flag, top_flag, create_by, create_time, update_by, update_time from sights_cul_creativity
     </sql>
 
     <select id="selectSightsCulCreativityList" parameterType="SightsCulCreativity" resultMap="SightsCulCreativityResult">
         <include refid="selectSightsCulCreativityVo"/>
-        <where>  
+        <where>
+            <if test="userId != null">and user_id = #{userId}</if>
             <if test="culCreativityTitle != null  and culCreativityTitle != ''"> and cul_creativity_title like concat('%', #{culCreativityTitle}, '%')</if>
             <if test="culCreativityCategory != null  and culCreativityCategory != ''"> and cul_creativity_category like concat('%', #{culCreativityCategory}, '%')</if>
             <if test="culCreativityTags != null  and culCreativityTags != ''"> and cul_creativity_tags like concat('%', #{culCreativityTags}, '%')</if>
@@ -63,10 +65,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         and del_flag !='Y'
         order by cul_creativity_collection,cul_creativity_like,cul_creativity_hits
     </select>
+    <select id="selectDetailById" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" parameterType="Long" resultMap="SightsCulCreativityResult">
+        <include refid="selectSightsCulCreativityVo"/>
+        where del_flag = 'N'
+    </select>
+
 
     <insert id="insertSightsCulCreativity" parameterType="SightsCulCreativity" useGeneratedKeys="true" keyProperty="culCreativityId">
         insert into sights_cul_creativity
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
             <if test="sightsId != null">sights_id,</if>
             <if test="culCreativityTitle != null and culCreativityTitle != ''">cul_creativity_title,</if>
             <if test="culCreativityIntro != null">cul_creativity_intro,</if>
@@ -86,6 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
             <if test="sightsId != null">#{sightsId},</if>
             <if test="culCreativityTitle != null and culCreativityTitle != ''">#{culCreativityTitle},</if>
             <if test="culCreativityIntro != null">#{culCreativityIntro},</if>
@@ -109,6 +118,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateSightsCulCreativity" parameterType="SightsCulCreativity">
         update sights_cul_creativity
         <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null"> user_id = #{userId},</if>
             <if test="sightsId != null">sights_id = #{sightsId},</if>
             <if test="culCreativityTitle != null and culCreativityTitle != ''">cul_creativity_title = #{culCreativityTitle},</if>
             <if test="culCreativityIntro != null">cul_creativity_intro = #{culCreativityIntro},</if>

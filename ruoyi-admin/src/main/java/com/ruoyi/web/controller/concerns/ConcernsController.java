@@ -28,6 +28,7 @@ public class ConcernsController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/add/{userId}")
     public AjaxResult addConcerns(@PathVariable Long userId){
+
         return AjaxResult.success("");
     }
 

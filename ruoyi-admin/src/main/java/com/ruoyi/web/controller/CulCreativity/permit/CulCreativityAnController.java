@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.CulCreativity.permit;
 
 import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.sights.service.ISightsCulCreativityService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @ApiOperation("文创游客板块")
 @RestController
-@RequestMapping("creativity")
+@RequestMapping("/creativity")
 public class CulCreativityAnController {
 
     @Autowired
@@ -58,11 +59,12 @@ public class CulCreativityAnController {
         return null;
     }
 
-
-
-
-
-
+    @Anonymous
+    @GetMapping("/getDetail/{culCreativityId}")
+    public AjaxResult getCulDetail(@PathVariable Long culCreativityId){
+        CulDetail detail =  creativityService.getCulDetail(culCreativityId);
+        return AjaxResult.success(detail);
+    }
 
     /**
      * 订阅文创

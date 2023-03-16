@@ -163,9 +163,9 @@ public class CommentAnController extends BaseController {
     @ApiOperation("获取某用户的所有评论")
     @GetMapping("/person/{num}")
     public TableDataInfo getUserAllComment(@PathVariable Integer num){
-//        if (){
-//            return errorMsg("请联系管理员，数据获取失败");
-//        }
+        if (num!=1&&num!=2){
+            return errorMsg("请联系管理员，数据获取失败");
+        }
         startPage();
         Long userId = getUserId();
         List<CommentDTO> comments = commentService.getAllCommentsByWays(userId, num);
@@ -206,18 +206,10 @@ public class CommentAnController extends BaseController {
         return getDataTable(commentService.getUnStatusComments(getUserId()));
     }
 
-    @ApiOperation("删除单条评论")
-    @DeleteMapping("/delete/{commentId}")
-    @PreAuthorize("@ss.hasRole('common')")
-    public AjaxResult deleteComment(@PathVariable Long commentId){
-        int i = commentService.deleteCommentByUser(commentId);
-        return AjaxResult.success("成功删除"+i+"条评论");
-    }
-
     @ApiOperation("用户批量删除评论")
-    @DeleteMapping("/delete/comments")
+    @DeleteMapping("/delete/comments/{commentIds}")
     @PreAuthorize("@ss.hasRole('common')")
-    public AjaxResult deleteComments(Long[] commentIds){
+    public AjaxResult deleteComments(@PathVariable Long[] commentIds){
         int i = commentService.deleteCommentsByUser(commentIds);
         return AjaxResult.success("成功删除"+i+"条评论");
     }

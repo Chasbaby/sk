@@ -1,10 +1,6 @@
 package com.ruoyi.common.utils.poi;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -165,6 +161,13 @@ public class ExcelUtil<T>
         this.clazz = clazz;
     }
 
+    /**
+     * 初始化 excel
+     * @param list
+     * @param sheetName
+     * @param title
+     * @param type
+     */
     public void init(List<T> list, String sheetName, String title, Type type)
     {
         if (list == null)
@@ -234,7 +237,6 @@ public class ExcelUtil<T>
 
     /**
      * 对excel表单默认第一个索引名转换成list
-     * 
      * @param is 输入流
      * @param titleNum 标题占用行数
      * @return 转换后集合
@@ -484,7 +486,6 @@ public class ExcelUtil<T>
 
     /**
      * 对list数据源将其里面的数据导入到excel表单
-     * 
      * @param sheetName 工作表的名称
      * @return 结果
      */

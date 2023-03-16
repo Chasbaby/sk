@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
+import static com.ruoyi.common.utils.EmojiUtils.emojiConverterUnicodeStr;
 import static com.ruoyi.framework.config.SensitiveConfig.filter;
 
 /**
@@ -65,6 +66,8 @@ public class CommentAnController extends BaseController {
         if (commentVO.getParentId() !=-1 && commentVO.getObjectId()==null){
             return AjaxResult.error("请选择原评论");
         }
+        String content = emojiConverterUnicodeStr(commentVO.getCommentContent());
+        commentVO.setCommentContent(content);
         String ip = getLoginUser().getIpaddr();
         Comment comment = new Comment();
         BeanUtils.copyBeanProp(comment,commentVO);

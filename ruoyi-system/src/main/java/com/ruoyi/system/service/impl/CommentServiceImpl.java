@@ -20,6 +20,8 @@ import com.ruoyi.system.domain.Comment;
 import com.ruoyi.system.service.ICommentService;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.ruoyi.common.utils.EmojiUtils.emojiConverterToAlias;
+
 
 /**
  * 评论Service业务层处理
@@ -250,6 +252,7 @@ public class CommentServiceImpl implements ICommentService
 
 
     private CommentDTO handleComment(Comment item) {
+        item.setCommentContent(emojiConverterToAlias(item.getCommentContent()));
         CommentDTO commentDTO = new CommentDTO();
         // 查询用户
         SysUser sysUser = userMapper.selectUserById(item.getUserId());

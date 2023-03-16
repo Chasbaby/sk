@@ -65,9 +65,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         and del_flag !='Y'
         order by cul_creativity_collection,cul_creativity_like,cul_creativity_hits
     </select>
+
     <select id="selectDetailById" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" parameterType="Long" resultMap="SightsCulCreativityResult">
         <include refid="selectSightsCulCreativityVo"/>
-        where del_flag = 'N'
+        where del_flag = 'N' and cul_creativity_id = #{culCreativityId}
     </select>
 
 

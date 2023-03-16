@@ -72,7 +72,11 @@
             <artifactId>ruoyi-recommend</artifactId>
         </dependency>
 
-<!--        kafka-logback  似乎用不到哦-->
+
+
+
+
+        <!--        kafka-logback  似乎用不到哦-->
 <!--        <dependency>-->
 <!--            <groupId>com.github.danielwegener</groupId>-->
 <!--            <artifactId>logback-kafka-appender</artifactId>-->

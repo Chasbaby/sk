@@ -38,7 +38,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSysTypesetVo"/>
         where typeset_id = #{typesetId}
     </select>
-        
+    <select id="getTypesetSights3" resultType="com.ruoyi.page.domain.SysTypeset" resultMap="SysTypesetResult">
+        <include refid="selectSysTypesetVo"/>
+        where typeset_page = 0 and typeset_position = 3 or typeset_position = 4 or typeset_position = 5 and flag ='Y'
+    </select>
+
     <insert id="insertSysTypeset" parameterType="SysTypeset">
         insert into sys_typeset
         <trim prefix="(" suffix=")" suffixOverrides=",">

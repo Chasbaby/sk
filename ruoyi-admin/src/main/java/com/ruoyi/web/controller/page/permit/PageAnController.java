@@ -31,7 +31,7 @@ public class PageAnController {
     private ISysTypesetService sysTypesetService;
 
     /**
-     * 完美 的 涉及
+     * 完美 的 设计   通用
      * @param typesetPage
      * @param typesetPosition
      * @return
@@ -45,6 +45,27 @@ public class PageAnController {
         sysTypeset.setTypesetPage(typesetPage);
         List<SysTypeset> sysTypesets = sysTypesetService.selectSysTypesetList(sysTypeset);
         return AjaxResult.success(sysTypesets);
+    }
+
+    /**
+     * 景点三者
+     * @return
+     */
+    @ApiOperation("三景点排版")
+    @GetMapping("/typeset/Sights")
+    public AjaxResult getTypesetSights3(){
+        List<SysTypeset> sights3 = sysTypesetService.getTypesetSights3();
+        return AjaxResult.success(sights3);
+    }
+
+    /**
+     * 文创三者
+     * @return
+     */
+    @ApiOperation("三文创排版")
+    @GetMapping("/typeset/cul")
+    public AjaxResult getTypesetCuls(){
+        return null;
     }
 
     @ApiOperation("获取footer数据")

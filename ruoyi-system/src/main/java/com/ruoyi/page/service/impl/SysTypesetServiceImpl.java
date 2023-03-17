@@ -93,4 +93,9 @@ public class SysTypesetServiceImpl implements ISysTypesetService
     {
         return sysTypesetMapper.deleteSysTypesetByTypesetId(typesetId);
     }
+
+    @Override
+    public List<SysTypeset> getTypesetSights3() {
+        return sysTypesetMapper.getTypesetSights3();
+    }
 }

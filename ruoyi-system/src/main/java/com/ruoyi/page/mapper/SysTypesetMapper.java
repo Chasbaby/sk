@@ -58,4 +58,10 @@ public interface SysTypesetMapper
      * @return 结果
      */
     public int deleteSysTypesetByTypesetIds(Long[] typesetIds);
+
+    /**
+     * 获取三大景点展示排版
+     * @return
+     */
+    public List<SysTypeset> getTypesetSights3();
 }

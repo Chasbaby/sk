@@ -7,7 +7,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="SysPartner" id="SysPartnerResult">
         <result property="partnerId"    column="partner_id"    />
         <result property="partnerIntro"    column="partner_intro"    />
-        <result property="pertnerLogo"    column="pertner_logo"    />
+        <result property="partnerLogo"    column="partner_logo"    />
+        <result property="partnerRoute" column="partner_route"/>
         <result property="cooperationCore"    column="cooperation_core"    />
         <result property="cooperationBegin"    column="cooperation_begin"    />
         <result property="cooperationEnd"    column="cooperation_end"    />
@@ -20,12 +21,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSysPartnerVo">
-        select partner_id, partner_intro, pertner_logo, cooperation_core, cooperation_begin, cooperation_end, cooperation_document, create_by, create_time, update_by, update_time, remark from sys_partner
+        select partner_id, partner_intro, partner_route,partner_logo, cooperation_core, cooperation_begin, cooperation_end, cooperation_document, create_by, create_time, update_by, update_time, remark from sys_partner
     </sql>
 
     <select id="selectSysPartnerList" parameterType="SysPartner" resultMap="SysPartnerResult">
         <include refid="selectSysPartnerVo"/>
-        <where>  
+        <where>
+            <if test="partnerRoute !=null and partnerRoute !=''">and partner_route = #{partnerRoute}</if>
             <if test="cooperationCore != null  and cooperationCore != ''"> and cooperation_core = #{cooperationCore}</if>
             <if test="cooperationBegin != null "> and cooperation_begin = #{cooperationBegin}</if>
             <if test="cooperationEnd != null "> and cooperation_end = #{cooperationEnd}</if>
@@ -42,7 +44,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into sys_partner
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="partnerIntro != null and partnerIntro != ''">partner_intro,</if>
-            <if test="pertnerLogo != null and pertnerLogo != ''">pertner_logo,</if>
+            <if test="partnerLogo != null and partnerLogo != ''">partner_logo,</if>
+            <if test="partnerRoute !=null and partnerRoute !=''">partner_route,</if>
             <if test="cooperationCore != null">cooperation_core,</if>
             <if test="cooperationBegin != null">cooperation_begin,</if>
             <if test="cooperationEnd != null">cooperation_end,</if>
@@ -55,7 +58,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="partnerIntro != null and partnerIntro != ''">#{partnerIntro},</if>
-            <if test="pertnerLogo != null and pertnerLogo != ''">#{pertnerLogo},</if>
+            <if test="partnerLogo != null and partnerLogo != ''">#{partnerLogo},</if>
+            <if test="partnerRoute !=null and partnerRoute !=''">#{partnerRoute},</if>
             <if test="cooperationCore != null">#{cooperationCore},</if>
             <if test="cooperationBegin != null">#{cooperationBegin},</if>
             <if test="cooperationEnd != null">#{cooperationEnd},</if>
@@ -71,8 +75,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateSysPartner" parameterType="SysPartner">
         update sys_partner
         <trim prefix="SET" suffixOverrides=",">
+            <if test="partnerRoute !=null and partnerRoute !=''">partner_route = #{partnerRoute},</if>
             <if test="partnerIntro != null and partnerIntro != ''">partner_intro = #{partnerIntro},</if>
-            <if test="pertnerLogo != null and pertnerLogo != ''">pertner_logo = #{pertnerLogo},</if>
+            <if test="partnerLogo != null and partnerLogo != ''">partner_logo = #{partnerLogo},</if>
             <if test="cooperationCore != null">cooperation_core = #{cooperationCore},</if>
             <if test="cooperationBegin != null">cooperation_begin = #{cooperationBegin},</if>
             <if test="cooperationEnd != null">cooperation_end = #{cooperationEnd},</if>

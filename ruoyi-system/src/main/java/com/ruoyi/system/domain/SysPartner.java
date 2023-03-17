@@ -26,7 +26,9 @@ public class SysPartner extends BaseEntity
 
     /** 伙伴logo */
     @Excel(name = "伙伴logo")
-    private String pertnerLogo;
+    private String partnerLogo;
+    @Excel(name = "伙伴链接")
+    private String partnerRoute;
 
     /** 合作核心事项 */
     @Excel(name = "合作核心事项")
@@ -46,7 +48,23 @@ public class SysPartner extends BaseEntity
     @Excel(name = "合作文档")
     private String cooperationDocument;
 
-    public void setPartnerId(Long partnerId) 
+    public String getPartnerLogo() {
+        return partnerLogo;
+    }
+
+    public void setPartnerLogo(String partnerLogo) {
+        this.partnerLogo = partnerLogo;
+    }
+
+    public String getPartnerRoute() {
+        return partnerRoute;
+    }
+
+    public void setPartnerRoute(String partnerRoute) {
+        this.partnerRoute = partnerRoute;
+    }
+
+    public void setPartnerId(Long partnerId)
     {
         this.partnerId = partnerId;
     }
@@ -66,12 +84,12 @@ public class SysPartner extends BaseEntity
     }
     public void setPertnerLogo(String pertnerLogo) 
     {
-        this.pertnerLogo = pertnerLogo;
+        this.partnerLogo = pertnerLogo;
     }
 
     public String getPertnerLogo() 
     {
-        return pertnerLogo;
+        return partnerLogo;
     }
     public void setCooperationCore(String cooperationCore) 
     {
@@ -115,7 +133,8 @@ public class SysPartner extends BaseEntity
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("partnerId", getPartnerId())
             .append("partnerIntro", getPartnerIntro())
-            .append("pertnerLogo", getPertnerLogo())
+            .append("partnerLogo", getPartnerLogo())
+            .append("partnerRoute",getPartnerRoute())
             .append("cooperationCore", getCooperationCore())
             .append("cooperationBegin", getCooperationBegin())
             .append("cooperationEnd", getCooperationEnd())

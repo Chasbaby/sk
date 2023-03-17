@@ -5,6 +5,7 @@ import java.util.List;
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.article.domain.dto.ArticleCreateDTO;
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 文章Mapper接口
@@ -95,5 +96,20 @@ public interface ArticleMapper extends BaseMapperPlus<ArticleMapper,Article, Art
      * @return
      */
     public int updateArticleView(Long article);
+
+    /**
+     * 获取用户草稿文章
+     * @param userId
+     * @return
+     */
+    public List<Article> getArticleDraft(Long userId);
+
+    /**
+     * 获取用户所有的文章
+     * @param userId
+     * @param ways
+     * @return
+     */
+    public List<Article> getAllArticlesByWays(@Param("userId") Long userId,@Param("ways") Integer ways );
 
 }

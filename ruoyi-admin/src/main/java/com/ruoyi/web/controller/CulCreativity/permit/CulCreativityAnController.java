@@ -1,9 +1,13 @@
 package com.ruoyi.web.controller.CulCreativity.permit;
 
 import com.ruoyi.common.annotation.Anonymous;
+import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.culCreativity.domain.dto.CulCreateDTO;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.sights.service.ISightsCulCreativityService;
+import com.ruoyi.system.service.ISysUserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +22,16 @@ import org.springframework.web.bind.annotation.*;
 @ApiOperation("文创游客板块")
 @RestController
 @RequestMapping("/creativity")
-public class CulCreativityAnController {
+public class CulCreativityAnController extends BaseController {
 
     @Autowired
     private ISightsCulCreativityService creativityService;
+
+    @Autowired
+    private ISysUserService userService;
+
+//    @Autowired
+//    private
 
 
     /**
@@ -59,6 +69,11 @@ public class CulCreativityAnController {
         return null;
     }
 
+    /**
+     * 获得文创详细资料
+     * @param culCreativityId
+     * @return
+     */
     @Anonymous
     @GetMapping("/getDetail/{culCreativityId}")
     public AjaxResult getCulDetail(@PathVariable Long culCreativityId){
@@ -74,7 +89,7 @@ public class CulCreativityAnController {
     @GetMapping("/subscription/{culCreativityId}")
     @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult subscription(@PathVariable Long culCreativityId){
-
+        SysUser sysUser = userService.selectUserById(getUserId());
 
         return null;
     }
@@ -85,7 +100,7 @@ public class CulCreativityAnController {
      */
     @PreAuthorize("@ss.hasRole('common')")
     @PostMapping("/create")
-    public AjaxResult crate(){
+    public AjaxResult crate(@RequestBody CulCreateDTO createDTO){
 
 
         return null;

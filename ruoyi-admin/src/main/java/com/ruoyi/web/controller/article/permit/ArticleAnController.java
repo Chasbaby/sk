@@ -3,10 +3,7 @@ package com.ruoyi.web.controller.article.permit;
 
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.article.domain.ArticleRecord;
-import com.ruoyi.article.domain.dto.ArticleCreateDTO;
-import com.ruoyi.article.domain.dto.ArticleDetail;
-import com.ruoyi.article.domain.dto.ArticleReturnCore;
-import com.ruoyi.article.domain.dto.ArticleReturnDTO;
+import com.ruoyi.article.domain.dto.*;
 import com.ruoyi.article.service.IArticleService;
 import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.core.controller.BaseController;
@@ -17,7 +14,9 @@ import com.ruoyi.common.enums.SearchCaseType;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.system.service.ISysUserService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +31,7 @@ import static com.ruoyi.framework.config.SensitiveConfig.filter;
  * @author Chas
  * @data 2023-3
  */
-@ApiOperation("面向游客的文章操作")
+@Api("面向游客的文章操作")
 @RestController
 @RequestMapping("/article")
 public class ArticleAnController extends BaseController {
@@ -50,6 +49,7 @@ public class ArticleAnController extends BaseController {
      *
      * @return yes or no
      */
+    @ApiOperation("文章点赞")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/like/{articleId}")
     public AjaxResult articleLike(@PathVariable Long articleId){
@@ -73,6 +73,7 @@ public class ArticleAnController extends BaseController {
      * @param articleId
      * @return null
      */
+    @ApiOperation("文章浏览")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/view/{articleId}")
     public AjaxResult articleView(@PathVariable Long articleId){
@@ -86,6 +87,7 @@ public class ArticleAnController extends BaseController {
      * @param articleId
      * @return
      */
+    @ApiOperation("文章浏览(非登录)")
     @Anonymous
     @GetMapping("/view/anonymous/{articleId}")
     public AjaxResult articleViewAnonymous(@PathVariable Long articleId){
@@ -98,6 +100,7 @@ public class ArticleAnController extends BaseController {
      * @param articleId
      * @return yes or no
      */
+    @ApiOperation("文章收藏")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/collect/{articleId}")
     public AjaxResult articleCollect(@PathVariable Long articleId){
@@ -115,6 +118,7 @@ public class ArticleAnController extends BaseController {
      *  前端应该有一些基本的数据检测 数据的有效性
      * @return yes or no
      */
+    @ApiOperation("文章创造")
     @PreAuthorize("@ss.hasRole('common')")
     @PostMapping("/create")
     public AjaxResult createArticle(@RequestBody ArticleCreateDTO article){
@@ -134,6 +138,7 @@ public class ArticleAnController extends BaseController {
      *  获取某用户收藏列表
      * @return 收藏列表
      */
+    @ApiOperation("文章收藏")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/collect/getAll")
     public AjaxResult readArticleCollect(){
@@ -149,11 +154,11 @@ public class ArticleAnController extends BaseController {
      * 获取历史点赞记录
      * @return 点赞列表
      */
+    @ApiOperation("获取历史点赞记录")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/like/getAll")
     public AjaxResult readArticleLike(){
         List<ArticleReturnDTO> articles = articleService.getAllArticleLike(getUserId());
-
         return AjaxResult.success(articles);
     }
 
@@ -161,6 +166,7 @@ public class ArticleAnController extends BaseController {
      * 获取历史浏览记录
      * @return
      */
+    @ApiOperation("获取历史流量数据")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/view/getAll")
     public AjaxResult readArticleView(){
@@ -171,12 +177,12 @@ public class ArticleAnController extends BaseController {
     /**
      * 分页获取某用户所有文章
      * 默认按照时间排序
-     *
      * @return 文章列表
      */
+    @ApiOperation("分页获取某用户所有文章")
     @PreAuthorize("@ss.hasRole('common')")
     @PostMapping("/getAllArticle")
-    public TableDataInfo getAllArticle(Article article){
+    public TableDataInfo getAllArticle(){
         startPage();
         return getDataTable(articleService.getAllArticleByUserId(getUserId()));
     }
@@ -186,6 +192,7 @@ public class ArticleAnController extends BaseController {
      * 不管你是不是人都可以到这里来哦
      * @return 信息
      */
+    @ApiOperation("获取文章的详细信息")
     @Anonymous
     @PostMapping("/getDetail/{articleId}")
     public AjaxResult getArticleDetail(@PathVariable Long articleId){
@@ -193,6 +200,33 @@ public class ArticleAnController extends BaseController {
         return AjaxResult.success(detail);
     }
 
+    /**
+     * 获取文章稿件
+     * @return list
+     */
+    @GetMapping("/getDraft")
+    @ApiOperation("获取文章稿件")
+    @PreAuthorize("@ss.hasRole('common')")
+    public TableDataInfo getDraft(){
+        startPage();
+        List<ArticleReturnDTO> drafts = articleService.getDraft(getUserId());
+        return getDataTable(drafts);
+    }
+
+    /**
+     * 获取某用户的所有文章 分类
+     * @param num
+     * @return
+     */
+    @PreAuthorize("@ss.hasRole('common')")
+    @ApiOperation("获取某用户的所有文章")
+    @GetMapping("/person/{num}")
+    public TableDataInfo getUserAllArticle(@PathVariable Integer num){
+        startPage();
+        Long userId = getUserId();
+        List<ArticleStatusDTO> articles = articleService.getUserAllArticleByWays(userId, num);
+        return getDataTable(articles);
+    }
     /**
      *  创建记录
      * @param articleId

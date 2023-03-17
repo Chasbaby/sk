@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-@Api("页面排版")
+@Api("页面动态排版")
 @Anonymous
 @RestController
 @RequestMapping("/page")
@@ -31,11 +30,19 @@ public class PageAnController {
     @Autowired
     private ISysTypesetService sysTypesetService;
 
+    /**
+     * 完美 的 涉及
+     * @param typesetPage
+     * @param typesetPosition
+     * @return
+     */
     @ApiOperation("获取区域数据")
-    @GetMapping("/typeset/{typesetPosition}")
-    public AjaxResult getTypeset(@PathVariable("typesetPosition") Integer typesetPosition){
+    @GetMapping("/typeset/{typesetPage}/{typesetPosition}")
+    public AjaxResult getTypeset(@PathVariable("typesetPage") Integer typesetPage,
+                                 @PathVariable("typesetPosition") Integer typesetPosition){
         SysTypeset sysTypeset = new SysTypeset();
         sysTypeset.setTypesetPosition(typesetPosition);
+        sysTypeset.setTypesetPage(typesetPage);
         List<SysTypeset> sysTypesets = sysTypesetService.selectSysTypesetList(sysTypeset);
         return AjaxResult.success(sysTypesets);
     }

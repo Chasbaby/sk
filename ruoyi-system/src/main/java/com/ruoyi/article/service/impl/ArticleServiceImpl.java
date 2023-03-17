@@ -10,6 +10,7 @@ import com.ruoyi.article.domain.ArticleRecord;
 import com.ruoyi.article.domain.dto.ArticleDetail;
 import com.ruoyi.article.domain.dto.ArticleHomeDTO;
 import com.ruoyi.article.domain.dto.ArticleReturnDTO;
+import com.ruoyi.article.domain.dto.ArticleStatusDTO;
 import com.ruoyi.article.mapper.ArticleMapper;
 import com.ruoyi.article.mapper.ArticleRecordMapper;
 import com.ruoyi.article.service.IArticleService;
@@ -290,6 +291,43 @@ public class ArticleServiceImpl implements IArticleService
         detail.setUser(userDTO);
         detail.setVisitor(visitorDTO);
         return detail;
+    }
+
+    /**
+     * 获取用户草稿文件
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<ArticleReturnDTO> getDraft(Long userId) {
+        List<Article> drafts = articleMapper.getArticleDraft(userId);
+        List<ArticleReturnDTO> returnDTOList = getReturnDTOList(drafts);
+        return returnDTOList;
+    }
+
+    /**
+     * ways  0  审核通过
+     *       1  审核不通过
+     *       2  进行中
+     * @param userId
+     * @param ways
+     * @return
+     */
+    @Override
+    public List<ArticleStatusDTO> getUserAllArticleByWays(Long userId, Integer ways) {
+        List<Article> articlesByWays = articleMapper.getAllArticlesByWays(userId, ways);
+        List<ArticleStatusDTO> collect = articlesByWays.stream().map(item -> {
+            ArticleStatusDTO statusDTO = new ArticleStatusDTO();
+            try {
+                BeanUtils.copyProperties(statusDTO, item);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+            return statusDTO;
+        }).collect(Collectors.toList());
+        return collect;
     }
 
 

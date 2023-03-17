@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api("用户之间操作")
 @RestController
-@RequestMapping("inter")
+@RequestMapping("/inter")
 public class ConcernsController extends BaseController {
 
 

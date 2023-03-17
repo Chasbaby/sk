@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="userId" column="user_id"/>
         <result property="culCreativityTitle"    column="cul_creativity_title"    />
         <result property="culCreativityIntro"    column="cul_creativity_intro"    />
+        <result property="culCreativityContent" column="cul_creativity_content" />
         <result property="culCreativityCategory"    column="cul_creativity_category"    />
         <result property="culCreativityTags"    column="cul_creativity_tags"    />
         <result property="culCreativityImage" column="cul_creativity_image"/>
@@ -27,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSightsCulCreativityVo">
-        select cul_creativity_id, sights_id, user_id,cul_creativity_title,cul_creativity_image, cul_creativity_intro, cul_creativity_category,
+        select cul_creativity_id, sights_id, user_id,cul_creativity_title,cul_creativity_image, cul_creativity_intro, cul_creativity_category,cul_creativity_content,
                cul_creativity_tags, cul_creativity_key, cul_creativity_like, cul_creativity_dislike, cul_creativity_collection,
                cul_creativity_hits, del_flag, top_flag, create_by, create_time, update_by, update_time from sights_cul_creativity
     </sql>
@@ -38,6 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null">and user_id = #{userId}</if>
             <if test="culCreativityTitle != null  and culCreativityTitle != ''"> and cul_creativity_title like concat('%', #{culCreativityTitle}, '%')</if>
             <if test="culCreativityCategory != null  and culCreativityCategory != ''"> and cul_creativity_category like concat('%', #{culCreativityCategory}, '%')</if>
+            <if test="culCreativityContent !=null and culCreativityContent !=''">and cul_creativity_content like concat('%',#{culCreativityContent},'%')</if>
             <if test="culCreativityTags != null  and culCreativityTags != ''"> and cul_creativity_tags like concat('%', #{culCreativityTags}, '%')</if>
             <if test="culCreativityKey != null  and culCreativityKey != ''"> and cul_creativity_key like concat('%', #{culCreativityKey}, '%')</if>
             <if test="culCreativityImage !=null and culCreativityImage !=''"> and cul_creativity_image like concat('%',#{culCreativityImage},'%')</if>
@@ -58,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                cul_creativity_image,cul_creativity_intro,cul_creativity_key,cul_creativity_tags from sights_cul_creativity
         <where>
             <if test="culCreativityTitle !=null and culCreativityTitle !=''" >or cul_creativity_title like concat('%',#{culCreativityTitle},'%')</if>
+            <if test="culCreativityContent !=null and culCreativityContent !=''"> or cul_creativity_content like concat('%',#{culCreativityContent},'%')</if>>
             <if test="culCreativityIntro !=null and culCreativityIntro !=''">or cul_creativity_intro like concat('%',#{culCreativityIntro},'%')</if>
             <if test="culCreativityKey !=null and culCreativityKey !=''">or cul_creativity_key like concat('%',#{culCreativityKey},'%')</if>
             <if test="culCreativityTags !=null and culCreativityTags !=''">or cul_creativity_tags like concat('%',#{culCreativityTags} ,'%')</if>
@@ -80,6 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="culCreativityTitle != null and culCreativityTitle != ''">cul_creativity_title,</if>
             <if test="culCreativityIntro != null">cul_creativity_intro,</if>
             <if test="culCreativityCategory != null">cul_creativity_category,</if>
+            <if test="culCreativityContent !=null">cul_creativity_content,</if>
             <if test="culCreativityImage !=null and culCreativityImage !=''">cul_creativity_image,</if>
             <if test="culCreativityTags != null">cul_creativity_tags,</if>
             <if test="culCreativityKey != null">cul_creativity_key,</if>
@@ -100,6 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="culCreativityTitle != null and culCreativityTitle != ''">#{culCreativityTitle},</if>
             <if test="culCreativityIntro != null">#{culCreativityIntro},</if>
             <if test="culCreativityCategory != null">#{culCreativityCategory},</if>
+            <if test="culCreativityContent !=null">#{culCreativityContent}</if>
             <if test="culCreativityImage !=null and culCreativityImage !=''">#{culCreativityImage},</if>
             <if test="culCreativityTags != null">#{culCreativityTags},</if>
             <if test="culCreativityKey != null">#{culCreativityKey},</if>
@@ -124,6 +129,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="culCreativityTitle != null and culCreativityTitle != ''">cul_creativity_title = #{culCreativityTitle},</if>
             <if test="culCreativityIntro != null">cul_creativity_intro = #{culCreativityIntro},</if>
             <if test="culCreativityCategory != null">cul_creativity_category = #{culCreativityCategory},</if>
+            <if test="culCreativityContent !=null">cul_creativity_content = #{culCreativityContent},</if>
             <if test="culCreativityImage !=null and culCreativityImage !=''">cul_creativity_image = #{culCreativityImage},</if>
             <if test="culCreativityTags != null">cul_creativity_tags = #{culCreativityTags},</if>
             <if test="culCreativityKey != null">cul_creativity_key = #{culCreativityKey},</if>

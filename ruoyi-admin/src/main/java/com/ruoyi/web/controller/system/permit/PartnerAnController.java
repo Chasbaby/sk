@@ -7,6 +7,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.system.domain.SysPartner;
 import com.ruoyi.system.service.ISysPartnerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,25 +32,34 @@ public class PartnerAnController extends BaseController {
      * @return 列表
      */
     @Anonymous
-    @PostMapping("/getShow")
+    @GetMapping("/getShow")
     public AjaxResult getShow(){
         List<SysPartner> newList = new ArrayList<>();
         List<SysPartner> partners = sysPartnerService.selectSysPartnerList(new SysPartner());
         for (int i = 0; i < 5; i++) {
             int size = partners.size();
+            if (size == 0){
+                break;
+            }
             Random random = new Random();
             int num = random.nextInt(size);
             SysPartner partner = partners.get(num);
             partners.remove(num);
             newList.add(partner);
+
         }
         return AjaxResult.success(newList);
     }
 
+    /**
+     * 获取所有伙伴
+     * @return
+     */
     @Anonymous
-    @PostMapping("/getAll")
-    public TableDataInfo getAll(Integer pageNum,Integer pageSize){
+    @GetMapping("/showAll")
+    public TableDataInfo getAllPartner(){
         startPage();
-        return getDataTable(sysPartnerService.selectSysPartnerList(new SysPartner()));
+        return getDataTable(null);
     }
+
 }

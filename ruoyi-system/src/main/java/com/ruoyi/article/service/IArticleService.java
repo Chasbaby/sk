@@ -2,10 +2,7 @@ package com.ruoyi.article.service;
 
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.article.domain.ArticleRecord;
-import com.ruoyi.article.domain.dto.ArticleCreateDTO;
-import com.ruoyi.article.domain.dto.ArticleDetail;
-import com.ruoyi.article.domain.dto.ArticleHomeDTO;
-import com.ruoyi.article.domain.dto.ArticleReturnDTO;
+import com.ruoyi.article.domain.dto.*;
 
 import java.util.List;
 
@@ -124,6 +121,19 @@ public interface IArticleService
      * @return
      */
     public ArticleDetail getArticleDetail(Long articleId);
+
+    /**
+     * 获取文章稿件
+     */
+    public List<ArticleReturnDTO> getDraft(Long userId);
+
+    /**
+     * 获取各类文件
+     * @param userId
+     * @param ways
+     * @return
+     */
+    public List<ArticleStatusDTO> getUserAllArticleByWays(Long userId,Integer ways);
 
 
 

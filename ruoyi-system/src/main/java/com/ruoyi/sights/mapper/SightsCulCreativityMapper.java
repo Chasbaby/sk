@@ -73,4 +73,5 @@ public interface SightsCulCreativityMapper
      * @return
      */
     public SightsCulCreativity selectDetailById(Long culCreativityId);
+
 }

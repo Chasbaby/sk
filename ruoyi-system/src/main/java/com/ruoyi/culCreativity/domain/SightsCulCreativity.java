@@ -36,10 +36,15 @@ public class SightsCulCreativity extends BaseEntity
     /** 文创简介 */
     @Excel(name = "文创简介")
     private String culCreativityIntro;
+    /** 文创内容*/
+    private String culCreativityContent;
 
     /** 文创类别 */
     @Excel(name = "文创类别")
     private String culCreativityCategory;
+
+    @Excel(name = "文创类型")
+    private String culCreativityType;
 
     /** 标签 */
     @Excel(name = "标签")
@@ -74,6 +79,14 @@ public class SightsCulCreativity extends BaseEntity
     /** 是否置顶(Y表示置顶N表示未置顶) */
     @Excel(name = "是否置顶(Y表示置顶N表示未置顶)")
     private String topFlag;
+
+    public String getCulCreativityContent() {
+        return culCreativityContent;
+    }
+
+    public void setCulCreativityContent(String culCreativityContent) {
+        this.culCreativityContent = culCreativityContent;
+    }
 
     public Long getUserId() {
         return userId;
@@ -219,6 +232,7 @@ public class SightsCulCreativity extends BaseEntity
             .append("culCreativityCollection", getCulCreativityCollection())
             .append("culCreativityHits", getCulCreativityHits())
                 .append("culCreativityView",getCulCreativityView())
+                .append("culCreativityContent",getCulCreativityContent())
             .append("delFlag", getDelFlag())
             .append("topFlag", getTopFlag())
             .append("createBy", getCreateBy())

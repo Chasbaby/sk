@@ -8,6 +8,8 @@ import com.ruoyi.common.core.domain.entity.DTO.UserChangeDTO;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.page.domain.SysTypeset;
+import com.ruoyi.page.service.ISysTypesetService;
 import com.ruoyi.system.service.ISysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,6 +31,9 @@ public class PersonDataController extends BaseController {
 
     @Autowired
     private ISysUserService userService;
+
+    @Autowired
+    private ISysTypesetService sysTypesetService;
 
 
     /**
@@ -77,6 +82,31 @@ public class PersonDataController extends BaseController {
         sysUser.setUpdateBy(getUsername());
         userService.updateUser(sysUser);
         return AjaxResult.success("修改数据成功");
+    }
+
+    @ApiOperation("获取个人资料")
+    @PreAuthorize("@ss.hasRole('common')")
+    @GetMapping("/user/getInfo")
+    public AjaxResult getInfo(){
+        UserChangeDTO personInfo = userService.getPersonInfo(getUserId());
+        return AjaxResult.success(personInfo);
+    }
+
+    @ApiOperation("修改背景图片")
+    @PreAuthorize("@ss.hasRole('common')")
+    @GetMapping("/user/{image}")
+    public AjaxResult editBackgroundImage(@PathVariable String image){
+        // 解决了 图片路径 与 请求路径的相似性
+        int i = Integer.parseInt(image);
+        SysTypeset sysTypeset = new SysTypeset();
+        sysTypeset.setTypesetPosition(9);
+        sysTypeset.setTypesetPage(1);
+        List<SysTypeset> sysTypesets = sysTypesetService.selectSysTypesetList(sysTypeset);
+        SysTypeset typeset = sysTypesets.get(0);
+        String backgroundImage = typeset.getTypesetImage().split(",")[i];
+
+        userService.updateUserBackgroundImage(backgroundImage,getUserId());
+        return AjaxResult.success("修改背景图片成功");
     }
 
 

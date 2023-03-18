@@ -212,6 +212,19 @@ public interface ISysUserService
      * @return
      */
     public UserChangeDTO perInformation(Long userId);
+
+    /**
+     * 获取个人资料
+     * @param userId
+     * @return
+     */
+    public UserChangeDTO getPersonInfo(Long userId);
+
+    /**
+     * 修改个人头像
+     * @param image
+     */
+    public  int updateUserBackgroundImage(String image,Long userId);
 //
 //    /**
 //     * 修改个人信息

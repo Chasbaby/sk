@@ -612,6 +612,34 @@ public class SysUserServiceImpl implements ISysUserService
         BeanUtils.copyBeanProp(changeDTO,sysUser);
         return changeDTO;
     }
+
+    /**
+     * 获取个人资料
+     * @param userId
+     * @return
+     */
+    @Override
+    public UserChangeDTO getPersonInfo(Long userId) {
+        SysUser sysUser = selectUserById(userId);
+        UserChangeDTO changeDTO = new UserChangeDTO();
+        BeanUtils.copyBeanProp(changeDTO,sysUser);
+        return changeDTO;
+    }
+
+    /**
+     * 修改个人头像
+     * @param image
+     * @param userId
+     * @return
+     */
+    @Override
+    public int updateUserBackgroundImage(String image,Long userId) {
+        SysUser user = new SysUser();
+        user.setBackgroundImage(image);
+        user.setUserId(userId);
+        int i = updateUser(user);
+        return i;
+    }
 //
 //    /**
 //     * 修改个人信息

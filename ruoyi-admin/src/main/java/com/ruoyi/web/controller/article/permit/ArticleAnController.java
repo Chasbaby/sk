@@ -122,7 +122,6 @@ public class ArticleAnController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @PostMapping("/create")
     public AjaxResult createArticle(@RequestBody ArticleCreateDTO article){
-        System.out.println(article.getArticleContent());
         // 复制对象
         Article articleHandle = new Article();
         BeanUtils.copyBeanProp(articleHandle,article);
@@ -134,6 +133,35 @@ public class ArticleAnController extends BaseController {
         return AjaxResult.success("创建成功，等待审核即可发表");
     }
 
+    /**
+     *  文章编辑
+     * @param articleId
+     * @return
+     */
+    @ApiOperation("文章编辑")
+    @PreAuthorize("@ss.hasRole('common')")
+    @GetMapping("/edit/{articleId}")
+    public AjaxResult editArticle(@PathVariable Long articleId){
+        ArticleCreateDTO createDTO = articleService.reEditArticle(articleId);
+        return AjaxResult.success(createDTO);
+    }
+
+    /**
+     * 再次提交
+     * @param article
+     * @return
+     */
+    @ApiOperation("再次提交")
+    @PreAuthorize("@ss.hasRole('common')")
+    @PostMapping("/ReCreate")
+    public AjaxResult reSubmitArticle(@RequestBody ArticleCreateDTO article){
+        Article articleHandle = new Article();
+        BeanUtils.copyBeanProp(articleHandle,article);
+        articleHandle.setArticleContent(filter(article.getArticleContent()));
+        articleHandle.setIsOk("U");
+        articleService.updateArticle(articleHandle);
+        return AjaxResult.success("修改成功，等待审核即可发表");
+    }
     /**
      *  获取某用户收藏列表
      * @return 收藏列表

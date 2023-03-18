@@ -7,10 +7,7 @@ import java.util.stream.Collectors;
 
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.article.domain.ArticleRecord;
-import com.ruoyi.article.domain.dto.ArticleDetail;
-import com.ruoyi.article.domain.dto.ArticleHomeDTO;
-import com.ruoyi.article.domain.dto.ArticleReturnDTO;
-import com.ruoyi.article.domain.dto.ArticleStatusDTO;
+import com.ruoyi.article.domain.dto.*;
 import com.ruoyi.article.mapper.ArticleMapper;
 import com.ruoyi.article.mapper.ArticleRecordMapper;
 import com.ruoyi.article.service.IArticleService;
@@ -338,6 +335,25 @@ public class ArticleServiceImpl implements IArticleService
     @Override
     public int deleteArticlesByUser(Long[] articleIds) {
         return articleMapper.deleteArticleBatches(articleIds);
+    }
+
+    /**
+     * 重新编辑文章
+     * @param articleId
+     * @return
+     */
+    @Override
+    public ArticleCreateDTO reEditArticle(Long articleId) {
+        Article article = selectArticleByArticleId(articleId);
+        ArticleCreateDTO createDTO = new ArticleCreateDTO();
+        try {
+            BeanUtils.copyProperties(createDTO,article);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return createDTO;
     }
 
 

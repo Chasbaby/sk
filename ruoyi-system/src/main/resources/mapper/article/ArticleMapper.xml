@@ -89,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="getArticleDraft" resultType="com.ruoyi.article.domain.Article" parameterType="Long" resultMap="ArticleResult">
         <include refid="selectArticleVo"/>
-        where user_id = #{userId} and  is_delete = 'N' and status = '4'
+        where user_id = #{userId} and  is_delete = 'N' and status = '3'
         order by create_time desc
     </select>
     <select id="getAllArticlesByWays" resultType="com.ruoyi.article.domain.Article" resultMap="ArticleResult">

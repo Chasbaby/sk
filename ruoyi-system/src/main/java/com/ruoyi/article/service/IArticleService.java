@@ -141,6 +141,8 @@ public interface IArticleService
      */
     public int deleteArticlesByUser(Long[] articleIds);
 
+    public ArticleCreateDTO reEditArticle(Long articleId);
+
 
 
 

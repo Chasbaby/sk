@@ -4,6 +4,7 @@ import com.ruoyi.article.domain.Article;
 import com.ruoyi.article.mapper.ArticleMapper;
 import com.ruoyi.common.enums.SearchCaseType;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.recommend.es.SearchStrategy;
 import com.ruoyi.recommend.es.domain.MultiSearchDTO;
 import com.ruoyi.recommend.es.domain.SearchAjaxDTO;
@@ -110,7 +111,7 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
 
     @Override
     public List<MultiSearchDTO> showAllSearch(String keywords) {
-        if (!StringUtils.isEmpty(keywords)){
+        if (StringUtils.isEmpty(keywords)){
             List<SightsBase> sightsBases = sightsBaseMapper.selectSightsBaseList(new SightsBase());
             SightsCulCreativity sightsCulCreativity = new SightsCulCreativity();
             sightsCulCreativity.setDelFlag("N");
@@ -133,29 +134,51 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
             allData.sort(Comparator.comparing(MultiSearchDTO::getMultipleLike).reversed());
             return allData;
         }else {
-            AtomicReference<Long> i = new AtomicReference<>(0L);
+            List<MultiSearchDTO> allData = new ArrayList<>();
             // 搜索景点
             SightsBase sightsBase = createSightsByKey(keywords);
             List<SightsBase> searchList = sightsBaseMapper.selectSightsInSearchList(sightsBase);
             List<SightsSearchDTO> sightsList = addSights(searchList, keywords);
+            List<SightsBase> collect = sightsList.stream().map(item -> {
+                SightsBase sights = new SightsBase();
+                BeanUtils.copyBeanProp(sights, item);
+                return sights;
+            }).collect(Collectors.toList());
+            List<MultiSearchDTO> searchDTOS = sightsToMuti(collect);
 
 
             SightsCulCreativity sightsCulCreativity = createCulBykey(keywords);
             List<SightsCulCreativity> culCreativityList = sightsCulMapper.selectSightsInSearchList(sightsCulCreativity);
             List<CulCreativitySearchDTO> creativityList = addSightsCulCreativity(culCreativityList, keywords);
+            List<SightsCulCreativity> collect1 = creativityList.stream().map(item -> {
+                SightsCulCreativity sightsCulCreativity1 = new SightsCulCreativity();
+                BeanUtils.copyBeanProp(sightsCulCreativity1, item);
+                return sightsCulCreativity1;
+            }).collect(Collectors.toList());
+            List<MultiSearchDTO> searchDTOS1 = culToMuti(collect1);
 
             Article article = new Article();
             article.setArticleContent(keywords);
             article.setArticleTitle(keywords);
             List<Article> ArticleList = articleMapper.selectArticleInSearchList(article);
             List<ArticleSearchDTO> articleList = addArticle(ArticleList, keywords);
+            List<Article> collect2 = articleList.stream().map(item -> {
+                Article article1 = new Article();
+                BeanUtils.copyBeanProp(article1, item);
+                return article1;
+            }).collect(Collectors.toList());
+            List<MultiSearchDTO> multiSearchDTOS = articleToMuti(collect2);
+
+            allData.addAll(searchDTOS);
+            allData.addAll(searchDTOS1);
+            allData.addAll(multiSearchDTOS);
+            return allData;
 
         }
-
-        return null;
     }
 
     private List<MultiSearchDTO> articleToMuti(List<Article> articles) {
+
         List<MultiSearchDTO> articleSearch = articles.stream().map(item -> {
             MultiSearchDTO searchDTO = new MultiSearchDTO();
             searchDTO.setMultipleWork(item.getUserId());

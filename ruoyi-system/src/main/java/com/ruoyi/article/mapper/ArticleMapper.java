@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  * @author chas ruoyi
  * @date 2023-03-05
  */
-public interface ArticleMapper extends BaseMapperPlus<ArticleMapper,Article, ArticleCreateDTO>
+public interface ArticleMapper
 {
     /**
      * 查询文章
@@ -111,5 +111,12 @@ public interface ArticleMapper extends BaseMapperPlus<ArticleMapper,Article, Art
      * @return
      */
     public List<Article> getAllArticlesByWays(@Param("userId") Long userId,@Param("ways") Integer ways );
+
+    /**
+     * 批量删除(逻辑删除)
+     * @param articleIds
+     * @return
+     */
+    public int deleteArticleBatches(Long[] articleIds);
 
 }

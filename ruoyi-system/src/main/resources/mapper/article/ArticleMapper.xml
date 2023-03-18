@@ -194,4 +194,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{articleId}
         </foreach>
     </delete>
+    <delete id="deleteArticleBatches" parameterType="String">
+        update article set is_delete = 'Y' where article_id in
+        <foreach collection="array" open="(" close=")" separator="," item="articleId">
+            #{articleId}
+        </foreach>
+    </delete>
 </mapper>

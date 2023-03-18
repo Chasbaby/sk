@@ -8,6 +8,7 @@ import com.ruoyi.culCreativity.domain.dto.CulCreateDTO;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.sights.service.ISightsCulCreativityService;
 import com.ruoyi.system.service.ISysUserService;
+import com.ruoyi.system.service.ISysVisitorService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,8 @@ public class CulCreativityAnController extends BaseController {
     @Autowired
     private ISysUserService userService;
 
-//    @Autowired
-//    private
+    @Autowired
+    private ISysVisitorService visitorService;
 
 
     /**
@@ -90,6 +91,8 @@ public class CulCreativityAnController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult subscription(@PathVariable Long culCreativityId){
         SysUser sysUser = userService.selectUserById(getUserId());
+
+
 
         return null;
     }

@@ -135,6 +135,12 @@ public interface IArticleService
      */
     public List<ArticleStatusDTO> getUserAllArticleByWays(Long userId,Integer ways);
 
+    /**
+     * 批量删除文章
+     * @return
+     */
+    public int deleteArticlesByUser(Long[] articleIds);
+
 
 
 

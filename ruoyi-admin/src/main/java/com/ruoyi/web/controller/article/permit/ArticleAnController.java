@@ -222,6 +222,9 @@ public class ArticleAnController extends BaseController {
     @ApiOperation("获取某用户的所有文章")
     @GetMapping("/person/{num}")
     public TableDataInfo getUserAllArticle(@PathVariable Integer num){
+        if (num == null){
+            return errorMsg("类型错误，请联系管理员");
+        }
         startPage();
         Long userId = getUserId();
         List<ArticleStatusDTO> articles = articleService.getUserAllArticleByWays(userId, num);
@@ -233,7 +236,8 @@ public class ArticleAnController extends BaseController {
     @DeleteMapping("/delete/{articleIds}")
     public AjaxResult remove(@PathVariable Long[] articleIds)
     {
-        return toAjax(articleService.deleteArticleByArticleIds(articleIds));
+        int i = articleService.deleteArticlesByUser(articleIds);
+        return AjaxResult.success("成功删除"+i+"篇文章");
     }
     /**
      *  创建记录

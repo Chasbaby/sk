@@ -55,7 +55,7 @@ public class ParaGeo implements Serializable {
     /**
      * json  / xml
      */
-    private String output;
+    private String output = "json";
 
     /**
      * 将json格式的返回值通过callback函数返回以实现jsonp功能

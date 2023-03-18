@@ -48,7 +48,7 @@ public class logFilter {
 //        kafkaStreams.start();
 
         System.out.println("开始了");
-        KStream<String, String> myFlume = streamsBuilder.stream("recommender");
+        KStream<String, String> myFlume = streamsBuilder.stream("myFlume");
         myFlume.map((KeyValueMapper<String, String, KeyValue<?, ?>>) (s, s2) -> {
             System.out.println("ssss");
             System.out.println(s+s2);

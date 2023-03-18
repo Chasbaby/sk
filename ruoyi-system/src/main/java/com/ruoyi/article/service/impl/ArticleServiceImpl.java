@@ -330,5 +330,15 @@ public class ArticleServiceImpl implements IArticleService
         return collect;
     }
 
+    /**
+     * 批量删除
+     * @param articleIds
+     * @return
+     */
+    @Override
+    public int deleteArticlesByUser(Long[] articleIds) {
+        return articleMapper.deleteArticleBatches(articleIds);
+    }
+
 
 }

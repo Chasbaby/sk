@@ -98,4 +98,9 @@ public class SysTypesetServiceImpl implements ISysTypesetService
     public List<SysTypeset> getTypesetSights3() {
         return sysTypesetMapper.getTypesetSights3();
     }
+
+    @Override
+    public List<SysTypeset> getTypesetCul3() {
+        return sysTypesetMapper.getTypesetCul3();
+    }
 }

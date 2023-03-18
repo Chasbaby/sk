@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.ruoyi.common.core.domain.entity.DTO.UserChangeDTO;
+import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.common.utils.bean.BeanValidators;
 import com.ruoyi.system.mapper.*;
 import org.slf4j.Logger;
@@ -34,7 +36,7 @@ import javax.validation.Validator;
 /**
  * 用户 业务层处理
  * 
- * @author ruoyi
+ * @author ruoyi chas
  */
 @Service
 public class SysUserServiceImpl implements ISysUserService
@@ -596,5 +598,31 @@ public class SysUserServiceImpl implements ISysUserService
         }
         return successMsg.toString();
     }
+
+
+    /**
+     * 个人主页信息展示
+     * @param userId
+     * @return
+     */
+    @Override
+    public UserChangeDTO perInformation(Long userId) {
+        UserChangeDTO changeDTO = new UserChangeDTO();
+        SysUser sysUser = userMapper.selectUserById(userId);
+        BeanUtils.copyBeanProp(changeDTO,sysUser);
+        return changeDTO;
+    }
+//
+//    /**
+//     * 修改个人信息
+//     */
+//    @Override
+//    public int  updateUserInformation(UserChangeDTO user){
+//        SysUser sysUser = new SysUser();
+//        BeanUtils.copyBeanProp(sysUser,user);
+//        checkUserAllowed(sysUser);
+//
+//        return 1;
+//    }
 
 }

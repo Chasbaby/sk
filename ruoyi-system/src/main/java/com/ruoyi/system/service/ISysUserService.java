@@ -1,12 +1,14 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+
+import com.ruoyi.common.core.domain.entity.DTO.UserChangeDTO;
 import com.ruoyi.common.core.domain.entity.SysUser;
 
 /**
  * 用户 业务层
  * 
- * @author ruoyi
+ * @author ruoyi chas
  */
 public interface ISysUserService
 {
@@ -203,4 +205,16 @@ public interface ISysUserService
      * @return 结果
      */
     public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName);
+
+    /**
+     * 个人主页信息展示
+     * @param userId
+     * @return
+     */
+    public UserChangeDTO perInformation(Long userId);
+//
+//    /**
+//     * 修改个人信息
+//     */
+//    public int updateUserInformation(UserChangeDTO user);
 }

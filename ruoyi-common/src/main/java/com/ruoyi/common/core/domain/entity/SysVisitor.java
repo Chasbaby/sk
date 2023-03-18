@@ -44,6 +44,12 @@ public class SysVisitor implements Serializable {
     /** 用户被收藏*/
     private Long visitorCollect;
 
+    /** 粉丝量*/
+    private Long visitorFans;
+
+    /** 关注量*/
+    private Long visitorConcerns;
+
     /** 数据上一次更新时间*/
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
@@ -57,6 +63,21 @@ public class SysVisitor implements Serializable {
     /** 评论数量**/
     private Long comments;
 
+    public Long getVisitorFans() {
+        return visitorFans;
+    }
+
+    public void setVisitorFans(Long visitorFans) {
+        this.visitorFans = visitorFans;
+    }
+
+    public Long getVisitorConcerns() {
+        return visitorConcerns;
+    }
+
+    public void setVisitorConcerns(Long visitorConcerns) {
+        this.visitorConcerns = visitorConcerns;
+    }
 
     public Long getVisitorId() {
         return visitorId;

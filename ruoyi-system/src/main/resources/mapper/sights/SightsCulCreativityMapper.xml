@@ -55,12 +55,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSightsCulCreativityVo"/>
         where cul_creativity_id = #{culCreativityId}
     </select>
+
     <select id="selectSightsInSearchList" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" resultMap="SightsCulCreativityResult">
         select cul_creativity_title,cul_creativity_id,sights_id,
                cul_creativity_image,cul_creativity_intro,cul_creativity_key,cul_creativity_tags from sights_cul_creativity
         <where>
             <if test="culCreativityTitle !=null and culCreativityTitle !=''" >or cul_creativity_title like concat('%',#{culCreativityTitle},'%')</if>
-            <if test="culCreativityContent !=null and culCreativityContent !=''"> or cul_creativity_content like concat('%',#{culCreativityContent},'%')</if>>
+            <if test="culCreativityContent !=null and culCreativityContent !=''"> or cul_creativity_content like concat('%',#{culCreativityContent},'%')</if>
             <if test="culCreativityIntro !=null and culCreativityIntro !=''">or cul_creativity_intro like concat('%',#{culCreativityIntro},'%')</if>
             <if test="culCreativityKey !=null and culCreativityKey !=''">or cul_creativity_key like concat('%',#{culCreativityKey},'%')</if>
             <if test="culCreativityTags !=null and culCreativityTags !=''">or cul_creativity_tags like concat('%',#{culCreativityTags} ,'%')</if>

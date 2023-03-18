@@ -65,7 +65,8 @@ public class PageAnController {
     @ApiOperation("三文创排版")
     @GetMapping("/typeset/cul")
     public AjaxResult getTypesetCuls(){
-        return null;
+        List<SysTypeset> typesetCul3 = sysTypesetService.getTypesetCul3();
+        return AjaxResult.success(typesetCul3);
     }
 
     @ApiOperation("获取footer数据")

@@ -64,4 +64,10 @@ public interface SysTypesetMapper
      * @return
      */
     public List<SysTypeset> getTypesetSights3();
+
+    /**
+     * 获取三大文创展示排序
+     * @return
+     */
+    public List<SysTypeset> getTypesetCul3();
 }

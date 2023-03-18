@@ -64,4 +64,10 @@ public interface ISysTypesetService
      */
 
     public List<SysTypeset> getTypesetSights3();
+
+    /**
+     * 获取文创三大排版
+     * @return
+     */
+    public List<SysTypeset> getTypesetCul3();
 }

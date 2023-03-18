@@ -14,6 +14,8 @@
         <result column="visitor_article" property="visitorArticle"/>
         <result column="visitor_like" property="visitorLike"/>
         <result column="visitor_view" property="visitorView"/>
+        <result column="visitor_fans" property="visitorFans"/>
+        <result column="visitor_concerns" property="visitorConcerns"/>
         <result column="visitor_collect" property="visitorCollect"/>
         <result column="update_time" property="updateTime"/>
         <result column="subscribe_free" property="subscribeFree"/>
@@ -22,7 +24,7 @@
     </resultMap>
     <select id="selectVisitorById" resultType="com.ruoyi.common.core.domain.entity.SysVisitor" parameterType="Long" resultMap="SysVisitorResult">
         select user_id,visitor_id,visitor_money,visitor_interest,
-               visitor_features,visitor_subscribe,visitor_article,
+               visitor_features,visitor_subscribe,visitor_article,visitor_fans,visitor_concerns,
                visitor_like,visitor_view,visitor_collect,update_time,subscribe_free,original,comments
         from sys_visitor where user_id = #{userId}
     </select>

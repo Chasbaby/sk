@@ -124,4 +124,11 @@ public interface SysUserMapper
      * @return 结果
      */
     public SysUser checkEmailUnique(String email);
+
+//    /**
+//     * 个人主页信息展示
+//     * @param userId
+//     * @return
+//     */
+//    public SysUser perInformation(Long userId);
 }

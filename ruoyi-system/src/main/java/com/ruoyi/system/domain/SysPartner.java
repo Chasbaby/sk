@@ -27,6 +27,7 @@ public class SysPartner extends BaseEntity
     /** 伙伴logo */
     @Excel(name = "伙伴logo")
     private String partnerLogo;
+
     @Excel(name = "伙伴链接")
     private String partnerRoute;
 

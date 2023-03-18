@@ -72,7 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateSysPartner" parameterType="SysPartner">
+    <update id="updateSysPartner" parameterType="SysPartner" >
         update sys_partner
         <trim prefix="SET" suffixOverrides=",">
             <if test="partnerRoute !=null and partnerRoute !=''">partner_route = #{partnerRoute},</if>

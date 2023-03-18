@@ -100,6 +100,7 @@ public class ArticleController extends BaseController
 	@DeleteMapping("/{articleIds}")
     public AjaxResult remove(@PathVariable Long[] articleIds)
     {
-        return toAjax(articleService.deleteArticleByArticleIds(articleIds));
+        int i = articleService.deleteArticleByArticleIds(articleIds);
+        return AjaxResult.success("成功删除"+i+"篇文章");
     }
 }

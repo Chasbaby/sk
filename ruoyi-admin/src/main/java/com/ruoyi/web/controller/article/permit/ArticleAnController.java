@@ -227,6 +227,14 @@ public class ArticleAnController extends BaseController {
         List<ArticleStatusDTO> articles = articleService.getUserAllArticleByWays(userId, num);
         return getDataTable(articles);
     }
+
+    @ApiOperation("批量删除")
+    @PreAuthorize("@ss.hasRole('common')")
+    @DeleteMapping("/delete/{articleIds}")
+    public AjaxResult remove(@PathVariable Long[] articleIds)
+    {
+        return toAjax(articleService.deleteArticleByArticleIds(articleIds));
+    }
     /**
      *  创建记录
      * @param articleId

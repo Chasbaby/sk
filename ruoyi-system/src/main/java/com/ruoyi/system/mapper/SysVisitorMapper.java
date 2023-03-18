@@ -2,8 +2,6 @@ package com.ruoyi.system.mapper;
 
 import com.ruoyi.common.core.domain.entity.SysVisitor;
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
 
 /**
  * @author chas

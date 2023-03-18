@@ -66,6 +66,7 @@ public class SysPartnerController extends BaseController
     @GetMapping(value = "/{partnerId}")
     public AjaxResult getInfo(@PathVariable("partnerId") Long partnerId)
     {
+
         return AjaxResult.success(sysPartnerService.selectSysPartnerByPartnerId(partnerId));
     }
 
@@ -77,6 +78,8 @@ public class SysPartnerController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody SysPartner sysPartner)
     {
+
+        sysPartner.setUpdateBy(getUsername());
         return toAjax(sysPartnerService.insertSysPartner(sysPartner));
     }
 
@@ -88,6 +91,8 @@ public class SysPartnerController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SysPartner sysPartner)
     {
+        System.out.println(sysPartner.getPartnerLogo());
+        sysPartner.setUpdateBy(getUsername());
         return toAjax(sysPartnerService.updateSysPartner(sysPartner));
     }
 

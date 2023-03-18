@@ -97,7 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="ways == 0">and is_ok = 'Y'</if>
             <if test="ways == 1">and is_ok = 'N'</if>
-            <if test="ways == 2">and is_ok = null</if>
+            <if test="ways == 2">and is_ok = 'U'</if>
         </where>
         and is_delete = 'N' and user_id = #{userId}
         order by create_time desc

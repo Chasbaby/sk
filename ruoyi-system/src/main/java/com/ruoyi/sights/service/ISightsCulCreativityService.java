@@ -2,10 +2,7 @@ package com.ruoyi.sights.service;
 
 import java.util.List;
 
-import com.ruoyi.culCreativity.domain.SightsCulCreativity;
-import com.ruoyi.culCreativity.domain.SightsCulCreativityRecordLike;
-import com.ruoyi.culCreativity.domain.SightsCulCreativityRecordScore;
-import com.ruoyi.culCreativity.domain.SightsCulCreativityUserCollect;
+import com.ruoyi.culCreativity.domain.*;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.sights.domain.*;
 
@@ -118,13 +115,31 @@ public interface ISightsCulCreativityService
 
     /**
      * 点赞 ++
+     * @param record
+     * @return 0 取消 / 1 点赞
      */
-    public int updateSightsCulCreativityViaLike(Long culCreativityId);
+   public int addCulLike(CulRecord record);
 
     /**
-     * 点赞--
+     * 登录用户
+     * 增加浏览量
+     * @param record
+     * @return
      */
-    public int declineSightsCulCreativityViaLike(Long culCreativityId);
+   public int addCulView(CulRecord record);
+
+    /**
+     *
+     * @return
+     */
+   public int addCulViewAnonymous(Long culId);
+
+    /**
+     * 增加收藏量
+     * @param record
+     * @return
+     */
+   public int addCulCollect(CulRecord record);
 
     /**
      * 点赞排行榜

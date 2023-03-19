@@ -96,6 +96,7 @@ public class PermissionService
             return false;
         }
         LoginUser loginUser = SecurityUtils.getLoginUser();
+
         if (StringUtils.isNull(loginUser) || CollectionUtils.isEmpty(loginUser.getUser().getRoles()))
         {
             return false;

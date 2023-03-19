@@ -72,6 +72,11 @@ public class SightsCulCreativity extends BaseEntity
     /**浏览量*/
     private Long culCreativityView;
 
+    /** 审核者 */
+    private String judgeBy;
+    /** 审核时间 */
+    private String judgeTime;
+
     /** 是否删除(Y表示已删除N表示未删除) */
     @Excel(name = "是否删除(Y表示已删除N表示未删除)")
     private String delFlag;

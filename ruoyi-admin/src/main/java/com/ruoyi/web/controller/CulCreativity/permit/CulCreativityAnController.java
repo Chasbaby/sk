@@ -4,13 +4,14 @@ import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.culCreativity.domain.CulRecord;
 import com.ruoyi.culCreativity.domain.dto.CulCreateDTO;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.sights.service.ISightsCulCreativityService;
 import com.ruoyi.system.service.ISysUserService;
 import com.ruoyi.system.service.ISysVisitorService;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -43,8 +44,17 @@ public class CulCreativityAnController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/like/{culCreativityId}")
     public AjaxResult CreativityLike(@PathVariable Long culCreativityId){
+        CulRecord record = createRecord(culCreativityId);
+        int i = creativityService.addCulLike(record);
+        return AjaxResult.success();
+    }
 
-        return null;
+    private CulRecord createRecord(Long culCreativityId) {
+        CulRecord record = new CulRecord();
+        record.setUserId(getUserId());
+        record.setCulId(culCreativityId);
+        record.setCreateTime(DateUtils.getNowDate());
+        return record;
     }
 
     /**
@@ -55,7 +65,8 @@ public class CulCreativityAnController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/view/{culCreativityId}")
     public AjaxResult CreativityView(@PathVariable Long culCreativityId){
-
+        CulRecord record = createRecord(culCreativityId);
+        int i = creativityService.addCulView(record);
         return null;
     }
 
@@ -67,6 +78,7 @@ public class CulCreativityAnController extends BaseController {
     @Anonymous
     @GetMapping("/view/anonymous/{culCreativityId}")
     public AjaxResult CreativityViewAnonymous(@PathVariable Long culCreativityId){
+        creativityService.addCulViewAnonymous(culCreativityId);
         return null;
     }
 
@@ -83,13 +95,13 @@ public class CulCreativityAnController extends BaseController {
     }
 
     /**
-     * 订阅文创
-     * @param culCreativityId id
+     * 订阅用户 -> 文创
+     * @param userId id
      * @return 状态信息
      */
-    @GetMapping("/subscription/{culCreativityId}")
+    @GetMapping("/subscription/{userId}")
     @PreAuthorize("@ss.hasRole('common')")
-    public AjaxResult subscription(@PathVariable Long culCreativityId){
+    public AjaxResult subscription(@PathVariable Long userId){
         SysUser sysUser = userService.selectUserById(getUserId());
 
 

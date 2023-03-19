@@ -1,6 +1,7 @@
 package com.ruoyi.web.controller.person;
 
-import com.ruoyi.common.annotation.Anonymous;
+import cn.hutool.http.server.HttpServerRequest;
+import cn.hutool.http.server.HttpServerResponse;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -104,9 +105,19 @@ public class PersonDataController extends BaseController {
         List<SysTypeset> sysTypesets = sysTypesetService.selectSysTypesetList(sysTypeset);
         SysTypeset typeset = sysTypesets.get(0);
         String backgroundImage = typeset.getTypesetImage().split(",")[i];
-
         userService.updateUserBackgroundImage(backgroundImage,getUserId());
         return AjaxResult.success("修改背景图片成功");
+    }
+
+    @ApiOperation("判断是否是本人页面")
+    @PreAuthorize("@ss.hasRole('common')")
+    @GetMapping("/{userId}")
+    public AjaxResult checkIfSelf(@PathVariable Long userId){
+
+        if (getUserId()==userId){
+            return AjaxResult.success("Y");
+        }
+        return AjaxResult.success("N");
     }
 
 

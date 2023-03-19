@@ -32,6 +32,11 @@ public interface ArticleMapper
     public List<Article> selectArticleList(Article article);
 
     /**
+     * 个人信息中获取文章列表
+     */
+    public List<Article> selectArticleInPersonPage(@Param("userId") Long userId , @Param("way") Integer way);
+
+    /**
      * 新增文章
      * 
      * @param article 文章

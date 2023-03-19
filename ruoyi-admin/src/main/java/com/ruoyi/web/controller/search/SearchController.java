@@ -37,7 +37,7 @@ public class SearchController {
     @Anonymous
     @GetMapping("/suggest/{keywords}")
     @ApiOperation("搜索一切")
-    public AjaxResult listAllBySearch(@PathVariable String keywords){
+    public AjaxResult listAllBySearch(@PathVariable(required = false) String keywords){
         if (StringUtils.isEmpty(keywords)){
             return AjaxResult.error("请输入您的搜索内容");
         }
@@ -53,7 +53,7 @@ public class SearchController {
     @Anonymous
     @GetMapping("/all/{keywords}")
     @ApiOperation("展示一切")
-    public AjaxResult showAllBySearch(@PathVariable String keywords){
+    public AjaxResult showAllBySearch(@PathVariable(required = false) String keywords){
 
         return AjaxResult.success(strategyContext.executeShowAll(keywords));
 

@@ -227,17 +227,18 @@ public class ArticleServiceImpl implements IArticleService
         return collect;
     }
 
+    /**
+     * 0是别人 1是自己
+     * @param userId
+     * @param way
+     * @return
+     */
     @Override
-    public List<ArticleHomeDTO> getAllArticleByUserId(Long userId) {
+    public List<ArticleHomeDTO> getAllArticleByUserId(Long userId,int way ) {
 
         List<ArticleHomeDTO> createDTOS = new ArrayList<>();
 
-        Article article = new Article();
-        article.setUserId(userId);
-        article.setStatus("1");
-        article.setIsDelete("N");
-        article.setIsOk("Y");
-        List<Article> articles = articleMapper.selectArticleList(article);
+        List<Article> articles = articleMapper.selectArticleInPersonPage(userId,way);
 
         articles.stream().forEach(item->{
             ArticleHomeDTO homeDTO = new ArticleHomeDTO();
@@ -275,6 +276,8 @@ public class ArticleServiceImpl implements IArticleService
         // 获取visitor信息
         SysVisitor visitor = visitorMapper.selectVisitorById(userId);
 
+
+
         // 复制
         try {
             BeanUtils.copyProperties(userDTO,sysUser);
@@ -285,6 +288,7 @@ public class ArticleServiceImpl implements IArticleService
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+
         detail.setUser(userDTO);
         detail.setVisitor(visitorDTO);
         return detail;

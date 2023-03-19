@@ -111,9 +111,11 @@ public interface IArticleService
      *
      * 可以未通过审核
      *
+     * 0 是别人  1是自己
+     *
      * @return
      */
-    public List<ArticleHomeDTO> getAllArticleByUserId(Long userId);
+    public List<ArticleHomeDTO> getAllArticleByUserId(Long userId,int way);
 
     /**
      * 获取文章详细信息

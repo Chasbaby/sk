@@ -6,10 +6,7 @@ import com.ruoyi.common.core.domain.entity.DTO.UserDTO;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
-import com.ruoyi.culCreativity.domain.SightsCulCreativity;
-import com.ruoyi.culCreativity.domain.SightsCulCreativityRecordLike;
-import com.ruoyi.culCreativity.domain.SightsCulCreativityRecordScore;
-import com.ruoyi.culCreativity.domain.SightsCulCreativityUserCollect;
+import com.ruoyi.culCreativity.domain.*;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.SightsCulDTO;
@@ -19,6 +16,7 @@ import com.ruoyi.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.sights.service.ISightsCulCreativityService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 文创Service业务层处理
@@ -35,12 +33,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     private SysUserMapper userMapper;
     @Autowired
     private SightsBaseMapper baseMapper;
-    @Autowired
-    private SightsCulCreativityRecordScoreMapper sightsCulCreativityRecordScoreMapper;
-    @Autowired
-    private SightsCulCreativityRecordLikeMapper sightsCulCreativityRecordLikeMapper;
-    @Autowired
-    private SightsCulCreativityUserCollectMapper sightsCulCreativityUserCollectMapper;
+
 
     /**
      * 查询文创
@@ -116,6 +109,11 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
         return sightsCulCreativityMapper.deleteSightsCulCreativityByCulCreativityId(culCreativityId);
     }
 
+    /**
+     * 获取文创详细信息
+     * @param culCreativityId id
+     * @return
+     */
     @Override
     public CulDetail getCulDetail(Long culCreativityId) {
         CulDetail detail = new CulDetail();
@@ -142,123 +140,49 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
         return detail;
     }
 
-    @Override
-    public void insertUserSightsCulCreativityScore(SightsCulCreativityRecordScore sightsCulCreativityRecordScore) {
 
-    }
-
+    /**
+     *  增加 取消 点赞
+     * @param record
+     * @return
+     */
+    @Transactional
     @Override
-    public boolean checkUserSightsCulCreativityScore(SightsCulCreativityRecordScore sightsCulCreativityRecordScore) {
-        return false;
-    }
-
-    @Override
-    public int updateUserSightsCulCreativityScore(SightsCulCreativityRecordScore sightsCulCreativityRecordScore) {
+    public int addCulLike(CulRecord record) {
         return 0;
     }
 
+    /**
+     * 增加 浏览
+     * @param record
+     * @return
+     */
+    @Transactional
     @Override
-    public List<SightsBase> selectSightsCulCreativityTopViaScore(int num) {
-        return null;
-    }
-
-    @Override
-    public double selectAverageSightsCulCreativityScore(Long culCreativityId) {
+    public int addCulView(CulRecord record) {
         return 0;
     }
 
+    /**
+     * 非登录增加浏览
+     * @param culId
+     * @return
+     */
     @Override
-    public int selectCountScoreNumByCulCreativityId(Long culCreativityId) {
+    public int addCulViewAnonymous(Long culId) {
         return 0;
     }
 
+    /**
+     * 增加 取消 收藏
+     * @param record
+     * @return
+     */
+    @Transactional
     @Override
-    public void SightsCulCreativityManageViaLike(SightsRecordLike sightsRecordLike) {
-
-    }
-
-    @Override
-    public int updateSightsCulCreativityViaLike(Long culCreativityId) {
+    public int addCulCollect(CulRecord record) {
         return 0;
     }
 
-    @Override
-    public int declineSightsCulCreativityViaLike(Long culCreativityId) {
-        return 0;
-    }
 
-    @Override
-    public List<SightsCulCreativity> selectSightsCulCreativityTopViaLike(int num) {
-        return null;
-    }
-
-    @Override
-    public int insertUserSightsCulCreativityLike(SightsCulCreativityRecordLike sightsCulCreativityRecordLike) {
-        return 0;
-    }
-
-    @Override
-    public int deleteUserSightsCulCreativityLike(SightsCulCreativityRecordLike sightsCulCreativityRecordLike) {
-        return 0;
-    }
-
-    @Override
-    public int judgeUserSightsCulCreativityExistLike(SightsCulCreativityRecordLike sightsCulCreativityRecordLike) {
-        return 0;
-    }
-
-    @Override
-    public int updateSightsCulCreativityViaHits(Long culCreativityId) {
-        return 0;
-    }
-
-    @Override
-    public List<SightsCulCreativity> selectSightsCulCreativityTopViaHit(int num) {
-        return null;
-    }
-
-    @Override
-    public int updateSightsCulCreativityViaView(Long culCreativityId) {
-        return 0;
-    }
-
-    @Override
-    public List<SightsCulCreativity> selectSightsCulCreativityTopViaView(int num) {
-        return null;
-    }
-
-    @Override
-    public List<SightsCulCreativity> getRecommendSightsCulCreativity(Long userId) {
-        return null;
-    }
-
-    @Override
-    public List<SightsCulCreativity> getHistoryHotSightsCulCreativity() {
-        return null;
-    }
-
-    @Override
-    public List<SightsCulCreativity> getRecentHotSightsCulCreativity() {
-        return null;
-    }
-
-    @Override
-    public List<SightsCulCreativity> getGoodSightsCulCreativity() {
-        return null;
-    }
-
-    @Override
-    public boolean addSightsCulCreativityCollection(SightsCulCreativityUserCollect sightsCulCreativityUserCollect) {
-        return false;
-    }
-
-    @Override
-    public boolean cancelSightsCulCreativityCollection(SightsCulCreativityUserCollect sightsCulCreativityUserCollect) {
-        return false;
-    }
-
-    @Override
-    public List<SightsCulCreativity> selectCollectSightsCulCreativityRecord(Long userId) {
-        return null;
-    }
 }

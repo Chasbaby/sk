@@ -104,8 +104,6 @@ public class CulCreativityAnController extends BaseController {
     public AjaxResult subscription(@PathVariable Long userId){
         SysUser sysUser = userService.selectUserById(getUserId());
 
-
-
         return null;
     }
 
@@ -116,7 +114,6 @@ public class CulCreativityAnController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @PostMapping("/create")
     public AjaxResult crate(@RequestBody CulCreateDTO createDTO){
-
 
         return null;
     }

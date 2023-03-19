@@ -225,6 +225,14 @@ public interface ISysUserService
      * @param image
      */
     public  int updateUserBackgroundImage(String image,Long userId);
+
+
+    /**
+     * 游客修改信息的地方
+     * @param user
+     * @return
+     */
+    public int updateUserInfoByCommon(SysUser user);
 //
 //    /**
 //     * 修改个人信息

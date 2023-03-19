@@ -54,12 +54,32 @@ public class ArticleDetail implements Serializable {
     /** 收藏量 */
     private Long articleCollect;
 
+    private Integer ifLike;
+
+    private Integer ifCollect;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     /** 创建时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
+
+    public Integer getIfLike() {
+        return ifLike;
+    }
+
+    public void setIfLike(Integer ifLike) {
+        this.ifLike = ifLike;
+    }
+
+    public Integer getIfCollect() {
+        return ifCollect;
+    }
+
+    public void setIfCollect(Integer ifCollect) {
+        this.ifCollect = ifCollect;
+    }
 
     public Date getUpdateTime() {
         return updateTime;

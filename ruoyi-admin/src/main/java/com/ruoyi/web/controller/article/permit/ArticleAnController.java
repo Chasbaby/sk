@@ -16,11 +16,13 @@ import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.system.service.ISysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Param;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 import static com.ruoyi.common.utils.BeanCopyUtils.copyObject;
@@ -162,6 +164,7 @@ public class ArticleAnController extends BaseController {
         articleService.updateArticle(articleHandle);
         return AjaxResult.success("修改成功，等待审核即可发表");
     }
+
     /**
      *  获取某用户收藏列表
      * @return 收藏列表
@@ -169,13 +172,13 @@ public class ArticleAnController extends BaseController {
     @ApiOperation("文章收藏")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/collect/getAll")
-    public AjaxResult readArticleCollect(){
+    public TableDataInfo readArticleCollect(){
         startPage();
         List<ArticleReturnDTO> articles = articleService.getAllArticleCollect(getUserId());
-        ArticleReturnCore ArticlesCore = new ArticleReturnCore();
-        ArticlesCore.setArticles(articles);
-        ArticlesCore.setRoute(SearchCaseType.ARTICLE.getRoute());
-        return AjaxResult.success(ArticlesCore);
+//        ArticleReturnCore ArticlesCore = new ArticleReturnCore();
+//        ArticlesCore.setArticles(articles);
+//        ArticlesCore.setRoute(SearchCaseType.ARTICLE.getRoute());
+        return getDataTable(articles);
     }
 
     /**
@@ -185,9 +188,9 @@ public class ArticleAnController extends BaseController {
     @ApiOperation("获取历史点赞记录")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/like/getAll")
-    public AjaxResult readArticleLike(){
+    public TableDataInfo readArticleLike(){
         List<ArticleReturnDTO> articles = articleService.getAllArticleLike(getUserId());
-        return AjaxResult.success(articles);
+        return getDataTable(articles);
     }
 
     /**
@@ -197,9 +200,9 @@ public class ArticleAnController extends BaseController {
     @ApiOperation("获取历史流量数据")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/view/getAll")
-    public AjaxResult readArticleView(){
+    public TableDataInfo readArticleView(){
         startPage();
-        return AjaxResult.success(articleService.getAllArticleView(getUserId()));
+        return getDataTable(articleService.getAllArticleView(getUserId()));
     }
 
     /**
@@ -209,10 +212,14 @@ public class ArticleAnController extends BaseController {
      */
     @ApiOperation("分页获取某用户所有文章")
     @PreAuthorize("@ss.hasRole('common')")
-    @PostMapping("/getAllArticle")
-    public TableDataInfo getAllArticle(){
+    @PostMapping("/getAllArticle/{userId}")
+    public TableDataInfo getAllArticle(@PathVariable Long userId){
         startPage();
-        return getDataTable(articleService.getAllArticleByUserId(getUserId()));
+        if (userId == -1 || userId == getUserId()){
+            return getDataTable(articleService.getAllArticleByUserId(getUserId(),1));
+        }
+        List<ArticleHomeDTO> articles = articleService.getAllArticleByUserId(userId, 0);
+        return getDataTable(articles);
     }
 
     /**

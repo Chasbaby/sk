@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -50,19 +51,29 @@ public class PersonDataController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @PostMapping("/user/{userId}")
     public AjaxResult getUser(@PathVariable Long userId){
+
         UserChangeDTO changeDTOS;
-        // 如果没有填入userId  那就是看用户自己的资料
-        if (userId == null){
+        AjaxResult ajaxResult = new AjaxResult();
+        // 如果没有填入userId  或者 userId 是自己的
+        if (userId == -1 || userId == getUserId()){
             userId = getUserId();
+            changeDTOS =  userService.perInformation(userId);
+            ajaxResult.put("data",changeDTOS);
+            ajaxResult.put("ifSelf",true);
+            return ajaxResult;
         }
-        changeDTOS =  userService.perInformation(userId);
-        return AjaxResult.success(changeDTOS);
+        // 如果是别人
+        changeDTOS = userService.perInformation(userId);
+        ajaxResult.put("data",changeDTOS);
+        ajaxResult.put("ifSelf",false);
+        return ajaxResult;
     }
 
     @ApiOperation("更新个人信息")
     @PreAuthorize("@ss.hasRole('common')")
     @PostMapping("/user/update")
     public AjaxResult updateUser(@RequestBody UserChangeDTO user){
+        System.out.println(user.getAvatar());
         if (user == null){
             return AjaxResult.error("信息不能为空");
         }
@@ -81,7 +92,8 @@ public class PersonDataController extends BaseController {
             return AjaxResult.error("修改用户'" + sysUser.getUserName() + "'失败，邮箱账号已存在");
         }
         sysUser.setUpdateBy(getUsername());
-        userService.updateUser(sysUser);
+
+        userService.updateUserInfoByCommon(sysUser);
         return AjaxResult.success("修改数据成功");
     }
 
@@ -109,16 +121,7 @@ public class PersonDataController extends BaseController {
         return AjaxResult.success("修改背景图片成功");
     }
 
-    @ApiOperation("判断是否是本人页面")
-    @PreAuthorize("@ss.hasRole('common')")
-    @GetMapping("/{userId}")
-    public AjaxResult checkIfSelf(@PathVariable Long userId){
 
-        if (getUserId()==userId){
-            return AjaxResult.success("Y");
-        }
-        return AjaxResult.success("N");
-    }
 
 
 }

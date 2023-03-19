@@ -640,6 +640,11 @@ public class SysUserServiceImpl implements ISysUserService
         int i = updateUser(user);
         return i;
     }
+
+    @Override
+    public int updateUserInfoByCommon(SysUser user) {
+        return userMapper.updateUser(user);
+    }
 //
 //    /**
 //     * 修改个人信息

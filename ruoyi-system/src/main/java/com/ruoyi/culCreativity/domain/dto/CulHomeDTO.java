@@ -1,5 +1,7 @@
 package com.ruoyi.culCreativity.domain.dto;
 
+import java.util.Date;
+
 /**
  * @author chas
  * @introduction
@@ -18,6 +20,15 @@ public class CulHomeDTO {
     private Long culCreativityCollection;
     private Long culCreativityHits;
     private Long culCreativityView;
+    private Date createTime;
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
     public Long getCulCreativityId() {
         return culCreativityId;

@@ -16,12 +16,12 @@ import java.util.List;
 public interface ConcernsMapper {
 
     /**
-     * 批量增加关注
+     * 增加关注
      */
 
     public int addConcerns(Long mainUser,Long priorUser );
     /**
-     * 批量减少关注
+     * 减少关注
      */
 
     public int reduceConcerns(Long mainUser ,Long priorUser );

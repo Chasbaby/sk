@@ -110,4 +110,6 @@ public interface ISightsCulCreativityService
    public  List<CulHomeDTO> getAllCulByUserId(Long userId,Integer way);
 
 
+   public List<CulHomeDTO> getAllCulCollect(Long userId);
+
 }

@@ -94,17 +94,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         and user_id = #{userId}
         order by create_time desc
     </select>
+    <select id="selectCulCollectByUserId" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" parameterType="Long" resultMap="SightsCulCreativityResult">
+        select a.cul_creativity_id, a.user_id,a.cul_creativity_title,a.cul_creativity_intro,a.cul_creativity_like,a.cul_creativity_view,a.cul_creativity_collect,
+               a.cul_creativity_image,a.cul_creativity_type,a.cul_creativity_category,b.create_time
+        from sights_cul_creativity a
+            left join cul_record_collect b
+                on a.cul_creativity_id = b.cul_creativity_id
+        where b.user_id = #{userId} and a.del_flag = 'N' and a.is_ok ='Y' and a.status ='1'
+        order by b.create_time desc
+
+    </select>
 
 
     <insert id="insertSightsCulCreativity" parameterType="SightsCulCreativity" useGeneratedKeys="true" keyProperty="culCreativityId">
         insert into sights_cul_creativity
         <trim prefix="(" suffix=")" suffixOverrides=",">
-
             <if test="status !=null and status!=''">status,</if>
-            <if test="culCreativityType !=null and culCreativityType !=''">,cul_creativity_type</if>
-            <if test="isOk !=null ">,is_ok</if>
-            <if test="judgeBy != null and judgeBy !=''">,judge_by</if>
-            <if test="judgeTime !=null">,judge_time</if>
+            <if test="culCreativityType !=null and culCreativityType !=''">cul_creativity_type,</if>
+            <if test="isOk !=null ">is_ok,</if>
+            <if test="judgeBy != null and judgeBy !=''">judge_by,</if>
+            <if test="judgeTime !=null">judge_time,</if>
 
             <if test="userId != null">user_id,</if>
             <if test="sightsId != null">sights_id,</if>
@@ -132,6 +141,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isOk !=null">#{isOk},</if>
             <if test="judgeBy != null and judgeBy !=''">#{judgeBy},</if>
             <if test="judgeTime !=null">#{judgeTime},</if>
+
             <if test="userId != null">#{userId},</if>
             <if test="sightsId != null">#{sightsId},</if>
             <if test="culCreativityTitle != null and culCreativityTitle != ''">#{culCreativityTitle},</if>

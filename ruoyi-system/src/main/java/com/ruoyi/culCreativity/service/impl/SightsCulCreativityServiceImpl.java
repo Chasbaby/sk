@@ -10,6 +10,7 @@ import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.culCreativity.domain.*;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.culCreativity.domain.dto.CulHomeDTO;
+import com.ruoyi.culCreativity.mapper.CulRecordMapper;
 import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.SightsCulDTO;
 import com.ruoyi.sights.mapper.*;
@@ -34,6 +35,8 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     private SysUserMapper userMapper;
     @Autowired
     private SightsBaseMapper baseMapper;
+    @Autowired
+    private CulRecordMapper recordMapper;
 
 
     /**
@@ -150,6 +153,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     @Transactional
     @Override
     public int addCulLike(CulRecord record) {
+
         return 0;
     }
 
@@ -196,6 +200,19 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
         List<CulHomeDTO> culHomeDTOS = new ArrayList<>();
         List<SightsCulCreativity> personPage = sightsCulCreativityMapper.selectCulInPersonPage(userId, way);
         personPage.stream().forEach(item->{
+            CulHomeDTO culHomeDTO = new CulHomeDTO();
+            BeanUtils.copyBeanProp(culHomeDTO,item);
+            culHomeDTOS.add(culHomeDTO);
+        });
+        return culHomeDTOS;
+    }
+
+    @Override
+    public List<CulHomeDTO> getAllCulCollect(Long userId) {
+
+        List<SightsCulCreativity> creativities = sightsCulCreativityMapper.selectCulCollectByUserId(userId);
+        List<CulHomeDTO> culHomeDTOS = new ArrayList<>();
+        creativities.stream().forEach(item->{
             CulHomeDTO culHomeDTO = new CulHomeDTO();
             BeanUtils.copyBeanProp(culHomeDTO,item);
             culHomeDTOS.add(culHomeDTO);

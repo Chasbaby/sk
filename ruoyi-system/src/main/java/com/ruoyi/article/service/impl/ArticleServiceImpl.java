@@ -195,6 +195,7 @@ public class ArticleServiceImpl implements IArticleService
     public List<ArticleReturnDTO> getAllArticleCollect(Long userId) {
         List<Article> articles = articleMapper.selectArticleCollectByUserId(userId);
         List<ArticleReturnDTO> collect = getReturnDTOList(articles);
+
         return collect;
     }
 

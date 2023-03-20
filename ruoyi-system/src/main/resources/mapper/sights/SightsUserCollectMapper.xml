@@ -29,15 +29,15 @@
     <delete id="cancelSightsCollection" parameterType="SightsUserCollect">
         delete from sights_user_collect where user_id = #{userId} and sights_id =#{sightsId}
     </delete>
-    <select id="selectCollectSightsRecord" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="long">
+    <select id="selectCollectSightsRecord" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="long" resultMap="com.ruoyi.sights.mapper.SightsBaseMapper.SightsBaseResult">
         select u.sights_id,u.sights_hits,u.sights_like,u.sights_view,u.sights_score,
                u.sights_name, u.sights_location, u.sights_longitude, u.sights_latitude,
                u.sights_image, u.sights_intro, u.sights_detail, u.sights_category,
-               u.sights_nation, u.sights_city, suc.create_time
+               u.sights_nation, u.sights_city, suc.collect_time
         from sights_base u
         left join sights_user_collect suc on u.sights_id = suc.sights_id
         where suc.user_id = #{userId}
-        order by suc.create_time
+        order by suc.collect_time
     </select>
     <select id="judgeCollect" resultType="java.lang.Integer">
 #         判断是否收藏

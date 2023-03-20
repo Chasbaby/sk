@@ -150,6 +150,15 @@ public class CulCreativityAnController extends BaseController {
         return AjaxResult.success("创建成功，等待审核即可发表");
     }
 
+    @ApiOperation("文创收藏")
+    @PreAuthorize("@ss.hasRole('common')")
+    @GetMapping("/collect/getAll")
+    public TableDataInfo readArticleCollect(){
+        startPage();
+        List<CulHomeDTO> culCollect = creativityService.getAllCulCollect(getUserId());
+        return getDataTable(culCollect);
+    }
+
 
 
 

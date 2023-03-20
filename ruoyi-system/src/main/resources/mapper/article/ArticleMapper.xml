@@ -60,27 +60,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="articleContent != null  and articleContent != ''"> or article_content like concat('%',#{articleContent},'%')</if>
         </where>
         and a.is_delete='N' and a.is_ok='Y' and a.status='1'
-        order by a.create_time
+        order by a.create_time desc
     </select>
 
-    <select id="selectArticleCollectByUserId" resultType="com.ruoyi.article.domain.Article" parameterType="Long">
-        select a.article_id,a.user_id,a.article_cover,a.article_content,a.article_type
+    <select id="selectArticleCollectByUserId" resultType="com.ruoyi.article.domain.Article" parameterType="Long" resultMap="ArticleResult">
+        select distinct a.article_id,a.user_id,a.article_title,a.article_cover,a.article_content,a.article_type,b.create_time,a.article_like,a.article_view,a.article_collect
         from article a
             left join article_record_collect b
                 on a.article_id = b.article_id
         where b.user_id = #{userId} and a.is_delete = 'N' and a.is_ok= 'Y' and a.status = '1'
-        order by b.create_time asc
+        order by b.create_time desc
     </select>
-    <select id="selectArticleLikeByUserId" resultType="com.ruoyi.article.domain.Article" parameterType="Long">
-        select a.article_id,a.user_id,a.article_cover,a.article_content,a.article_type,b.create_time
+    <select id="selectArticleLikeByUserId" resultType="com.ruoyi.article.domain.Article" parameterType="Long" resultMap="ArticleResult">
+        select a.article_id,a.user_id,a.article_cover,a.article_content,a.article_type,b.create_time,a.article_title,a.article_like,a.article_view,a.article_collect
         from article a
                  left join article_record_like b
                            on a.article_id = b.article_id
         where b.user_id = #{userId} and a.is_delete = 'N' and a.is_ok= 'Y' and a.status = '1'
-        order by b.create_time asc
+        order by b.create_time desc
     </select>
-    <select id="selectArticleViewByUserId" resultType="com.ruoyi.article.domain.Article" parameterType="Long">
-        select a.article_id,a.user_id,a.article_cover,a.article_content,a.article_type ,b.create_time
+    <select id="selectArticleViewByUserId" resultType="com.ruoyi.article.domain.Article" parameterType="Long" resultMap="ArticleResult">
+        select a.article_id,a.user_id,a.article_cover,a.article_content,a.article_type ,b.create_time,a.article_title,a.article_like,a.article_view,a.article_collect
         from article a
                  left join article_record_view b
                            on a.article_id = b.article_id

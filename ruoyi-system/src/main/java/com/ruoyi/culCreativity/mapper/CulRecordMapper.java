@@ -1,6 +1,7 @@
 package com.ruoyi.culCreativity.mapper;
 
 import com.ruoyi.culCreativity.domain.CulRecord;
+import org.apache.ibatis.annotations.Insert;
 
 /**
  * @author chas
@@ -9,7 +10,7 @@ import com.ruoyi.culCreativity.domain.CulRecord;
  */
 public interface CulRecordMapper {
 
-
+    @Insert("insert into ")
     public int addLikeCul(CulRecord record);
 
 

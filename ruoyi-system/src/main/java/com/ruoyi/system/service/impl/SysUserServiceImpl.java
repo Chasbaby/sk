@@ -637,7 +637,7 @@ public class SysUserServiceImpl implements ISysUserService
         SysUser user = new SysUser();
         user.setBackgroundImage(image);
         user.setUserId(userId);
-        int i = updateUser(user);
+        int i = userMapper.updateUser(user);
         return i;
     }
 

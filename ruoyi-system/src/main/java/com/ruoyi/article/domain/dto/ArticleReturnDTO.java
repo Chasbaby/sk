@@ -15,6 +15,8 @@ public class ArticleReturnDTO implements Serializable {
     /** 作者 */
     private Long userId;
 
+    private String articleTitle;
+
     private String articleCover;
 
     private String articleContent;
@@ -30,6 +32,13 @@ public class ArticleReturnDTO implements Serializable {
 
     private Long articleCollect;
 
+    public String getArticleTitle() {
+        return articleTitle;
+    }
+
+    public void setArticleTitle(String articleTitle) {
+        this.articleTitle = articleTitle;
+    }
 
     public Long getArticleLike() {
         return articleLike;

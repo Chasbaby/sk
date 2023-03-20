@@ -2,6 +2,7 @@ package com.ruoyi.sights.mapper;
 
 import java.util.List;
 
+import com.ruoyi.article.domain.Article;
 import com.ruoyi.culCreativity.domain.SightsCulCreativity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.parameters.P;
@@ -84,4 +85,5 @@ public interface SightsCulCreativityMapper
      */
     public List<SightsCulCreativity> selectCulInPersonPage(@Param("userId") Long userId, @Param("way") Integer way);
 
+    public List<SightsCulCreativity> selectCulCollectByUserId(Long userId);
 }

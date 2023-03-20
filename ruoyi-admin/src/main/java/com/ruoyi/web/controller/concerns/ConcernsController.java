@@ -37,9 +37,9 @@ public class ConcernsController extends BaseController {
         Long mainUser = getUserId();
         int flag = concernsService.addConcerns(mainUser, priorUser);
         if (flag == 1 ){
-            return AjaxResult.success("");
+            return AjaxResult.success("取消关注,期待下次与你的缘分");
         }else {
-            return AjaxResult.success("");
+            return AjaxResult.success("成功关注,快去看看这位伙伴的新鲜事物吧");
         }
 
     }

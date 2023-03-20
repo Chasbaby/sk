@@ -44,7 +44,7 @@ public class KafkaConsumer {
 
 
         // myFlume 进行数据过滤
-      //  System.out.println("flume");
+        System.out.println("flume");
     }
     
     @KafkaListener(topics = "recommender")

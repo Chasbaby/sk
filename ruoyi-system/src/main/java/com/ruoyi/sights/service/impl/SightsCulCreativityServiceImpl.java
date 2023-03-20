@@ -1,5 +1,6 @@
 package com.ruoyi.sights.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ruoyi.common.core.domain.entity.DTO.UserDTO;
@@ -8,12 +9,14 @@ import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.culCreativity.domain.*;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
+import com.ruoyi.culCreativity.domain.dto.CulHomeDTO;
 import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.SightsCulDTO;
 import com.ruoyi.sights.mapper.*;
 import com.ruoyi.system.mapper.SysUserMapper;
 import com.ruoyi.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import com.ruoyi.sights.service.ISightsCulCreativityService;
 import org.springframework.transaction.annotation.Transactional;
@@ -182,6 +185,25 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     @Override
     public int addCulCollect(CulRecord record) {
         return 0;
+    }
+
+    /**
+     * 用户主页展示
+     * @param userId
+     * @param way
+     * @return
+     */
+    @Override
+    public List<CulHomeDTO> getAllCulByUserId(Long userId, Integer way) {
+        List<CulHomeDTO> culHomeDTOS = new ArrayList<>();
+        List<SightsCulCreativity> personPage = sightsCulCreativityMapper.selectCulInPersonPage(userId, way);
+
+        personPage.stream().forEach(item->{
+            CulHomeDTO culHomeDTO = new CulHomeDTO();
+            BeanUtils.copyBeanProp(culHomeDTO,item);
+            culHomeDTOS.add(culHomeDTO);
+        });
+        return culHomeDTOS;
     }
 
 

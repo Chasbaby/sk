@@ -197,7 +197,7 @@ public class ArticleAnController extends BaseController {
      * 获取历史浏览记录
      * @return
      */
-    @ApiOperation("获取历史流量数据")
+    @ApiOperation("获取历史浏览数据")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/view/getAll")
     public TableDataInfo readArticleView(){

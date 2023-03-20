@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.culCreativity.domain.*;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
+import com.ruoyi.culCreativity.domain.dto.CulHomeDTO;
 import com.ruoyi.sights.domain.*;
 
 /**
@@ -98,6 +99,15 @@ public interface ISightsCulCreativityService
      * @return
      */
    public int addCulCollect(CulRecord record);
+
+    /**
+     * 获取某用户所有Cul列表
+     * 可以未通过审核
+     * @param userId
+     * @param way
+     * @return
+     */
+   public  List<CulHomeDTO> getAllCulByUserId(Long userId,Integer way);
 
 
 }

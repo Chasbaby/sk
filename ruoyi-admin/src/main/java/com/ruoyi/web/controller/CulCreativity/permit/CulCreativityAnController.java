@@ -4,10 +4,12 @@ import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.culCreativity.domain.CulRecord;
 import com.ruoyi.culCreativity.domain.dto.CulCreateDTO;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
+import com.ruoyi.culCreativity.domain.dto.CulHomeDTO;
 import com.ruoyi.sights.service.ISightsCulCreativityService;
 import com.ruoyi.system.service.ISysUserService;
 import com.ruoyi.system.service.ISysVisitorService;
@@ -15,6 +17,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author chas
@@ -35,6 +39,18 @@ public class CulCreativityAnController extends BaseController {
     @Autowired
     private ISysVisitorService visitorService;
 
+    @ApiOperation("分页获取某用户所有文创")
+    @PreAuthorize("@ss.hasRole('common')")
+    @PostMapping("/getAllCul/{userId}")
+    public TableDataInfo getAllCul(@PathVariable Long userId){
+        startPage();
+        if (userId == -1 || userId == getUserId()){
+
+            return getDataTable(creativityService.getAllCulByUserId(getUserId(),1));
+        }
+        List<CulHomeDTO> culHomeDTOList = creativityService.getAllCulByUserId(userId,0);
+        return getDataTable(culHomeDTOList);
+    }
 
     /**
      * 文创点赞

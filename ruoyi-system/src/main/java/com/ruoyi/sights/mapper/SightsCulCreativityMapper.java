@@ -3,6 +3,8 @@ package com.ruoyi.sights.mapper;
 import java.util.List;
 
 import com.ruoyi.culCreativity.domain.SightsCulCreativity;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 /**
  * 文创Mapper接口
@@ -73,5 +75,13 @@ public interface SightsCulCreativityMapper
      * @return
      */
     public SightsCulCreativity selectDetailById(Long culCreativityId);
+
+    /**
+     * 获取个人cul
+     * @param userId
+     * @param way
+     * @return
+     */
+    public List<SightsCulCreativity> selectCulInPersonPage(@Param("userId") Long userId, @Param("way") Integer way);
 
 }

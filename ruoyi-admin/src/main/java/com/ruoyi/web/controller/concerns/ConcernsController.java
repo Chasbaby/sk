@@ -2,9 +2,12 @@ package com.ruoyi.web.controller.concerns;
 
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.concerns.service.IConcernsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,17 +21,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/inter")
 public class ConcernsController extends BaseController {
 
+    @Autowired
+    private IConcernsService concernsService;
 
     /**
      * 取消/添加关注
-     * @param userId id
+     * 规定:  main  关注  prior
+     * @param priorUser id
      * @return 状态信息
      */
     @ApiOperation("取消/增加关注")
     @PreAuthorize("@ss.hasRole('common')")
-    @GetMapping("/add/{userId}")
-    public AjaxResult addConcerns(@PathVariable Long userId){
-
+    @GetMapping("/add/{priorUser}")
+    public AjaxResult addConcerns(@PathVariable Long priorUser){
+        Long mainUser = getUserId();
+        int flag = concernsService.addConcerns(mainUser, priorUser);
         return AjaxResult.success("");
     }
 
@@ -40,6 +47,7 @@ public class ConcernsController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/showFans")
     public AjaxResult showFans(){
+
         return null;
     }
 

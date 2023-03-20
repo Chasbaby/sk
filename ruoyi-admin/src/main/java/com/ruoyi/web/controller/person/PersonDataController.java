@@ -73,7 +73,6 @@ public class PersonDataController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @PostMapping("/user/update")
     public AjaxResult updateUser(@RequestBody UserChangeDTO user){
-        System.out.println(user.getAvatar());
         if (user == null){
             return AjaxResult.error("信息不能为空");
         }

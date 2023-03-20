@@ -1,7 +1,5 @@
 package com.ruoyi.framework.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ruoyi.common.utils.JsonUtils;
 import com.ruoyi.common.utils.StringUtils;
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.consumer.ConsumerConfig;

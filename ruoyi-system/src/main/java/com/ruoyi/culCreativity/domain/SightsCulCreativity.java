@@ -72,10 +72,15 @@ public class SightsCulCreativity extends BaseEntity
     /**浏览量*/
     private Long culCreativityView;
 
+    /*** 审核结果*/
+    private String isOk;
     /** 审核者 */
     private String judgeBy;
     /** 审核时间 */
     private String judgeTime;
+
+    /** 状态*/
+    private String status;
 
     /** 是否删除(Y表示已删除N表示未删除) */
     @Excel(name = "是否删除(Y表示已删除N表示未删除)")
@@ -84,6 +89,49 @@ public class SightsCulCreativity extends BaseEntity
     /** 是否置顶(Y表示置顶N表示未置顶) */
     @Excel(name = "是否置顶(Y表示置顶N表示未置顶)")
     private String topFlag;
+
+
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCulCreativityType() {
+        return culCreativityType;
+    }
+
+    public void setCulCreativityType(String culCreativityType) {
+        this.culCreativityType = culCreativityType;
+    }
+
+    public String getIsOk() {
+        return isOk;
+    }
+
+    public void setIsOk(String isOk) {
+        this.isOk = isOk;
+    }
+
+    public String getJudgeBy() {
+        return judgeBy;
+    }
+
+    public void setJudgeBy(String judgeBy) {
+        this.judgeBy = judgeBy;
+    }
+
+    public String getJudgeTime() {
+        return judgeTime;
+    }
+
+    public void setJudgeTime(String judgeTime) {
+        this.judgeTime = judgeTime;
+    }
 
     public String getCulCreativityContent() {
         return culCreativityContent;

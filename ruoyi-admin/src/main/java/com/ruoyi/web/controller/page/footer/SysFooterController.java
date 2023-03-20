@@ -37,8 +37,6 @@ public class SysFooterController extends BaseController
 {
     @Autowired
     private ISysFooterService sysFooterService;
-    @Autowired
-    private KafkaTemplate<String,String> kafkaTemplate;
     /**
      * 查询底部展示列表
      */
@@ -46,11 +44,6 @@ public class SysFooterController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(SysFooter sysFooter)
     {
-        for (int i = 0; i < 10; i++) {
-            kafkaTemplate.send("recommender","我是你爸爸");
-        }
-
-        //config11();
         startPage();
         List<SysFooter> list = sysFooterService.selectSysFooterList(sysFooter);
         return getDataTable(list);

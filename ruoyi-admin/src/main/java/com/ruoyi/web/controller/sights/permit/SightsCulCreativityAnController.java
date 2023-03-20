@@ -4,7 +4,7 @@
 //import com.ruoyi.common.core.domain.AjaxResult;
 //import com.ruoyi.common.core.text.Convert;
 //import com.ruoyi.culCreativity.domain.SightsCulCreativity;
-//import com.ruoyi.sights.service.ISightsCulCreativityService;
+//import com.ruoyi.culCreativity.ISightsCulCreativityService;
 //import com.ruoyi.system.service.ISysConfigService;
 //import io.swagger.annotations.Api;
 //import io.swagger.annotations.ApiOperation;

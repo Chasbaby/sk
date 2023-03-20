@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="culCreativityTags != null  and culCreativityTags != ''"> and cul_creativity_tags like concat('%', #{culCreativityTags}, '%')</if>
             <if test="culCreativityKey != null  and culCreativityKey != ''"> and cul_creativity_key like concat('%', #{culCreativityKey}, '%')</if>
             <if test="culCreativityImage !=null and culCreativityImage !=''"> and cul_creativity_image like concat('%',#{culCreativityImage},'%')</if>
-            <if test="isOK !=null">and is_ok = #{isOk}</if>
+            <if test="isOk !=null">and is_ok = #{isOk}</if>
             <if test="judgeBy != null and judgeBy !=''">and judge_by like concat('%',#{judgeBy},'%')</if>
             <if test="judgeTime !=null">and judge_time = #{judgeTime}</if>
             <if test="delFlag != null  and delFlag != ''"> and del_flag = #{delFlag}</if>
@@ -102,7 +102,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
             <if test="status !=null and status!=''">status,</if>
             <if test="culCreativityType !=null and culCreativityType !=''">,cul_creativity_type</if>
-            <if test="isOK !=null">,is_ok</if>
+            <if test="isOk !=null ">,is_ok</if>
             <if test="judgeBy != null and judgeBy !=''">,judge_by</if>
             <if test="judgeTime !=null">,judge_time</if>
 
@@ -129,7 +129,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="status !=null and status!=''">#{status},</if>
             <if test="culCreativityType !=null and culCreativityType !=''">#{culCreativityType},</if>
-            <if test="isOK !=null">#{isOk},</if>
+            <if test="isOk !=null">#{isOk},</if>
             <if test="judgeBy != null and judgeBy !=''">#{judgeBy},</if>
             <if test="judgeTime !=null">#{judgeTime},</if>
             <if test="userId != null">#{userId},</if>
@@ -159,7 +159,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="status !=null and status!=''">status = #{status},</if>
             <if test="culCreativityType !=null and culCreativityType !=''">cul_creativity_type=#{culCreativityType},</if>
-            <if test="isOK !=null">is_ok = #{isOk},</if>
+            <if test="isOk !=null">is_ok = #{isOk},</if>
             <if test="judgeBy != null and judgeBy !=''">judge_by =#{judgeBy},</if>
             <if test="judgeTime !=null">judge_time = #{judgeTime},</if>
             <if test="userId != null"> user_id = #{userId},</if>

@@ -36,7 +36,12 @@ public class ConcernsController extends BaseController {
     public AjaxResult addConcerns(@PathVariable Long priorUser){
         Long mainUser = getUserId();
         int flag = concernsService.addConcerns(mainUser, priorUser);
-        return AjaxResult.success("");
+        if (flag == 1 ){
+            return AjaxResult.success("");
+        }else {
+            return AjaxResult.success("");
+        }
+
     }
 
     /**

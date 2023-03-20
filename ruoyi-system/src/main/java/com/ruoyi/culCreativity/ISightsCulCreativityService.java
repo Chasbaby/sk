@@ -1,4 +1,4 @@
-package com.ruoyi.sights.service;
+package com.ruoyi.culCreativity;
 
 import java.util.List;
 

@@ -21,6 +21,7 @@ public class CulDetail {
     private String culCreativityTitle;
     private String culCreativityImage;
     private String culCreativityIntro;
+    private String culCreativityContent;
     private String culCreativityCategory;
     private String culCreativityTags;
     private Long culCreativityLike;
@@ -31,6 +32,14 @@ public class CulDetail {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
+
+    public String getCulCreativityContent() {
+        return culCreativityContent;
+    }
+
+    public void setCulCreativityContent(String culCreativityContent) {
+        this.culCreativityContent = culCreativityContent;
+    }
 
     public SightsCulDTO getSight() {
         return sight;

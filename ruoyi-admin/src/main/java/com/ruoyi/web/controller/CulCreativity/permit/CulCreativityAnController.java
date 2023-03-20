@@ -12,7 +12,7 @@ import com.ruoyi.culCreativity.domain.SightsCulCreativity;
 import com.ruoyi.culCreativity.domain.dto.CulCreateDTO;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.culCreativity.domain.dto.CulHomeDTO;
-import com.ruoyi.sights.service.ISightsCulCreativityService;
+import com.ruoyi.culCreativity.ISightsCulCreativityService;
 import com.ruoyi.system.service.ISysUserService;
 import com.ruoyi.system.service.ISysVisitorService;
 import io.swagger.annotations.Api;
@@ -140,7 +140,7 @@ public class CulCreativityAnController extends BaseController {
     @ApiOperation("用户创作文创")
     @PreAuthorize("@ss.hasRole('common')")
     @PostMapping("/create")
-    public AjaxResult crate(@RequestBody CulCreateDTO createDTO){
+    public AjaxResult create(@RequestBody CulCreateDTO createDTO){
 
         SightsCulCreativity culCreativity = new SightsCulCreativity();
         BeanUtils.copyBeanProp(culCreativity,createDTO);

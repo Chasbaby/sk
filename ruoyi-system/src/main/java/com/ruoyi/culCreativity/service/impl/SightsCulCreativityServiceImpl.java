@@ -1,4 +1,4 @@
-package com.ruoyi.sights.service.impl;
+package com.ruoyi.culCreativity.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,9 @@ import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.SightsCulDTO;
 import com.ruoyi.sights.mapper.*;
 import com.ruoyi.system.mapper.SysUserMapper;
-import com.ruoyi.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-import com.ruoyi.sights.service.ISightsCulCreativityService;
+import com.ruoyi.culCreativity.ISightsCulCreativityService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

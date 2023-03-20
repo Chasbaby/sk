@@ -91,72 +91,6 @@ public class SightsCulCreativity extends BaseEntity
     private String topFlag;
 
 
-
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getCulCreativityType() {
-        return culCreativityType;
-    }
-
-    public void setCulCreativityType(String culCreativityType) {
-        this.culCreativityType = culCreativityType;
-    }
-
-    public String getIsOk() {
-        return isOk;
-    }
-
-    public void setIsOk(String isOk) {
-        this.isOk = isOk;
-    }
-
-    public String getJudgeBy() {
-        return judgeBy;
-    }
-
-    public void setJudgeBy(String judgeBy) {
-        this.judgeBy = judgeBy;
-    }
-
-    public String getJudgeTime() {
-        return judgeTime;
-    }
-
-    public void setJudgeTime(String judgeTime) {
-        this.judgeTime = judgeTime;
-    }
-
-    public String getCulCreativityContent() {
-        return culCreativityContent;
-    }
-
-    public void setCulCreativityContent(String culCreativityContent) {
-        this.culCreativityContent = culCreativityContent;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Long getCulCreativityView() {
-        return culCreativityView;
-    }
-
-    public void setCulCreativityView(Long culCreativityView) {
-        this.culCreativityView = culCreativityView;
-    }
-
     public Long getCulCreativityId() {
         return culCreativityId;
     }
@@ -171,6 +105,14 @@ public class SightsCulCreativity extends BaseEntity
 
     public void setSightsId(Long sightsId) {
         this.sightsId = sightsId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getCulCreativityTitle() {
@@ -197,12 +139,28 @@ public class SightsCulCreativity extends BaseEntity
         this.culCreativityIntro = culCreativityIntro;
     }
 
+    public String getCulCreativityContent() {
+        return culCreativityContent;
+    }
+
+    public void setCulCreativityContent(String culCreativityContent) {
+        this.culCreativityContent = culCreativityContent;
+    }
+
     public String getCulCreativityCategory() {
         return culCreativityCategory;
     }
 
     public void setCulCreativityCategory(String culCreativityCategory) {
         this.culCreativityCategory = culCreativityCategory;
+    }
+
+    public String getCulCreativityType() {
+        return culCreativityType;
+    }
+
+    public void setCulCreativityType(String culCreativityType) {
+        this.culCreativityType = culCreativityType;
     }
 
     public String getCulCreativityTags() {
@@ -251,6 +209,46 @@ public class SightsCulCreativity extends BaseEntity
 
     public void setCulCreativityHits(Long culCreativityHits) {
         this.culCreativityHits = culCreativityHits;
+    }
+
+    public Long getCulCreativityView() {
+        return culCreativityView;
+    }
+
+    public void setCulCreativityView(Long culCreativityView) {
+        this.culCreativityView = culCreativityView;
+    }
+
+    public String getIsOk() {
+        return isOk;
+    }
+
+    public void setIsOk(String isOk) {
+        this.isOk = isOk;
+    }
+
+    public String getJudgeBy() {
+        return judgeBy;
+    }
+
+    public void setJudgeBy(String judgeBy) {
+        this.judgeBy = judgeBy;
+    }
+
+    public String getJudgeTime() {
+        return judgeTime;
+    }
+
+    public void setJudgeTime(String judgeTime) {
+        this.judgeTime = judgeTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDelFlag() {

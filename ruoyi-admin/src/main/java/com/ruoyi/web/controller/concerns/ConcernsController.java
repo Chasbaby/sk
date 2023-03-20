@@ -2,6 +2,8 @@ package com.ruoyi.web.controller.concerns;
 
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.entity.DTO.UserFCDTO;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.concerns.service.IConcernsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author chas
@@ -51,9 +55,9 @@ public class ConcernsController extends BaseController {
     @ApiOperation("展示粉丝列表")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/showFans")
-    public AjaxResult showFans(){
-
-        return null;
+    public TableDataInfo showFans(){
+        List<UserFCDTO> userFCDTOS = concernsService.showFans(getUserId());
+        return getDataTable(userFCDTOS);
     }
 
     /**
@@ -63,8 +67,9 @@ public class ConcernsController extends BaseController {
     @ApiOperation("展示关注列表")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/showConcerns")
-    public AjaxResult showConcerns(){
-        return null;
+    public TableDataInfo showConcerns(){
+        List<UserFCDTO> userFCDTOS = concernsService.showFans(getUserId());
+        return getDataTable(userFCDTOS);
     }
 
 

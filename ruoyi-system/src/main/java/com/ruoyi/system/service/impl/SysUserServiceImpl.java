@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import com.ruoyi.common.core.domain.entity.DTO.UserChangeDTO;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.common.utils.bean.BeanValidators;
+import com.ruoyi.concerns.mapper.ConcernsMapper;
 import com.ruoyi.system.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +67,9 @@ public class SysUserServiceImpl implements ISysUserService
 
     @Autowired
     private SysVisitorMapper visitorMapper;
+
+    @Autowired
+    private ConcernsMapper concernsMapper;
 
     /**
      * 根据条件分页查询用户列表
@@ -602,14 +606,17 @@ public class SysUserServiceImpl implements ISysUserService
 
     /**
      * 个人主页信息展示
-     * @param userId
+     * @param mainUser 我 priorUser 你
      * @return
      */
     @Override
-    public UserChangeDTO perInformation(Long userId) {
+    public UserChangeDTO perInformation(Long mainUser,Long priorUser) {
         UserChangeDTO changeDTO = new UserChangeDTO();
-        SysUser sysUser = userMapper.selectUserById(userId);
+        SysUser sysUser = userMapper.selectUserById(priorUser);
         BeanUtils.copyBeanProp(changeDTO,sysUser);
+        // 1 说明关注了
+        int i = concernsMapper.judgeIfConcerns(mainUser, priorUser);
+        changeDTO.setIfConcern(i);
         return changeDTO;
     }
 

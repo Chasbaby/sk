@@ -95,7 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by create_time desc
     </select>
     <select id="selectCulCollectByUserId" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" parameterType="Long" resultMap="SightsCulCreativityResult">
-        select a.cul_creativity_id, a.user_id,a.cul_creativity_title,a.cul_creativity_intro,a.cul_creativity_like,a.cul_creativity_view,a.cul_creativity_collect,
+        select a.cul_creativity_id, a.user_id,a.cul_creativity_title,a.cul_creativity_intro,a.cul_creativity_like,a.cul_creativity_view,a.cul_creativity_collection,
                a.cul_creativity_image,a.cul_creativity_type,a.cul_creativity_category,b.create_time
         from sights_cul_creativity a
             left join cul_record_collect b

@@ -18,6 +18,16 @@ public class UserChangeDTO implements Serializable {
     private String avatar;
     private String backgroundImage;
 
+    private int ifConcern;
+
+    public int getIfConcern() {
+        return ifConcern;
+    }
+
+    public void setIfConcern(int ifConcern) {
+        this.ifConcern = ifConcern;
+    }
+
     public Long getUserId() {
         return userId;
     }

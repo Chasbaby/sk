@@ -57,13 +57,13 @@ public class PersonDataController extends BaseController {
         // 如果没有填入userId  或者 userId 是自己的
         if (userId == -1 || userId == getUserId()){
             userId = getUserId();
-            changeDTOS =  userService.perInformation(userId);
+            changeDTOS =  userService.perInformation(null,userId);
             ajaxResult.put("data",changeDTOS);
             ajaxResult.put("ifSelf",true);
             return ajaxResult;
         }
         // 如果是别人
-        changeDTOS = userService.perInformation(userId);
+        changeDTOS = userService.perInformation(getUserId(),userId);
         ajaxResult.put("data",changeDTOS);
         ajaxResult.put("ifSelf",false);
         return ajaxResult;

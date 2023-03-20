@@ -208,10 +208,10 @@ public interface ISysUserService
 
     /**
      * 个人主页信息展示
-     * @param userId
+     * @param mainUser priorUser
      * @return
      */
-    public UserChangeDTO perInformation(Long userId);
+    public UserChangeDTO perInformation(Long mainUser,Long priorUser);
 
     /**
      * 获取个人资料

@@ -9,14 +9,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
 
-
-    <insert id="addConcerns">
-
-    </insert>
-    <update id="reduceConcerns">
-
-    </update>
-
     <update id="setRemind">
 
     </update>

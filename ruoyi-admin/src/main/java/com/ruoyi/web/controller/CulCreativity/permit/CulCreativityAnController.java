@@ -6,13 +6,16 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.culCreativity.domain.CulRecord;
+import com.ruoyi.culCreativity.domain.SightsCulCreativity;
 import com.ruoyi.culCreativity.domain.dto.CulCreateDTO;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.culCreativity.domain.dto.CulHomeDTO;
 import com.ruoyi.sights.service.ISightsCulCreativityService;
 import com.ruoyi.system.service.ISysUserService;
 import com.ruoyi.system.service.ISysVisitorService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,12 +23,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.ruoyi.framework.config.SensitiveConfig.filter;
+
 /**
  * @author chas
  * @introduction 文创服务
  * @data 2023-3
  */
-@ApiOperation("文创游客板块")
+@Api("文创游客板块")
 @RestController
 @RequestMapping("/creativity")
 public class CulCreativityAnController extends BaseController {
@@ -57,6 +62,7 @@ public class CulCreativityAnController extends BaseController {
      * @param culCreativityId id
      * @return  状态信息
      */
+    @ApiOperation("文创点赞")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/like/{culCreativityId}")
     public AjaxResult CreativityLike(@PathVariable Long culCreativityId){
@@ -78,6 +84,7 @@ public class CulCreativityAnController extends BaseController {
      * @param culCreativityId id
      * @return 状态信息
      */
+    @ApiOperation("登录浏览")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/view/{culCreativityId}")
     public AjaxResult CreativityView(@PathVariable Long culCreativityId){
@@ -91,6 +98,7 @@ public class CulCreativityAnController extends BaseController {
      * @param culCreativityId id
      * @return 状态信息
      */
+    @ApiOperation("非登录浏览")
     @Anonymous
     @GetMapping("/view/anonymous/{culCreativityId}")
     public AjaxResult CreativityViewAnonymous(@PathVariable Long culCreativityId){
@@ -103,6 +111,7 @@ public class CulCreativityAnController extends BaseController {
      * @param culCreativityId
      * @return
      */
+    @ApiOperation("获得文创详细资料")
     @Anonymous
     @GetMapping("/getDetail/{culCreativityId}")
     public AjaxResult getCulDetail(@PathVariable Long culCreativityId){
@@ -115,6 +124,7 @@ public class CulCreativityAnController extends BaseController {
      * @param userId id
      * @return 状态信息
      */
+    @ApiOperation("订阅用户")
     @GetMapping("/subscription/{userId}")
     @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult subscription(@PathVariable Long userId){
@@ -127,11 +137,17 @@ public class CulCreativityAnController extends BaseController {
      * 用户创作文创
      * @return 状态信息
      */
+    @ApiOperation("用户创作文创")
     @PreAuthorize("@ss.hasRole('common')")
     @PostMapping("/create")
     public AjaxResult crate(@RequestBody CulCreateDTO createDTO){
 
-        return null;
+        SightsCulCreativity culCreativity = new SightsCulCreativity();
+        BeanUtils.copyBeanProp(culCreativity,createDTO);
+        culCreativity.setCulCreativityContent(filter(createDTO.getCulCreativityContent()));
+        culCreativity.setUserId(getUserId());
+        creativityService.insertSightsCulCreativity(culCreativity);
+        return AjaxResult.success("创建成功，等待审核即可发表");
     }
 
 

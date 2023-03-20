@@ -197,7 +197,6 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     public List<CulHomeDTO> getAllCulByUserId(Long userId, Integer way) {
         List<CulHomeDTO> culHomeDTOS = new ArrayList<>();
         List<SightsCulCreativity> personPage = sightsCulCreativityMapper.selectCulInPersonPage(userId, way);
-
         personPage.stream().forEach(item->{
             CulHomeDTO culHomeDTO = new CulHomeDTO();
             BeanUtils.copyBeanProp(culHomeDTO,item);

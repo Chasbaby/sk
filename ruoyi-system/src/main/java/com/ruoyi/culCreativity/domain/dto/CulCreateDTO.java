@@ -9,12 +9,18 @@ import java.io.Serializable;
  */
 public class CulCreateDTO implements Serializable {
     private String culCreativityTitle;
-    private String culCreativityImage;
+
     private String culCreativityIntro;
+    /** 文创内容*/
     private String culCreativityContent;
+
+    private String culCreativityImage;
+
     private String culCreativityCategory;
-    private String culCreativityTags;
-    private String culCreativityKey;
+
+    private String culCreativityType;
+
+    private String status;
 
     public String getCulCreativityTitle() {
         return culCreativityTitle;
@@ -22,14 +28,6 @@ public class CulCreateDTO implements Serializable {
 
     public void setCulCreativityTitle(String culCreativityTitle) {
         this.culCreativityTitle = culCreativityTitle;
-    }
-
-    public String getCulCreativityImage() {
-        return culCreativityImage;
-    }
-
-    public void setCulCreativityImage(String culCreativityImage) {
-        this.culCreativityImage = culCreativityImage;
     }
 
     public String getCulCreativityIntro() {
@@ -48,6 +46,14 @@ public class CulCreateDTO implements Serializable {
         this.culCreativityContent = culCreativityContent;
     }
 
+    public String getCulCreativityImage() {
+        return culCreativityImage;
+    }
+
+    public void setCulCreativityImage(String culCreativityImage) {
+        this.culCreativityImage = culCreativityImage;
+    }
+
     public String getCulCreativityCategory() {
         return culCreativityCategory;
     }
@@ -56,19 +62,19 @@ public class CulCreateDTO implements Serializable {
         this.culCreativityCategory = culCreativityCategory;
     }
 
-    public String getCulCreativityTags() {
-        return culCreativityTags;
+    public String getCulCreativityType() {
+        return culCreativityType;
     }
 
-    public void setCulCreativityTags(String culCreativityTags) {
-        this.culCreativityTags = culCreativityTags;
+    public void setCulCreativityType(String culCreativityType) {
+        this.culCreativityType = culCreativityType;
     }
 
-    public String getCulCreativityKey() {
-        return culCreativityKey;
+    public String getStatus() {
+        return status;
     }
 
-    public void setCulCreativityKey(String culCreativityKey) {
-        this.culCreativityKey = culCreativityKey;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

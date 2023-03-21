@@ -68,7 +68,7 @@ public class ConcernsController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/showConcerns")
     public TableDataInfo showConcerns(){
-        List<UserFCDTO> userFCDTOS = concernsService.showFans(getUserId());
+        List<UserFCDTO> userFCDTOS = concernsService.showConcerns(getUserId());
         return getDataTable(userFCDTOS);
     }
 

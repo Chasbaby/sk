@@ -1,15 +1,20 @@
 package com.ruoyi.concerns.service.impl;
 
+import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.entity.DTO.UserFCDTO;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.domain.model.LoginUser;
+import com.ruoyi.common.core.redis.RedisCache;
+import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.concerns.mapper.ConcernsMapper;
 import com.ruoyi.concerns.service.IConcernsService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -25,6 +30,9 @@ public class ConcernsServiceImpl implements IConcernsService {
 
     @Autowired
     private ConcernsMapper concernsMapper;
+
+    @Autowired
+    private RedisCache redisCache;
 
     @Transactional
     @Override
@@ -48,12 +56,13 @@ public class ConcernsServiceImpl implements IConcernsService {
      */
     @Override
     public List<UserFCDTO> showFans(Long PriorUser) {
+        Collection<String> keys = redisCache.keys(Constants.LOGIN_TOKEN_KEY + "*");
         List<SysUser> sysUsers = concernsMapper.searchCountFans(PriorUser);
         List<UserFCDTO> userFCDTOS = new ArrayList<>();
         sysUsers.stream().forEach(item->{
             UserFCDTO userFCDTO = new UserFCDTO();
-            BeanUtils.copyProperties(userFCDTO,item);
-            userFCDTOS.add(userFCDTO);
+            BeanUtils.copyProperties(item,userFCDTO);
+            setIfLogin(keys, userFCDTOS, item, userFCDTO);
         });
         return userFCDTOS;
     }
@@ -65,14 +74,36 @@ public class ConcernsServiceImpl implements IConcernsService {
      */
     @Override
     public List<UserFCDTO> showConcerns(Long mainUser) {
+        Collection<String> keys = redisCache.keys(Constants.LOGIN_TOKEN_KEY + "*");
         List<SysUser> sysUsers = concernsMapper.searchCountCon(mainUser);
         List<UserFCDTO> userFCDTOS = new ArrayList<>();
         sysUsers.stream().forEach(item->{
             UserFCDTO userFCDTO = new UserFCDTO();
-            BeanUtils.copyProperties(userFCDTO,item);
-            userFCDTOS.add(userFCDTO);
+            BeanUtils.copyProperties(item,userFCDTO);
+            userFCDTO.setFlag(true);
+            setIfLogin(keys, userFCDTOS, item, userFCDTO);
         });
         return userFCDTOS;
+    }
+
+    /**
+     * 在线用户高亮
+     * @param keys
+     * @param userFCDTOS
+     * @param item
+     * @param userFCDTO
+     */
+    private void setIfLogin(Collection<String> keys, List<UserFCDTO> userFCDTOS, SysUser item, UserFCDTO userFCDTO) {
+        userFCDTO.setIfLoginIng(false);
+        for (String key : keys) {
+            LoginUser user = redisCache.getCacheObject(key);
+            if (item.getUserName().equals(user.getUser().getUserName())){
+                userFCDTO.setIfLoginIng(true);
+                break;
+            }
+        }
+        userFCDTOS.add(userFCDTO);
+        userFCDTOS.sort((o1, o2) -> o1.getIfLoginIng() ? -1 : 1);
     }
 
     /**
@@ -82,8 +113,7 @@ public class ConcernsServiceImpl implements IConcernsService {
      */
     @Override
     public int setRemind(Long priorUser) {
-
-
+        concernsMapper.setRemind(priorUser);
         return 0;
     }
 

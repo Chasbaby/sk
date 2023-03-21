@@ -147,7 +147,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="culCreativityTitle != null and culCreativityTitle != ''">#{culCreativityTitle},</if>
             <if test="culCreativityIntro != null">#{culCreativityIntro},</if>
             <if test="culCreativityCategory != null">#{culCreativityCategory},</if>
-            <if test="culCreativityContent !=null">#{culCreativityContent}</if>
+            <if test="culCreativityContent !=null">#{culCreativityContent},</if>
             <if test="culCreativityImage !=null and culCreativityImage !=''">#{culCreativityImage},</if>
             <if test="culCreativityTags != null">#{culCreativityTags},</if>
             <if test="culCreativityKey != null">#{culCreativityKey},</if>

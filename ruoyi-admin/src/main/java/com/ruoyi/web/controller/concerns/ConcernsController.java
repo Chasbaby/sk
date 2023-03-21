@@ -13,7 +13,9 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author chas
@@ -54,10 +56,19 @@ public class ConcernsController extends BaseController {
      */
     @ApiOperation("展示粉丝列表")
     @PreAuthorize("@ss.hasRole('common')")
-    @GetMapping("/showFans")
-    public TableDataInfo showFans(){
-        List<UserFCDTO> userFCDTOS = concernsService.showFans(getUserId());
-        return getDataTable(userFCDTOS);
+    @GetMapping("/showFans/{userId}")
+    public TableDataInfo showFans(@PathVariable Long userId){
+        // 如果是自己
+        if (userId == -1 || getUserId() == userId){
+            List<UserFCDTO> userFCDTOS = concernsService.showFans(getUserId());
+            Map<String,Object> params = new HashMap<>();
+            params.put("ifSelf",true);
+            return getDataTable(userFCDTOS,"这些都是您忠实的伙伴",params);
+        }
+        List<UserFCDTO> userFCDTOS = concernsService.showFans(userId);
+        Map<String,Object> params = new HashMap<>();
+        params.put("ifSelf",false);
+        return getDataTable(userFCDTOS,"欢迎您的加入",params);
     }
 
     /**
@@ -66,10 +77,18 @@ public class ConcernsController extends BaseController {
      */
     @ApiOperation("展示关注列表")
     @PreAuthorize("@ss.hasRole('common')")
-    @GetMapping("/showConcerns")
-    public TableDataInfo showConcerns(){
-        List<UserFCDTO> userFCDTOS = concernsService.showConcerns(getUserId());
-        return getDataTable(userFCDTOS);
+    @GetMapping("/showConcerns/{userId}")
+    public TableDataInfo showConcerns(@PathVariable Long userId){
+        if (userId == -1 || getUserId() == userId){
+            List<UserFCDTO> userFCDTOS = concernsService.showConcerns(getUserId());
+            Map<String,Object> params = new HashMap<>();
+            params.put("ifSelf",true);
+            return getDataTable(userFCDTOS,null,params);
+        }
+        List<UserFCDTO> userFCDTOS = concernsService.showConcerns(userId);
+        Map<String,Object> params = new HashMap<>();
+        params.put("ifSelf",false);
+        return getDataTable(userFCDTOS,null,params);
     }
 
 

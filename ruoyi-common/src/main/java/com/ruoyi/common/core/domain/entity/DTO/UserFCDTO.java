@@ -15,6 +15,24 @@ public class UserFCDTO implements Serializable {
     private String sex;
     private String avatar;
     private Date loginDate;
+    private Boolean flag;
+    private Boolean ifLoginIng;
+
+    public Boolean getIfLoginIng() {
+        return ifLoginIng;
+    }
+
+    public void setIfLoginIng(Boolean ifLoginIng) {
+        this.ifLoginIng = ifLoginIng;
+    }
+
+    public Boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Boolean flag) {
+        this.flag = flag;
+    }
 
     public Long getUserId() {
         return userId;

@@ -233,6 +233,9 @@ public interface ISysUserService
      * @return
      */
     public int updateUserInfoByCommon(SysUser user);
+
+
+
 //
 //    /**
 //     * 修改个人信息

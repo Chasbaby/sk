@@ -3,6 +3,7 @@ package com.ruoyi.common.core.controller;
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.ruoyi.common.utils.PageUtils;
 import org.slf4j.Logger;
@@ -100,10 +101,34 @@ public class BaseController
         return rspData;
     }
 
+    /**
+     * 提示功能
+     *
+     * @param msg
+     * @return
+     */
     protected TableDataInfo errorMsg(String msg){
         TableDataInfo rspData = new TableDataInfo();
         rspData.setCode(HttpStatus.ERROR);
         rspData.setMsg(msg);
+        return rspData;
+    }
+
+    /**
+     *  附带参数
+     *
+     * @param list 列表
+     * @param msg 信息
+     * @param  params 附带参数
+     * @return
+     */
+    protected TableDataInfo getDataTable(List<?> list , String msg, Map<String,Object> params){
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setCode(HttpStatus.SUCCESS);
+        rspData.setMsg(msg);
+        rspData.setRows(list);
+        rspData.setParams(params);
+        rspData.setTotal(new PageInfo(list).getTotal());
         return rspData;
     }
 

@@ -7,6 +7,7 @@ import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.concerns.service.IConcernsService;
 import com.ruoyi.culCreativity.domain.CulRecord;
 import com.ruoyi.culCreativity.domain.SightsCulCreativity;
 import com.ruoyi.culCreativity.domain.dto.CulCreateDTO;
@@ -43,6 +44,11 @@ public class CulCreativityAnController extends BaseController {
 
     @Autowired
     private ISysVisitorService visitorService;
+
+    @Autowired
+    private IConcernsService concernsService;
+
+
 
     @ApiOperation("分页获取某用户所有文创")
     @PreAuthorize("@ss.hasRole('common')")
@@ -147,6 +153,8 @@ public class CulCreativityAnController extends BaseController {
         culCreativity.setCulCreativityContent(filter(createDTO.getCulCreativityContent()));
         culCreativity.setUserId(getUserId());
         creativityService.insertSightsCulCreativity(culCreativity);
+        // 消息推送开启
+        concernsService.setRemind(getUserId());
         return AjaxResult.success("创建成功，等待审核即可发表");
     }
 

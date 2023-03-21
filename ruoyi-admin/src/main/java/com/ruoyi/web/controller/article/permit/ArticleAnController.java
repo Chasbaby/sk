@@ -13,6 +13,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.SearchCaseType;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.concerns.service.IConcernsService;
 import com.ruoyi.system.service.ISysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,6 +41,9 @@ public class ArticleAnController extends BaseController {
 
     @Autowired
     private IArticleService articleService;
+
+    @Autowired
+    private IConcernsService concernsService;
 
     /**
      * 文章点赞(点与取消)
@@ -132,6 +136,8 @@ public class ArticleAnController extends BaseController {
         articleHandle.setUserId(getUserId());
         // 存入数据库
         articleService.insertArticle(articleHandle);
+        // 消息推送
+        concernsService.setRemind(getUserId());
         return AjaxResult.success("创建成功，等待审核即可发表");
     }
 
@@ -162,6 +168,8 @@ public class ArticleAnController extends BaseController {
         articleHandle.setArticleContent(filter(article.getArticleContent()));
         articleHandle.setIsOk("U");
         articleService.updateArticle(articleHandle);
+        // 消息推送
+        concernsService.setRemind(getUserId());
         return AjaxResult.success("修改成功，等待审核即可发表");
     }
 

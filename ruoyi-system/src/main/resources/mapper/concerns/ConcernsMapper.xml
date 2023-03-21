@@ -25,15 +25,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="searchCountCon" resultType="com.ruoyi.common.core.domain.entity.SysUser"
             parameterType="Long" resultMap="SysUserResult">
-            select a.user_id,a.nick_name,a.intro,a.sex,a.avatar,a.login_date
+            select a.user_id,a.nick_name,a.intro,a.sex,a.avatar,a.login_date,a.user_name
                 from sys_user a left join concerns b on b.prior_user = a.user_id
-                where b.prior_user = #{userId} and a.del_flag = '0'
+                where b.main_user = #{userId} and a.del_flag = '0'
     </select>
 
     <select id="searchCountFans" resultType="com.ruoyi.common.core.domain.entity.SysUser"
             parameterType="Long" resultMap="SysUserResult">
-            select a.user_id,a.nick_name,a.intro,a.sex,a.avatar,a.login_date
+            select a.user_id,a.nick_name,a.intro,a.sex,a.avatar,a.login_date,a.user_name
                 from sys_user a left join concerns b on b.main_user = a.user_id
-                where b.main_user = #{userId} and a.del_flag = '0'
+                where b.prior_user = #{userId} and a.del_flag = '0'
     </select>
 </mapper>

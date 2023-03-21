@@ -38,15 +38,6 @@ public class logFilter {
         setting.put(StreamsConfig.APPLICATION_ID_CONFIG,"logFilter");
         setting.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
 
-//        Topology topology = streamsBuilder
-//                .build()
-//                .addSource("SOURCE", "myFlume")
-//                .addProcessor("PROCESSOR", KafkaStreamingLogFilter::new, "SOURCE")
-//                .addSink("SINK", "OnLineRecommend", "PROCESSOR");
-//        KafkaStreams kafkaStreams = new KafkaStreams(topology, setting);
-
-//        kafkaStreams.start();
-
         System.out.println("开始了");
         KStream<String, String> myFlume = streamsBuilder.stream("myFlume");
         myFlume.map((KeyValueMapper<String, String, KeyValue<?, ?>>) (s, s2) -> {

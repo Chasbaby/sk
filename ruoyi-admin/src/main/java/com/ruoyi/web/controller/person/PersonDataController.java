@@ -15,6 +15,7 @@ import com.ruoyi.system.service.ISysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -120,6 +121,12 @@ public class PersonDataController extends BaseController {
         return AjaxResult.success("修改背景图片成功");
     }
 
+    @ApiOperation("获取订阅文创个人信息")
+    @PreAuthorize("@ss.hasRole('common')")
+    @GetMapping("/create/intro")
+    public AjaxResult getCreateIntro(){
+        return null;
+    }
 
 
 

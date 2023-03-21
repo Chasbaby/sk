@@ -1,11 +1,14 @@
 package com.ruoyi.culCreativity.domain;
 
 import com.alibaba.excel.annotation.format.NumberFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.annotation.Excels;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import java.util.Date;
 
 /**
  * 文创对象 sights_cul_creativity
@@ -76,8 +79,9 @@ public class SightsCulCreativity extends BaseEntity
     private String isOk;
     /** 审核者 */
     private String judgeBy;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     /** 审核时间 */
-    private String judgeTime;
+    private Date judgeTime;
 
     /** 状态*/
     private String status;
@@ -235,11 +239,11 @@ public class SightsCulCreativity extends BaseEntity
         this.judgeBy = judgeBy;
     }
 
-    public String getJudgeTime() {
+    public Date getJudgeTime() {
         return judgeTime;
     }
 
-    public void setJudgeTime(String judgeTime) {
+    public void setJudgeTime(Date judgeTime) {
         this.judgeTime = judgeTime;
     }
 

@@ -2,10 +2,7 @@ package com.ruoyi.concerns.mapper;
 
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.concerns.domain.Concerns;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -74,5 +71,17 @@ public interface ConcernsMapper {
      */
     @Select("select count(0) from concerns where main_user = #{mainUser} and prior_user = 'Y' limit 1")
     public int checkUserRemind(Long mainUser);
+
+    /** 提醒文创*/
+    @Update("update concerns set cul_num = cul_num + 1 where prior_user= #{priorUser}")
+    public int addCulNum(Long priorUser);
+
+    /** 提醒文章*/
+    @Update("update concerns set article_num = article_num + 1 where prior_user = #{priorUser} ")
+    public int addArticleNum(Long priorUser);
+
+    public int reduceArticleNum();
+
+
 }
 

@@ -21,6 +21,25 @@ public class Concerns {
     /** 是否提醒*/
     private String ifRemind;
 
+    private Long culNum;
+
+    private Long articleNum;
+
+    public Long getCulNum() {
+        return culNum;
+    }
+
+    public void setCulNum(Long culNum) {
+        this.culNum = culNum;
+    }
+
+    public Long getArticleNum() {
+        return articleNum;
+    }
+
+    public void setArticleNum(Long articleNum) {
+        this.articleNum = articleNum;
+    }
 
     public Long getMainUser() {
         return mainUser;

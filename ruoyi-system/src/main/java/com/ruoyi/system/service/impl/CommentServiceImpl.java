@@ -227,12 +227,7 @@ public class CommentServiceImpl implements ICommentService
     public int checkUserCommentLike(CommentRecordLike commentRecordLike) {
         return commentRecordLikeMapper.checkUserCommentLike(commentRecordLike);
     }
-//
-//    @Override
-//    public List<CommentDTO> getUserAllComment(Long userId) {
-//
-//        return null;
-//    }
+
 
     /**
      * 获取某地所有父级评论
@@ -252,7 +247,7 @@ public class CommentServiceImpl implements ICommentService
 
 
     private CommentDTO handleComment(Comment item) {
-        item.setCommentContent(emojiConverterToAlias(item.getCommentContent()));
+
         CommentDTO commentDTO = new CommentDTO();
         // 查询用户
         SysUser sysUser = userMapper.selectUserById(item.getUserId());

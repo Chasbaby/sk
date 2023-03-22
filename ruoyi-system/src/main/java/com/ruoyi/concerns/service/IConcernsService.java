@@ -21,7 +21,6 @@ public interface IConcernsService {
      */
     public int addConcerns(Long mainUser,Long priorUser);
 
-
     /**
      * 传我的id
      *
@@ -59,6 +58,8 @@ public interface IConcernsService {
      * @param userId
      */
     public void getMainPageUserInfo(Long userId);
+
+
 
 
 }

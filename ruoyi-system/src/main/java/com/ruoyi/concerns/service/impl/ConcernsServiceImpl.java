@@ -117,5 +117,23 @@ public class ConcernsServiceImpl implements IConcernsService {
         return 0;
     }
 
+    /**
+     * 查询是否有提醒
+     * @param mainUser
+     * @return
+     */
+    @Override
+    public int checkUserRemind(Long mainUser) {
+        int i = concernsMapper.checkUserRemind(mainUser);
+        return i;
+    }
+
+    /**
+     * 核心
+     * 获取主页用户信息 和 相关状态信息
+     * @param userId
+     */
+    public void getMainPageUserInfo(Long userId){}
+
 
 }

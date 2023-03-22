@@ -40,6 +40,29 @@ public class VisitorDTO implements Serializable {
     /** 评论数量**/
     private Long comments;
 
+    /** 粉丝量*/
+    private Long visitorFans;
+
+    /** 关注量*/
+    private Long visitorConcerns;
+
+
+    public Long getVisitorFans() {
+        return visitorFans;
+    }
+
+    public void setVisitorFans(Long visitorFans) {
+        this.visitorFans = visitorFans;
+    }
+
+    public Long getVisitorConcerns() {
+        return visitorConcerns;
+    }
+
+    public void setVisitorConcerns(Long visitorConcerns) {
+        this.visitorConcerns = visitorConcerns;
+    }
+
     public Long getVisitorId() {
         return visitorId;
     }

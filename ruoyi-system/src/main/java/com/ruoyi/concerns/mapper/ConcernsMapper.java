@@ -45,10 +45,34 @@ public interface ConcernsMapper {
     public int judgeIfConcerns(@Param("mainUser") Long mainUser, @Param("priorUser") Long priorUser);
 
     /**
+     * 获取关注数量
+     * @param mainUser
+     * @return
+     */
+    @Select("select count(0) from concerns where main_user = #{mainUser}")
+    public int getConcernsNum(Long mainUser);
+
+    /**
+     * 获取粉丝数量
+     * @param priorUser
+     * @return
+     */
+    @Select("select count(0) from concerns where prior_user = #{priorUser}")
+    public int getFansNum(Long priorUser);
+
+    /**
      * 重置提醒
      * @param priorUser
      * @return
      */
     public int setRemind(Long priorUser);
+
+    /**
+     * 查询用户是否有提醒
+     * @param mainUser
+     * @return
+     */
+    @Select("select count(0) from concerns where main_user = #{mainUser} and prior_user = 'Y' limit 1")
+    public int checkUserRemind(Long mainUser);
 }
 

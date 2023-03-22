@@ -6,12 +6,15 @@ import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.DTO.UserChangeDTO;
+import com.ruoyi.common.core.domain.entity.DTO.UserVisitorDTO;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.concerns.service.IConcernsService;
 import com.ruoyi.page.domain.SysTypeset;
 import com.ruoyi.page.service.ISysTypesetService;
 import com.ruoyi.system.service.ISysUserService;
+import com.ruoyi.system.service.ISysVisitorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +39,13 @@ public class PersonDataController extends BaseController {
     private ISysUserService userService;
 
     @Autowired
+    private IConcernsService concernsService;
+
+    @Autowired
     private ISysTypesetService sysTypesetService;
+
+    @Autowired
+    private ISysVisitorService visitorService;
 
 
     /**
@@ -125,8 +134,21 @@ public class PersonDataController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/create/intro")
     public AjaxResult getCreateIntro(){
+        Long userId = getUserId();
+        UserVisitorDTO intro = visitorService.getCreateIntro(userId);
+        return AjaxResult.success(intro);
+    }
+
+
+    @ApiOperation("获取主页信息 和 相关状态")
+    @PreAuthorize("@ss.hasRole('common')")
+    @GetMapping("/remind")
+    public AjaxResult getMainIfRemindInfo(){
+
         return null;
     }
+
+
 
 
 

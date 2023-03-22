@@ -73,6 +73,10 @@
         </encoder>
     </appender>
 
+<!--    <appender name="HDFS" class="">-->
+
+<!--    </appender>-->
+
 <!--    https://blog.csdn.net/warrah/article/details/78774547-->
 <!--    https://blog.csdn.net/jy02268879/article/details/81024758-->
 <!--    com.gilt.flume.logback.FlumeLogstashV1Appender    用这个没效果啦-->

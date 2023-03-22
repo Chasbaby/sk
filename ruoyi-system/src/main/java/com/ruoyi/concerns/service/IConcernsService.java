@@ -46,4 +46,19 @@ public interface IConcernsService {
      * @return
      */
     public int setRemind(Long priorUser);
+
+    /**
+     * 查询用户提醒状态
+     * @param mainUser
+     * @return
+     */
+    public int checkUserRemind(Long mainUser);
+
+    /**
+     * 获取主页 用户信息 和 相关状态
+     * @param userId
+     */
+    public void getMainPageUserInfo(Long userId);
+
+
 }

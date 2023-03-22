@@ -5,6 +5,7 @@ import java.util.List;
 import com.ruoyi.culCreativity.domain.*;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.culCreativity.domain.dto.CulHomeDTO;
+import com.ruoyi.culCreativity.domain.dto.CulLazyDTO;
 import com.ruoyi.sights.domain.*;
 
 /**
@@ -111,5 +112,7 @@ public interface ISightsCulCreativityService
 
 
    public List<CulHomeDTO> getAllCulCollect(Long userId);
+
+   public List<CulLazyDTO> getConcernsLazyCul(Long userId);
 
 }

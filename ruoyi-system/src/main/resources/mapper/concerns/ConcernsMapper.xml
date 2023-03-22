@@ -22,6 +22,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="setRemind" parameterType="Long">
         update concerns set if_remind = 'Y' where prior_user = #{priorUser}
     </update>
+    <update id="reduceArticleNum">
+        update concerns set article_num = article_num -1 where prior_user in
+        <foreach collection="array" item="priorUsers" open="(" separator="," close=")">
+            #{priorUsers}
+        </foreach>
+        and main_user = #{mainUser}
+    </update>
+    <update id="reduceCulNum">
+        update concerns set cul_num = cul_num - 1 where prior_user in
+        <foreach collection="array" item="priorUser" open="(" separator="," close=")">
+            #{priorUsers}
+        </foreach>
+        and main_user = #{mainUser}
+    </update>
 
     <select id="searchCountCon" resultType="com.ruoyi.common.core.domain.entity.SysUser"
             parameterType="Long" resultMap="SysUserResult">

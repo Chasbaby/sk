@@ -14,6 +14,7 @@ import com.ruoyi.culCreativity.domain.dto.CulCreateDTO;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.culCreativity.domain.dto.CulHomeDTO;
 import com.ruoyi.culCreativity.ISightsCulCreativityService;
+import com.ruoyi.culCreativity.domain.dto.CulLazyDTO;
 import com.ruoyi.system.service.ISysUserService;
 import com.ruoyi.system.service.ISysVisitorService;
 import io.swagger.annotations.Api;
@@ -167,6 +168,14 @@ public class CulCreativityAnController extends BaseController {
         return getDataTable(culCollect);
     }
 
+    @ApiOperation("懒加载")
+    @PreAuthorize("@ss.hasRole('common')")
+    @PostMapping("/lazy")
+    public TableDataInfo getConcernsLazyCul(){
+        startPage();
+        List<CulLazyDTO> concernsLazyCul = creativityService.getConcernsLazyCul(getUserId());
+        return getDataTable(concernsLazyCul);
+    }
 
 
 

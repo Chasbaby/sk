@@ -106,6 +106,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
+    <select id="selectLazyCul" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" parameterType="Long" resultMap="SightsCulCreativityResult">
+        select a.cul_creativity_id,a.user_id,a.cul_creativity_title,
+               a.cul_creativity_image,a.cul_creativity_intro,a.cul_creativity_like,
+               a.cul_creativity_collection,a.cul_creativity_hits,a.create_time  from sights_cul_creativity a
+                   left join concerns b on a.user_id = b.prior_user
+                where b.main_user = #{userId} and a.status = '1'
+                  and a.is_ok = 'Y' and a.del_flag = 'N'
+                  and b.if_remind = 'Y' and b.cul_num >0
+                order by a.create_time DESC
+    </select>
+
+
     <insert id="insertSightsCulCreativity" parameterType="SightsCulCreativity" useGeneratedKeys="true" keyProperty="culCreativityId">
         insert into sights_cul_creativity
         <trim prefix="(" suffix=")" suffixOverrides=",">

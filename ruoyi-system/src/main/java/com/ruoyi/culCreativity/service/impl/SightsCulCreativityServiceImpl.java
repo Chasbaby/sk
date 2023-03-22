@@ -10,6 +10,7 @@ import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.culCreativity.domain.*;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.culCreativity.domain.dto.CulHomeDTO;
+import com.ruoyi.culCreativity.domain.dto.CulLazyDTO;
 import com.ruoyi.culCreativity.mapper.CulRecordMapper;
 import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.SightsCulDTO;
@@ -37,6 +38,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     private SightsBaseMapper baseMapper;
     @Autowired
     private CulRecordMapper recordMapper;
+
 
 
     /**
@@ -209,7 +211,6 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
 
     @Override
     public List<CulHomeDTO> getAllCulCollect(Long userId) {
-
         List<SightsCulCreativity> creativities = sightsCulCreativityMapper.selectCulCollectByUserId(userId);
         List<CulHomeDTO> culHomeDTOS = new ArrayList<>();
         creativities.stream().forEach(item->{
@@ -218,6 +219,24 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
             culHomeDTOS.add(culHomeDTO);
         });
         return culHomeDTOS;
+    }
+
+
+    @Override
+    public List<CulLazyDTO> getConcernsLazyCul(Long userId) {
+        List<SightsCulCreativity> creativities = sightsCulCreativityMapper.selectLazyCul(userId);
+        List<CulLazyDTO> culLazyDTOS = new ArrayList<>();
+        creativities.stream().forEach(item->{
+            CulLazyDTO culLazyDTO = new CulLazyDTO();
+            UserDTO userDTO = new UserDTO();
+            BeanUtils.copyBeanProp(culLazyDTO,item);
+            Long user = item.getUserId();
+            SysUser sysUser = userMapper.selectUserById(user);
+            BeanUtils.copyBeanProp(userDTO,sysUser);
+            culLazyDTO.setUser(userDTO);
+            culLazyDTOS.add(culLazyDTO);
+        });
+        return culLazyDTOS;
     }
 
 

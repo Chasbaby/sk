@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectSightsInSearchList" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="SightsBase" resultMap="SightsBaseResult">
-        select sights_id,sights_name,sights_location,sights_detail,sights_intro from sights_base
+        select sights_id,sights_name,sights_location,sights_detail,sights_intro,sights_image from sights_base
         <where>
             <if test="sightsName != null  and sightsName != ''"> or sights_name like concat('%', #{sightsName}, '%')</if>
             <if test="sightsLocation != null  and sightsLocation != ''"> or sights_location like concat('%', #{sightsLocation}, '%')</if>

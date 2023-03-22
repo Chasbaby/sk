@@ -112,6 +112,7 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
     @Override
     public List<MultiSearchDTO> showAllSearch(String keywords) {
         if (StringUtils.isEmpty(keywords)){
+
             List<SightsBase> sightsBases = sightsBaseMapper.selectSightsBaseList(new SightsBase());
             SightsCulCreativity sightsCulCreativity = new SightsCulCreativity();
             sightsCulCreativity.setDelFlag("N");

@@ -69,7 +69,7 @@ public interface ConcernsMapper {
      * @param mainUser
      * @return
      */
-    @Select("select count(0) from concerns where main_user = #{mainUser} and prior_user = 'Y' limit 1")
+    @Select("select count(0) from concerns where main_user = #{mainUser} and if_remind = 'Y' limit 1")
     public int checkUserRemind(Long mainUser);
 
     /** 提醒文创*/
@@ -80,8 +80,12 @@ public interface ConcernsMapper {
     @Update("update concerns set article_num = article_num + 1 where prior_user = #{priorUser} ")
     public int addArticleNum(Long priorUser);
 
-    public int reduceArticleNum();
 
+    /** 批量已经观看 文章**/
+    public int reduceArticleNum(@Param("priorUsers") Long[] priorUsers,@Param("mainUser") Long mainUser);
+
+    /** 批量已经观看 文创**/
+    public int reduceCulNum(@Param("priorUsers") Long[] priorUsers , @Param("mainUser") Long mainUser);
 
 }
 

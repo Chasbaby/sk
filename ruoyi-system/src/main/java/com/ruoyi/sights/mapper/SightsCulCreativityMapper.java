@@ -86,4 +86,11 @@ public interface SightsCulCreativityMapper
     public List<SightsCulCreativity> selectCulInPersonPage(@Param("userId") Long userId, @Param("way") Integer way);
 
     public List<SightsCulCreativity> selectCulCollectByUserId(Long userId);
+
+    /**
+     * 懒加载
+     * @param userId
+     * @return
+     */
+    public List<SightsCulCreativity> selectLazyCul(Long userId);
 }

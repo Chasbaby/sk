@@ -45,6 +45,8 @@ public class ArticleAnController extends BaseController {
     @Autowired
     private IConcernsService concernsService;
 
+
+
     /**
      * 文章点赞(点与取消)
      * 1. 判断是否有游客身份
@@ -138,6 +140,7 @@ public class ArticleAnController extends BaseController {
         articleService.insertArticle(articleHandle);
         // 消息推送
         concernsService.setRemind(getUserId());
+        
         return AjaxResult.success("创建成功，等待审核即可发表");
     }
 

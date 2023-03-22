@@ -35,6 +35,9 @@ public class SysVisitor implements Serializable {
     /** 用户文章发表数量*/
     private Long visitorArticle;
 
+    /** 用户文创发布数量*/
+    private Long visitorCul;
+
     /**用户被点赞*/
     private Long visitorLike;
 
@@ -62,6 +65,14 @@ public class SysVisitor implements Serializable {
 
     /** 评论数量**/
     private Long comments;
+
+    public Long getVisitorCul() {
+        return visitorCul;
+    }
+
+    public void setVisitorCul(Long visitorCul) {
+        this.visitorCul = visitorCul;
+    }
 
     public Long getVisitorFans() {
         return visitorFans;

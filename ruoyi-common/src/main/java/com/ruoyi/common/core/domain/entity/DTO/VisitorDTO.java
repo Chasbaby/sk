@@ -23,6 +23,9 @@ public class VisitorDTO implements Serializable {
     /** 用户文章发表数量*/
     private Long visitorArticle;
 
+    /** 用户文创发布数量*/
+    private Long visitorCul;
+
     /**用户被点赞*/
     private Long visitorLike;
 
@@ -46,6 +49,13 @@ public class VisitorDTO implements Serializable {
     /** 关注量*/
     private Long visitorConcerns;
 
+    public Long getVisitorCul() {
+        return visitorCul;
+    }
+
+    public void setVisitorCul(Long visitorCul) {
+        this.visitorCul = visitorCul;
+    }
 
     public Long getVisitorFans() {
         return visitorFans;

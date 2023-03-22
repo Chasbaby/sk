@@ -8,6 +8,7 @@ import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.system.mapper.SysUserMapper;
 import com.ruoyi.system.mapper.SysVisitorMapper;
 import com.ruoyi.system.service.ISysVisitorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,8 +19,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysVisitorImpl implements ISysVisitorService {
 
+    @Autowired
     private SysVisitorMapper visitorMapper;
 
+    @Autowired
     private SysUserMapper userMapper;
     /**
      * 根据id 获取用户Visitor信息

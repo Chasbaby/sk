@@ -20,8 +20,17 @@ public class CulLazyDTO implements Serializable {
     private Long culCreativityCollection;
     private Long culCreativityHits;
     private Long culCreativityView;
+    private String culCreativityImage;
     private UserDTO user;
     private Date createTime;
+
+    public String getCulCreativityImage() {
+        return culCreativityImage;
+    }
+
+    public void setCulCreativityImage(String culCreativityImage) {
+        this.culCreativityImage = culCreativityImage;
+    }
 
     public Date getCreateTime() {
         return createTime;

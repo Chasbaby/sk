@@ -209,6 +209,11 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
         return culHomeDTOS;
     }
 
+    /**
+     * 获取收藏记录
+     * @param userId
+     * @return
+     */
     @Override
     public List<CulHomeDTO> getAllCulCollect(Long userId) {
         List<SightsCulCreativity> creativities = sightsCulCreativityMapper.selectCulCollectByUserId(userId);
@@ -222,11 +227,17 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     }
 
 
+    /**
+     * 懒加载获取数据
+     * @param userId
+     * @return
+     */
     @Override
     public List<CulLazyDTO> getConcernsLazyCul(Long userId) {
-        List<SightsCulCreativity> creativities = sightsCulCreativityMapper.selectLazyCul(userId);
+        List<SightsCulCreativity> creativity = sightsCulCreativityMapper.selectLazyCul(userId);
         List<CulLazyDTO> culLazyDTOS = new ArrayList<>();
-        creativities.stream().forEach(item->{
+
+        creativity.stream().forEach(item->{
             CulLazyDTO culLazyDTO = new CulLazyDTO();
             UserDTO userDTO = new UserDTO();
             BeanUtils.copyBeanProp(culLazyDTO,item);
@@ -235,7 +246,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
             BeanUtils.copyBeanProp(userDTO,sysUser);
             culLazyDTO.setUser(userDTO);
             culLazyDTOS.add(culLazyDTO);
-        });
+        });;
         return culLazyDTOS;
     }
 

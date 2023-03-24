@@ -277,8 +277,6 @@ public class ArticleServiceImpl implements IArticleService
         // 获取visitor信息
         SysVisitor visitor = visitorMapper.selectVisitorById(userId);
 
-
-
         // 复制
         try {
             BeanUtils.copyProperties(userDTO,sysUser);

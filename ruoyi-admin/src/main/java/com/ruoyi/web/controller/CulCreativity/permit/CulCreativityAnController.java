@@ -170,10 +170,12 @@ public class CulCreativityAnController extends BaseController {
 
     @ApiOperation("懒加载")
     @PreAuthorize("@ss.hasRole('common')")
-    @PostMapping("/lazy")
+    @GetMapping("/lazy")
     public TableDataInfo getConcernsLazyCul(){
         startPage();
+
         List<CulLazyDTO> concernsLazyCul = creativityService.getConcernsLazyCul(getUserId());
+
         return getDataTable(concernsLazyCul);
     }
 

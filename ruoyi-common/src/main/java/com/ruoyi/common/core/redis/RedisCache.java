@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.data.crossstore.ChangeSetBackedTransactionSynchronization;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
@@ -16,6 +17,7 @@ import org.springframework.data.redis.connection.jedis.JedisConverters;
 import org.springframework.data.redis.connection.jedis.JedisUtils;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
  * spring redis 工具类
@@ -29,12 +31,12 @@ public class RedisCache
     @Autowired
     public RedisTemplate redisTemplate;
 
-
     /**
      * 给单个键加锁
      * @param key 缓存的键值
      */
     public void lock(String key){
+        redisTemplate.multi();
         redisTemplate.watch(key);
     }
 
@@ -44,6 +46,7 @@ public class RedisCache
      * @param <K>
      */
     public <K> void lockManyKey(Collection<K> keys){
+        redisTemplate.multi();
         redisTemplate.watch(keys);
     }
 

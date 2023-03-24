@@ -17,8 +17,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
-import com.alibaba.excel.EasyExcel;
-import org.apache.commons.io.FileSystem;
+//import com.alibaba.excel.EasyExcel;
+//import org.apache.commons.io.FileSystem;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFPicture;
 import org.apache.poi.hssf.usermodel.HSSFPictureData;
@@ -183,30 +183,30 @@ public class ExcelUtil<T>
         createTitle();
     }
 
-    /**
-     * 对excel表单默认第一个索引名转换成list（EasyExcel）
-     *
-     * @param is 输入流
-     * @return 转换后集合
-     */
-    public List<T> importEasyExcel(InputStream is) throws Exception
-    {
-        return EasyExcel.read(is).head(clazz).sheet().doReadSync();
-    }
-
-    /**
-     * 对list数据源将其里面的数据导入到excel表单（EasyExcel）
-     *
-     * @param list 导出数据集合
-     * @param sheetName 工作表的名称
-     * @return 结果
-     */
-    public AjaxResult exportEasyExcel(List<T> list, String sheetName)
-    {
-        String filename = encodingFilename(sheetName);
-        EasyExcel.write(getAbsoluteFile(filename), clazz).sheet(sheetName).doWrite(list);
-        return AjaxResult.success(filename);
-    }
+//    /**
+//     * 对excel表单默认第一个索引名转换成list（EasyExcel）
+//     *
+//     * @param is 输入流
+//     * @return 转换后集合
+//     */
+//    public List<T> importEasyExcel(InputStream is) throws Exception
+//    {
+//        return EasyExcel.read(is).head(clazz).sheet().doReadSync();
+//    }
+//
+//    /**
+//     * 对list数据源将其里面的数据导入到excel表单（EasyExcel）
+//     *
+//     * @param list 导出数据集合
+//     * @param sheetName 工作表的名称
+//     * @return 结果
+//     */
+//    public AjaxResult exportEasyExcel(List<T> list, String sheetName)
+//    {
+//        String filename = encodingFilename(sheetName);
+//        EasyExcel.write(getAbsoluteFile(filename), clazz).sheet(sheetName).doWrite(list);
+//        return AjaxResult.success(filename);
+//    }
     /**
      * 创建excel第一行标题
      */

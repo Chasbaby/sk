@@ -83,8 +83,6 @@ public class SightsBaseController extends BaseController {
     @PostMapping("/export")
     public void export(HttpServletResponse response, SightsBase sightsBase)
     {
-        ItemCFRecommend offlineRecommend = new ItemCFRecommend();
-        offlineRecommend.ItemCFService();
         List<SightsBase> list = sightsBaseService.selectSightsBaseList(sightsBase);
         ExcelUtil<SightsBase> util = new ExcelUtil<SightsBase>(SightsBase.class);
         util.exportExcel(response, list, "景点基本信息数据");

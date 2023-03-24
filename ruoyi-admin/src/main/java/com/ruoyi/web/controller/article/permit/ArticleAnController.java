@@ -6,6 +6,7 @@ import com.ruoyi.article.domain.ArticleRecord;
 import com.ruoyi.article.domain.dto.*;
 import com.ruoyi.article.service.IArticleService;
 import com.ruoyi.common.annotation.Anonymous;
+import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysUser;
@@ -13,7 +14,9 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.SearchCaseType;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.concerns.service.IConcernsService;
+import com.ruoyi.sights.domain.Excel.SightsUserBehavior;
 import com.ruoyi.system.service.ISysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +31,7 @@ import java.util.List;
 
 import static com.ruoyi.common.utils.BeanCopyUtils.copyObject;
 import static com.ruoyi.framework.config.SensitiveConfig.filter;
+
 
 /**
  * 面向游客的文章操作
@@ -45,6 +49,23 @@ public class ArticleAnController extends BaseController {
     @Autowired
     private IConcernsService concernsService;
 
+    @GetMapping("/xxx")
+    @Anonymous
+    public AjaxResult xxx(){
+        SightsUserBehavior s = new SightsUserBehavior();
+        SightsUserBehavior ss = new SightsUserBehavior();
+        ss.setSightsLike(1L);
+        s.storeSightsUserDataInRedis(ss);
+        s.storeSightsUserDataInRedis(ss);
+        s.storeSightsUserDataInRedis(ss);
+        s.storeSightsUserDataInRedis(ss);
+        s.storeSightsUserDataInRedis(ss);
+        s.storeSightsUserDataInRedis(ss);
+
+        s.redisToExcelSightsUser();
+
+        return null;
+    }
 
 
     /**
@@ -274,6 +295,7 @@ public class ArticleAnController extends BaseController {
         startPage();
         Long userId = getUserId();
         List<ArticleStatusDTO> articles = articleService.getUserAllArticleByWays(userId, num);
+
         return getDataTable(articles);
     }
 

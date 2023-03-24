@@ -1,6 +1,6 @@
 package com.ruoyi.culCreativity.domain;
 
-import com.alibaba.excel.annotation.format.NumberFormat;
+//import com.alibaba.excel.annotation.format.NumberFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.annotation.Excels;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -64,7 +64,7 @@ public class SightsCulCreativity extends BaseEntity
     /** 不喜欢量 */
     @Excel(name = "不喜欢量")
     private Long culCreativityDislike;
-    @NumberFormat
+//    @NumberFormat
     /** 收藏量 */
     @Excel(name = "收藏量")
     private Long culCreativityCollection;

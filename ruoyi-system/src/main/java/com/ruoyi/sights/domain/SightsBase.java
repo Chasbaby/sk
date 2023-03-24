@@ -17,75 +17,78 @@ public class SightsBase extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
+    @Excel(name = "景点ID",type = Excel.Type.ALL,cellType= Excel.ColumnType.NUMERIC)
     /** 景点ID */
     private Long sightsId;
 
+    @Excel(name = "点赞量",type = Excel.Type.EXPORT,cellType= Excel.ColumnType.NUMERIC)
     /** 景点点赞量*/
     private Long sightsLike;
 
+    @Excel(name = "点击量",type = Excel.Type.EXPORT,cellType= Excel.ColumnType.NUMERIC)
     /**景点点击量*/
     private Long sightsHits;
 
+    @Excel(name = "浏览量",type = Excel.Type.EXPORT,cellType= Excel.ColumnType.NUMERIC)
     /**景点浏览量*/
     private Long sightsView;
-
+    @Excel(name = "浏览量",type = Excel.Type.EXPORT,cellType= Excel.ColumnType.NUMERIC)
     /** 收藏量**/
     private Long sightsCollect;
-
+    @Excel(name = "平均分",type = Excel.Type.EXPORT,cellType= Excel.ColumnType.NUMERIC)
     /**景点平均分*/
     private Double sightsScore;
 
     /** 景点名称 */
-    @Excel(name = "景点名称")
+    @Excel(name = "景点名称",type = Excel.Type.ALL)
     private String sightsName;
-
+    @Excel(name = "热度",type = Excel.Type.EXPORT,cellType= Excel.ColumnType.NUMERIC)
     /** 景点热度*/
     private Long sightsHot;
-
+    @Excel(name = "联系电话",type = Excel.Type.ALL)
     /** 景点联系电话*/
     private String sightsTelephone;
-
+    @Excel(name = "英文",type = Excel.Type.ALL)
     /** 景点英文*/
     private String sightsEng;
-
+    @Excel(name = "开放信息",type = Excel.Type.ALL)
     /** 景点开放信息*/
     private String sightsOpen;
-
+    @Excel(name = "景点位置",type = Excel.Type.ALL)
     /** 景点位置(文字描述) */
-    @Excel(name = "景点位置")
     private String sightsLocation;
-
-    @Excel(name = "景点经度")
+    @Excel(name = "经度",type = Excel.Type.ALL,cellType= Excel.ColumnType.NUMERIC,scale=3)
     /** 景点经度 */
     private Double sightsLongitude;
-    @Excel(name="景点纬度")
+    @Excel(name="纬度",type = Excel.Type.ALL,cellType= Excel.ColumnType.NUMERIC,scale = 3)
     /** 景点纬度 */
     private Double sightsLatitude;
-
+    @Excel(name="图片",type = Excel.Type.ALL,cellType= Excel.ColumnType.IMAGE)
     /** 景点图片url  最多5张*/
     private String sightsImage;
 
+    @Excel(name = "二维码",type = Excel.Type.ALL,cellType = Excel.ColumnType.IMAGE)
     /**景点购物二维码*/
     private String sightsCode;
 
     /** 景点简介 */
-    @Excel(name = "景点简介")
+    @Excel(name = "景点简介",type = Excel.Type.ALL)
     private String sightsIntro;
 
-    @Excel(name = "景点详细")
+    @Excel(name = "景点详细",type = Excel.Type.ALL)
     /** 景点的细节 */
     private String sightsDetail;
 
     /** 景点的种类 */
-    @Excel(name = "景点的种类")
+    @Excel(name = "景点的种类",type = Excel.Type.ALL,dictType = "sights_category")
     private String sightsCategory;
 
     /** 景点国家 */
-    @Excel(name = "景点国家")
+    @Excel(name = "景点国家",type = Excel.Type.ALL)
     private String sightsNation;
 
     /** 景点城市 */
-    @Excel(name = "景点城市")
+    @Excel(name = "景点城市",type = Excel.Type.ALL)
     private String sightsCity;
 
     public Long getSightsHot() {

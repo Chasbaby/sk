@@ -137,6 +137,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         limit 1
         #判断用户浏览记录是否唯一
     </select>
+    <select id="initSights" resultType="com.ruoyi.sights.domain.SightsBase" resultMap="SightsBaseResult">
+        <include refid="selectSightsBaseVo"/>
+        order by sights_hot desc
+        limit 10
+    </select>
 
 
     <insert id="insertSightsBase" parameterType="SightsBase" useGeneratedKeys="true" keyProperty="sightsId">

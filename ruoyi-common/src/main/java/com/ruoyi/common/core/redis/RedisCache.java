@@ -31,6 +31,7 @@ public class RedisCache
     @Autowired
     public RedisTemplate redisTemplate;
 
+
     /**
      * 给单个键加锁
      * @param key 缓存的键值
@@ -48,6 +49,16 @@ public class RedisCache
     public <K> void lockManyKey(Collection<K> keys){
         redisTemplate.multi();
         redisTemplate.watch(keys);
+    }
+
+    /**
+     * key 是否过期
+     * false 没过期  true 过期
+     * @param key
+     * @return
+     */
+    public Boolean isExpire(String key){
+       return  redisTemplate.opsForValue().getOperations().getExpire(key) > 0 ?false:true;
     }
 
     /**

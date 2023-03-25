@@ -6,6 +6,10 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * 景点基本信息对象 sights_base
  * 
@@ -32,7 +36,7 @@ public class SightsBase extends BaseEntity
     @Excel(name = "浏览量",type = Excel.Type.EXPORT,cellType= Excel.ColumnType.NUMERIC)
     /**景点浏览量*/
     private Long sightsView;
-    @Excel(name = "浏览量",type = Excel.Type.EXPORT,cellType= Excel.ColumnType.NUMERIC)
+    @Excel(name = "收藏",type = Excel.Type.EXPORT,cellType= Excel.ColumnType.NUMERIC)
     /** 收藏量**/
     private Long sightsCollect;
     @Excel(name = "平均分",type = Excel.Type.EXPORT,cellType= Excel.ColumnType.NUMERIC)
@@ -90,6 +94,89 @@ public class SightsBase extends BaseEntity
     /** 景点城市 */
     @Excel(name = "景点城市",type = Excel.Type.ALL)
     private String sightsCity;
+
+    private Timer timer;
+
+    private Date lastUpdated;
+
+
+    public synchronized void addView(){
+        sightsView ++;
+        refresh();
+    }
+
+    public synchronized void addLike(){
+        sightsLike ++;
+        refresh();
+    }
+
+    public synchronized void addCollect(){
+        sightsCollect ++;
+        refresh();
+    }
+    public synchronized void addHits(){
+        sightsHits ++;
+        refresh();
+
+    }
+
+    public synchronized void addScore(Double score){
+        this.sightsScore = (score + this.sightsScore) / 2.0;
+        refresh();
+    }
+
+    private void refresh(){
+        this.sightsHot = calculateHot();
+        lastUpdated = new Date();
+    }
+
+    private Long calculateHot(){
+
+        return 0L;
+    }
+
+
+
+
+
+    public void startTimer(){
+        timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                long currentTime = new Date().getTime();
+                long timeDiff = currentTime - lastUpdated.getTime();
+
+                float reductionFactor = (float) timeDiff / (60 * 60 * 1000 * 10);
+
+                sightsHot =  Math.max(sightsHot,0);
+                lastUpdated = new Date();
+            }
+        };
+        timer.scheduleAtFixedRate(task,0,60*60*1000);
+    }
+
+
+
+    /**
+     * 下面是set get方法
+     * @return
+     */
+
+    public Date getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
 
     public Long getSightsHot() {
         return sightsHot;

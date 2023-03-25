@@ -17,6 +17,15 @@ import org.springframework.security.core.parameters.P;
 public interface SightsBaseMapper 
 {
     /**
+     * 下面是热度算法用到的sql
+     */
+    /**
+     * 初始化热门景点
+     * @return list
+     */
+    public List<SightsBase> initSights();
+
+    /**
      * 查询景点基本信息
      * 
      * @param sightsId 景点基本信息主键

@@ -131,10 +131,7 @@ public class SysConfigServiceImpl implements ISysConfigService
     @Override
     public List<SysConfig> selectConfigList(SysConfig config)
     {
-        // 这里为什么 不先 new 一个对象呢？？？？
-        // 因为 传回来的就是 对象
-        // 为什么 传回来的是对象 因为 我们根据 条件查找 并不是像 刚才那样 就一个条件
-        // 再加上 sql 语句 也有说是 根据 字符串 还是 对象
+
         return configMapper.selectConfigList(config);
     }
 

@@ -4,6 +4,7 @@ import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.SightsDTO;
@@ -38,6 +39,9 @@ public class SightsBaseAnController extends BaseController {
 
     @Autowired
     private ISysConfigService iSysConfigService;
+
+    @Autowired
+    private RedisCache redisCache;
 
     /**
      * 单纯获取一定量景点展示
@@ -201,6 +205,8 @@ public class SightsBaseAnController extends BaseController {
     @ApiOperation("点击量增加")
     @GetMapping("/hit/{sightsId}")
     public AjaxResult improveHits(@PathVariable Long sightsId){
+//        redisCache
+
         iSightsBaseService.updateSightsViaHits(sightsId);
         // TODO  写日志
         return AjaxResult.success();

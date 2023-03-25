@@ -77,4 +77,9 @@ public interface ISightsHotService {
      */
     public List<SightsHotDTO> currentHotSights();
 
+    /**
+     * 判断是否点赞 并进入不同的效果
+     */
+    public void ifLike(Long sightsId,Long userId);
+
 }

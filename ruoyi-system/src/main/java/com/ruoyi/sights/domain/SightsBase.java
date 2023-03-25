@@ -1,14 +1,19 @@
 package com.ruoyi.sights.domain;
 
+import com.ruoyi.common.core.redis.RedisCache;
+import com.ruoyi.common.utils.spring.SpringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.ruoyi.common.constant.HotConstants.HOTLABLE;
 
 /**
  * 景点基本信息对象 sights_base
@@ -126,17 +131,15 @@ public class SightsBase extends BaseEntity
     }
 
     private void refresh(){
-        this.sightsHot = calculateHot();
+        calculateHot();
         lastUpdated = new Date();
     }
 
-    private Long calculateHot(){
+    private void calculateHot(){
 
-        return 0L;
+        this.sightsHot = sightsHot + new Double(sightsLike * 0.3 + sightsHits * 0.1 + sightsCollect *0.4 + sightsView * 0.2 + sightsScore * 10).longValue();
+//        return 0L;
     }
-
-
-
 
 
     public void startTimer(){
@@ -144,16 +147,29 @@ public class SightsBase extends BaseEntity
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
+                System.out.println("---------------------------------------------");
                 long currentTime = new Date().getTime();
                 long timeDiff = currentTime - lastUpdated.getTime();
 
-                float reductionFactor = (float) timeDiff / (60 * 60 * 1000 * 10);
+//                float reductionFactor = (float) timeDiff / (60 * 60 * 1000 * 10);
+//                System.out.println(reductionFactor);
+//                sightsHot =new Double(sightsHot-reductionFactor).longValue();
 
-                sightsHot =  Math.max(sightsHot,0);
+                sightsHot =  Math.max(new Double(sightsHot * 0.9).longValue(),0);
+                System.out.println(sightsHot);
+                System.out.println("-------------------------------------------------");
                 lastUpdated = new Date();
+                System.out.println("-----------------------------******");
+                Collection<String> keys = SpringUtils.getBean(RedisCache.class).keys(HOTLABLE + "*");
+                keys.stream().forEach(item->{
+                    SightsBase cacheObject = SpringUtils.getBean(RedisCache.class).getCacheObject(item);
+                    System.out.println(cacheObject.getSightsHot());
+                });
+                System.out.println("---------------------------------------*******");
             }
         };
-        timer.scheduleAtFixedRate(task,0,60*60*1000);
+
+        timer.scheduleAtFixedRate(task,0,30*1000);
     }
 
 

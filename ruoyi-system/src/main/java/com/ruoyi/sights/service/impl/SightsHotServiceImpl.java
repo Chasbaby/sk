@@ -1,14 +1,15 @@
 package com.ruoyi.sights.service.impl;
 
 import com.ruoyi.common.core.redis.RedisCache;
+import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.sights.domain.DTO.SightsHotDTO;
+import com.ruoyi.sights.domain.Excel.SightsUserBehavior;
 import com.ruoyi.sights.domain.SightsBase;
 import com.ruoyi.sights.mapper.SightsBaseMapper;
 import com.ruoyi.sights.service.ISightsHotService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.ruoyi.common.constant.HotConstants.HOTLABLE;
 import static com.ruoyi.common.constant.HotConstants.MINTIME;
+import static com.ruoyi.sights.domain.Excel.SightsUserBehavior.storeSightsUserDataInRedis;
 
 /**
  * @author chas
@@ -52,10 +54,14 @@ public class SightsHotServiceImpl implements ISightsHotService {
             // 24 小时 过期时间  为 生产生活
             // redisCache.setCacheObject(HOTLABLE+item.getSightsId(),item,MAXTIME, TimeUnit.SECONDS);
             // 10分钟 测试中
-            redisCache.setCacheObject(HOTLABLE+item.getSightsId(),item,10, TimeUnit.SECONDS);
+            redisCache.setCacheObject(HOTLABLE+item.getSightsId(),item,60 * 60,TimeUnit.SECONDS);
 
             // 存在定时任务监测
         });
+
+        Collection<String> keys = redisCache.keys(HOTLABLE + "*");
+        keys.stream().forEach(item-> System.out.println(item));
+
         log.info("初始化景点热度成功");
 
     }
@@ -73,6 +79,8 @@ public class SightsHotServiceImpl implements ISightsHotService {
             SightsBase sight= redisCache.getCacheObject(item);
             baseMapper.updateSightsBase(sight);
         });
+        // 更新完后 消除记录 避免内存占用
+        redisCache.deleteObject(keys);
 
         log.info("景点回溯成功");
     }
@@ -92,54 +100,88 @@ public class SightsHotServiceImpl implements ISightsHotService {
 
     /**
      * 增加浏览量
+     *      TODO  1. 从redis中获取信息 如果没有 则sql查询
+     *            2. 如果是 redis 中的信息修改数据后 重置  如果是sql的
+     *               获取所有缓存，将查到的与 缓存中的热度进行比较  (为了编程方便 我们只拿最后一个比)
+     *               如果 新的 大于他们 则 将timeout设置为MAX 并将另一个设置为 MIN
+     *               如果 新的 小于等于他们 就暂时MIN缓存该数据
+     *            3.  将该信息存入excel
+     *            4.  保存数据库
+     *
      * @param sightsId
      * @param userId
      */
     @Transactional
     @Override
     public void addView(Long sightsId, Long userId) {
-        // TODO  1. 从redis中获取信息 如果没有 则sql查询
-        //  2. 如果是 redis 中的信息修改数据后 重置  如果是sql的
-        //      获取所有缓存，将查到的与 缓存中的热度进行比较  (为了编程方便 我们只拿最后一个比)
-        //      如果 新的 大于他们 则 将timeout设置为MAX 并将另一个设置为 MIN
-        //      如果 新的 小于等于他们 就暂时MIN缓存该数据
-        //  3.  将该信息存入excel
-
         // 1.
         if(redisCache.hasKey(HOTLABLE + sightsId) && !redisCache.isExpire(HOTLABLE + sightsId)){
             SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
             base.addView();
-            redisCache.setCacheObject(HOTLABLE + sightsId,base,10,TimeUnit.SECONDS);// TODO 记得改时间
+            redisCache.setCacheObject(HOTLABLE + sightsId,base,60 * 60,TimeUnit.SECONDS);// TODO 记得改时间
         }else {
-            // 获取数据开始 热度
+            //2. 获取数据开始 热度
             SightsBase sightsBase = baseMapper.selectSightsBaseBySightsId(sightsId);
             sightsBase.addView();
             sightsBase.startTimer();
 
-            // 获取热度榜
-            Collection<String> keys = redisCache.keys(HOTLABLE);
-            List<SightsBase> buff = new ArrayList<>();
-            keys.stream().forEach(item->{
-                SightsBase cacheObject = redisCache.getCacheObject(item);
-                buff.add(cacheObject);
-            });
-            buff.sort(Comparator.comparingLong(SightsBase::getSightsHot).reversed());
-            // 获取其中热度第九位
-            SightsBase minHot = buff.get(9);
-
-            // 比较
-            if (minHot.getSightsHot()>=sightsBase.getSightsHot()){
-                // 暂时存储
-                redisCache.setCacheObject(HOTLABLE+sightsBase.getSightsId(),sightsBase,Integer.parseInt(MINTIME),TimeUnit.SECONDS);
-            }else {
-                redisCache.setCacheObject(HOTLABLE+minHot.getSightsId(),minHot,Integer.parseInt(MINTIME),TimeUnit.SECONDS);
-                redisCache.setCacheObject(HOTLABLE+sightsBase.getSightsId(),sightsBase,10,TimeUnit.SECONDS);// todo 记得改
-            }
-
-
-
-
+            comHot(sightsBase);
         }
+        // 3.创建 Excel 存储类
+        SightsUserBehavior userBehavior = new SightsUserBehavior();
+        userBehavior.setSightsView(1L);
+        userBehavior.setUserId(userId);
+        userBehavior.setSightsId(sightsId);
+        userBehavior.setCreateTime(new Date());
+        // 将信息保存至
+        storeSightsUserDataInRedis(userBehavior);
+
+    }
+
+    /**
+     *  热度比较
+     * @param sightsBase
+     */
+    private void comHot(SightsBase sightsBase) {
+        List<SightsBase> buff = getTopHotSights();
+        // 获取其中热度第10位
+        SightsBase minHot = buff.get(9);
+
+        // 比较
+        if (minHot.getSightsHot()>= sightsBase.getSightsHot()){
+            // 暂时存储
+            redisCache.setCacheObject(HOTLABLE+ sightsBase.getSightsId(), sightsBase,Integer.parseInt(MINTIME),TimeUnit.SECONDS);
+        }else {
+            redisCache.setCacheObject(HOTLABLE+minHot.getSightsId(),minHot,Integer.parseInt(MINTIME),TimeUnit.SECONDS);
+            redisCache.setCacheObject(HOTLABLE+ sightsBase.getSightsId(), sightsBase,60 * 60,TimeUnit.SECONDS);// todo 记得改
+        }
+    }
+
+    /**
+     * 获取热度排榜 并排序 返回排序结果
+     * @return
+     */
+    private List<SightsBase> getTopHotSights() {
+        // 获取热度榜
+        Collection<String> keys = redisCache.keys(HOTLABLE+"*");
+        List<SightsBase> buff = new ArrayList<>();
+        keys.stream().forEach(item->{
+            SightsBase cacheObject = redisCache.getCacheObject(item);
+            buff.add(cacheObject);
+        });
+        buff.sort(Comparator.comparingLong(SightsBase::getSightsHot).reversed());
+        return buff;
+    }
+
+
+    /***
+     * 判断是否点赞 并进入不同的效果
+     * @param sightsId
+     * @param userId
+     */
+    @Override
+    public void ifLike(Long sightsId,Long userId){
+        // 查表
     }
 
     /**
@@ -147,19 +189,65 @@ public class SightsHotServiceImpl implements ISightsHotService {
      * @param sightsId
      * @param userId
      */
+    @Transactional
     @Override
     public void addLike(Long sightsId, Long userId) {
+        if(redisCache.hasKey(HOTLABLE + sightsId) && !redisCache.isExpire(HOTLABLE + sightsId)){
+            SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
+            base.addLike();
+            redisCache.setCacheObject(HOTLABLE + sightsId,base,10,TimeUnit.SECONDS);// TODO 记得改时间
+        }else {
+            //2. 开启热度
+            SightsBase sightsBase = baseMapper.selectSightsBaseBySightsId(sightsId);
+            sightsBase.addLike();
+            sightsBase.startTimer();
+
+            comHot(sightsBase);
+        }
+
+        // 3. 创建Excel
+        SightsUserBehavior userBehavior = new SightsUserBehavior();
+        userBehavior.setSightsLike(1L);
+        userBehavior.setUserId(userId);
+        userBehavior.setSightsId(sightsId);
+        userBehavior.setCreateTime(new Date());
+
+        // 将信息保存至
+        storeSightsUserDataInRedis(userBehavior);
+
+        // todo 保存数据库 先省
 
     }
 
     /**
      * 取消点赞
+     * 不产生热度计算
      * @param sightsId
      * @param userId
      */
+    @Transactional
     @Override
     public void cancelLike(Long sightsId, Long userId) {
 
+
+        // 如果在 缓存中 则直接在缓存中修改
+        if(redisCache.hasKey(HOTLABLE + sightsId) && !redisCache.isExpire(HOTLABLE + sightsId)){
+            SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
+            base.setSightsLike(base.getSightsLike()-1);
+            List<SightsBase> hotSights = getTopHotSights();
+            SightsBase minHot = hotSights.get(9);
+
+            if (minHot.getSightsHot()>=base.getSightsHot()){
+                redisCache.setCacheObject(HOTLABLE + sightsId,base,Integer.parseInt(MINTIME),TimeUnit.SECONDS);
+            }else {
+                redisCache.setCacheObject(HOTLABLE + sightsId,base,10,TimeUnit.SECONDS);//TODO 记得改
+            }
+
+        }else {
+            // 如果在数据库中 则直接改
+
+
+        }
     }
 
     /**
@@ -209,8 +297,17 @@ public class SightsHotServiceImpl implements ISightsHotService {
      */
     @Override
     public List<SightsHotDTO> currentHotSights() {
-
-        return null;
+        List<SightsHotDTO> hotDTOS = new ArrayList<>();
+        List<SightsBase> topHotSights = getTopHotSights();
+        topHotSights.stream().forEach(item->{
+            System.out.println(item.getSightsId());
+        });
+        topHotSights.stream().limit(10).forEach(item->{
+            SightsHotDTO hotDTO = new SightsHotDTO();
+            BeanUtils.copyBeanProp(hotDTO,item);
+            hotDTOS.add(hotDTO);
+        });
+        return hotDTOS;
     }
 
 

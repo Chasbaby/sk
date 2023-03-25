@@ -7,8 +7,10 @@ import com.ruoyi.sights.service.impl.SightsHotServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
+import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +27,8 @@ import static com.ruoyi.common.constant.HotConstants.HOTLABLE;
 public class RedisExpiredListener extends KeyExpirationEventMessageListener {
     private static final Logger log = LoggerFactory.getLogger(RedisExpiredListener.class);
 
+//    @Autowired
+//    private RedisProperties redisProperties;
     @Autowired
     private RedisCache redisCache;
     @Autowired
@@ -34,12 +38,20 @@ public class RedisExpiredListener extends KeyExpirationEventMessageListener {
         super(listenerContainer);
     }
 
+//    @Override
+//    protected void doRegister(RedisMessageListenerContainer listenerContainer) {
+//        new PatternTopic()
+//        super.doRegister(listenerContainer);
+//    }
+//
+//    @Override
+//    protected void doHandleMessage(Message message) {
+//        super.doHandleMessage(message);
+//    }
+
     @Override
     public void onMessage(Message message, byte[] pattern) {
-//        System.out.println(message.toString());
-//        System.out.println(message.getBody().toString());
-//        System.out.println(message.getChannel().toString());
-
+        System.out.println(pattern.toString());
         // 获取失效的key
         String expiredKey = message.toString();
 //        System.out.println(expiredKey);

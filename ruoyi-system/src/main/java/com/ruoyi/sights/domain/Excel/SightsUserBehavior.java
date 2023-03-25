@@ -1,16 +1,10 @@
 package com.ruoyi.sights.domain.Excel;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.xssf.streaming.SXSSFRow;
-import org.springframework.beans.factory.annotation.Autowired;
-
+import com.ruoyi.common.utils.spring.SpringUtils;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,9 +14,6 @@ import java.util.List;
  * @data 2023-3
  */
 public class SightsUserBehavior implements Serializable {
-
-    @Autowired
-    private RedisCache redisCache;
 
     private static final String excelName = "sightsUser";
     private static final String SUKEY = "SIGHTSUERSEXCEL";
@@ -48,18 +39,18 @@ public class SightsUserBehavior implements Serializable {
      * 将信息放入redis
      * @param behavior
      */
-    public  void storeSightsUserDataInRedis(SightsUserBehavior behavior){
-        redisCache.lock(SUKEY);
-        List<SightsUserBehavior> cacheList = redisCache.getCacheList(SUKEY);
+    public static void storeSightsUserDataInRedis(SightsUserBehavior behavior){
+        SpringUtils.getBean(RedisCache.class).lock(SUKEY);
+        List<SightsUserBehavior> cacheList = SpringUtils.getBean(RedisCache.class).getCacheList(SUKEY);
         cacheList.add(behavior);
-        redisCache.setCacheList(SUKEY,cacheList);
+        SpringUtils.getBean(RedisCache.class).setCacheList(SUKEY,cacheList);
     }
 
     /**
      * 将redis上的信息存入excel
      */
-    public void redisToExcelSightsUser(){
-        List<SightsUserBehavior> cacheList = redisCache.getCacheList(SUKEY);
+    public static void redisToExcelSightsUser(){
+        List<SightsUserBehavior> cacheList = SpringUtils.getBean(RedisCache.class).getCacheList(SUKEY);
         ExcelUtil<SightsUserBehavior> behaviorExcelUtil = new ExcelUtil<>(SightsUserBehavior.class);
         behaviorExcelUtil.init(cacheList,"景点用户数据",null, Excel.Type.EXPORT);
         behaviorExcelUtil.exportExcel();

@@ -145,7 +145,7 @@ public class SysUser extends BaseEntity
 
     public static boolean isAdmin(Long userId)
     {
-        return userId != null && 1L == userId;    // 妙啊  可序列化数据？？？？ 不不不 是  long 类型 的 1
+        return userId != null && 1L == userId;
     }
 
     public Long getDeptId()

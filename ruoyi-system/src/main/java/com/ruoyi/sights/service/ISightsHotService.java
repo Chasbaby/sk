@@ -27,6 +27,11 @@ public interface ISightsHotService {
     public void checkIfTimeout();
 
     /**
+     * 定时任务 将redis中的热门数据更新回redis 保证数据的一致性
+     */
+    public void redisReturnMysql();
+
+    /**
      * 提高浏览量
      * @param sightsId
      */

@@ -115,10 +115,19 @@ public class SightsBase extends BaseEntity
         refresh();
     }
 
+    public synchronized void reduceLike(){
+        sightsLike--;
+    }
+
     public synchronized void addCollect(){
         sightsCollect ++;
         refresh();
     }
+
+    public synchronized void reduceCollect(){
+        sightsCollect--;
+    }
+
     public synchronized void addHits(){
         sightsHits ++;
         refresh();

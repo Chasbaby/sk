@@ -97,6 +97,13 @@ public class SightsHotServiceImpl implements ISightsHotService {
         //  将新的景点 的过期值设置为  max 时常  这里已经通过配置完成
 
     }
+    /**
+     * 定时任务 将redis中的热门数据更新回redis 保证数据的一致性
+     */
+    @Override
+    public void redisReturnMysql() {
+
+    }
 
     /**
      * 增加浏览量

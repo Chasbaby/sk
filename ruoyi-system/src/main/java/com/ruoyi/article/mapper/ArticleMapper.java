@@ -137,4 +137,7 @@ public interface ArticleMapper
      */
     public ArticleStatisticPie getArticleData();
 
+
+    public List<Article> getArticleJudgeData();
+
 }

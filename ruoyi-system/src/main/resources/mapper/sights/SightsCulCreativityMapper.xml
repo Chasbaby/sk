@@ -125,7 +125,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
         select ifnull( a.b  / COUNT(0) , 1) from ( select *,count(0) b from sights_cul_creativity where del_flag = 'N' and create_time = curdate()) a where a.is_ok ='Y'
     </select>
-
+    <select id="getCulJudgeData" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" resultMap="SightsCulCreativityResult">
+        select cul_creativity_id,is_ok from sights_cul_creativity where del_flag = 'N' and DATE_FORMAT(create_time,'YYYY-MM-DD') = curdate()
+    </select>
 
     <insert id="insertSightsCulCreativity" parameterType="SightsCulCreativity" useGeneratedKeys="true" keyProperty="culCreativityId">
         insert into sights_cul_creativity

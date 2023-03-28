@@ -98,5 +98,10 @@ public interface SightsCulCreativityMapper
      * 文创通过率
      */
     public Double selectCulRate();
+    /**
+     * 获取审核状态可视化
+     * @return
+     */
+    public List<SightsCulCreativity> getCulJudgeData();
 
 }

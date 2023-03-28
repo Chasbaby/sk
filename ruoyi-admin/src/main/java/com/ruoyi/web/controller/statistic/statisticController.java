@@ -4,6 +4,7 @@ import com.ruoyi.article.domain.dto.ArticleStatisticPie;
 import com.ruoyi.article.service.IArticleService;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.culCreativity.ISightsCulCreativityService;
+import com.ruoyi.culCreativity.domain.dto.CulStatisticPie;
 import com.ruoyi.framework.web.domain.Server;
 import com.ruoyi.statistic.domain.LeftPie;
 import io.swagger.annotations.Api;
@@ -64,6 +65,11 @@ public class statisticController {
         ArticleStatisticPie articleData = articleService.getArticleData();
         leftPie.setArticlePie(articleData);
         // 文创三大数据
+        CulStatisticPie culData = creativityService.getCulData();
+        leftPie.setCulPie(culData);
+        // 文创4大数据
+        Long[] culJu = creativityService.getJudgeData();
+        // 文章四大数据
 
         // 未审核
 
@@ -72,6 +78,7 @@ public class statisticController {
         // 未通过
 
         // 总数
+
         return AjaxResult.success(leftPie);
     }
 

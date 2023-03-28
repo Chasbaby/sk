@@ -137,4 +137,10 @@ public interface ISightsCulCreativityService
      */
    public CulStatisticPie getCulData();
 
+    /**
+     * 获取审核状态可视化
+     * @return
+     */
+   public Long[] getJudgeData();
+
 }

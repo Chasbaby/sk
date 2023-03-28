@@ -123,6 +123,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getArticleData" resultType="com.ruoyi.article.domain.dto.ArticleStatisticPie">
         select sum(article_like) articleLike,sum(article_view) articleView,sum(article_collect) articleCollect  from article where create_time = now() and is_delete = 'N' and is_ok ='Y'
     </select>
+    <select id="getArticleJudgeData" resultType="com.ruoyi.article.domain.Article">
+        select article_id , is_ok  from article where is_delete = 'N' and DATE_FORMAT(create_time,'YYYY-MM-DD') = curdate()
+    </select>
 
 
     <insert id="insertArticle" parameterType="Article" useGeneratedKeys="true" keyProperty="articleId">

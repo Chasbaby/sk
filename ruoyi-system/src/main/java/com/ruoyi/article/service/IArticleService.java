@@ -149,6 +149,8 @@ public interface IArticleService
 
     public ArticleStatisticPie getArticleData();
 
+    public Long[] getJudgeData();
+
 
 
 

@@ -19,6 +19,8 @@ import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.system.mapper.SysUserMapper;
 import com.ruoyi.system.mapper.SysVisitorMapper;
 import org.apache.commons.beanutils.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ArticleServiceImpl implements IArticleService
 {
+    private static final Logger log = LoggerFactory.getLogger(ArticleServiceImpl.class);
+
     @Autowired
     private ArticleMapper articleMapper;
 
@@ -372,6 +376,14 @@ public class ArticleServiceImpl implements IArticleService
     @Override
     public ArticleStatisticPie getArticleData() {
         return articleMapper.getArticleData();
+    }
+
+    @Override
+    public Long[] getJudgeData() {
+        List<Article> judgeData = articleMapper.getArticleJudgeData();
+        long unJudge = judgeData.stream().filter(item -> item.getIsOk() == "U").count();
+        judgeData.stream().filter(item->item.getIsOk() == "Y").count();
+        return new Long[0];
     }
 
 

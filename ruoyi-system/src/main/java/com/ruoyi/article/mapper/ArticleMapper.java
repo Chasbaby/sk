@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.article.domain.dto.ArticleCreateDTO;
+import com.ruoyi.article.domain.dto.ArticleStatisticPie;
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
 import org.apache.ibatis.annotations.Param;
 
@@ -123,5 +124,17 @@ public interface ArticleMapper
      * @return
      */
     public int deleteArticleBatches(Long[] articleIds);
+
+    /**
+     * 获取当天文章通过率
+     * @return
+     */
+    public Double getArticleRate();
+
+    /**
+     * 获取文章可视化数据
+     * @return
+     */
+    public ArticleStatisticPie getArticleData();
 
 }

@@ -93,4 +93,10 @@ public interface SightsCulCreativityMapper
      * @return
      */
     public List<SightsCulCreativity> selectLazyCul(Long userId);
+
+    /**
+     * 文创通过率
+     */
+    public Double selectCulRate();
+
 }

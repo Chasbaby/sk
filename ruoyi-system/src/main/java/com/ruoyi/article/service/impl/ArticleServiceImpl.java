@@ -359,5 +359,20 @@ public class ArticleServiceImpl implements IArticleService
         return createDTO;
     }
 
+    @Override
+    public Double getArticleRate() {
+        Double articleRate = articleMapper.getArticleRate();
+        return articleRate;
+    }
+
+    /**
+     * 获取 可视化数据
+     * @return
+     */
+    @Override
+    public ArticleStatisticPie getArticleData() {
+        return articleMapper.getArticleData();
+    }
+
 
 }

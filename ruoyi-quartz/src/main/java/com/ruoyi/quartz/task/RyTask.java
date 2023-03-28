@@ -3,9 +3,12 @@ package com.ruoyi.quartz.task;
 import com.ruoyi.home.service.IHomeAdService;
 import com.ruoyi.home.service.IHomeNewsService;
 import com.ruoyi.sights.service.ISightsBaseService;
+import com.ruoyi.sights.service.ISightsHotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.utils.StringUtils;
+
+import static com.ruoyi.sights.domain.SightsBase.hotTimeReduce;
 
 /**
  * 定时任务调度测试
@@ -25,6 +28,9 @@ public class RyTask
     @Autowired
     private ISightsBaseService iSightsBaseService;
 
+    @Autowired
+    private ISightsHotService hotService;
+
     public void AutoDeleteNews(){iHomeNewsService.deleteHomeNewsByQuartz();}
 
     public void loadingHitLikeView(){
@@ -43,5 +49,13 @@ public class RyTask
     public void ryNoParams()
     {
         System.out.println("执行无参方法");
+    }
+
+    public  void redisToExcel(){
+        hotService.redisToExcel();
+    }
+
+    public void hotReduce(){
+        hotTimeReduce();
     }
 }

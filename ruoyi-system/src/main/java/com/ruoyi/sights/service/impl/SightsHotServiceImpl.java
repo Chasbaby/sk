@@ -6,6 +6,7 @@ import com.ruoyi.sights.domain.DTO.SightsHotDTO;
 import com.ruoyi.sights.domain.Excel.SightsUserBehavior;
 import com.ruoyi.sights.domain.SightsBase;
 import com.ruoyi.sights.mapper.SightsBaseMapper;
+import com.ruoyi.sights.mapper.SightsRecordMapper;
 import com.ruoyi.sights.service.ISightsHotService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.ruoyi.common.constant.HotConstants.HOTLABLE;
 import static com.ruoyi.common.constant.HotConstants.MINTIME;
+import static com.ruoyi.sights.domain.Excel.SightsUserBehavior.redisToExcelSightsUser;
 import static com.ruoyi.sights.domain.Excel.SightsUserBehavior.storeSightsUserDataInRedis;
 
 /**
@@ -37,6 +39,9 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Autowired
     private SightsBaseMapper baseMapper;
 
+    @Autowired
+    private SightsRecordMapper recordMapper;
+
     /**
      * 项目建立时触发，从数据库中取出热度最高的一定量景点
      *
@@ -47,7 +52,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
     public void InitSights() {
         List<SightsBase> sightsBases = baseMapper.initSights();
         sightsBases.stream().forEach(item->{
-            item.startTimer(); // 启动定时器
+
             item.setLastUpdated(new Date());
             // 启动时赠送 100 热度  防止热度过低
             item.setSightsHot(item.getSightsHot() + 100);
@@ -61,9 +66,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
 
         Collection<String> keys = redisCache.keys(HOTLABLE + "*");
         keys.stream().forEach(item-> System.out.println(item));
-
         log.info("初始化景点热度成功");
-
     }
 
     /**
@@ -105,6 +108,11 @@ public class SightsHotServiceImpl implements ISightsHotService {
 
     }
 
+    @Override
+    public void redisToExcel() {
+        redisToExcelSightsUser();
+    }
+
     /**
      * 增加浏览量
      *      TODO  1. 从redis中获取信息 如果没有 则sql查询
@@ -130,8 +138,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
             //2. 获取数据开始 热度
             SightsBase sightsBase = baseMapper.selectSightsBaseBySightsId(sightsId);
             sightsBase.addView();
-            sightsBase.startTimer();
-
+//            sightsBase.startTimer();
             comHot(sightsBase);
         }
         // 3.创建 Excel 存储类
@@ -142,6 +149,8 @@ public class SightsHotServiceImpl implements ISightsHotService {
         userBehavior.setCreateTime(new Date());
         // 将信息保存至
         storeSightsUserDataInRedis(userBehavior);
+        // 添加数据库
+        recordMapper.addView(userId,sightsId);
 
     }
 
@@ -207,7 +216,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
             //2. 开启热度
             SightsBase sightsBase = baseMapper.selectSightsBaseBySightsId(sightsId);
             sightsBase.addLike();
-            sightsBase.startTimer();
+//            sightsBase.startTimer();
 
             comHot(sightsBase);
         }

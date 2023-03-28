@@ -32,6 +32,11 @@ public interface ISightsHotService {
     public void redisReturnMysql();
 
     /**
+     * 定时任务 redis To Excel
+     */
+    public void redisToExcel();
+
+    /**
      * 提高浏览量
      * @param sightsId
      */

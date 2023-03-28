@@ -6,6 +6,7 @@ import com.ruoyi.culCreativity.domain.*;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.culCreativity.domain.dto.CulHomeDTO;
 import com.ruoyi.culCreativity.domain.dto.CulLazyDTO;
+import com.ruoyi.culCreativity.domain.dto.CulStatisticPie;
 import com.ruoyi.sights.domain.*;
 
 /**
@@ -110,9 +111,30 @@ public interface ISightsCulCreativityService
      */
    public  List<CulHomeDTO> getAllCulByUserId(Long userId,Integer way);
 
-
+    /**
+     * 获取用户收藏
+     * @param userId
+     * @return
+     */
    public List<CulHomeDTO> getAllCulCollect(Long userId);
 
+    /**
+     * 文创懒加载
+     * @param userId
+     * @return
+     */
    public List<CulLazyDTO> getConcernsLazyCul(Long userId);
+
+    /**
+     * 文创当天通过率
+     * @return
+     */
+   public Double getCulRate();
+
+    /**
+     * 获取文创可视化数据
+     * @return
+     */
+   public CulStatisticPie getCulData();
 
 }

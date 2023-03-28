@@ -68,12 +68,5 @@ public class test {
             map.put(s,baseRoads);
             baseRoads.clear();
         }
-
-
-//        Stream<Object> objectStream = roads.stream().flatMap(baseRoad -> {
-//            return null;
-//        });
-
-
     }
 }

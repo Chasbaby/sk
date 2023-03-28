@@ -11,6 +11,7 @@ import com.ruoyi.culCreativity.domain.*;
 import com.ruoyi.culCreativity.domain.dto.CulDetail;
 import com.ruoyi.culCreativity.domain.dto.CulHomeDTO;
 import com.ruoyi.culCreativity.domain.dto.CulLazyDTO;
+import com.ruoyi.culCreativity.domain.dto.CulStatisticPie;
 import com.ruoyi.culCreativity.mapper.CulRecordMapper;
 import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.SightsCulDTO;
@@ -248,6 +249,21 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
             culLazyDTOS.add(culLazyDTO);
         });;
         return culLazyDTOS;
+    }
+
+    /**
+     * 文创通过率
+     * @return
+     */
+    @Override
+    public Double getCulRate() {
+        Double aDouble = sightsCulCreativityMapper.selectCulRate();
+        return aDouble;
+    }
+
+    @Override
+    public CulStatisticPie getCulData() {
+        return null;
     }
 
 

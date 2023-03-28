@@ -116,6 +116,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                   and b.if_remind = 'Y' and b.cul_num >0
                 order by a.create_time DESC
     </select>
+    <select id="selectCulRate" resultType="java.lang.Double">
+#         select ((select count(0) from sights_cul_creativity
+#                 where create_time = now() and del_flag = 'N' and  is_ok ='Y') + 1)
+#                    /
+#                ((select count(0) from sights_cul_creativity
+#                 where create_time = now() and del_flag = 'N') + 1 )
+
+        select ifnull( a.b  / COUNT(0) , 1) from ( select *,count(0) b from sights_cul_creativity where del_flag = 'N' and create_time = curdate()) a where a.is_ok ='Y'
+    </select>
 
 
     <insert id="insertSightsCulCreativity" parameterType="SightsCulCreativity" useGeneratedKeys="true" keyProperty="culCreativityId">

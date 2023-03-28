@@ -145,6 +145,10 @@ public interface IArticleService
 
     public ArticleCreateDTO reEditArticle(Long articleId);
 
+    public Double getArticleRate();
+
+    public ArticleStatisticPie getArticleData();
+
 
 
 

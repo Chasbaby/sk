@@ -100,7 +100,7 @@ public class SightsBase extends BaseEntity
     @Excel(name = "景点城市",type = Excel.Type.ALL)
     private String sightsCity;
 
-    private Timer timer;
+//    private Timer timer;
 
     private Date lastUpdated;
 
@@ -151,35 +151,44 @@ public class SightsBase extends BaseEntity
     }
 
 
-    public void startTimer(){
-        timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("---------------------------------------------");
-                long currentTime = new Date().getTime();
-                long timeDiff = currentTime - lastUpdated.getTime();
-
-//                float reductionFactor = (float) timeDiff / (60 * 60 * 1000 * 10);
-//                System.out.println(reductionFactor);
-//                sightsHot =new Double(sightsHot-reductionFactor).longValue();
-
-                sightsHot =  Math.max(new Double(sightsHot * 0.9).longValue(),0);
-                System.out.println(sightsHot);
-                System.out.println("-------------------------------------------------");
-                lastUpdated = new Date();
-                System.out.println("-----------------------------******");
-                Collection<String> keys = SpringUtils.getBean(RedisCache.class).keys(HOTLABLE + "*");
-                keys.stream().forEach(item->{
-                    SightsBase cacheObject = SpringUtils.getBean(RedisCache.class).getCacheObject(item);
-                    System.out.println(cacheObject.getSightsHot());
-                });
-                System.out.println("---------------------------------------*******");
-            }
-        };
-
-        timer.scheduleAtFixedRate(task,0,30*1000);
+    public static void hotTimeReduce(){
+        Collection<String> keys = SpringUtils.getBean(RedisCache.class).keys(HOTLABLE + "*");
+        keys.stream().forEach(item->{
+            SightsBase sight = SpringUtils.getBean(RedisCache.class).getCacheObject(item);
+            sight.setSightsHot(new Double(sight.getSightsHot() * 0.9).longValue());
+            SpringUtils.getBean(RedisCache.class).setCacheObject(item,sight);
+        });
     }
+
+//    public void startTimer(){
+//        timer = new Timer();
+//        TimerTask task = new TimerTask() {
+//            @Override
+//            public void run() {
+//                System.out.println("---------------------------------------------");
+//                long currentTime = new Date().getTime();
+//                long timeDiff = currentTime - lastUpdated.getTime();
+//
+////                float reductionFactor = (float) timeDiff / (60 * 60 * 1000 * 10);
+////                System.out.println(reductionFactor);
+////                sightsHot =new Double(sightsHot-reductionFactor).longValue();
+//
+//                sightsHot =  Math.max(new Double(sightsHot * 0.9).longValue(),0);
+//                System.out.println(sightsHot);
+//                System.out.println("-------------------------------------------------");
+//                lastUpdated = new Date();
+//                System.out.println("-----------------------------******");
+//                Collection<String> keys = SpringUtils.getBean(RedisCache.class).keys(HOTLABLE + "*");
+//                keys.stream().forEach(item->{
+//                    SightsBase cacheObject = SpringUtils.getBean(RedisCache.class).getCacheObject(item);
+//                    System.out.println(cacheObject.getSightsHot());
+//                });
+//                System.out.println("---------------------------------------*******");
+//            }
+//        };
+//
+//        timer.scheduleAtFixedRate(task,0,30*1000);
+//    }
 
 
 
@@ -195,13 +204,13 @@ public class SightsBase extends BaseEntity
     public void setLastUpdated(Date lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
-    public Timer getTimer() {
-        return timer;
-    }
-
-    public void setTimer(Timer timer) {
-        this.timer = timer;
-    }
+//    public Timer getTimer() {
+//        return timer;
+//    }
+//
+//    public void setTimer(Timer timer) {
+//        this.timer = timer;
+//    }
 
     public Long getSightsHot() {
         return sightsHot;

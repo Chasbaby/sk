@@ -35,24 +35,39 @@ public class SightsHotAnController extends BaseController {
     }
 
 
+    @ApiOperation("热度->增加浏览")
     @GetMapping("/view/{sightsId}")
     @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult addView(@PathVariable Long sightsId){
-        System.out.println(sightsId);
+        hotService.addView(sightsId,getUserId());
         return null;
     }
 
+    @ApiOperation("热度->增加取消点赞")
+    @PreAuthorize("@ss.hasRole('common')")
+    @GetMapping("/like/{sightsId}")
+    public AjaxResult addLike(@PathVariable Long sightsId){
+        return null;
+    }
 
+    @ApiOperation("热度->点击量")
     @GetMapping("/hit/{sightsId}")
     @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult addHit(@PathVariable Long sightsId){
         return null;
     }
 
-
+    @ApiOperation("热度 ->增加取消收藏")
     @GetMapping("/collect/{sightsId}")
     @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult addCollect(@PathVariable Long sightsId){
+        return null;
+    }
+
+    @ApiOperation("热度->增加评分")
+    @GetMapping("/score/{sightsId}/{score}")
+    @PreAuthorize("@ss.hasRole('common')")
+    public AjaxResult addScore(@PathVariable Long sightsId,@PathVariable Double score){
         return null;
     }
 

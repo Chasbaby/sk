@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.statistic;
 
 import com.ruoyi.article.domain.dto.ArticleStatisticPie;
 import com.ruoyi.article.service.IArticleService;
+import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.redis.RedisCache;
@@ -24,6 +25,7 @@ import java.util.Collection;
  * @data 2023-3
  */
 @Api("数据可视化")
+@Anonymous
 @RestController
 @RequestMapping("/statistic")
 public class statisticController {
@@ -95,6 +97,7 @@ public class statisticController {
      *
      * @return
      */
+    @ApiOperation("中间区域")
     @GetMapping("/medium")
     public AjaxResult mediumNum(){
         AjaxResult result = new AjaxResult();
@@ -104,29 +107,30 @@ public class statisticController {
         result.put("onLineNum",onlineNum);
 
         Long[] cuLDMY = creativityService.getCuLDMY();
+        Long[] articleDMY = articleService.getArticleDMY();
 
-        result.put("DAY",cuLDMY[0]);
-        result.put("MONTH",cuLDMY[1]);
-        result.put("YEAR",cuLDMY[2]);
-        result.put("YEAROK",cuLDMY[3]);
-        result.put("YEARNO",cuLDMY[4]);
+        result.put("DAY",cuLDMY[0]+articleDMY[0]);
+        result.put("MONTH",cuLDMY[1]+articleDMY[1]);
+        result.put("YEAR",cuLDMY[2]+articleDMY[2]);
+        result.put("YEAROK",cuLDMY[3]+articleDMY[3]);
+        result.put("YEARNO",cuLDMY[4]+articleDMY[4]);
         return result;
     }
 
     /**
      * todo  景点排行版   文创排行榜   文章排行版
-     *
      * 3个接口
      */
-
+    @GetMapping("/sightsTables")
     public AjaxResult sightsTables(){
+
         return null;
     }
-
+    @GetMapping("/culTables")
     public AjaxResult culTables(){
         return null;
     }
-
+    @GetMapping("/articleTables")
     public AjaxResult articleTables(){
         return null;
     }

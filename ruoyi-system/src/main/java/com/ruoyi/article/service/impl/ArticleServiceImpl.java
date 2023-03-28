@@ -420,5 +420,16 @@ public class ArticleServiceImpl implements IArticleService
         return data;
     }
 
+    @Override
+    public Long[] getArticleDMY() {
+        Long[] data = new Long[5];
+        data[0] = articleMapper.getDayArtData();
+        data[1] = articleMapper.getMonthArtData();
+        data[2] = articleMapper.getYearArtData();
+        data[3] = articleMapper.getYearOKArtData();
+        data[4] = articleMapper.getYearNOArtData();
+        return data;
+    }
+
 
 }

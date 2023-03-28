@@ -7,6 +7,7 @@ import com.ruoyi.article.domain.dto.ArticleCreateDTO;
 import com.ruoyi.article.domain.dto.ArticleStatisticPie;
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * 文章Mapper接口
@@ -125,19 +126,31 @@ public interface ArticleMapper
      */
     public int deleteArticleBatches(Long[] articleIds);
 
-//    /**
-//     *
-//     * @return
-//     */
-//    public Double getArticleRate();
-
     /**
      * 获取文章可视化数据 获取当天文章通过率
      * @return
      */
     public List<Article> getArticleData();
-//
-//
-//    public List<Article> getArticleJudgeData();
+
+    @Select("select COUNT(0) from article where YEAR(create_time) = YEAR(curdate())")
+    // 今年累计发布
+    public Long getYearArtData();
+
+    @Select("select COUNT(0) from article where DATE_FORMAT(create_time,'YYYY-MM')= DATE_FORMAT(curdate(),'YYYY-MM')")
+    // 本月累计发布
+    public Long getMonthArtData();
+
+    @Select("select COUNT(0) from article where DATE_FORMAT(create_time,'YYYY-MM-DD') = curdate()")
+    // 本日累计发布
+    public Long getDayArtData();
+
+    @Select("select COUNT(0) from article where YEAR(create_time) = YEAR(curdate()) and is_ok ='Y' ")
+    // 年通过
+    public Long getYearOKArtData();
+
+    @Select("select COUNT(0) from article where YEAR(create_time) = YEAR(curdate()) and is_ok ='N'")
+    // 年不通过
+    public Long getYearNOArtData();
+
 
 }

@@ -151,6 +151,8 @@ public interface IArticleService
 
     public Long[] getJudgeData();
 
+    public Long[] getArticleDMY();
+
 
 
 

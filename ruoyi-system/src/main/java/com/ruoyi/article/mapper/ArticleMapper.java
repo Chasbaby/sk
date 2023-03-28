@@ -153,4 +153,11 @@ public interface ArticleMapper
     public Long getYearNOArtData();
 
 
+    /**
+     * top15
+     * @return
+     */
+    public List<Article> getArticleTop();
+
+
 }

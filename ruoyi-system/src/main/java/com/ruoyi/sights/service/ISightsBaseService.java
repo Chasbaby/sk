@@ -5,6 +5,7 @@ import java.util.List;
 import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.SightsDTO;
 import com.ruoyi.sights.domain.DTO.SightsRecommendDTO;
+import com.ruoyi.sights.domain.DTO.SightsStatisticTopDTO;
 
 /**
  * 景点基本信息Service接口
@@ -233,6 +234,7 @@ public interface ISightsBaseService
      */
     public void OpenHitViewLikeByQuartz();
 
+    public List<SightsStatisticTopDTO> getStatisticSightsTop();
 
 
 }

@@ -3,6 +3,7 @@ package com.ruoyi.article.service;
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.article.domain.ArticleRecord;
 import com.ruoyi.article.domain.dto.*;
+import com.ruoyi.sights.domain.DTO.SightsStatisticTopDTO;
 
 import java.util.List;
 
@@ -152,6 +153,8 @@ public interface IArticleService
     public Long[] getJudgeData();
 
     public Long[] getArticleDMY();
+
+    public List<ArticleTopDTO> getArticleTop();
 
 
 

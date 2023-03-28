@@ -9,10 +9,7 @@ import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.sights.domain.*;
-import com.ruoyi.sights.domain.DTO.BulletinDTO;
-import com.ruoyi.sights.domain.DTO.SightsDTO;
-import com.ruoyi.sights.domain.DTO.SightsRecommendDTO;
-import com.ruoyi.sights.domain.DTO.TicketDTO;
+import com.ruoyi.sights.domain.DTO.*;
 import com.ruoyi.sights.mapper.*;
 import com.ruoyi.sights.service.ISightsTicketService;
 import com.ruoyi.system.service.ICommentService;
@@ -480,6 +477,23 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         redisCache.deleteObject(Constants.SIGHTS_VIEW);
         redisCache.deleteObject(Constants.SIGHTS_HITS);
     }
+
+    /**
+     * 大数据可视化 景点排行
+     * @return
+     */
+    @Override
+    public List<SightsStatisticTopDTO> getStatisticSightsTop() {
+        List<SightsStatisticTopDTO> statisticTopDTOS = new ArrayList<>();
+        List<SightsBase> sights = sightsBaseMapper.getTopSights();
+        sights.stream().forEach(item->{
+            SightsStatisticTopDTO dto = new SightsStatisticTopDTO();
+            BeanUtils.copyBeanProp(dto,item);
+            statisticTopDTOS.add(dto);
+        });
+        return statisticTopDTOS;
+    }
+
     /**
      * 点击排行榜 ( 定时多久刷新一次 )
      * @param num

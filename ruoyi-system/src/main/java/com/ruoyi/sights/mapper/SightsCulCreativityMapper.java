@@ -126,4 +126,7 @@ public interface SightsCulCreativityMapper
     // 年不通过
     public Long getYearNOCulData();
 
+    // 大数据排行
+    public List<SightsCulCreativity> getCulTop();
+
 }

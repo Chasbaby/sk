@@ -16,6 +16,7 @@ import com.ruoyi.common.core.domain.entity.DTO.VisitorDTO;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.domain.entity.SysVisitor;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.sights.domain.DTO.SightsStatisticTopDTO;
 import com.ruoyi.system.mapper.SysUserMapper;
 import com.ruoyi.system.mapper.SysVisitorMapper;
 import org.apache.commons.beanutils.BeanUtils;
@@ -429,6 +430,28 @@ public class ArticleServiceImpl implements IArticleService
         data[3] = articleMapper.getYearOKArtData();
         data[4] = articleMapper.getYearNOArtData();
         return data;
+    }
+
+    /**
+     * 文章排行
+     * @return
+     */
+    @Override
+    public List<ArticleTopDTO> getArticleTop() {
+        List<ArticleTopDTO> articleTopDTOS = new ArrayList<>();
+        List<Article> articleTop = articleMapper.getArticleTop();
+        articleTop.stream().forEach(item->{
+            ArticleTopDTO dto = new ArticleTopDTO();
+            try {
+                BeanUtils.copyProperties(dto,item);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+            articleTopDTOS.add(dto);
+        });
+        return articleTopDTOS;
     }
 
 

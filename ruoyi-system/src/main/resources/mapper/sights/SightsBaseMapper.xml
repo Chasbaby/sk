@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="sightsLike" column="sights_like"/>
         <result property="sightsView" column="sights_view"/>
         <result property="sightsScore" column="sights_score"/>
+        <result property="sightsCollect" column="sights_collect"/>
         <result property="sightsName"    column="sights_name"/>
         <result property="sightsHot" column="sights_hot"/>
         <result property="sightsTelephone" column="sights_telephone"/>
@@ -39,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <sql id="selectSightsBaseVo">
         select sights_id,sights_hits,sights_like,sights_view,sights_score,
-               sights_hot,sights_telephone,sights_eng,sights_open,
+               sights_hot,sights_telephone,sights_eng,sights_open,sights_collect,
                sights_name, sights_location, sights_longitude, sights_latitude,
                sights_image,sights_code,sights_intro, sights_detail, sights_category,
                sights_nation, sights_city, create_by, create_time, update_by,
@@ -121,7 +122,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getHistoryRecord" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="long">
         select u.sights_id,u.sights_hits,u.sights_like,u.sights_view,u.sights_score,
                u.sights_name, u.sights_location, u.sights_longitude, u.sights_latitude,
-               u.sights_hot,u.sights_telephone,u.sights_eng,u.sights_open,
+               u.sights_hot,u.sights_telephone,u.sights_eng,u.sights_open,sights_collect,
                u.sights_image, u.sights_code,u.sights_intro, u.sights_detail, u.sights_category,
                u.sights_nation, u.sights_city, u.create_by, u.create_time, u.update_by,
                u.update_time
@@ -141,6 +142,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSightsBaseVo"/>
         order by sights_hot desc
         limit 10
+    </select>
+
+    <select id="getTopSights" resultType="com.ruoyi.sights.domain.SightsBase" resultMap="SightsBaseResult">
+        select sights_id,sights_name,sightsHot from  sights_base
+        order by 0.1 * sights_id + 0.2 * sights_view + 0.3 * sights_like + 0.4 * sights_collect + sights_hot + sights_score * 100 desc
+        limit 15
     </select>
 
 

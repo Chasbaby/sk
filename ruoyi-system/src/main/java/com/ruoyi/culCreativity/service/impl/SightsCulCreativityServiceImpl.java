@@ -11,10 +11,7 @@ import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.culCreativity.domain.*;
-import com.ruoyi.culCreativity.domain.dto.CulDetail;
-import com.ruoyi.culCreativity.domain.dto.CulHomeDTO;
-import com.ruoyi.culCreativity.domain.dto.CulLazyDTO;
-import com.ruoyi.culCreativity.domain.dto.CulStatisticPie;
+import com.ruoyi.culCreativity.domain.dto.*;
 import com.ruoyi.culCreativity.mapper.CulRecordMapper;
 import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.SightsCulDTO;
@@ -349,6 +346,22 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
         // 今年总未通
         data[4] = sightsCulCreativityMapper.getYearNOCulData();
         return data;
+    }
+
+    /**
+     * 文创排行
+     * @return
+     */
+    @Override
+    public List<CulTopDTO> getTopCul() {
+        List<CulTopDTO> culTopDTOS = new ArrayList<>();
+        List<SightsCulCreativity> top = sightsCulCreativityMapper.getCulTop();
+        top.stream().forEach(item->{
+            CulTopDTO dto = new CulTopDTO();
+            BeanUtils.copyBeanProp(dto,item);
+            culTopDTOS.add(dto);
+        });
+        return culTopDTOS;
     }
 
 

@@ -1,6 +1,7 @@
 package com.ruoyi.web.controller.statistic;
 
 import com.ruoyi.article.domain.dto.ArticleStatisticPie;
+import com.ruoyi.article.domain.dto.ArticleTopDTO;
 import com.ruoyi.article.service.IArticleService;
 import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.constant.Constants;
@@ -9,6 +10,8 @@ import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.culCreativity.ISightsCulCreativityService;
 import com.ruoyi.culCreativity.domain.dto.CulStatisticPie;
 import com.ruoyi.framework.web.domain.Server;
+import com.ruoyi.sights.domain.DTO.SightsStatisticTopDTO;
+import com.ruoyi.sights.service.ISightsBaseService;
 import com.ruoyi.statistic.domain.LeftPie;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,12 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author chas
  * @introduction 数据可视化
  * @data 2023-3
  */
+
 @Api("数据可视化")
 @Anonymous
 @RestController
@@ -35,6 +40,9 @@ public class statisticController {
 
     @Autowired
     private IArticleService articleService;
+
+    @Autowired
+    private ISightsBaseService baseservice ;
 
     @Autowired
     private RedisCache redisCache ;
@@ -121,18 +129,24 @@ public class statisticController {
      * todo  景点排行版   文创排行榜   文章排行版
      * 3个接口
      */
+    @ApiOperation("景点排行")
     @GetMapping("/sightsTables")
     public AjaxResult sightsTables(){
+        List<SightsStatisticTopDTO> sightsTop = baseservice.getStatisticSightsTop();
+        return AjaxResult.success(sightsTop);
+    }
+    @ApiOperation("文创排行")
+    @GetMapping("/culTables")
+    public AjaxResult culTables(){
 
         return null;
     }
-    @GetMapping("/culTables")
-    public AjaxResult culTables(){
-        return null;
-    }
+
+    @ApiOperation("文章排行")
     @GetMapping("/articleTables")
     public AjaxResult articleTables(){
-        return null;
+        List<ArticleTopDTO> topDTOS = articleService.getArticleTop();
+        return AjaxResult.success(topDTOS);
     }
 
     /**

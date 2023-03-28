@@ -16,6 +16,8 @@ import org.springframework.security.core.parameters.P;
  */
 public interface SightsBaseMapper 
 {
+    public List<SightsBase> getTopSights();
+
     /**
      * 下面是热度算法用到的sql
      */

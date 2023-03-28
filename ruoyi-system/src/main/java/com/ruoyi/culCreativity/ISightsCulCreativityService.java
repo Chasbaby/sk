@@ -3,10 +3,7 @@ package com.ruoyi.culCreativity;
 import java.util.List;
 
 import com.ruoyi.culCreativity.domain.*;
-import com.ruoyi.culCreativity.domain.dto.CulDetail;
-import com.ruoyi.culCreativity.domain.dto.CulHomeDTO;
-import com.ruoyi.culCreativity.domain.dto.CulLazyDTO;
-import com.ruoyi.culCreativity.domain.dto.CulStatisticPie;
+import com.ruoyi.culCreativity.domain.dto.*;
 import com.ruoyi.sights.domain.*;
 
 /**
@@ -147,5 +144,7 @@ public interface ISightsCulCreativityService
      * 发布数量
      */
     public Long[] getCuLDMY();
+
+    public List<CulTopDTO> getTopCul();
 
 }

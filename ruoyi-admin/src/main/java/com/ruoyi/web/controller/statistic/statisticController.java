@@ -2,7 +2,9 @@ package com.ruoyi.web.controller.statistic;
 
 import com.ruoyi.article.domain.dto.ArticleStatisticPie;
 import com.ruoyi.article.service.IArticleService;
+import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.culCreativity.ISightsCulCreativityService;
 import com.ruoyi.culCreativity.domain.dto.CulStatisticPie;
 import com.ruoyi.framework.web.domain.Server;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collection;
 
 /**
  * @author chas
@@ -30,6 +34,9 @@ public class statisticController {
     @Autowired
     private IArticleService articleService;
 
+    @Autowired
+    private RedisCache redisCache ;
+
     /**
      * todo 1. 今日文创通过率  2.今日文章通过率
      *      3. 剩余内存     4.CPU负载
@@ -43,7 +50,7 @@ public class statisticController {
         Server server = new Server();
         server.copyTo();
         result.put("server",server);
-        //文创通过率
+        // 文创通过率
         Double culRate = creativityService.getCulRate() * 100;
         result.put("culRate",culRate);
         // 文章通过率
@@ -69,28 +76,41 @@ public class statisticController {
         leftPie.setCulPie(culData);
         // 文创4大数据
         Long[] culJu = creativityService.getJudgeData();
-        // 文章四大数据
-
+        // 文章4大数据
+        Long[] judgeData = articleService.getJudgeData();
         // 未审核
-
+        leftPie.setUnJudge(culJu[3]+judgeData[3]);
         // 已通过
-
+        leftPie.setJudged(culJu[1]+judgeData[1]);
         // 未通过
-
+        leftPie.setFailed(culJu[2]+judgeData[2]);
         // 总数
-
+        leftPie.setSum(culJu[0]+judgeData[0]);
         return AjaxResult.success(leftPie);
     }
 
     /**
      * todo 今日累计发布  本月累计发布 今年累计发布
-     *      今年总通过    今年累计发布  在线用户人数
+     *      今年总通过   今年总不通过 在线用户人数
      *
      * @return
      */
-    @GetMapping("/yy")
+    @GetMapping("/medium")
     public AjaxResult mediumNum(){
-        return null;
+        AjaxResult result = new AjaxResult();
+        // 总人数
+        Collection<String> keys = redisCache.keys(Constants.LOGIN_TOKEN_KEY + "*");
+        int onlineNum = keys.size();
+        result.put("onLineNum",onlineNum);
+
+        Long[] cuLDMY = creativityService.getCuLDMY();
+
+        result.put("DAY",cuLDMY[0]);
+        result.put("MONTH",cuLDMY[1]);
+        result.put("YEAR",cuLDMY[2]);
+        result.put("YEAROK",cuLDMY[3]);
+        result.put("YEARNO",cuLDMY[4]);
+        return result;
     }
 
     /**

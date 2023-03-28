@@ -5,6 +5,7 @@ import java.util.List;
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.culCreativity.domain.SightsCulCreativity;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.security.core.parameters.P;
 
 /**
@@ -85,6 +86,11 @@ public interface SightsCulCreativityMapper
      */
     public List<SightsCulCreativity> selectCulInPersonPage(@Param("userId") Long userId, @Param("way") Integer way);
 
+    /**
+     * 获取用户收藏
+     * @param userId
+     * @return
+     */
     public List<SightsCulCreativity> selectCulCollectByUserId(Long userId);
 
     /**
@@ -95,13 +101,29 @@ public interface SightsCulCreativityMapper
     public List<SightsCulCreativity> selectLazyCul(Long userId);
 
     /**
-     * 文创通过率
-     */
-    public Double selectCulRate();
-    /**
-     * 获取审核状态可视化
+     * 获取审核状态可视化 文创通过率
      * @return
      */
-    public List<SightsCulCreativity> getCulJudgeData();
+    public List<SightsCulCreativity> getCulData();
+
+    @Select("select COUNT(0) from sights_cul_creativity where YEAR(create_time) = YEAR(curdate())")
+    // 今年累计发布
+    public Long getYearCulData();
+
+    @Select("select COUNT(0) from sights_cul_creativity where DATE_FORMAT(create_time,'YYYY-MM')= DATE_FORMAT(curdate(),'YYYY-MM')")
+    // 本月累计发布
+    public Long getMonthCulData();
+
+    @Select("select COUNT(0) from sights_cul_creativity where DATE_FORMAT(create_time,'YYYY-MM-DD') = curdate()")
+    // 本日累计发布
+    public Long getDayCulData();
+
+    @Select("select COUNT(0) from sights_cul_creativity where YEAR(create_time) = YEAR(curdate()) and is_ok ='Y' ")
+    // 年通过
+    public Long getYearOKCulData();
+
+    @Select("select COUNT(0) from sights_cul_creativity where YEAR(create_time) = YEAR(curdate()) and is_ok ='N'")
+    // 年不通过
+    public Long getYearNOCulData();
 
 }

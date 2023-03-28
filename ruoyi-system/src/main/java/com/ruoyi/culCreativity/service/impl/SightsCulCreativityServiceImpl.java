@@ -263,16 +263,41 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      */
     @Override
     public Double getCulRate() {
-        Double aDouble = sightsCulCreativityMapper.selectCulRate();
-        return aDouble;
+        List<SightsCulCreativity> culData = sightsCulCreativityMapper.getCulData();
+        if (culData.isEmpty()){
+            return 1.0;
+        }
+        Long ok = 0L;
+        Long all = 0L;
+        while (culData.iterator().hasNext()) {
+            SightsCulCreativity next = culData.iterator().next();
+            if (next.getIsOk()=="Y"){
+                ok++;
+            }
+            all++;
+        }
+
+        return ok/all.doubleValue();
     }
+
     /**
      * 获取文创可视化数据
      * @return
      */
     @Override
     public CulStatisticPie getCulData() {
-        return null;
+        CulStatisticPie pie = new CulStatisticPie();
+        List<SightsCulCreativity> culData = sightsCulCreativityMapper.getCulData();
+        if (culData.isEmpty()) {
+            return new CulStatisticPie();
+        }
+        while (culData.iterator().hasNext()) {
+            SightsCulCreativity next = culData.iterator().next();
+            pie.setCulCreativityLike(pie.getCulCreativityLike() + next.getCulCreativityLike());
+            pie.setCulCreativityCollection(pie.getCulCreativityCollection()+ next.getCulCreativityCollection());
+            pie.setCulCreativityView(pie.getCulCreativityView()+ next.getCulCreativityView());
+        }
+        return pie;
     }
 
     /**
@@ -282,7 +307,10 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     @Override
     public Long[] getJudgeData() {
         Long[] data = new Long[4];
-        List<SightsCulCreativity> culJudgeData = sightsCulCreativityMapper.getCulJudgeData();
+        List<SightsCulCreativity> culJudgeData = sightsCulCreativityMapper.getCulData();
+        if (culJudgeData.isEmpty() ){
+            return data;
+        }
 //        这样效率低 虽然可以并发
 //        Long sum = culJudgeData.stream().count();
 //        Long ok = culJudgeData.stream().filter(item -> item.getIsOk() == "Y").count();
@@ -300,6 +328,26 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
                 default: log.warn("审核状态数据存在错误");
             }
         }
+        return data;
+    }
+
+    /**
+     *  5 大数据
+     * @return
+     */
+    @Override
+    public Long[] getCuLDMY() {
+        Long[] data = new Long[5];
+        // 今日累计数据
+        data[0] = sightsCulCreativityMapper.getDayCulData();
+        // 本月累计数据
+        data[1] = sightsCulCreativityMapper.getMonthCulData();
+        // 今年累计数据
+        data[2] = sightsCulCreativityMapper.getYearCulData();
+        // 今年总通
+        data[3] = sightsCulCreativityMapper.getYearOKCulData();
+        // 今年总未通
+        data[4] = sightsCulCreativityMapper.getYearNOCulData();
         return data;
     }
 

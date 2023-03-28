@@ -143,4 +143,9 @@ public interface ISightsCulCreativityService
      */
    public Long[] getJudgeData();
 
+    /**
+     * 发布数量
+     */
+    public Long[] getCuLDMY();
+
 }

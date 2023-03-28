@@ -125,19 +125,19 @@ public interface ArticleMapper
      */
     public int deleteArticleBatches(Long[] articleIds);
 
-    /**
-     * 获取当天文章通过率
-     * @return
-     */
-    public Double getArticleRate();
+//    /**
+//     *
+//     * @return
+//     */
+//    public Double getArticleRate();
 
     /**
-     * 获取文章可视化数据
+     * 获取文章可视化数据 获取当天文章通过率
      * @return
      */
-    public ArticleStatisticPie getArticleData();
-
-
-    public List<Article> getArticleJudgeData();
+    public List<Article> getArticleData();
+//
+//
+//    public List<Article> getArticleJudgeData();
 
 }

@@ -365,8 +365,20 @@ public class ArticleServiceImpl implements IArticleService
 
     @Override
     public Double getArticleRate() {
-        Double articleRate = articleMapper.getArticleRate();
-        return articleRate;
+        List<Article> articleData = articleMapper.getArticleData();
+        if (articleData.isEmpty()){
+            return 1.0;
+        }
+        Long ok = 0L;
+        Long all=0L;
+        while (articleData.iterator().hasNext()) {
+            Article next = articleData.iterator().next();
+            if (next.getIsOk() == "Y"){
+                ok++;
+            }
+            all++;
+        }
+        return ok/all.doubleValue();
     }
 
     /**
@@ -375,15 +387,37 @@ public class ArticleServiceImpl implements IArticleService
      */
     @Override
     public ArticleStatisticPie getArticleData() {
-        return articleMapper.getArticleData();
+        ArticleStatisticPie pie = new ArticleStatisticPie();
+        List<Article> articleData = articleMapper.getArticleData();
+        if (articleData.isEmpty()){
+            return new ArticleStatisticPie();
+        }
+        while (articleData.iterator().hasNext()) {
+            Article next = articleData.iterator().next();
+            pie.setArticleLike(pie.getArticleLike()+next.getArticleLike());
+            pie.setArticleCollect(pie.getArticleCollect()+next.getArticleCollect());
+            pie.setArticleView(pie.getArticleView()+next.getArticleView());
+        }
+        return pie;
     }
 
     @Override
     public Long[] getJudgeData() {
-        List<Article> judgeData = articleMapper.getArticleJudgeData();
-        long unJudge = judgeData.stream().filter(item -> item.getIsOk() == "U").count();
-        judgeData.stream().filter(item->item.getIsOk() == "Y").count();
-        return new Long[0];
+        Long[] data = new Long[4];
+        List<Article> articleData = articleMapper.getArticleData();
+        if (articleData.isEmpty()) {
+            return data;
+        }
+        while (articleData.iterator().hasNext()) {
+            Article next = articleData.iterator().next();
+            switch (next.getIsOk()){
+                case "U" : data[3]++; data[0] ++; break;
+                case "Y" : data[1]++; data[0] ++;break;
+                case "N" : data[2]++; data[0] ++;break;
+                default: log.warn("审核状态数据存在错误");
+            }
+        }
+        return data;
     }
 
 

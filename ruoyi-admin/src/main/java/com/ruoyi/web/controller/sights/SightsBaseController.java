@@ -57,9 +57,6 @@ public class SightsBaseController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(SightsBase sightsBase)
     {
-//        ListenableFuture<SendResult<String, String>> sights = kafkaTemplate.send("sights", JsonUtils.toJsonString(sightsBase));
-//        System.out.println("   done     "+sights.isDone());
-
         startPage();
         List<SightsBase> list = sightsBaseService.selectSightsBaseList(sightsBase);
         return getDataTable(list);
@@ -96,6 +93,7 @@ public class SightsBaseController extends BaseController {
     @GetMapping(value = "/{sightsId}")
     public AjaxResult getInfo(@PathVariable("sightsId") Long sightsId)
     {
+
         return AjaxResult.success(sightsBaseService.selectSightsBaseBySightsId(sightsId));
     }
 
@@ -121,6 +119,8 @@ public class SightsBaseController extends BaseController {
         sightsBase.setCreateTime(new Date());
         return toAjax(sightsBaseService.insertSightsBase(sightsBase));
     }
+
+
 
     /**
      * 修改景点基本信息

@@ -56,6 +56,7 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = "WordsWithCountsTopic")
     public void Words(String msg,String value){
+
         System.out.println("WordsWithCountsTopic"+msg+value);
     }
     @KafkaListener(topics = "OnLineRecommend")

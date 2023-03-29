@@ -7,6 +7,9 @@ import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.baidu.domain.Geocoder;
+import com.ruoyi.common.utils.baidu.domain.GeocoderResultMap;
+import com.ruoyi.common.utils.baidu.domain.ParaGeo;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.*;
@@ -17,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.sights.service.ISightsBaseService;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.ruoyi.common.utils.baidu.BaiduUtils.getGeocoder;
 
 /**
  *
@@ -494,6 +499,27 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         return statisticTopDTOS;
     }
 
+    @Override
+    public void update() {
+        List<SightsBase> getall = sightsBaseMapper.getall();
+
+        getall.forEach(item->{
+            ParaGeo paraGeo = new ParaGeo();
+            paraGeo.setAddress(item.getSightsLocation().trim());
+            paraGeo.setOutput("json");
+            paraGeo.setAk("qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt");
+            Geocoder geocoder = getGeocoder(paraGeo);
+
+            GeocoderResultMap result = geocoder.getResult();
+
+            item.setSightsLatitude(result.getLocation().getLat());
+            item.setSightsLongitude(result.getLocation().getLng());
+
+            sightsBaseMapper.updateSightsBase(item);
+        });
+
+    }
+
     /**
      * 点击排行榜 ( 定时多久刷新一次 )
      * @param num
@@ -639,8 +665,6 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         newList.add(sightsUserCollect);
         redisCache.setCacheList(Constants.SIGHTS_COLLECTION,newList);
         return true;
-//        int i = sightsUserCollectMapper.addSightsCollection(sightsUserCollect);
-//        return i == 1;
     }
 
     /**

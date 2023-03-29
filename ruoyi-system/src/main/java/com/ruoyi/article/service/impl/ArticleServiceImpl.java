@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
+
 /**
  * 文章Service业务层处理
  * 
@@ -50,6 +52,15 @@ public class ArticleServiceImpl implements IArticleService
     private SysVisitorMapper visitorMapper;
 
 
+
+
+    public void xxx(){
+        for (int i = 0; i < 100; i++) {
+            log.info("sights:info");
+            log.warn("sights:warn");
+            log.error("sights:error");
+        }
+    }
 
     /**
      * 查询文章

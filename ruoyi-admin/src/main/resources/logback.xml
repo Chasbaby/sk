@@ -73,6 +73,10 @@
         </encoder>
     </appender>
 
+<!--    <appender name="myflume" class="org.apache.flume.client.avro.shaded.">-->
+
+<!--    </appender>-->
+
 <!--    <appender name="HDFS" class="">-->
 
 <!--    </appender>-->

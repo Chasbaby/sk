@@ -9,6 +9,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.culCreativity.ISightsCulCreativityService;
 import com.ruoyi.culCreativity.domain.dto.CulStatisticPie;
+import com.ruoyi.culCreativity.domain.dto.CulTopDTO;
 import com.ruoyi.framework.web.domain.Server;
 import com.ruoyi.sights.domain.DTO.SightsStatisticTopDTO;
 import com.ruoyi.sights.service.ISightsBaseService;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -84,18 +86,25 @@ public class statisticController {
         // 文创三大数据
         CulStatisticPie culData = creativityService.getCulData();
         leftPie.setCulPie(culData);
+
         // 文创4大数据
         Long[] culJu = creativityService.getJudgeData();
         // 文章4大数据
         Long[] judgeData = articleService.getJudgeData();
         // 未审核
-        leftPie.setUnJudge(culJu[3]+judgeData[3]);
+
+        System.out.println(Arrays.toString(culJu));
+        System.out.println(Arrays.toString(judgeData));
+
+        leftPie.setUnJudge( culJu[3]+judgeData[3] );
+
         // 已通过
-        leftPie.setJudged(culJu[1]+judgeData[1]);
+        leftPie.setJudged( culJu[1]+judgeData[1] );
         // 未通过
-        leftPie.setFailed(culJu[2]+judgeData[2]);
+        leftPie.setFailed( culJu[2]+judgeData[2] );
         // 总数
-        leftPie.setSum(culJu[0]+judgeData[0]);
+        leftPie.setSum( culJu[0]+judgeData[0] );
+
         return AjaxResult.success(leftPie);
     }
 
@@ -138,8 +147,8 @@ public class statisticController {
     @ApiOperation("文创排行")
     @GetMapping("/culTables")
     public AjaxResult culTables(){
-
-        return null;
+        List<CulTopDTO> cul = creativityService.getTopCul();
+        return AjaxResult.success(cul);
     }
 
     @ApiOperation("文章排行")
@@ -152,4 +161,10 @@ public class statisticController {
     /**
      * todo  省景点排行
      */
+    @ApiOperation("省景点排行")
+    @GetMapping("/zone")
+    public AjaxResult zoneSights(){
+
+        return null;
+    }
 }

@@ -286,11 +286,14 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
         CulStatisticPie pie = new CulStatisticPie();
         List<SightsCulCreativity> culData = sightsCulCreativityMapper.getCulData();
         if (culData.isEmpty()) {
+            pie.setCulCreativityView(0L);
+            pie.setCulCreativityLike(0L);
+            pie.setCulCreativityCollection(0L);
             return new CulStatisticPie();
         }
         while (culData.iterator().hasNext()) {
             SightsCulCreativity next = culData.iterator().next();
-            pie.setCulCreativityLike(pie.getCulCreativityLike() + next.getCulCreativityLike());
+            pie.setCulCreativityLike(       pie.getCulCreativityLike() + next.getCulCreativityLike()         );
             pie.setCulCreativityCollection(pie.getCulCreativityCollection()+ next.getCulCreativityCollection());
             pie.setCulCreativityView(pie.getCulCreativityView()+ next.getCulCreativityView());
         }
@@ -303,9 +306,17 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      */
     @Override
     public Long[] getJudgeData() {
+
         Long[] data = new Long[4];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = 0L ;
+        }
         List<SightsCulCreativity> culJudgeData = sightsCulCreativityMapper.getCulData();
+        System.out.println(culJudgeData);
         if (culJudgeData.isEmpty() ){
+            for (int i = 0; i < data.length; i++) {
+                data[i] = 0L;
+            }
             return data;
         }
 //        这样效率低 虽然可以并发
@@ -325,6 +336,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
                 default: log.warn("审核状态数据存在错误");
             }
         }
+
         return data;
     }
 

@@ -16,6 +16,8 @@ import com.ruoyi.sights.domain.DTO.SightsStatisticTopDTO;
 public interface ISightsBaseService 
 {
 
+
+
     /**
      * 下面是后台管理员系列 操作
      */
@@ -235,6 +237,8 @@ public interface ISightsBaseService
     public void OpenHitViewLikeByQuartz();
 
     public List<SightsStatisticTopDTO> getStatisticSightsTop();
+
+    public void update();
 
 
 }

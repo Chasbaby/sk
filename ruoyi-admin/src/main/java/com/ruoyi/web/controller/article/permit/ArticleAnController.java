@@ -49,24 +49,13 @@ public class ArticleAnController extends BaseController {
     @Autowired
     private IConcernsService concernsService;
 
-    @GetMapping("/xxx")
+
     @Anonymous
-    public AjaxResult xxx(){
-        SightsUserBehavior s = new SightsUserBehavior();
-        SightsUserBehavior ss = new SightsUserBehavior();
-        ss.setSightsLike(1L);
-        s.storeSightsUserDataInRedis(ss);
-        s.storeSightsUserDataInRedis(ss);
-        s.storeSightsUserDataInRedis(ss);
-        s.storeSightsUserDataInRedis(ss);
-        s.storeSightsUserDataInRedis(ss);
-        s.storeSightsUserDataInRedis(ss);
-
-        s.redisToExcelSightsUser();
-
+    @GetMapping("/test")
+    public AjaxResult xxxx(){
+        articleService.xxx();
         return null;
     }
-
 
     /**
      * 文章点赞(点与取消)

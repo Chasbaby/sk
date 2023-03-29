@@ -58,4 +58,8 @@ public class RyTask
     public void hotReduce(){
         hotTimeReduce();
     }
+
+    public void clearSightsHistoryRecord(){
+
+    }
 }

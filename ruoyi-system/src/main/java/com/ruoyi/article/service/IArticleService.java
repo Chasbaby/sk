@@ -16,6 +16,7 @@ import java.util.List;
  */
 public interface IArticleService 
 {
+    public void xxx();
     /**
      * 查询文章
      * 

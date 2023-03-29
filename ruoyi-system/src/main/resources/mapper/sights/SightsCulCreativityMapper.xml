@@ -127,7 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!--        -->
 <!--    </select>-->
     <select id="getCulData" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" resultMap="SightsCulCreativityResult">
-        select cul_creativity_id,is_ok,cul_creativity_like,cul_creativity_collection,cul_creativity_hits from sights_cul_creativity where del_flag = 'N' and DATE_FORMAT(create_time,'YYYY-MM-DD') = curdate()
+        select cul_creativity_id,is_ok,cul_creativity_like,cul_creativity_collection,cul_creativity_hits from sights_cul_creativity where del_flag = 'N' and DATE_FORMAT(create_time,'%Y-%m-%d') = curdate()
     </select>
     <select id="getCulTop" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" resultMap="SightsCulCreativityResult">
         select cul_creativity_id,user_id,sights_id,cul_creativity_type from sights_cul_creativity where del_flag = 'N' and is_ok ='Y'

@@ -148,7 +148,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
         userBehavior.setSightsId(sightsId);
         userBehavior.setCreateTime(new Date());
         // 将信息保存至
-        storeSightsUserDataInRedis(userBehavior);
+        storeSightsUserDataInRedis(userBehavior); // 这里是成功的
         // 添加数据库
         recordMapper.addView(userId,sightsId);
 

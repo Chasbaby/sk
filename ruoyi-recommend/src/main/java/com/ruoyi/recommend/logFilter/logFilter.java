@@ -5,6 +5,7 @@ import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.*;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KeyValueMapper;
+import org.apache.kafka.streams.kstream.Predicate;
 import org.apache.kafka.streams.processor.WallclockTimestampExtractor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,6 @@ public class logFilter {
 
     @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)
     public KafkaStreamsConfiguration kStreamsConfigs() {
-
         Map<String, Object> props = new HashMap<>();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "logFilter");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
@@ -38,18 +38,27 @@ public class logFilter {
         setting.put(StreamsConfig.APPLICATION_ID_CONFIG,"logFilter");
         setting.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
 
-        System.out.println("开始了");
-        KStream<String, String> myFlume = streamsBuilder.stream("myFlume");
-        myFlume.map((KeyValueMapper<String, String, KeyValue<?, ?>>) (s, s2) -> {
-            System.out.println("ssss");
-            System.out.println(s+s2);
+        KStream<String, String> stream = streamsBuilder.stream("myFlume");
 
-            return new KeyValue<>("key",s+s2);
-        }).to("WordsWithCountsTopic");
-//        streamsBuilder.stream()
+        stream.foreach((key,value)-> System.out.println("我是你啊啊啊 啊啊啊"+value));
 
+        stream.to("WordsWithCountsTopic");
 
+        final Topology topo =streamsBuilder.build();
+        final KafkaStreams streams = new KafkaStreams(topo, setting);
+        streams.start();
 
-        return myFlume;
+//        stream.filter((key, value) -> value.contains("sights:")).to("WordsWithCountsTopic");
+
+//        System.out.println("开始了");
+//        KStream<String, String> myFlume = streamsBuilder.stream("myFlume");
+//        myFlume.map((KeyValueMapper<String, String, KeyValue<?, ?>>) (s, s2) -> {
+//            System.out.println("ssss");
+//            System.out.println(s+s2);
+//
+//            return new KeyValue<>("key",s+s2);
+//        }).to("WordsWithCountsTopic");
+
+        return stream;
     }
 }

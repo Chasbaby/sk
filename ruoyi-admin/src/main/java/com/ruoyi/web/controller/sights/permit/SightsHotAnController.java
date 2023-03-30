@@ -49,7 +49,6 @@ public class SightsHotAnController extends BaseController {
     @GetMapping("/view/{sightsId}")
     @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult addView(@PathVariable Long sightsId){
-//        hotService.addView(sightsId,getUserId());
         kafkaTemplate.send(KafkaTopicsConstant.SIGHTSVIEW, sightsId +KafkaTopicsConstant.DELIMITER + getUserId());
         return null;
     }

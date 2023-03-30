@@ -238,7 +238,4 @@ public interface ISightsBaseService
 
     public List<SightsStatisticTopDTO> getStatisticSightsTop();
 
-    public void update();
-
-
 }

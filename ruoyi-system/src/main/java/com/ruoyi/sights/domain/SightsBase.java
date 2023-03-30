@@ -151,7 +151,7 @@ public class SightsBase extends BaseEntity
 
 
     /**
-     * 更新景点热度
+     * 更新景点热度 在定时任务
      */
     public static void hotTimeReduce(){
         SpringUtils.getBean(ISightsHotService.class).updateHot();

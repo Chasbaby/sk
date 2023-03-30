@@ -83,7 +83,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
     }
 
     /**
-     *   更热度 :
+     *   更热度  在定时任务中调用
      */
     @Override
     public void updateHot() {
@@ -133,7 +133,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
      * @param sightsId
      * @param userId
      */
-    @RateLimiter( time = 30 ,limitType = LimitType.IP)
+//    @RateLimiter( time = 30 ,limitType = LimitType.IP)
     @Transactional
     @Override
     public void addView(Long sightsId, Long userId) {
@@ -181,7 +181,6 @@ public class SightsHotServiceImpl implements ISightsHotService {
 
     /**
      * 获取热度排榜 并排序 返回排序结果
-     * @return
      */
     private List<SightsBase> getTopHotSights() {
         // 获取热度榜

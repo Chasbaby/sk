@@ -499,26 +499,26 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         return statisticTopDTOS;
     }
 
-    @Override
-    public void update() {
-        List<SightsBase> getall = sightsBaseMapper.getall();
-
-        getall.forEach(item->{
-            ParaGeo paraGeo = new ParaGeo();
-            paraGeo.setAddress(item.getSightsLocation().trim());
-            paraGeo.setOutput("json");
-            paraGeo.setAk("qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt");
-            Geocoder geocoder = getGeocoder(paraGeo);
-
-            GeocoderResultMap result = geocoder.getResult();
-
-            item.setSightsLatitude(result.getLocation().getLat());
-            item.setSightsLongitude(result.getLocation().getLng());
-
-            sightsBaseMapper.updateSightsBase(item);
-        });
-
-    }
+//    @Override
+//    public void update() {
+//
+//
+//        getall.forEach(item->{
+//            ParaGeo paraGeo = new ParaGeo();
+//            paraGeo.setAddress(item.getSightsLocation().trim());
+//            paraGeo.setOutput("json");
+//            paraGeo.setAk("qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt");
+//            Geocoder geocoder = getGeocoder(paraGeo);
+//
+//            GeocoderResultMap result = geocoder.getResult();
+//
+//            item.setSightsLatitude(result.getLocation().getLat());
+//            item.setSightsLongitude(result.getLocation().getLng());
+//
+//            sightsBaseMapper.updateSightsBase(item);
+//        });
+//
+//    }
 
     /**
      * 点击排行榜 ( 定时多久刷新一次 )

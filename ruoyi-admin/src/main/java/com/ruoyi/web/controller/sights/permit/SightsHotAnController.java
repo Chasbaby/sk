@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author chas
  * @introduction 热度接口
- * @data 2023-3
+ * @date 2023-3
  */
 @Api("热度算法接口")
 @RestController

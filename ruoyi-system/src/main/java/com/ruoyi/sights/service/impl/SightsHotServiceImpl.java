@@ -282,7 +282,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
     }
 
     /**
-     * 是否评分
+     * 是否评分   插入 和 更新
      * @param sightsId
      * @param score
      * @param userId
@@ -290,8 +290,12 @@ public class SightsHotServiceImpl implements ISightsHotService {
      */
     @Override
     public int ifScore(Long sightsId, Double score, Long userId) {
-
-        return 0;
+        int i = recordMapper.judgeScore(userId, sightsId);
+        if (i==1){
+            // 已经评分 则修改
+            recordMapper.updateScore(score,sightsId,userId);
+        }
+        return i;
     }
 
     /**
@@ -300,8 +304,32 @@ public class SightsHotServiceImpl implements ISightsHotService {
      * @param score
      * @param userId
      */
+    @Transactional
     @Override
     public void score(Long sightsId, Double score, Long userId) {
+        if(redisCache.hasKey(HOTLABLE + sightsId) && !redisCache.isExpire(HOTLABLE + sightsId)){
+            redisCache.lock(HOTLABLE + sightsId);
+            SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
+            base.addScore(score);
+            redisCache.setCacheObject(HOTLABLE + sightsId,base);
+        }else {
+            //2. 开启热度
+            SightsBase sightsBase = baseMapper.selectSightsBaseBySightsId(sightsId);
+            sightsBase.addScore(score);
+            redisCache.setCacheObject(HOTLABLE+sightsBase.getSightsId(),sightsBase);
+        }
+
+        // 3. 创建Excel
+        SightsUserBehavior userBehavior = new SightsUserBehavior();
+        userBehavior.setSightsScore(score);
+        userBehavior.setUserId(userId);
+        userBehavior.setSightsId(sightsId);
+        userBehavior.setCreateTime(new Date());
+
+        // 将信息保存至
+        storeSightsUserDataInRedis(userBehavior);
+        // 插入数据库
+        recordMapper.addScore(userId,sightsId,score);
 
 
     }
@@ -314,7 +342,11 @@ public class SightsHotServiceImpl implements ISightsHotService {
      */
     @Override
     public int ifCollect(Long sightsId, Long userId) {
-        return 0;
+        int i = recordMapper.judgeCollect(userId, sightsId);
+        if (i==1){
+            cancelCollect(sightsId,userId);
+        }
+        return i;
     }
 
     /**
@@ -322,9 +354,31 @@ public class SightsHotServiceImpl implements ISightsHotService {
      * @param sightsId
      * @param userId
      */
+    @Transactional
     @Override
     public void addCollect(Long sightsId, Long userId) {
+        if(redisCache.hasKey(HOTLABLE + sightsId) && !redisCache.isExpire(HOTLABLE + sightsId)){
+            redisCache.lock(HOTLABLE + sightsId);
+            SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
+            base.addCollect();
+            redisCache.setCacheObject(HOTLABLE + sightsId,base);
+        }else {
+            SightsBase sightsBase = baseMapper.selectSightsBaseBySightsId(sightsId);
+            sightsBase.addCollect();
+            redisCache.setCacheObject(HOTLABLE+sightsBase.getSightsId(),sightsBase);
+        }
 
+        // 3. 创建Excel
+        SightsUserBehavior userBehavior = new SightsUserBehavior();
+        userBehavior.setSightsCollect(1L);
+        userBehavior.setUserId(userId);
+        userBehavior.setSightsId(sightsId);
+        userBehavior.setCreateTime(new Date());
+
+        // 将信息保存至
+        storeSightsUserDataInRedis(userBehavior);
+
+        recordMapper.addCollect(userId,sightsId);
     }
 
     /**
@@ -332,9 +386,16 @@ public class SightsHotServiceImpl implements ISightsHotService {
      * @param sightsId
      * @param userId
      */
+    @Transactional
     @Override
     public void cancelCollect(Long sightsId, Long userId) {
-
+        if (redisCache.hasKey(HOTLABLE+sightsId) && !redisCache.isExpire(HOTLABLE+sightsId)){
+            redisCache.lock(HOTLABLE+sightsId);
+            SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
+            base.setSightsCollect(base.getSightsCollect()-1);
+            redisCache.setCacheObject(HOTLABLE+sightsId,base);
+        }
+        recordMapper.deleteCollect(userId,sightsId);
     }
 
     /**
@@ -342,8 +403,29 @@ public class SightsHotServiceImpl implements ISightsHotService {
      * @param sightsId
      * @param userId
      */
+    @Transactional
     @Override
     public void addHit(Long sightsId, Long userId) {
+        if (redisCache.hasKey(HOTLABLE+sightsId) && !redisCache.isExpire(HOTLABLE+sightsId)){
+            redisCache.lock(HOTLABLE+sightsId);
+            SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
+            base.addHits();
+            redisCache.setCacheObject(HOTLABLE+sightsId,base);
+        }else {
+            SightsBase base = baseMapper.selectSightsBaseBySightsId(sightsId);
+            base.addHits();
+            redisCache.setCacheObject(HOTLABLE+base.getSightsId(),base);
+        }
+
+        SightsUserBehavior behavior = new SightsUserBehavior();
+        behavior.setSightsId(sightsId);
+        behavior.setUserId(userId);
+        behavior.setSightsHits(1L);
+        behavior.setCreateTime(new Date());
+
+        storeSightsUserDataInRedis(behavior);
+
+        recordMapper.addHits(userId,sightsId);
 
     }
 

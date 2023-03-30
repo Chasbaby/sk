@@ -400,9 +400,12 @@ public class ArticleServiceImpl implements IArticleService
     @Override
     public ArticleStatisticPie getArticleData() {
         ArticleStatisticPie pie = new ArticleStatisticPie();
+        pie.setArticleLike(0L);
+        pie.setArticleView(0L);
+        pie.setArticleCollect(0L);
         List<Article> articleData = articleMapper.getArticleData();
         if (articleData.isEmpty()){
-            return new ArticleStatisticPie();
+            return pie;
         }
         while (articleData.iterator().hasNext()) {
             Article next = articleData.iterator().next();
@@ -416,8 +419,15 @@ public class ArticleServiceImpl implements IArticleService
     @Override
     public Long[] getJudgeData() {
         Long[] data = new Long[4];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = 0L;
+        }
         List<Article> articleData = articleMapper.getArticleData();
+        System.out.println(articleData);
         if (articleData.isEmpty()) {
+            for (int i = 0; i < data.length; i++) {
+                data[i] = 0L;
+            }
             return data;
         }
         while (articleData.iterator().hasNext()) {

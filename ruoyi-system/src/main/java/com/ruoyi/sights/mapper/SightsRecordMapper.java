@@ -1,9 +1,7 @@
 package com.ruoyi.sights.mapper;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+import org.springframework.security.core.parameters.P;
 
 /**
  * @author chas
@@ -57,6 +55,16 @@ public interface SightsRecordMapper {
      */
     @Insert("insert into sights_record_score(user_id,sights_id,score) values ( #{userId},#{sightsId},#{score})")
     public int addScore(@Param("userId") Long userId, @Param("sightsId") Long sightsId,@Param("score") Double score);
+
+    /**
+     * 更新评分
+     * @param score
+     * @param userId
+     * @param sightsId
+     * @return
+     */
+    @Update("update sights_record_score set score = #{score} where user_id = #{userId} and sights_id = #{sightId}")
+    public int updateScore(@Param("score") Double score, @Param("userId") Long userId, @Param("sightsId") Long sightsId);
 
     /**
      * 增加收藏记录

@@ -33,7 +33,7 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = KafkaTopicsConstant.SIGHTSVIEW)
     public void addView(String sightsUserId){
-        String[] split = sightsUserId.split(":");
+        String[] split = sightsUserId.split(KafkaTopicsConstant.DELIMITER);
         Long sightsId = Long.parseLong(split[0]);
         Long userId = Long.parseLong(split[1]);
         sightsHotService.addView(sightsId,userId);
@@ -41,7 +41,7 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = KafkaTopicsConstant.SIGHTSLIKE)
     public void addLike(String sightsUserId){
-        String[] split = sightsUserId.split(":");
+        String[] split = sightsUserId.split(KafkaTopicsConstant.DELIMITER);
         Long sightsId = Long.parseLong(split[0]);
         Long userId = Long.parseLong(split[1]);
         sightsHotService.addLike(sightsId,userId);
@@ -49,7 +49,7 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = KafkaTopicsConstant.SIGHTSHIT)
     public void addHit(String sightsUserId){
-        String[] split = sightsUserId.split(":");
+        String[] split = sightsUserId.split(KafkaTopicsConstant.DELIMITER);
         Long sightsId = Long.parseLong(split[0]);
         Long userId = Long.parseLong(split[1]);
         sightsHotService.addHit(sightsId,userId);
@@ -57,7 +57,7 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = KafkaTopicsConstant.SIGHTSCOLLECT)
     public void addCollect(String sightsUserId){
-        String[] split = sightsUserId.split(":");
+        String[] split = sightsUserId.split(KafkaTopicsConstant.DELIMITER);
         Long sightsId = Long.parseLong(split[0]);
         Long userId = Long.parseLong(split[1]);
         sightsHotService.addCollect(sightsId,userId);
@@ -65,7 +65,7 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = KafkaTopicsConstant.SIGHTSSCORE)
     public void addScore(String sightsUserId){
-        String[] split = sightsUserId.split(":");
+        String[] split = sightsUserId.split(KafkaTopicsConstant.DELIMITER);
         Long sightsId = Long.parseLong(split[0]);
         Long userId = Long.parseLong(split[1]);
         Double score = Double.parseDouble(split[2]);

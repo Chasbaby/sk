@@ -146,6 +146,7 @@ public class SightsBase extends BaseEntity
     }
 
     private void calculateHot(){
+        // 评分标准要改改啊
         this.sightsHot = sightsHot + new Double(sightsLike * 0.3 + sightsHits * 0.1 + sightsCollect *0.4 + sightsView * 0.2 + sightsScore * 10).longValue();
     }
 

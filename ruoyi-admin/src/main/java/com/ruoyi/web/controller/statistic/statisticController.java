@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * @author chas
  * @introduction 数据可视化
- * @data 2023-3
+ * @date 2023-3
  */
 
 @Api("数据可视化")
@@ -112,7 +112,6 @@ public class statisticController {
      * todo 今日累计发布  本月累计发布 今年累计发布
      *      今年总通过   今年总不通过 在线用户人数
      *
-     * @return
      */
     @ApiOperation("中间区域")
     @GetMapping("/medium")
@@ -133,6 +132,8 @@ public class statisticController {
         result.put("YEARNO",cuLDMY[4]+articleDMY[4]);
         return result;
     }
+
+
 
     /**
      * todo  景点排行版   文创排行榜   文章排行版

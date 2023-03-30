@@ -284,16 +284,17 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     @Override
     public CulStatisticPie getCulData() {
         CulStatisticPie pie = new CulStatisticPie();
+        pie.setCulCreativityView(0L);
+        pie.setCulCreativityLike(0L);
+        pie.setCulCreativityCollection(0L);
+
         List<SightsCulCreativity> culData = sightsCulCreativityMapper.getCulData();
         if (culData.isEmpty()) {
-            pie.setCulCreativityView(0L);
-            pie.setCulCreativityLike(0L);
-            pie.setCulCreativityCollection(0L);
-            return new CulStatisticPie();
+            return pie;
         }
         while (culData.iterator().hasNext()) {
             SightsCulCreativity next = culData.iterator().next();
-            pie.setCulCreativityLike(       pie.getCulCreativityLike() + next.getCulCreativityLike()         );
+            pie.setCulCreativityLike(pie.getCulCreativityLike() + next.getCulCreativityLike() );
             pie.setCulCreativityCollection(pie.getCulCreativityCollection()+ next.getCulCreativityCollection());
             pie.setCulCreativityView(pie.getCulCreativityView()+ next.getCulCreativityView());
         }
@@ -312,7 +313,6 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
             data[i] = 0L ;
         }
         List<SightsCulCreativity> culJudgeData = sightsCulCreativityMapper.getCulData();
-        System.out.println(culJudgeData);
         if (culJudgeData.isEmpty() ){
             for (int i = 0; i < data.length; i++) {
                 data[i] = 0L;

@@ -97,11 +97,11 @@ public class SightsHotServiceImpl implements ISightsHotService {
         keys.forEach(item->{
             SightsBase sight= redisCache.getCacheObject(item);  // 从缓存中获取数据
             sight.setSightsHot(new Double(sight.getSightsHot() * 0.9).longValue()); // 修改热度
-            sight.setSightsHits(null);  // 防止修改数据 此类数据以数据库中为准 防止 数据不一致
-            sight.setSightsLike(null);
-            sight.setSightsScore(null);
-            sight.setSightsView(null);
-            sight.setSightsCollect(null);
+//            sight.setSightsHits(null);  // 防止修改数据 此类数据以数据库中为准 防止 数据不一致
+//            sight.setSightsLike(null);
+//            sight.setSightsScore(null);
+//            sight.setSightsView(null);
+//            sight.setSightsCollect(null);
             baseMapper.updateSightsBase(sight); // 更新
             redisCache.deleteObject(HOTLABLE + sight.getSightsId());// 删除缓存
         });
@@ -125,12 +125,10 @@ public class SightsHotServiceImpl implements ISightsHotService {
     /**
      * 增加浏览量
      *      TODO  1. 从redis中获取信息 如果没有 则sql查询
-     *            2. 如果是 redis 中的信息修改数据后 重置  如果是sql的
-     *               获取所有缓存，将查到的与 缓存中的热度进行比较  (为了编程方便 我们只拿最后一个比)
-     *               如果 新的 大于他们 则 将timeout设置为MAX 并将另一个设置为 MIN
-     *               如果 新的 小于等于他们 就暂时MIN缓存该数据
-     *            3.  将该信息存入excel
-     *            4.  保存数据库
+     *            2. 如果是 redis 中的信息修改数据后 重置
+     *            3. 将该信息存入excel
+     *            4. 保存数据库
+     *            5. 优化方法 -> 将此数据存放 kafka 中 异步
      *
      * @param sightsId
      * @param userId
@@ -139,17 +137,16 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Transactional
     @Override
     public void addView(Long sightsId, Long userId) {
-        // 1.
+        // 1. 若缓存中有 且 没有过期 直接将缓存中的数据 + 1
         if(redisCache.hasKey(HOTLABLE + sightsId) && !redisCache.isExpire(HOTLABLE + sightsId)){
             SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
-            base.addView();
-            redisCache.setCacheObject(HOTLABLE + sightsId,base,60 * 60,TimeUnit.SECONDS);// TODO 记得改时间
+            base.addView(); // 提高热度
+            redisCache.setCacheObject(HOTLABLE + sightsId,base);
         }else {
-            //2. 获取数据开始 热度
+            //2. 若 缓存中没有 则重数据库中获取  并加入缓存
             SightsBase sightsBase = baseMapper.selectSightsBaseBySightsId(sightsId);
-            sightsBase.addView();
-//            sightsBase.startTimer();
-            comHot(sightsBase);
+            sightsBase.addView(); // 提高热度
+            redisCache.setCacheObject(HOTLABLE + sightsBase.getSightsId(),sightsBase);
         }
         // 3.创建 Excel 存储类
         SightsUserBehavior userBehavior = new SightsUserBehavior();
@@ -158,10 +155,9 @@ public class SightsHotServiceImpl implements ISightsHotService {
         userBehavior.setSightsId(sightsId);
         userBehavior.setCreateTime(new Date());
         // 将信息保存至
-        storeSightsUserDataInRedis(userBehavior); // 这里是成功的
+        storeSightsUserDataInRedis(userBehavior);
         // 添加数据库
         recordMapper.addView(userId,sightsId);
-
     }
 
     /**

@@ -42,10 +42,14 @@ public class SightsUserBehavior implements Serializable {
     public static void storeSightsUserDataInRedis(SightsUserBehavior behavior){
         SpringUtils.getBean(RedisCache.class).lock(SUKEY);
         List<SightsUserBehavior> cacheList = SpringUtils.getBean(RedisCache.class).getCacheList(SUKEY);
+        // 如果列表中存在数据 则结束
         if (cacheList.contains(behavior)){
             return;
         }
         cacheList.add(behavior);
+        // 删除redis中key数据
+        SpringUtils.getBean(RedisCache.class).deleteObject(SUKEY);
+        // 重新设置
         SpringUtils.getBean(RedisCache.class).setCacheList(SUKEY,cacheList);
     }
 

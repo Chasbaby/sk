@@ -1,12 +1,14 @@
 package com.ruoyi.web.controller.sights.permit;
 
 import com.ruoyi.common.annotation.Anonymous;
+import com.ruoyi.common.constant.KafkaTopicsConstant;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.sights.service.ISightsHotService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +28,9 @@ public class SightsHotAnController extends BaseController {
     @Autowired
     private ISightsHotService hotService;
 
+    @Autowired
+    private KafkaTemplate<String,String> kafkaTemplate;
+
 
     @Anonymous
     @ApiOperation("获取目前热度排行版")
@@ -44,7 +49,8 @@ public class SightsHotAnController extends BaseController {
     @GetMapping("/view/{sightsId}")
     @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult addView(@PathVariable Long sightsId){
-        hotService.addView(sightsId,getUserId());
+//        hotService.addView(sightsId,getUserId());
+        kafkaTemplate.send(KafkaTopicsConstant.SIGHTSVIEW, sightsId +KafkaTopicsConstant.DELIMITER + getUserId());
         return null;
     }
 

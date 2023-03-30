@@ -2,6 +2,7 @@ package com.ruoyi.framework.config;
 
 import com.ruoyi.common.utils.JsonUtils;
 import com.ruoyi.sights.domain.SightsBase;
+import com.ruoyi.sights.service.ISightsHotService;
 import com.sun.javaws.IconUtil;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -15,6 +16,7 @@ import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.kstream.Produced;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +26,17 @@ import java.util.Properties;
 @Component
 public class KafkaConsumer {
     private final Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
+
+    @Autowired
+    private ISightsHotService sightsHotService;
+
+    @KafkaListener(topics = "sightsView")
+    public void addView(String sightsUserId){
+        String[] split = sightsUserId.split(":");
+        Long sightsId = Long.parseLong(split[0]);
+        Long userId = Long.parseLong(split[1]);
+        sightsHotService.addView(sightsId,userId);
+    }
 
     @KafkaListener(topics = "comment")
     public void CommentHandler(String commentContent){

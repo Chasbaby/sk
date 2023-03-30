@@ -56,7 +56,6 @@ public class SightsHotServiceImpl implements ISightsHotService {
     public void InitSights() {
         List<SightsBase> sightsBases = baseMapper.initSights();
         sightsBases.forEach(item->{
-
             item.setLastUpdated(new Date());
             // 启动时赠送 100 热度  防止热度过低
             item.setSightsHot(item.getSightsHot() + 100);
@@ -84,7 +83,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
     }
 
     /**
-     *   更新 热度
+     *   更热度 :
      */
     @Override
     public void updateHot() {
@@ -98,22 +97,24 @@ public class SightsHotServiceImpl implements ISightsHotService {
         keys.forEach(item->{
             SightsBase sight= redisCache.getCacheObject(item);  // 从缓存中获取数据
             sight.setSightsHot(new Double(sight.getSightsHot() * 0.9).longValue()); // 修改热度
-
+            sight.setSightsHits(null);  // 防止修改数据 此类数据以数据库中为准 防止 数据不一致
+            sight.setSightsLike(null);
+            sight.setSightsScore(null);
+            sight.setSightsView(null);
+            sight.setSightsCollect(null);
             baseMapper.updateSightsBase(sight); // 更新
             redisCache.deleteObject(HOTLABLE + sight.getSightsId());// 删除缓存
         });
         // 所有景点删除缓存后，从数据库中继续拿取数据
         InitSights();
-
-
     }
-    /**
-     * 定时任务 将redis中的热门数据更新回redis 保证数据的一致性
-     */
-    @Override
-    public void redisReturnMysql() {
-
-    }
+//    /**
+//     * 定时任务 将redis中的热门数据更新回redis 保证数据的一致性
+//     */
+//    @Override
+//    public void redisReturnMysql() {
+//
+//    }
 
     @Override
     public void redisToExcel() {

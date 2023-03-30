@@ -55,7 +55,7 @@ public class SightsUserBehavior implements Serializable {
     public static void redisToExcelSightsUser(){
         List<SightsUserBehavior> cacheList = SpringUtils.getBean(RedisCache.class).getCacheList(SUKEY);
         ExcelUtil<SightsUserBehavior> behaviorExcelUtil = new ExcelUtil<>(SightsUserBehavior.class);
-        behaviorExcelUtil.init(cacheList,"景点用户数据",null, Excel.Type.EXPORT);
+        behaviorExcelUtil.init(cacheList,"sightsUserData",null, Excel.Type.EXPORT);
         behaviorExcelUtil.exportExcel();
         SpringUtils.getBean(RedisCache.class).deleteObject(SUKEY);
     }

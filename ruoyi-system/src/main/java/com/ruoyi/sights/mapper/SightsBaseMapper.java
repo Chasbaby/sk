@@ -172,6 +172,4 @@ public interface SightsBaseMapper
      */
     public int insertSightsHistoryByBatches(List<SightsRecordHistory> sightsRecordHistories);
 
-
-    List<SightsBase> getall();
 }

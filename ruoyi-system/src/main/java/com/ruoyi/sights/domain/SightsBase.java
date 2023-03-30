@@ -2,6 +2,7 @@ package com.ruoyi.sights.domain;
 
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.spring.SpringUtils;
+import com.ruoyi.sights.service.ISightsHotService;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -149,14 +150,12 @@ public class SightsBase extends BaseEntity
     }
 
 
-//    public static void hotTimeReduce(){
-//        Collection<String> keys = SpringUtils.getBean(RedisCache.class).keys(HOTLABLE + "*");
-//        keys.stream().forEach(item->{
-//            SightsBase sight = SpringUtils.getBean(RedisCache.class).getCacheObject(item);
-//            sight.setSightsHot(new Double(sight.getSightsHot() * 0.9).longValue());
-//            SpringUtils.getBean(RedisCache.class).setCacheObject(item,sight);
-//        });
-//    }
+    /**
+     * 更新景点热度
+     */
+    public static void hotTimeReduce(){
+        SpringUtils.getBean(ISightsHotService.class).updateHot();
+    }
 
     /**
      * 下面是set get方法

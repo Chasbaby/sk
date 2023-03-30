@@ -139,6 +139,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
     public void addView(Long sightsId, Long userId) {
         // 1. 若缓存中有 且 没有过期 直接将缓存中的数据 + 1
         if(redisCache.hasKey(HOTLABLE + sightsId) && !redisCache.isExpire(HOTLABLE + sightsId)){
+            redisCache.lock(HOTLABLE + sightsId);
             SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
             base.addView(); // 提高热度
             redisCache.setCacheObject(HOTLABLE + sightsId,base);
@@ -196,13 +197,17 @@ public class SightsHotServiceImpl implements ISightsHotService {
 
 
     /***
-     * 判断是否点赞 并进入不同的效果
+     * 判断是否点赞
      * @param sightsId
      * @param userId
      */
     @Override
-    public void ifLike(Long sightsId,Long userId){
-        // 查表
+    public int ifLike(Long sightsId,Long userId){
+        int i = recordMapper.judgeLike(userId, sightsId);
+        if (i == 1){
+            cancelLike(sightsId,userId);
+        }
+        return i;
     }
 
     /**
@@ -231,16 +236,15 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Override
     public void addLike(Long sightsId, Long userId) {
         if(redisCache.hasKey(HOTLABLE + sightsId) && !redisCache.isExpire(HOTLABLE + sightsId)){
+            redisCache.lock(HOTLABLE + sightsId);
             SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
             base.addLike();
-            redisCache.setCacheObject(HOTLABLE + sightsId,base,10,TimeUnit.SECONDS);// TODO 记得改时间
+            redisCache.setCacheObject(HOTLABLE + sightsId,base);
         }else {
             //2. 开启热度
             SightsBase sightsBase = baseMapper.selectSightsBaseBySightsId(sightsId);
             sightsBase.addLike();
-//            sightsBase.startTimer();
-
-            comHot(sightsBase);
+            redisCache.setCacheObject(HOTLABLE+sightsBase.getSightsId(),sightsBase);
         }
 
         // 3. 创建Excel
@@ -252,8 +256,8 @@ public class SightsHotServiceImpl implements ISightsHotService {
 
         // 将信息保存至
         storeSightsUserDataInRedis(userBehavior);
-
-        // todo 保存数据库 先省
+        // 插入数据库
+        recordMapper.addLike(userId,sightsId);
 
     }
 
@@ -266,25 +270,28 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Transactional
     @Override
     public void cancelLike(Long sightsId, Long userId) {
-
         // 如果在 缓存中 则直接在缓存中修改
         if(redisCache.hasKey(HOTLABLE + sightsId) && !redisCache.isExpire(HOTLABLE + sightsId)){
+            redisCache.lock(HOTLABLE + sightsId);
             SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
             base.setSightsLike(base.getSightsLike()-1);
-            List<SightsBase> hotSights = getTopHotSights();
-            SightsBase minHot = hotSights.get(9);
-
-            if (minHot.getSightsHot()>=base.getSightsHot()){
-                redisCache.setCacheObject(HOTLABLE + sightsId,base,Integer.parseInt(MINTIME),TimeUnit.SECONDS);
-            }else {
-                redisCache.setCacheObject(HOTLABLE + sightsId,base,10,TimeUnit.SECONDS);//TODO 记得改
-            }
-
-        }else {
-            // 如果在数据库中 则直接改
-
-
+            redisCache.setCacheObject(HOTLABLE+sightsId,base);
         }
+        // 从数据库中删除
+        recordMapper.deleteLike(userId,sightsId);
+    }
+
+    /**
+     * 是否评分
+     * @param sightsId
+     * @param score
+     * @param userId
+     * @return
+     */
+    @Override
+    public int ifScore(Long sightsId, Double score, Long userId) {
+
+        return 0;
     }
 
     /**
@@ -296,6 +303,18 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Override
     public void score(Long sightsId, Double score, Long userId) {
 
+
+    }
+
+    /**
+     * 是否收藏
+     * @param sightsId
+     * @param userId
+     * @return
+     */
+    @Override
+    public int ifCollect(Long sightsId, Long userId) {
+        return 0;
     }
 
     /**

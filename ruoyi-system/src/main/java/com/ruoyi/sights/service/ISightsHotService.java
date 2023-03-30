@@ -55,6 +55,8 @@ public interface ISightsHotService {
      */
     public void cancelLike(Long sightsId,Long userId);
 
+    /**是否评分*/
+    public int ifScore(Long sightsId,Double score,Long userId);
 
     /**
      * 评分
@@ -62,6 +64,8 @@ public interface ISightsHotService {
      */
     public void score(Long sightsId,Double score,Long userId);
 
+    /** 是否收藏*/
+    public int ifCollect(Long sightsId,Long userId);
     /**
      * 收藏
      * @param sightsId
@@ -91,7 +95,7 @@ public interface ISightsHotService {
     /**
      * 判断是否点赞 并进入不同的效果
      */
-    public void ifLike(Long sightsId,Long userId);
+    public int ifLike(Long sightsId,Long userId);
 
     /**
      * 随机获取景点展示

@@ -1,5 +1,6 @@
 package com.ruoyi.framework.config;
 
+import com.ruoyi.common.constant.KafkaTopicsConstant;
 import com.ruoyi.common.utils.JsonUtils;
 import com.ruoyi.sights.domain.SightsBase;
 import com.ruoyi.sights.service.ISightsHotService;
@@ -30,12 +31,45 @@ public class KafkaConsumer {
     @Autowired
     private ISightsHotService sightsHotService;
 
-    @KafkaListener(topics = "sightsView")
+    @KafkaListener(topics = KafkaTopicsConstant.SIGHTSVIEW)
     public void addView(String sightsUserId){
         String[] split = sightsUserId.split(":");
         Long sightsId = Long.parseLong(split[0]);
         Long userId = Long.parseLong(split[1]);
         sightsHotService.addView(sightsId,userId);
+    }
+
+    @KafkaListener(topics = KafkaTopicsConstant.SIGHTSLIKE)
+    public void addLike(String sightsUserId){
+        String[] split = sightsUserId.split(":");
+        Long sightsId = Long.parseLong(split[0]);
+        Long userId = Long.parseLong(split[1]);
+        sightsHotService.addLike(sightsId,userId);
+    }
+
+    @KafkaListener(topics = KafkaTopicsConstant.SIGHTSHIT)
+    public void addHit(String sightsUserId){
+        String[] split = sightsUserId.split(":");
+        Long sightsId = Long.parseLong(split[0]);
+        Long userId = Long.parseLong(split[1]);
+        sightsHotService.addHit(sightsId,userId);
+    }
+
+    @KafkaListener(topics = KafkaTopicsConstant.SIGHTSCOLLECT)
+    public void addCollect(String sightsUserId){
+        String[] split = sightsUserId.split(":");
+        Long sightsId = Long.parseLong(split[0]);
+        Long userId = Long.parseLong(split[1]);
+        sightsHotService.addCollect(sightsId,userId);
+    }
+
+    @KafkaListener(topics = KafkaTopicsConstant.SIGHTSSCORE)
+    public void addScore(String sightsUserId){
+        String[] split = sightsUserId.split(":");
+        Long sightsId = Long.parseLong(split[0]);
+        Long userId = Long.parseLong(split[1]);
+        Double score = Double.parseDouble(split[2]);
+        sightsHotService.score(sightsId,score,userId);
     }
 
     @KafkaListener(topics = "comment")

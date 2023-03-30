@@ -1,6 +1,7 @@
 package com.ruoyi.sights.service;
 
 import com.ruoyi.sights.domain.DTO.SightsHotDTO;
+import com.ruoyi.sights.domain.DTO.SightsRandomDTO;
 
 import java.util.List;
 
@@ -22,9 +23,9 @@ public interface ISightsHotService {
     public void destroySights();
 
     /**
-     * 检查是否过期
+     * 更新热度
      */
-    public void checkIfTimeout();
+    public void updateHot();
 
     /**
      * 定时任务 将redis中的热门数据更新回redis 保证数据的一致性
@@ -91,5 +92,11 @@ public interface ISightsHotService {
      * 判断是否点赞 并进入不同的效果
      */
     public void ifLike(Long sightsId,Long userId);
+
+    /**
+     * 随机获取景点展示
+     * @return
+     */
+    public List<SightsRandomDTO> getRandomSights();
 
 }

@@ -154,6 +154,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getall" resultType="com.ruoyi.sights.domain.SightsBase" resultMap="SightsBaseResult">
         select * from sights_base
     </select>
+    <select id="getRandomSights" resultType="com.ruoyi.sights.domain.SightsBase" resultMap="SightsBaseResult">
+        <include refid="selectSightsBaseVo"/>
+        where sights_id >= (select floor( Rand() * (select MAX(sights_id) from sights_base ) ) )
+        order by sights_id
+        limit 8;
+    </select>
+    <select id="getNeedNumSightsHot" resultType="com.ruoyi.sights.domain.SightsBase" resultMap="SightsBaseResult">
+        <include refid="selectSightsBaseVo"/>
+        where sights_id not in
+        <foreach collection="array" close=")" separator="," open="(" item="sightsId">
+            #{sightsId}
+        </foreach>
+        order by sights_hot desc
+        limit #{need}
+    </select>
 
 
     <insert id="insertSightsBase" parameterType="SightsBase" useGeneratedKeys="true" keyProperty="sightsId">

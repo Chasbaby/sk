@@ -34,6 +34,11 @@ public class SightsHotAnController extends BaseController {
         return AjaxResult.success(hotService.currentHotSights());
     }
 
+    @ApiOperation("随机获取景点展示")
+    @GetMapping("/randomSights")
+    public AjaxResult getRandomSights(){
+        return AjaxResult.success(hotService.getRandomSights());
+    }
 
     @ApiOperation("热度->增加浏览")
     @GetMapping("/view/{sightsId}")

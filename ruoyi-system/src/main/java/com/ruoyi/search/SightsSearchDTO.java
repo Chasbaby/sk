@@ -1,6 +1,5 @@
 package com.ruoyi.search;
 
-
 public class SightsSearchDTO extends SearchTop{
 
     /** 景点ID */
@@ -13,17 +12,27 @@ public class SightsSearchDTO extends SearchTop{
     private String sightsIntro;
     /**详细内容**/
     private String sightsDetail;
-    /**类型**/
+
+    private String sightsImage;
 
     public SightsSearchDTO() {
     }
 
-    public SightsSearchDTO(Long sightsId, String sightsName, String sightsLocation, String sightsIntro, String sightsDetail) {
+    public SightsSearchDTO(Long sightsId, String sightsName, String sightsLocation, String sightsIntro, String sightsDetail,String sightsImage) {
         this.sightsId = sightsId;
         this.sightsName = sightsName;
         this.sightsLocation = sightsLocation;
         this.sightsIntro = sightsIntro;
         this.sightsDetail = sightsDetail;
+        this.sightsImage = sightsImage;
+    }
+
+    public String getSightsImage() {
+        return sightsImage;
+    }
+
+    public void setSightsImage(String sightsImage) {
+        this.sightsImage = sightsImage;
     }
 
     public Long getSightsId() {

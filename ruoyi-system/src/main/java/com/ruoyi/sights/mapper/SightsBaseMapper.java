@@ -18,6 +18,10 @@ public interface SightsBaseMapper
 {
     public List<SightsBase> getTopSights();
 
+    public List<SightsBase> getRandomSights();
+
+    public List<SightsBase> getNeedNumSightsHot(@Param("sightsId") Long[] sightsId,@Param("need") Integer need);
+
     /**
      * 下面是热度算法用到的sql
      */

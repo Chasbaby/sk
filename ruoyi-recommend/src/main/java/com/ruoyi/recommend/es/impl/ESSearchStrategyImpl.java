@@ -66,7 +66,7 @@ public class ESSearchStrategyImpl implements SearchStrategy {
             }
             item.getSightsDetail().replaceAll(keywords,PRE_TAG + keywords + POST_TAG);
             return new SightsSearchDTO(item.getSightsId(),item.getSightsName(),
-                    item.getSightsLocation(),item.getSightsIntro(),sightsDetail);
+                    item.getSightsLocation(),item.getSightsIntro(),sightsDetail,item.getSightsImage());
         }).collect(Collectors.toList());
         return null;
     }

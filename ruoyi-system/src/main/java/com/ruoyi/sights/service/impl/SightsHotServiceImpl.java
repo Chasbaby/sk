@@ -1,8 +1,11 @@
 package com.ruoyi.sights.service.impl;
 
+import com.ruoyi.common.annotation.RateLimiter;
 import com.ruoyi.common.core.redis.RedisCache;
+import com.ruoyi.common.enums.LimitType;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.sights.domain.DTO.SightsHotDTO;
+import com.ruoyi.sights.domain.DTO.SightsRandomDTO;
 import com.ruoyi.sights.domain.Excel.SightsUserBehavior;
 import com.ruoyi.sights.domain.SightsBase;
 import com.ruoyi.sights.mapper.SightsBaseMapper;
@@ -13,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -45,59 +49,62 @@ public class SightsHotServiceImpl implements ISightsHotService {
     /**
      * 项目建立时触发，从数据库中取出热度最高的一定量景点
      *
-     *  TODO 只有最强的10大景点才拥有 长时间的timeout 其他景点的timeout较低 节省空间
+     *  TODO 从数据库中拿出热度最强的景点 缓存数据库 不用过期时间了
      */
     @PostConstruct
     @Override
     public void InitSights() {
         List<SightsBase> sightsBases = baseMapper.initSights();
-        sightsBases.stream().forEach(item->{
+        sightsBases.forEach(item->{
 
             item.setLastUpdated(new Date());
             // 启动时赠送 100 热度  防止热度过低
             item.setSightsHot(item.getSightsHot() + 100);
-            // 24 小时 过期时间  为 生产生活
-            // redisCache.setCacheObject(HOTLABLE+item.getSightsId(),item,MAXTIME, TimeUnit.SECONDS);
-            // 10分钟 测试中
-            redisCache.setCacheObject(HOTLABLE+item.getSightsId(),item,60 * 60,TimeUnit.SECONDS);
-
-            // 存在定时任务监测
+            // 将这些景点放入缓存
+            redisCache.setCacheObject(HOTLABLE+item.getSightsId(),item);
         });
-
-        Collection<String> keys = redisCache.keys(HOTLABLE + "*");
-        keys.stream().forEach(item-> System.out.println(item));
         log.info("初始化景点热度成功");
     }
 
     /**
      * 当项目结束时触发，将之前在缓存中的热度景点存到数据库中，以便再用
-     *
      * 关闭项目了 性能无所谓了
      */
     @PreDestroy
     @Override
     public void destroySights() {
         Collection<String> keys = redisCache.keys(HOTLABLE + "*");
-        keys.stream().forEach(item->{
+        keys.forEach(item->{
             SightsBase sight= redisCache.getCacheObject(item);
             baseMapper.updateSightsBase(sight);
         });
         // 更新完后 消除记录 避免内存占用
         redisCache.deleteObject(keys);
-
         log.info("景点回溯成功");
     }
 
     /**
-     * 检查热门中的景点是否过期
-     * 如果景点过期，则将其 更新回数据库
-     * 一定程度上防止了 独景点称霸
+     *   更新 热度
      */
     @Override
-    public void checkIfTimeout() {
-        // TODO 当有非redis上的景点被操作时 将其从数据库中取出，处理 ，并将其加入redis热度中但是此时
-        //  要比较 如果比前十的其中一个热度高 说明这个景点已经长时间没有被访问了，那么将该景点过期值降低，
-        //  将新的景点 的过期值设置为  max 时常  这里已经通过配置完成
+    public void updateHot() {
+        // TODO 当有非redis上的景点被操作时 将其从数据库中取出，并将其加入redis热度中
+        //  我们规定只有redis上的数据热度才会变化
+        //  更新热度 :  乐观锁 开启事务 获取所有热度景点 并删除redis上的所有景点
+        //  将所有景点热度减少 并更新回数据库
+
+        Collection<String> keys = redisCache.keys(HOTLABLE + "*");
+        redisCache.lockManyKey(keys);  //乐观锁
+        keys.forEach(item->{
+            SightsBase sight= redisCache.getCacheObject(item);  // 从缓存中获取数据
+            sight.setSightsHot(new Double(sight.getSightsHot() * 0.9).longValue()); // 修改热度
+
+            baseMapper.updateSightsBase(sight); // 更新
+            redisCache.deleteObject(HOTLABLE + sight.getSightsId());// 删除缓存
+        });
+        // 所有景点删除缓存后，从数据库中继续拿取数据
+        InitSights();
+
 
     }
     /**
@@ -113,6 +120,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
         redisToExcelSightsUser();
     }
 
+
     /**
      * 增加浏览量
      *      TODO  1. 从redis中获取信息 如果没有 则sql查询
@@ -126,6 +134,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
      * @param sightsId
      * @param userId
      */
+    @RateLimiter( time = 30 ,limitType = LimitType.IP)
     @Transactional
     @Override
     public void addView(Long sightsId, Long userId) {
@@ -181,7 +190,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
         // 获取热度榜
         Collection<String> keys = redisCache.keys(HOTLABLE+"*");
         List<SightsBase> buff = new ArrayList<>();
-        keys.stream().forEach(item->{
+        keys.forEach(item->{
             SightsBase cacheObject = redisCache.getCacheObject(item);
             buff.add(cacheObject);
         });
@@ -198,6 +207,23 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Override
     public void ifLike(Long sightsId,Long userId){
         // 查表
+    }
+
+    /**
+     * 随机获取景点展示
+     * @return
+     */
+    @Override
+    public List<SightsRandomDTO> getRandomSights() {
+        List<SightsBase> sights = baseMapper.getRandomSights();
+        List<SightsRandomDTO> randomDTOS = new ArrayList<>();
+        sights.stream().forEach(item->{
+            SightsRandomDTO dto = new SightsRandomDTO();
+            BeanUtils.copyBeanProp(dto,item);
+            randomDTOS.add(dto);
+        });
+        return randomDTOS;
+
     }
 
     /**
@@ -244,7 +270,6 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Transactional
     @Override
     public void cancelLike(Long sightsId, Long userId) {
-
 
         // 如果在 缓存中 则直接在缓存中修改
         if(redisCache.hasKey(HOTLABLE + sightsId) && !redisCache.isExpire(HOTLABLE + sightsId)){
@@ -315,9 +340,21 @@ public class SightsHotServiceImpl implements ISightsHotService {
     public List<SightsHotDTO> currentHotSights() {
         List<SightsHotDTO> hotDTOS = new ArrayList<>();
         List<SightsBase> topHotSights = getTopHotSights();
-        topHotSights.stream().forEach(item->{
-            System.out.println(item.getSightsId());
-        });
+        // 如果在缓存中的热度景点数量不足 则从数据库中取出一定的数量
+        int size = topHotSights.size();
+        if (  size< 10 ){
+            int need = 10 - size;
+            int i = 0;
+            Long[] record = new Long[need];
+            // 获取所有已经存在的景点id
+            while (topHotSights.iterator().hasNext()) {
+                SightsBase next = topHotSights.iterator().next();
+                record[i++] = next.getSightsId();
+            }
+            List<SightsBase> sightsNeedHot = baseMapper.getNeedNumSightsHot(record, need);
+            topHotSights.addAll(sightsNeedHot);
+        }
+        // 提取前十个
         topHotSights.stream().limit(10).forEach(item->{
             SightsHotDTO hotDTO = new SightsHotDTO();
             BeanUtils.copyBeanProp(hotDTO,item);
@@ -325,6 +362,4 @@ public class SightsHotServiceImpl implements ISightsHotService {
         });
         return hotDTOS;
     }
-
-
 }

@@ -53,7 +53,7 @@ public class common {
             String name = item.getSightsName().replaceAll(keywords, PRE_TAG + keywords + POST_TAG);
             String location = item.getSightsLocation().replaceAll(keywords, PRE_TAG + keywords + POST_TAG);
             return new SightsSearchDTO(item.getSightsId(), name,
-                    location, intro, sightsDetail);
+                    location, intro, sightsDetail,item.getSightsImage());
         }).collect(Collectors.toList());
     }
 

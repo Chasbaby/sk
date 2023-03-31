@@ -48,7 +48,6 @@ public class SightsBase extends BaseEntity
     @Excel(name = "平均分",type = Excel.Type.EXPORT,cellType= Excel.ColumnType.NUMERIC)
     /**景点平均分*/
     private Double sightsScore;
-
     /** 景点名称 */
     @Excel(name = "景点名称",type = Excel.Type.ALL)
     private String sightsName;
@@ -101,7 +100,6 @@ public class SightsBase extends BaseEntity
     @Excel(name = "景点城市",type = Excel.Type.ALL)
     private String sightsCity;
 
-//    private Timer timer;
 
     private Date lastUpdated;
 
@@ -132,7 +130,6 @@ public class SightsBase extends BaseEntity
     public synchronized void addHits(){
         sightsHits ++;
         refresh();
-
     }
 
     public synchronized void addScore(Double score){
@@ -141,13 +138,22 @@ public class SightsBase extends BaseEntity
     }
 
     private void refresh(){
+        this.lastUpdated = new Date();
         calculateHot();
-        lastUpdated = new Date();
+
     }
 
     private void calculateHot(){
-        // 评分标准要改改啊
-        this.sightsHot = sightsHot + new Double(sightsLike * 0.3 + sightsHits * 0.1 + sightsCollect *0.4 + sightsView * 0.2 + sightsScore * 10).longValue();
+        // 这个变化可能有点大  暂定
+        this.sightsHot = sightsHot + new Double(sightsLike * 0.3 + sightsHits * 0.1
+                + sightsCollect * 0.4 + sightsView * 0.2 + sightsScore * 10).longValue()/
+                new Double(time(lastUpdated,getUpdateTime())).intValue();
+    }
+
+    private double time(Date now,Date updated){
+        System.out.println("xxxxxxxx"+now);
+        System.out.println("qqqqqqqqqqqqq"+updated);
+        return Math.exp(now.getTime() - updated.getTime());
     }
 
 

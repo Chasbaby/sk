@@ -161,6 +161,50 @@ public class ExcelUtil<T>
         this.clazz = clazz;
     }
 
+    public String getSheetName() {
+        return sheetName;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public Workbook getWb() {
+        return wb;
+    }
+
+    public Sheet getSheet() {
+        return sheet;
+    }
+
+    public Map<String, CellStyle> getStyles() {
+        return styles;
+    }
+
+    public List<T> getList() {
+        return list;
+    }
+
+    public int getRownum() {
+        return rownum;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public short getMaxHeight() {
+        return maxHeight;
+    }
+
+    public Map<Integer, Double> getStatistics() {
+        return statistics;
+    }
+
+    public Class<T> getClazz() {
+        return clazz;
+    }
+
     /**
      * 初始化 excel
      * @param list
@@ -183,30 +227,6 @@ public class ExcelUtil<T>
         createTitle();
     }
 
-//    /**
-//     * 对excel表单默认第一个索引名转换成list（EasyExcel）
-//     *
-//     * @param is 输入流
-//     * @return 转换后集合
-//     */
-//    public List<T> importEasyExcel(InputStream is) throws Exception
-//    {
-//        return EasyExcel.read(is).head(clazz).sheet().doReadSync();
-//    }
-//
-//    /**
-//     * 对list数据源将其里面的数据导入到excel表单（EasyExcel）
-//     *
-//     * @param list 导出数据集合
-//     * @param sheetName 工作表的名称
-//     * @return 结果
-//     */
-//    public AjaxResult exportEasyExcel(List<T> list, String sheetName)
-//    {
-//        String filename = encodingFilename(sheetName);
-//        EasyExcel.write(getAbsoluteFile(filename), clazz).sheet(sheetName).doWrite(list);
-//        return AjaxResult.success(filename);
-//    }
     /**
      * 创建excel第一行标题
      */

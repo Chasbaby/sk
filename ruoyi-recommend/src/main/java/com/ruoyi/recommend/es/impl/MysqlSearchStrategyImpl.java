@@ -225,7 +225,7 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
             //searchDTO.setMultipleWork();  景点没有作者 只有发布者
             searchDTO.setMultipleCategory(item.getSightsCategory());
             searchDTO.setMultipleCollect(item.getSightsCollect());
-            searchDTO.setMultipleContent(item.getSightsDetail().replaceAll(pattern,""));
+            searchDTO.setMultipleContent(item.getSightsIntro());
             searchDTO.setMultipleHits(item.getSightsHits());
             // Long andSet = i.getAndSet(i.get() + 1);
             //searchDTO.setMultipleId(andSet);

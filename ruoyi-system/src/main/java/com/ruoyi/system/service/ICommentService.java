@@ -174,4 +174,10 @@ public interface ICommentService
      */
     public List<CommentDTO> getAllCommentsByWays(Long userId,Integer way);
 
+    /**
+     * 获取 未查看数量
+     * @return
+     */
+    public int returnUnVisibleNum(Long userId);
+
 }

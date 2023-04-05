@@ -35,4 +35,12 @@ public interface SightsRecordLikeMapper {
 
     public List<SightsBase> getUserSightsCollect(Long userId);
 
+    public List<SightsBase> getUserSightsLike(Long userId);
+
+    public List<SightsBase> getUserSightsHits(Long userId);
+
+    public List<SightsBase> getUserSightsView(Long userId);
+
+
+
 }

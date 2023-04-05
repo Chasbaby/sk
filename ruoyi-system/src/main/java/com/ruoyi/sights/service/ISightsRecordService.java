@@ -12,4 +12,10 @@ import java.util.List;
 public interface ISightsRecordService {
 
     public List<SightsReturnDTO> getUserCollectRecord(Long userId);
+
+    public List<SightsReturnDTO> getUserLikeRecord(Long userId);
+
+    public List<SightsReturnDTO> getUserViewRecord(Long userId);
+
+    public List<SightsReturnDTO> getUserHitsRecord(Long userId);
 }

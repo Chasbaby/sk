@@ -141,6 +141,15 @@ public interface CommentMapper
      */
     public List<Comment> getAllCommentsByWays(@Param(value = "userId") Long userId ,@Param(value = "way") Integer way);
 
+    /**
+     * 修改已读状态
+     * @param commentIds
+     * @return
+     */
+    public int updateVisible(List<Long> commentIds);
+
+    public int getUnvisibleNum(Long userId);
+
 
 
 }

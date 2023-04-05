@@ -92,7 +92,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="selectUserUNStatusComment" resultType="com.ruoyi.system.domain.Comment" parameterType="Long" resultMap="CommentResult">
         <include refid="selectCommentVo"/>
-        where visable_status = 'N' and judge_status = '0' and object_id = #{userId} and del_flag = 'N'
+        where judge_status = '0' and object_id = #{userId} and del_flag = 'N'
+#         visable_status = 'N' and
         order by createTime desc
     </select>
     <select id="getAllCommentsByWays" resultType="com.ruoyi.system.domain.Comment" resultMap="CommentResult">
@@ -104,6 +105,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
         and del_flag = 'N' and object_id = #{userId}
         order by create_time desc
+    </select>
+    <select id="getUnvisibleNum" resultType="java.lang.Integer" parameterType="Long">
+        select count(0) from comment where judge_status = '0' and object_id = #{userId} and del_flag = 'N' and visable_status = 'N'
     </select>
 
 
@@ -195,11 +199,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update comment set comment_hits = comment_hits + 1
         where comment_id = #{commentId}
     </update>
+
     <update id="updateUNStatusComments" parameterType="String">
         update  comment set visable_status = 'Y' where comment_id in
         <foreach item="commentId" collection="array" open="(" separator="," close=")">
             #{commentId}
         </foreach>
+    </update>
+
+    <update id="updateVisible" parameterType="String">
+    update comment set visable_status = 'Y' where comment_id in
+    <foreach collection="array" item="commentId" close=")" open="(" separator=",">
+        #{commentId}
+    </foreach>
+
     </update>
 
     <delete id="deleteCommentByCommentId" parameterType="Long">

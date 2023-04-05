@@ -24,7 +24,9 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.*;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.ruoyi.common.utils.EmojiUtils.emojiConverterUnicodeStr;
 import static com.ruoyi.framework.config.SensitiveConfig.filter;
@@ -94,7 +96,6 @@ public class CommentAnController extends BaseController {
     @ApiOperation("增加浏览量")
     @GetMapping("/view/{commentId}")
     public AjaxResult addView(@PathVariable Long commentId){
-
         commentService.updateCommentViaView(commentId);
         return AjaxResult.success();
     }
@@ -205,8 +206,11 @@ public class CommentAnController extends BaseController {
     @ApiOperation("获取用户未查看的评论")
     @GetMapping("/getUnStatusComments")
     public TableDataInfo getUnStatusComments(){
+        int i = commentService.returnUnVisibleNum(getUserId());
+        Map<String, Object> unLook = new HashMap<>();
+        unLook.put("unLook",i);
         startPage();
-        return getDataTable(commentService.getUnStatusComments(getUserId()));
+        return getDataTable(commentService.getUnStatusComments(getUserId()),null,unLook);
     }
 
     @ApiOperation("用户批量删除评论")

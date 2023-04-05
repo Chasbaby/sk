@@ -36,4 +36,33 @@ public class SightsRecordController extends BaseController {
         List<SightsReturnDTO> record = recordService.getUserCollectRecord(getUserId());
         return getDataTable(record);
     }
+
+    @ApiOperation("获取用户点赞景点记录")
+    @GetMapping("/like/getAll")
+    @PreAuthorize("@ss.hasRole('common')")
+    public TableDataInfo getUserLikeSights(){
+        startPage();
+        List<SightsReturnDTO> record = recordService.getUserLikeRecord(getUserId());
+        return getDataTable(record);
+    }
+
+    @ApiOperation("获取用户点击景点记录")
+    @GetMapping("/hits/getAll")
+    @PreAuthorize("@ss.hasRole('common')")
+    public TableDataInfo getUserHitsSights(){
+        startPage();
+        List<SightsReturnDTO> record = recordService.getUserHitsRecord(getUserId());
+        return getDataTable(record);
+    }
+
+    @ApiOperation("获取用户浏览景点记录")
+    @GetMapping("/view/getAll")
+    @PreAuthorize("@ss.hasRole('common')")
+    public TableDataInfo getUserViewSights(){
+        startPage();
+        List<SightsReturnDTO> record = recordService.getUserViewRecord(getUserId());
+        return getDataTable(record);
+    }
+
+
 }

@@ -302,10 +302,16 @@ public class CommentServiceImpl implements ICommentService
     @Override
     public List<CommentDTO> getUnStatusComments(Long userId) {
         List<Comment> comments = commentMapper.selectUserUNStatusComment(userId);
-        return comments.stream().map(item->{
+        List<Long> change = new ArrayList<>();
+        List<CommentDTO> dtos = comments.stream().map(item -> {
+            change.add(item.getCommentId());
             CommentDTO commentDTO = handleComment(item);
             return commentDTO;
         }).collect(Collectors.toList());
+        // 修改已读状态
+        commentMapper.updateVisible(change);
+
+        return dtos;
     }
 
     /**
@@ -344,6 +350,11 @@ public class CommentServiceImpl implements ICommentService
                 .stream()
                 .map(item-> handleComment(item))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public int returnUnVisibleNum(Long userId) {
+        return commentMapper.getUnvisibleNum(userId);
     }
 
 

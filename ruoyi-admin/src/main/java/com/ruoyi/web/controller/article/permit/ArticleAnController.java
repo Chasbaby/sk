@@ -6,30 +6,21 @@ import com.ruoyi.article.domain.ArticleRecord;
 import com.ruoyi.article.domain.dto.*;
 import com.ruoyi.article.service.IArticleService;
 import com.ruoyi.common.annotation.Anonymous;
-import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.common.enums.SearchCaseType;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
-import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.concerns.service.IConcernsService;
-import com.ruoyi.sights.domain.Excel.SightsUserBehavior;
-import com.ruoyi.system.service.ISysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.annotations.Param;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
-import static com.ruoyi.common.utils.BeanCopyUtils.copyObject;
 import static com.ruoyi.framework.config.SensitiveConfig.filter;
 
 
@@ -49,10 +40,17 @@ public class ArticleAnController extends BaseController {
     @Autowired
     private IConcernsService concernsService;
 
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
+
 
     @Anonymous
     @GetMapping("/test")
     public AjaxResult xxxx(){
+//        for (int i = 0; i < 110; i++) {
+//            kafkaTemplate.send("myFlume","xxxxxxxxxxxxx");
+//        }
+
         articleService.xxx();
         return null;
     }

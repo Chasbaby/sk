@@ -1,6 +1,7 @@
 package com.ruoyi.web.controller.CulCreativity.permit;
 
 import com.ruoyi.common.annotation.Anonymous;
+import com.ruoyi.common.constant.KafkaTopicsConstant;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysUser;
@@ -20,6 +21,7 @@ import com.ruoyi.system.service.ISysVisitorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +50,9 @@ public class CulCreativityAnController extends BaseController {
 
     @Autowired
     private IConcernsService concernsService;
+
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
 
 
 
@@ -109,7 +114,7 @@ public class CulCreativityAnController extends BaseController {
     @Anonymous
     @GetMapping("/view/anonymous/{culCreativityId}")
     public AjaxResult CreativityViewAnonymous(@PathVariable Long culCreativityId){
-        creativityService.addCulViewAnonymous(culCreativityId);
+        kafkaTemplate.send(KafkaTopicsConstant.CUL_VIEW_ANONYMOUS,culCreativityId);
         return null;
     }
 
@@ -159,7 +164,43 @@ public class CulCreativityAnController extends BaseController {
         return AjaxResult.success("创建成功，等待审核即可发表");
     }
 
+    @ApiOperation("文创再编辑")
+    @PreAuthorize("@ss.hasRole('common')")
+    @GetMapping("/edit/{culCreativityId}")
+    public AjaxResult editCul(@PathVariable Long culCreativityId){
+        CulCreateDTO culCreateDTO = creativityService.reEditCul(culCreativityId);
+        return AjaxResult.success(culCreateDTO);
+    }
+
+    @ApiOperation("再次提交")
+    @PreAuthorize("@ss.hasRole('common')")
+    @PostMapping("/ReCreate")
+    public AjaxResult reSubmitCul(@RequestBody CulCreateDTO createDTO){
+        SightsCulCreativity creativity = new SightsCulCreativity();
+        BeanUtils.copyBeanProp(creativity,createDTO);
+        creativity.setCulCreativityContent(filter(creativity.getCulCreativityContent()));
+        creativity.setIsOk("U");
+        creativityService.updateSightsCulCreativity(creativity);
+        //消息推送
+        concernsService.setRemind(getUserId());
+        return AjaxResult.success("修改成功，等待审核即可发表");
+    }
+
+
     @ApiOperation("文创收藏")
+    @PreAuthorize("@ss.hasRole('common')")
+    @GetMapping("/collect/{culCreativityId}")
+    public AjaxResult culCollect(@PathVariable Long culCreativityId){
+        CulRecord record = createRecord(culCreativityId);
+        int flag = creativityService.addCulCollect(record);
+        if (flag == 1){
+            return AjaxResult.success("取消成功");
+        }else {
+            return AjaxResult.success("收藏成功");
+        }
+    }
+
+    @ApiOperation("获取文创收藏")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/collect/getAll")
     public TableDataInfo readArticleCollect(){

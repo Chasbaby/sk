@@ -87,7 +87,7 @@ public interface ISightsCulCreativityService
    public int addCulView(CulRecord record);
 
     /**
-     *
+     * 增加浏览(非登录)
      * @return
      */
    public int addCulViewAnonymous(Long culId);
@@ -145,6 +145,21 @@ public interface ISightsCulCreativityService
      */
     public Long[] getCuLDMY();
 
+    /**
+     * 获取综合排名文创
+     * @return
+     */
     public List<CulTopDTO> getTopCul();
 
+    /**
+     * 获取cul重编辑资料
+     * @param culId
+     * @return
+     */
+    public CulCreateDTO reEditCul(Long culId);
+
+    /**
+     * 定时任务 更新非登录浏览量
+     */
+    public void addAnonymousByRedis();
 }

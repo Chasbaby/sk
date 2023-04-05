@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author chas
  * @introduction 文创排行
- * @data
+ * @date
  */
 public class CulTopDTO implements Serializable {
     private Long culCreativityId;

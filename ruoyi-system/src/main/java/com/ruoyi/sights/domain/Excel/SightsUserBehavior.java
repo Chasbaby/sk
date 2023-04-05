@@ -53,6 +53,9 @@ public class SightsUserBehavior implements Serializable {
         SpringUtils.getBean(RedisCache.class).deleteObject(SUKEY);
         // 重新设置
         SpringUtils.getBean(RedisCache.class).setCacheList(SUKEY,cacheList);
+
+//        List<SightsUserBehavior> cacheList1 = SpringUtils.getBean(RedisCache.class).getCacheList(SUKEY);
+        System.out.println("我执行了");
     }
 
     /**

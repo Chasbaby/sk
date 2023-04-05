@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 /**
  * @author chas
- * @introduction
- * @data
+ * @introduction 创作CUL
+ * @date 2023-3
  */
 public class CulCreateDTO implements Serializable {
     private String culCreativityTitle;

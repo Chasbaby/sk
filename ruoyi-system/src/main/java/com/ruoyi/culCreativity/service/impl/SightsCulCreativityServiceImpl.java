@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import com.ruoyi.article.service.impl.ArticleServiceImpl;
+import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.entity.DTO.UserDTO;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.culCreativity.domain.*;
@@ -42,6 +44,9 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     private SightsBaseMapper baseMapper;
     @Autowired
     private CulRecordMapper recordMapper;
+
+    @Autowired
+    private RedisCache redisCache;
 
 
 
@@ -179,10 +184,39 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      * @param culId
      * @return
      */
+    @Transactional
     @Override
     public int addCulViewAnonymous(Long culId) {
+        // 获取redis上的缓存
+        Boolean hasKey = redisCache.hasKey(Constants.CUL_COLLECT_ANONYMOUS);
+        // 如果没有
+        if (!hasKey){
+            // 建立
+            List<Long> cul = new ArrayList<>();
+            cul.add(culId);
+            // 加入缓存
+            redisCache.setCacheList(Constants.CUL_COLLECT_ANONYMOUS,cul);
+        }
+        // 如果有  乐观锁  获取数据 并删除 增加
+        redisCache.lock(Constants.CUL_COLLECT_ANONYMOUS);
+        List<Long> culList = redisCache.getCacheObject(Constants.CUL_COLLECT_ANONYMOUS);
+        redisCache.deleteObject(Constants.CUL_COLLECT_ANONYMOUS);
+        culList.add(culId);
+        redisCache.setCacheList(Constants.CUL_COLLECT_ANONYMOUS,culList);
         return 0;
     }
+
+    /**
+     * 定时任务
+     */
+    public void addAnonymousByRedis(){
+        redisCache.lock(Constants.CUL_COLLECT_ANONYMOUS);// 乐观锁
+        List<Long> culList = redisCache.getCacheObject(Constants.CUL_COLLECT_ANONYMOUS); //获取
+        redisCache.setCacheList(Constants.CUL_COLLECT_ANONYMOUS,culList);// 删除
+        // 批量更新
+        sightsCulCreativityMapper.updateAddCulView(culList);
+    }
+
 
     /**
      * 增加 取消 收藏
@@ -192,14 +226,13 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     @Transactional
     @Override
     public int addCulCollect(CulRecord record) {
+
+
         return 0;
     }
 
     /**
-     * 用户主页展示
-     * @param userId
-     * @param way
-     * @return
+     * 用户主页展示 完成
      */
     @Override
     public List<CulHomeDTO> getAllCulByUserId(Long userId, Integer way) {
@@ -214,7 +247,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     }
 
     /**
-     * 获取收藏记录
+     * 获取收藏记录 完成
      * @param userId
      * @return
      */
@@ -232,7 +265,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
 
 
     /**
-     * 懒加载获取数据
+     * 懒加载获取数据 待优化
      * @param userId
      * @return
      */
@@ -255,7 +288,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     }
 
     /**
-     * 文创通过率
+     * 文创通过率 待优化 有点错
      * @return
      */
     @Override
@@ -278,7 +311,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     }
 
     /**
-     * 获取文创可视化数据
+     * 获取文创可视化数据 待优化有点错
      * @return
      */
     @Override
@@ -293,16 +326,18 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
             return pie;
         }
         while (culData.iterator().hasNext()) {
+
             SightsCulCreativity next = culData.iterator().next();
-            pie.setCulCreativityLike(pie.getCulCreativityLike() + next.getCulCreativityLike() );
-            pie.setCulCreativityCollection(pie.getCulCreativityCollection()+ next.getCulCreativityCollection());
-            pie.setCulCreativityView(pie.getCulCreativityView()+ next.getCulCreativityView());
+            pie.setCulCreativityLike(pie.getCulCreativityLike() + (next.getCulCreativityLike() == null ? 0L:next.getCulCreativityLike()) );
+            pie.setCulCreativityCollection(pie.getCulCreativityCollection()+ (next.getCulCreativityCollection()==null?0L:next.getCulCreativityCollection()));
+            pie.setCulCreativityView(pie.getCulCreativityView()+ (next.getCulCreativityView()==null?0L:next.getCulCreativityView()));
+
         }
         return pie;
     }
 
     /**
-     * 获取审核状态可视化
+     * 获取审核状态可视化 待优化有错哦
      * @return
      */
     @Override
@@ -341,7 +376,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     }
 
     /**
-     *  5 大数据
+     *  5 大数据 完成
      * @return
      */
     @Override
@@ -361,7 +396,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     }
 
     /**
-     * 文创排行
+     * 文创排行 完成
      * @return
      */
     @Override
@@ -374,6 +409,20 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
             culTopDTOS.add(dto);
         });
         return culTopDTOS;
+    }
+
+    /**
+     * 获取编辑信息 完成
+     * @param culId
+     * @return
+     */
+    @Override
+    public CulCreateDTO reEditCul(Long culId) {
+        SightsCulCreativity creativity = selectSightsCulCreativityByCulCreativityId(culId);
+        CulCreateDTO createDTO = new CulCreateDTO();
+        BeanUtils.copyBeanProp(createDTO,creativity);
+        return createDTO;
+
     }
 
 

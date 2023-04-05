@@ -20,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="culCreativityDislike"    column="cul_creativity_dislike"    />
         <result property="culCreativityCollection"    column="cul_creativity_collection"    />
         <result property="culCreativityHits"    column="cul_creativity_hits"    />
+        <result property="culCreativityView" column="cul_creativity_view"/>
         <result property="status" column="status"/>
         <result property="isOk" column="is_ok"/>
         <result property="judgeBy" column="judge_by"/>
@@ -31,14 +32,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
     </resultMap>
+    
+    <resultMap id="CulRecordResult" type="CulRecord">
+        <result property="culId" column="cul_creativity_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
 
     <sql id="selectSightsCulCreativityVo">
-        select cul_creativity_id, sights_id, user_id,cul_creativity_title,cul_creativity_image, cul_creativity_intro, cul_creativity_category,cul_creativity_content,status,
+        select cul_creativity_id, sights_id, user_id,cul_creativity_title,cul_creativity_image, cul_creativity_intro, cul_creativity_category,cul_creativity_content,status,cul_creativity_view,
                is_ok,judge_by,judge_time,cul_creativity_tags, cul_creativity_key, cul_creativity_like, cul_creativity_dislike, cul_creativity_collection,cul_creativity_type,
                cul_creativity_hits, del_flag, top_flag, create_by, create_time, update_by, update_time from sights_cul_creativity
     </sql>
 
-    <select id="selectSightsCulCreativityList" parameterType="SightsCulCreativity" resultMap="SightsCulCreativityResult">
+    <select id="selectSightsCulCreativityList" parameterType="SightsCulCreativity" resultMap="SightsCulCreativityResult" >
         <include refid="selectSightsCulCreativityVo"/>
         <where>
             <if test="userId != null">and user_id = #{userId}</if>
@@ -127,11 +134,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!--        -->
 <!--    </select>-->
     <select id="getCulData" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" resultMap="SightsCulCreativityResult">
-        select cul_creativity_id,is_ok,cul_creativity_like,cul_creativity_collection,cul_creativity_hits from sights_cul_creativity where del_flag = 'N' and DATE_FORMAT(create_time,'%Y-%m-%d') = curdate()
+        select cul_creativity_id,is_ok,cul_creativity_like,cul_creativity_collection,cul_creativity_hits
+        from sights_cul_creativity where del_flag = 'N' and DATE_FORMAT(create_time,'%Y-%m-%d') = curdate()
     </select>
     <select id="getCulTop" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" resultMap="SightsCulCreativityResult">
-        select cul_creativity_id,user_id,sights_id,cul_creativity_type from sights_cul_creativity where del_flag = 'N' and is_ok ='Y'
-        order by 0.2*cul_creativity_hits + 0.3*cul_creativity_like + 0.5*cul_creativity_collection desc
+        select cul_creativity_id,user_id,sights_id,cul_creativity_type,cul_creativity_title from sights_cul_creativity where del_flag = 'N' and is_ok ='Y'
+        order by 0.2 * cul_creativity_hits + 0.3 * cul_creativity_like + 0.5 * cul_creativity_collection +0.1*cul_creativity_view desc
         limit 15
     </select>
 
@@ -144,7 +152,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isOk !=null ">is_ok,</if>
             <if test="judgeBy != null and judgeBy !=''">judge_by,</if>
             <if test="judgeTime !=null">judge_time,</if>
-
             <if test="userId != null">user_id,</if>
             <if test="sightsId != null">sights_id,</if>
             <if test="culCreativityTitle != null and culCreativityTitle != ''">cul_creativity_title,</if>
@@ -223,6 +230,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
         where cul_creativity_id = #{culCreativityId}
+    </update>
+    <update id="updateAddCulView" parameterType="list" >
+        update sights_cul_creativity set cul_creativity_view = cul_creativity_view + 1  where cul_creativity_id in
+        <foreach collection="array" open="(" separator="," close=")" item="culCreativityId">
+            #{culCreativityId}
+        </foreach>
     </update>
 
     <delete id="deleteSightsCulCreativityByCulCreativityId" parameterType="Long">

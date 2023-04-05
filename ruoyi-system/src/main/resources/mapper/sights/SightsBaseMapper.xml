@@ -147,7 +147,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="getTopSights" resultType="com.ruoyi.sights.domain.SightsBase" resultMap="SightsBaseResult">
-        select sights_id,sights_name,sightsHot from  sights_base
+        select sights_id,sights_name,sights_hot from  sights_base
         order by 0.1 * sights_id + 0.2 * sights_view + 0.3 * sights_like + 0.4 * sights_collect + sights_hot + sights_score * 100 desc
         limit 15
     </select>

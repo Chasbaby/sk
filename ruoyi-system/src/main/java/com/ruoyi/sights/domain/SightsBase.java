@@ -145,14 +145,12 @@ public class SightsBase extends BaseEntity
 
     private void calculateHot(){
         // 这个变化可能有点大  暂定
-        this.sightsHot = sightsHot + new Double(sightsLike * 0.3 + sightsHits * 0.1
-                + sightsCollect * 0.4 + sightsView * 0.2 + sightsScore * 10).longValue()/
-                new Double(time(lastUpdated,getUpdateTime())).intValue();
+        this.sightsHot = this.sightsHot + new Double(sightsLike * 0.3 + sightsHits * 0.1
+                + sightsCollect * 0.4 + sightsView * 0.2 + sightsScore * 10).longValue();
+//                / new Double(time(lastUpdated,getUpdateTime())).intValue();
     }
 
     private double time(Date now,Date updated){
-        System.out.println("xxxxxxxx"+now);
-        System.out.println("qqqqqqqqqqqqq"+updated);
         return Math.exp(now.getTime() - updated.getTime());
     }
 

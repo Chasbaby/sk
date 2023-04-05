@@ -128,5 +128,7 @@ public interface SightsCulCreativityMapper
 
     // 大数据排行
     public List<SightsCulCreativity> getCulTop();
+    // 批量更新浏览量
+    public int updateAddCulView(List<Long> culCreativityId);
 
 }

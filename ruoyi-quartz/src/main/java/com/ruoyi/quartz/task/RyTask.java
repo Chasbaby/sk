@@ -1,5 +1,6 @@
 package com.ruoyi.quartz.task;
 
+import com.ruoyi.culCreativity.ISightsCulCreativityService;
 import com.ruoyi.home.service.IHomeAdService;
 import com.ruoyi.home.service.IHomeNewsService;
 import com.ruoyi.sights.service.ISightsBaseService;
@@ -30,6 +31,8 @@ public class RyTask
 
     @Autowired
     private ISightsHotService hotService;
+    @Autowired
+    private ISightsCulCreativityService culCreativityService;
 
     public void AutoDeleteNews(){iHomeNewsService.deleteHomeNewsByQuartz();}
 
@@ -62,4 +65,10 @@ public class RyTask
     public void clearSightsHistoryRecord(){
 
     }
+
+    public void addAnonymousByRedis(){
+        culCreativityService.addAnonymousByRedis();
+    }
+
+
 }

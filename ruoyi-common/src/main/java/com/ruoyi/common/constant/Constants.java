@@ -156,6 +156,7 @@ public class Constants
             "org.springframework.jndi" };
 
 
+
     /**
      *  景点 点赞
      */
@@ -200,4 +201,6 @@ public class Constants
      * 用户历史浏览记录
      */
     public static final String SIGHTS_HISTORY_USER = "SIGHTS_HISTORY_USER_";
+
+    public static final String CUL_COLLECT_ANONYMOUS="CUL_COLLECT_ANONYMOUS";
 }

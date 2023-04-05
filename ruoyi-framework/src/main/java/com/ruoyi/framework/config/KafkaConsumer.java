@@ -2,6 +2,7 @@ package com.ruoyi.framework.config;
 
 import com.ruoyi.common.constant.KafkaTopicsConstant;
 import com.ruoyi.common.utils.JsonUtils;
+import com.ruoyi.culCreativity.ISightsCulCreativityService;
 import com.ruoyi.sights.domain.SightsBase;
 import com.ruoyi.sights.service.ISightsHotService;
 import com.sun.javaws.IconUtil;
@@ -30,6 +31,9 @@ public class KafkaConsumer {
 
     @Autowired
     private ISightsHotService sightsHotService;
+
+    @Autowired
+    private ISightsCulCreativityService culCreativityService;
 
     @KafkaListener(topics = KafkaTopicsConstant.SIGHTSVIEW)
     public void addView(String sightsUserId){
@@ -72,6 +76,12 @@ public class KafkaConsumer {
         sightsHotService.score(sightsId,score,userId);
     }
 
+    @KafkaListener(topics = KafkaTopicsConstant.CUL_VIEW_ANONYMOUS )
+    public void culAddViewAn(String culId){
+        long cul = Long.parseLong(culId);
+        culCreativityService.addCulViewAnonymous(cul);
+    }
+
     @KafkaListener(topics = "comment")
     public void CommentHandler(String commentContent){
         logger.info("ojbkkkkk");
@@ -85,6 +95,7 @@ public class KafkaConsumer {
         System.out.println(consumerRecord.key());
         System.out.println(consumerRecord.value());
     }
+
 
     @KafkaListener(topics = "myFlume")
     public void FlumeHandler(ConsumerRecord<String, String> consumerRecord){

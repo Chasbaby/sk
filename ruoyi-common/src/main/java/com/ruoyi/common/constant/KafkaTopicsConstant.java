@@ -12,4 +12,5 @@ public class KafkaTopicsConstant {
     public static final String SIGHTSLIKE = "sightsLike";
     public static final String SIGHTSSCORE= "sightsScore";
     public static final String SIGHTSHIT = "sightsHits";
+    public static final String CUL_VIEW_ANONYMOUS ="culViewAnonymous";
 }

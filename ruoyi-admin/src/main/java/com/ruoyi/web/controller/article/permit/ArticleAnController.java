@@ -194,9 +194,6 @@ public class ArticleAnController extends BaseController {
     public TableDataInfo readArticleCollect(){
         startPage();
         List<ArticleReturnDTO> articles = articleService.getAllArticleCollect(getUserId());
-//        ArticleReturnCore ArticlesCore = new ArticleReturnCore();
-//        ArticlesCore.setArticles(articles);
-//        ArticlesCore.setRoute(SearchCaseType.ARTICLE.getRoute());
         return getDataTable(articles);
     }
 

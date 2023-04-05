@@ -55,7 +55,11 @@ public class CulCreativityAnController extends BaseController {
     private KafkaTemplate kafkaTemplate;
 
 
-
+    /**
+     * 分页获取某用户所有文创 完成
+     * @param userId
+     * @return
+     */
     @ApiOperation("分页获取某用户所有文创")
     @PreAuthorize("@ss.hasRole('common')")
     @PostMapping("/getAllCul/{userId}")
@@ -81,14 +85,6 @@ public class CulCreativityAnController extends BaseController {
         CulRecord record = createRecord(culCreativityId);
         int i = creativityService.addCulLike(record);
         return AjaxResult.success();
-    }
-
-    private CulRecord createRecord(Long culCreativityId) {
-        CulRecord record = new CulRecord();
-        record.setUserId(getUserId());
-        record.setCulId(culCreativityId);
-        record.setCreateTime(DateUtils.getNowDate());
-        return record;
     }
 
     /**
@@ -219,6 +215,51 @@ public class CulCreativityAnController extends BaseController {
 
         return getDataTable(concernsLazyCul);
     }
+
+    @ApiOperation("获取历史点赞记录")
+    @PreAuthorize("@ss.hasRole('common')")
+    @GetMapping("/like/getAll")
+    public TableDataInfo readCulLike(){
+        return null;
+    }
+
+    @ApiOperation("获取历史浏览记录")
+    @PreAuthorize("@ss.hasRole('common')")
+    @GetMapping("/view/getAll")
+    public TableDataInfo readCulView(){
+        return null;
+    }
+
+    @ApiOperation("获取文创稿件")
+    @GetMapping("/getDraft")
+    @PreAuthorize("@ss.hasRole('common')")
+    public TableDataInfo getDraft(){
+        return null;
+    }
+
+    @ApiOperation("获取某用户发表的全部文创")
+    @GetMapping("/person/{num}")
+    @PreAuthorize("@ss.hasRole('common')")
+    public TableDataInfo getUserAllCul(@PathVariable Integer num){
+        return null;
+    }
+
+    @ApiOperation("批量删除")
+    @DeleteMapping("/delete/{culCreativityIds}")
+    public AjaxResult remove(@PathVariable Long[] culCreativityIds ){
+        return null;
+    }
+
+
+    private CulRecord createRecord(Long culCreativityId) {
+        CulRecord record = new CulRecord();
+        record.setUserId(getUserId());
+        record.setCulId(culCreativityId);
+        record.setCreateTime(DateUtils.getNowDate());
+        return record;
+    }
+
+
 
 
 

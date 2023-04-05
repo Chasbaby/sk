@@ -94,7 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectCommentVo"/>
         where judge_status = '0' and object_id = #{userId} and del_flag = 'N'
 #         visable_status = 'N' and
-        order by createTime desc
+        order by create_time desc
     </select>
     <select id="getAllCommentsByWays" resultType="com.ruoyi.system.domain.Comment" resultMap="CommentResult">
         <include refid="selectCommentVo"/>

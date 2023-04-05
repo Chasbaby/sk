@@ -195,9 +195,9 @@ public class CommentAnController extends BaseController {
     }
 
     @ApiOperation("更新评论可见状态")
-    @GetMapping("/updateComments")
+    @GetMapping("/updateComments/{commentIds}")
     @PreAuthorize("@ss.hasRole('common')")
-    public AjaxResult  updateUnStatusComments(Long[] commentIds){
+    public AjaxResult  updateUnStatusComments(@PathVariable Long[] commentIds){
         commentService.updateUNStatusComments(commentIds);
         return AjaxResult.success();
     }

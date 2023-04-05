@@ -26,10 +26,18 @@ public class CommentDTO implements Serializable {
     private Integer commentLike;
     private String commentSource;
     private String commentIp;
+    private String visableStatus;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date createTime;
 
+    public String getVisableStatus() {
+        return visableStatus;
+    }
+
+    public void setVisableStatus(String visableStatus) {
+        this.visableStatus = visableStatus;
+    }
 
     public Long getObjectId() {
         return objectId;

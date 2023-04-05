@@ -1,6 +1,7 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -302,16 +303,20 @@ public class CommentServiceImpl implements ICommentService
     @Override
     public List<CommentDTO> getUnStatusComments(Long userId) {
         List<Comment> comments = commentMapper.selectUserUNStatusComment(userId);
-        List<Long> change = new ArrayList<>();
+//        List<Long> change = new ArrayList<>();
         List<CommentDTO> dtos = comments.stream().map(item -> {
-            change.add(item.getCommentId());
+//            change.add(item.getCommentId());
             CommentDTO commentDTO = handleComment(item);
             return commentDTO;
         }).collect(Collectors.toList());
         // 修改已读状态
-        commentMapper.updateVisible(change);
-
-        return dtos;
+//        commentMapper.updateVisible(change);
+// 降序 是 1
+        return dtos
+                .stream()
+                .sorted((o1, o2) -> o1.getVisableStatus() ==  "N" ? 1 : -1 )
+                .sorted((o1,o2)->o1.getCreateTime().getTime()>o2.getCreateTime().getTime()?1:-1)
+                .collect(Collectors.toList());
     }
 
     /**

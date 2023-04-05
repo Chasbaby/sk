@@ -227,6 +227,7 @@ public class CulCreativityAnController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/view/getAll")
     public TableDataInfo readCulView(){
+
         return null;
     }
 

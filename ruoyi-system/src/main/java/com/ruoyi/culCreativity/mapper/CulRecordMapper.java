@@ -22,8 +22,6 @@ public interface CulRecordMapper {
 
     /**
      * 取消
-     * @param record
-     * @return
      */
     @Delete("delete from cul_record_like " +
             "where user_id = #{userId} and cul_creativity_id=#{culId} limit 1")
@@ -32,7 +30,6 @@ public interface CulRecordMapper {
 
     /**
      * 判断唯一
-     * @return
      */
     @Select("select count(0) from cul_record_like " +
             "where user_id = #{userId} and cul_creativity_id=#{culId} limit 1 ")
@@ -41,8 +38,6 @@ public interface CulRecordMapper {
 
     /**
      * 下面是 收藏操作
-     * @param record
-     * @return
      */
     @Insert("insert into cul_record_collect(user_id,cul_creativity_id)" +
             " values (#{userId},#{culId})")
@@ -74,9 +69,4 @@ public interface CulRecordMapper {
     @Select("select count(0) from cul_record_view where user_id = #{userId} and cul_creativity_id=#{culId} limit 1")
     @ResultMap("com.ruoyi.sights.mapper.SightsCulCreativityMapper.CulRecordResult")
     public int judgeOnlyOneViewCul(CulRecord record);
-
-
-
-
-
 }

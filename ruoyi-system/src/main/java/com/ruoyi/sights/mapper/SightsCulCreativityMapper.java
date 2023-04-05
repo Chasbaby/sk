@@ -93,6 +93,10 @@ public interface SightsCulCreativityMapper
      */
     public List<SightsCulCreativity> selectCulCollectByUserId(Long userId);
 
+    public List<SightsCulCreativity> selectCulLikeByUserId(Long userId);
+
+    public List<SightsCulCreativity> selectCulViewByUserId(Long userId);
+
     /**
      * 懒加载
      * @param userId
@@ -130,5 +134,14 @@ public interface SightsCulCreativityMapper
     public List<SightsCulCreativity> getCulTop();
     // 批量更新浏览量
     public int updateAddCulView(List<Long> culCreativityId);
+
+    /**
+     * 获取用户草稿文创
+     */
+    public List<SightsCulCreativity> getCulDraft(Long userId);
+
+    /**批量删除*/
+    public int deleteBatchesCul(Long[] culCreativityId);
+
 
 }

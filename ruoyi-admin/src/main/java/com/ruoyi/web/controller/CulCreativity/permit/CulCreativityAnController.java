@@ -182,7 +182,6 @@ public class CulCreativityAnController extends BaseController {
         return AjaxResult.success("修改成功，等待审核即可发表");
     }
 
-
     @ApiOperation("文创收藏")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/collect/{culCreativityId}")
@@ -220,22 +219,26 @@ public class CulCreativityAnController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/like/getAll")
     public TableDataInfo readCulLike(){
-        return null;
+        startPage();
+        List<CulHomeDTO> culLike = creativityService.getAllCulLike(getUserId());
+        return getDataTable(culLike);
     }
 
     @ApiOperation("获取历史浏览记录")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/view/getAll")
     public TableDataInfo readCulView(){
-
-        return null;
+        startPage();
+        List<CulHomeDTO> culView = creativityService.getAllCulView(getUserId());
+        return getDataTable(culView);
     }
 
     @ApiOperation("获取文创稿件")
     @GetMapping("/getDraft")
     @PreAuthorize("@ss.hasRole('common')")
     public TableDataInfo getDraft(){
-        return null;
+        List<CulHomeDTO> draft = creativityService.getDraft(getUserId());
+        return getDataTable(draft);
     }
 
     @ApiOperation("获取某用户发表的全部文创")
@@ -247,10 +250,11 @@ public class CulCreativityAnController extends BaseController {
 
     @ApiOperation("批量删除")
     @DeleteMapping("/delete/{culCreativityIds}")
+    @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult remove(@PathVariable Long[] culCreativityIds ){
-        return null;
+        int i = creativityService.deleteBatchesCulByIds(culCreativityIds);
+        return AjaxResult.success("成功删除"+i+"个文创");
     }
-
 
     private CulRecord createRecord(Long culCreativityId) {
         CulRecord record = new CulRecord();

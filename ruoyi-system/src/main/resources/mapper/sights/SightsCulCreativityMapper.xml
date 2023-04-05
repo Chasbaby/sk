@@ -120,7 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                    left join concerns b on a.user_id = b.prior_user
                 where b.main_user = #{userId} and a.status = '1'
                   and a.is_ok = 'Y' and a.del_flag = 'N'
-                  and b.if_remind = 'Y' and b.cul_num >0
+#                   and b.if_remind = 'Y' and b.cul_num >0
                 order by a.create_time DESC
     </select>
 <!--    <select id="selectCulRate" resultType="java.lang.Double">-->
@@ -141,6 +141,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select cul_creativity_id,user_id,sights_id,cul_creativity_type,cul_creativity_title from sights_cul_creativity where del_flag = 'N' and is_ok ='Y'
         order by 0.2 * cul_creativity_hits + 0.3 * cul_creativity_like + 0.5 * cul_creativity_collection +0.1*cul_creativity_view desc
         limit 15
+    </select>
+    <select id="getCulDraft" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity"
+            parameterType="Long" resultMap="SightsCulCreativityResult">
+        <include refid="selectSightsCulCreativityVo"/>
+        where user_id = #{userId} and del_flag = 'N' and status = '3'
+        order by create_time desc
+    </select>
+    <select id="selectCulLikeByUserId" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" parameterType="Long" resultMap="SightsCulCreativityResult">
+        select a.cul_creativity_id, a.user_id,a.cul_creativity_title,a.cul_creativity_intro,a.cul_creativity_like,a.cul_creativity_view,a.cul_creativity_collection,
+               a.cul_creativity_image,a.cul_creativity_type,a.cul_creativity_category,b.create_time
+        from sights_cul_creativity a
+                 left join cul_record_like b
+                           on a.cul_creativity_id = b.cul_creativity_id
+        where b.user_id = #{userId} and a.del_flag = 'N' and a.is_ok ='Y' and a.status ='1'
+        order by b.create_time desc
+    </select>
+    <select id="selectCulViewByUserId" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" parameterType="Long" resultMap="SightsCulCreativityResult">
+        select a.cul_creativity_id, a.user_id,a.cul_creativity_title,a.cul_creativity_intro,a.cul_creativity_like,a.cul_creativity_view,a.cul_creativity_collection,
+               a.cul_creativity_image,a.cul_creativity_type,a.cul_creativity_category,b.create_time
+        from sights_cul_creativity a
+                 left join cul_record_view b
+                           on a.cul_creativity_id = b.cul_creativity_id
+        where b.user_id = #{userId} and a.del_flag = 'N' and a.is_ok ='Y' and a.status ='1'
+        order by b.create_time desc
     </select>
 
 
@@ -245,6 +269,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="deleteSightsCulCreativityByCulCreativityIds" parameterType="String">
         delete from sights_cul_creativity where cul_creativity_id in 
         <foreach item="culCreativityId" collection="array" open="(" separator="," close=")">
+            #{culCreativityId}
+        </foreach>
+    </delete>
+    <delete id="deleteBatchesCul">
+        update sights_cul_creativity set del_flag = 'Y' where cul_creativity_id in
+        <foreach collection="array" separator="," open="(" close=")" item="culCreativityId">
             #{culCreativityId}
         </foreach>
     </delete>

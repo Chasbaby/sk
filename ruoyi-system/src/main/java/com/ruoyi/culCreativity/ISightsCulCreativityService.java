@@ -62,14 +62,12 @@ public interface ISightsCulCreativityService
      */
     public int deleteSightsCulCreativityByCulCreativityId(Long culCreativityId);
 
-
     /**
      * 获取文创详细信息
      * @param culCreativityId id
      * @return 详细信息
      */
     public CulDetail getCulDetail(Long culCreativityId);
-
 
     /**
      * 点赞 ++
@@ -114,6 +112,11 @@ public interface ISightsCulCreativityService
      * @return
      */
    public List<CulHomeDTO> getAllCulCollect(Long userId);
+
+   /** 获取用户点赞*/
+   public List<CulHomeDTO> getAllCulLike(Long userId);
+   /** 获取用户浏览*/
+   public List<CulHomeDTO>  getAllCulView(Long userId);
 
     /**
      * 文创懒加载
@@ -162,4 +165,14 @@ public interface ISightsCulCreativityService
      * 定时任务 更新非登录浏览量
      */
     public void addAnonymousByRedis();
+
+    /**
+     * 获取文创稿件
+     * @param userId
+     * @return
+     */
+    public List<CulHomeDTO> getDraft(Long userId);
+    /** 批量删除*/
+    public int deleteBatchesCulByIds(Long[] culId);
+
 }

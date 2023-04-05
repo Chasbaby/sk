@@ -50,6 +50,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
 
 
 
+
     /**
      * 查询文创
      * 
@@ -123,6 +124,10 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     {
         return sightsCulCreativityMapper.deleteSightsCulCreativityByCulCreativityId(culCreativityId);
     }
+
+
+
+
 
     /**
      * 获取文创详细信息
@@ -217,6 +222,30 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
         sightsCulCreativityMapper.updateAddCulView(culList);
     }
 
+    /**
+     * 获取文创稿件
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<CulHomeDTO> getDraft(Long userId) {
+        List<SightsCulCreativity> draft = sightsCulCreativityMapper.getCulDraft(userId);
+        List<CulHomeDTO> homeDTOS = new ArrayList<>();
+        draft.forEach(item->{
+            CulHomeDTO homeDTO = new CulHomeDTO();
+            BeanUtils.copyBeanProp(homeDTO,item);
+            homeDTOS.add(homeDTO);
+        });
+        return homeDTOS;
+    }
+
+    /** 批量删除*/
+    @Override
+    public int deleteBatchesCulByIds(Long[] culId) {
+        int i = sightsCulCreativityMapper.deleteBatchesCul(culId);
+        return i;
+    }
+
 
     /**
      * 增加 取消 收藏
@@ -226,7 +255,6 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     @Transactional
     @Override
     public int addCulCollect(CulRecord record) {
-
 
         return 0;
     }
@@ -254,6 +282,11 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     @Override
     public List<CulHomeDTO> getAllCulCollect(Long userId) {
         List<SightsCulCreativity> creativities = sightsCulCreativityMapper.selectCulCollectByUserId(userId);
+        List<CulHomeDTO> culHomeDTOS = getHomeDTOS(creativities);
+        return culHomeDTOS;
+    }
+
+    private List<CulHomeDTO> getHomeDTOS(List<SightsCulCreativity> creativities) {
         List<CulHomeDTO> culHomeDTOS = new ArrayList<>();
         creativities.stream().forEach(item->{
             CulHomeDTO culHomeDTO = new CulHomeDTO();
@@ -261,6 +294,20 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
             culHomeDTOS.add(culHomeDTO);
         });
         return culHomeDTOS;
+    }
+
+    @Override
+    public List<CulHomeDTO> getAllCulLike(Long userId) {
+        List<SightsCulCreativity> creativities = sightsCulCreativityMapper.selectCulLikeByUserId(userId);
+        List<CulHomeDTO> dtos = getHomeDTOS(creativities);
+        return dtos;
+    }
+
+    @Override
+    public List<CulHomeDTO> getAllCulView(Long userId) {
+        List<SightsCulCreativity> creativities = sightsCulCreativityMapper.selectCulViewByUserId(userId);
+        List<CulHomeDTO> dtos = getHomeDTOS(creativities);
+        return dtos;
     }
 
 
@@ -424,6 +471,5 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
         return createDTO;
 
     }
-
 
 }

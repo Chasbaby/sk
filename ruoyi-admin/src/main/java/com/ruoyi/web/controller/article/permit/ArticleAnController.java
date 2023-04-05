@@ -287,8 +287,7 @@ public class ArticleAnController extends BaseController {
     @ApiOperation("批量删除")
     @PreAuthorize("@ss.hasRole('common')")
     @DeleteMapping("/delete/{articleIds}")
-    public AjaxResult remove(@PathVariable Long[] articleIds)
-    {
+    public AjaxResult remove(@PathVariable Long[] articleIds) {
         int i = articleService.deleteArticlesByUser(articleIds);
         return AjaxResult.success("成功删除"+i+"篇文章");
     }

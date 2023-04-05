@@ -1,10 +1,7 @@
 package com.ruoyi.article.mapper;
 
 import com.ruoyi.article.domain.ArticleRecord;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.Date;
 
@@ -22,6 +19,7 @@ public interface ArticleRecordMapper{
      */
     @Insert("insert into article_record_like(article_id,user_id,create_time) " +
             "values (#{articleId},#{userId},#{createTime})")
+    @ResultMap("com.ruoyi.article.mapper.ArticleMapper.ArticleRecordResult")
     public int addLikeArticle(ArticleRecord articleRecord);
 
     /**
@@ -31,6 +29,7 @@ public interface ArticleRecordMapper{
      */
     @Delete("delete from article_record_like " +
             "where article_id = #{articleId} and user_id = #{userId} limit 1")
+    @ResultMap("com.ruoyi.article.mapper.ArticleMapper.ArticleRecordResult")
     public int deleteLikeArticle(ArticleRecord articleRecord);
 
     /**
@@ -40,6 +39,7 @@ public interface ArticleRecordMapper{
      */
     @Select("select count(0) from article_record_like " +
             "where article_id = #{articleId} and user_id = #{userId} limit 1")
+    @ResultMap("com.ruoyi.article.mapper.ArticleMapper.ArticleRecordResult")
     public int judgeOnlyOneLikeArticle(ArticleRecord articleRecord);
 
     /**
@@ -49,6 +49,7 @@ public interface ArticleRecordMapper{
      */
     @Insert("insert into article_record_collect(article_id,user_id,create_time) " +
             "values (#{articleId},#{userId},#{createTime}) ")
+    @ResultMap("com.ruoyi.article.mapper.ArticleMapper.ArticleRecordResult")
     public int addCollectArticle(ArticleRecord articleRecord);
 
     /**
@@ -58,6 +59,7 @@ public interface ArticleRecordMapper{
      */
     @Delete("delete from article_record_collect " +
             "where article_id = #{articleId} and user_id = #{userId} limit 1 ")
+    @ResultMap("com.ruoyi.article.mapper.ArticleMapper.ArticleRecordResult")
     public int deleteCollectArticle(ArticleRecord articleRecord);
     /**
      * 判断是否唯一
@@ -66,6 +68,7 @@ public interface ArticleRecordMapper{
      */
     @Select("select count(0) from article_record_collect " +
             "where article_id = #{articleId} and user_id = #{userId} limit 1")
+    @ResultMap("com.ruoyi.article.mapper.ArticleMapper.ArticleRecordResult")
     public int judgeOnlyOneCollectArticle(ArticleRecord articleRecord);
 
     /**
@@ -73,20 +76,20 @@ public interface ArticleRecordMapper{
      * @param articleId
      * @return
      */
-//    @Update("update article set article_view = article_view + 1 " +
-//            "where articleId = #{articleId} limit 1 ")
     @Insert("insert into article_record_view(article_id,user_id,create_time) " +
             "values (#{articleId},#{userId},#{createTime})")
+    @ResultMap("com.ruoyi.article.mapper.ArticleMapper.ArticleRecordResult")
     public int addViewArticle(Long articleId);
 
     @Select("select count(0) from article_record_view " +
             "where article_id = #{articleId} and user_id = #{userId} limit 1")
+    @ResultMap("com.ruoyi.article.mapper.ArticleMapper.ArticleRecordResult")
     public int judgeOnlyOneViewArticle(ArticleRecord articleRecord);
 
     @Update("update article_record_view set create_time = #{createTime} " +
             "where article_id = #{articleId} and user_id = #{userId} limit 1")
+    @ResultMap("com.ruoyi.article.mapper.ArticleMapper.ArticleRecordResult")
     public int updateViewTime(Date createTime);
-    //public int addView();
 
 
 

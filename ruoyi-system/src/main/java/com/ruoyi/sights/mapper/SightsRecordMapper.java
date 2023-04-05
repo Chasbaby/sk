@@ -10,6 +10,7 @@ import org.springframework.security.core.parameters.P;
  */
 public interface SightsRecordMapper {
 
+
     /**
      * 插入浏览记录
      * @param userId
@@ -103,4 +104,6 @@ public interface SightsRecordMapper {
      */
     @Select("select count(0) from sights_user_collect where user_id = #{userId} and sights_id = #{sightsId} limit 1")
     public int judgeCollect(@Param("userId") Long userId, @Param("sightsId") Long sightsId);
+
+
 }

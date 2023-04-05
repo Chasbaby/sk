@@ -40,4 +40,15 @@
         where user_id = #{userId} and sights_id = #{sightsId}
         limit 1
     </select>
+    <select id="getUserSightsCollect" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="Long"
+            resultMap="com.ruoyi.sights.mapper.SightsBaseMapper.SightsBaseResult">
+            select distinct a.sights_id,a.sights_like,a.sights_hits,
+                            a.sights_view,a.sights_collect,a.sights_score,
+                            a.sights_name,a.sights_eng,a.sights_image,b.create_time
+            from sights_base a
+                left join sights_user_collect b
+                    on a.sights_id = b.sights_id
+            where a.user_id = #{userId}
+            order by b.create_time desc
+    </select>
 </mapper>

@@ -32,7 +32,7 @@ import static com.ruoyi.framework.config.SensitiveConfig.filter;
 /**
  * @author chas
  * @introduction 文创服务
- * @data 2023-3
+ * @date 2023-3
  */
 @Api("文创游客板块")
 @RestController

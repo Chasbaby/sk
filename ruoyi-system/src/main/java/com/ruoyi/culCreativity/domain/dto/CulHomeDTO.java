@@ -1,5 +1,7 @@
 package com.ruoyi.culCreativity.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -20,6 +22,7 @@ public class CulHomeDTO {
     private Long culCreativityCollection;
     private Long culCreativityHits;
     private Long culCreativityView;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     public Date getCreateTime() {

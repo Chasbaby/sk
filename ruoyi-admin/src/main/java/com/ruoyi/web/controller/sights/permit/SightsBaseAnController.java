@@ -299,6 +299,7 @@ public class SightsBaseAnController extends BaseController {
     /**
      * 收藏景点 完结
      */
+    @Deprecated
     @ApiOperation("收藏取消景点")
     @GetMapping("/collect/{sightsId}")
     @PreAuthorize("@ss.hasAnyRoles('common')")
@@ -333,6 +334,7 @@ public class SightsBaseAnController extends BaseController {
     /**
      * 获取用户景点 收藏记录 完结
      */
+    @Deprecated
     @ApiOperation("获取用户收藏景点")
     @PostMapping("/collect")
     @PreAuthorize("@ss.hasAnyRoles('common')")

@@ -13,7 +13,6 @@ import java.util.Date;
  */
 public class ArticleRecord implements Serializable {
 
-    @Id()
     private Long articleId;
     private Long userId;
     @JsonFormat(pattern = "yyyy-MM-dd")

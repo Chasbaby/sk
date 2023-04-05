@@ -1,6 +1,9 @@
 package com.ruoyi.sights.mapper;
 
+import com.ruoyi.sights.domain.SightsBase;
 import com.ruoyi.sights.domain.SightsRecordLike;
+
+import java.util.List;
 
 public interface SightsRecordLikeMapper {
 
@@ -28,5 +31,8 @@ public interface SightsRecordLikeMapper {
      * 判断用户对某景点是否点赞
      */
     public int judgeUserSightsExistLike(SightsRecordLike sightsRecordLike);
+
+
+    public List<SightsBase> getUserSightsCollect(Long userId);
 
 }

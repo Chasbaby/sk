@@ -1,5 +1,7 @@
 package com.ruoyi.article.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -24,6 +26,7 @@ public class ArticleReturnDTO implements Serializable {
     private String articleType;
 
     /** 收藏时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     private Long articleLike;

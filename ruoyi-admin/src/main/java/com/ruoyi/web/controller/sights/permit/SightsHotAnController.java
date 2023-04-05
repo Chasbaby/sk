@@ -4,7 +4,10 @@ import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.constant.KafkaTopicsConstant;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.sights.domain.DTO.SightsReturnDTO;
 import com.ruoyi.sights.service.ISightsHotService;
+import com.ruoyi.sights.service.ISightsRecordService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author chas
@@ -27,6 +32,9 @@ public class SightsHotAnController extends BaseController {
 
     @Autowired
     private ISightsHotService hotService;
+
+    @Autowired
+    private ISightsRecordService recordService;
 
     @Autowired
     private KafkaTemplate<String,String> kafkaTemplate;
@@ -90,9 +98,12 @@ public class SightsHotAnController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult addScore(@PathVariable Long sightsId,@PathVariable Double score){
         int i = hotService.ifScore(sightsId, score, getUserId());
-        kafkaTemplate.send(KafkaTopicsConstant.SIGHTSSCORE,sightsId+KafkaTopicsConstant.DELIMITER+getUserId()+KafkaTopicsConstant.DELIMITER+score);
+        kafkaTemplate.send(KafkaTopicsConstant.SIGHTSSCORE,sightsId+KafkaTopicsConstant.DELIMITER
+                +getUserId()+KafkaTopicsConstant.DELIMITER+score);
         return AjaxResult.success("评分成功喽");
     }
+
+
 
 
 }

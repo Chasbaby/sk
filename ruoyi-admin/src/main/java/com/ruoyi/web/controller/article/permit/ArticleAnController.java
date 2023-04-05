@@ -27,7 +27,7 @@ import static com.ruoyi.framework.config.SensitiveConfig.filter;
 /**
  * 面向游客的文章操作
  * @author Chas
- * @data 2023-3
+ * @date 2023-3
  */
 @Api("面向游客的文章操作")
 @RestController
@@ -69,6 +69,7 @@ public class ArticleAnController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/like/{articleId}")
     public AjaxResult articleLike(@PathVariable Long articleId){
+
         // 在拥有 游客 角色的用户 即存在了id
         ArticleRecord record = getArticleRecord(articleId);
         int flag = articleService.articleAddCancelLike(record);

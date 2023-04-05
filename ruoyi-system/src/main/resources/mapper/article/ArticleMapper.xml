@@ -28,6 +28,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="judgeTime"    column="judge_time"    />
     </resultMap>
 
+    <resultMap id="ArticleRecordResult" type="ArticleRecord">
+        <result column="article_id" property="articleId"/>
+        <result column="user_id" property="userId"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
     <sql id="selectArticleVo">
         select article_id, user_id, article_category, article_cover, article_title, article_content,
                article_type, original_url, article_like, article_view, article_collect, is_top, is_delete,

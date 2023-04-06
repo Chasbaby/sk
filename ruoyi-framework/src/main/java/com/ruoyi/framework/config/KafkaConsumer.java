@@ -76,7 +76,7 @@ public class KafkaConsumer {
         sightsHotService.score(sightsId,score,userId);
     }
 
-    @KafkaListener(topics = KafkaTopicsConstant.CUL_VIEW_ANONYMOUS )
+    @KafkaListener(topics = KafkaTopicsConstant.CUL_VIEW_ANONYMOUS)
     public void culAddViewAn(String culId){
         long cul = Long.parseLong(culId);
         culCreativityService.addCulViewAnonymous(cul);

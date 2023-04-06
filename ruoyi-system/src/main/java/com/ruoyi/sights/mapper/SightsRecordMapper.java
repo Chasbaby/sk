@@ -87,6 +87,9 @@ public interface SightsRecordMapper {
     @Select("select count(0) from sights_record_like where user_id = #{userId} and sights_id = #{sightsId} limit 1")
     public int judgeLike(@Param("userId") Long userId, @Param("sightsId") Long sightsId);
 
+    @Select("select score from sights_record_score where user_id = #{userId} and sights_id = #{sightsId} limit 1 ")
+    public Double getSightsScoreByUser(@Param("userId") Long userId,@Param("sightsId") Long sightsId);
+
     /**
      * 判断是否评分
      * @param userId

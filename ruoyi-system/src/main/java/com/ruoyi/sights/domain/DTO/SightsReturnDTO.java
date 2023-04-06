@@ -21,6 +21,7 @@ public class SightsReturnDTO implements Serializable {
     private Double sightsScore;
     private String sightsName;
     private String sightsEng;
+    private String sightsIntro;
     private String sightsImage;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;

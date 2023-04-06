@@ -57,6 +57,9 @@ public class SightsBaseServiceImpl implements ISightsBaseService
     @Autowired
     private RedisCache redisCache;
 
+    @Autowired
+    private SightsRecordMapper recordMapper;
+
 
 
     /**
@@ -80,7 +83,7 @@ public class SightsBaseServiceImpl implements ISightsBaseService
      * @param sightsId id
      * @return dto
      */
-    public SightsDTO selectDetailSightsById(Long sightsId){
+    public SightsDTO selectDetailSightsById(Long sightsId,Long userId){
         SightsDTO sightsDTO = new SightsDTO();
         SightsBulletin sightsBulletin = new SightsBulletin();
         sightsBulletin.setDelFlag("N");// 没有删除
@@ -101,6 +104,11 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         sightsDTO.setCommentNum(commentNum);
         List<TicketDTO> ticketDTOS = ticketService.selectTicketsBySightsId(sightsId);
         sightsDTO.setTickets(ticketDTOS);
+
+        sightsDTO.setIfCollect(recordMapper.judgeCollect(userId,sightsId));
+        sightsDTO.setIfLike(recordMapper.judgeLike(userId,sightsId));
+        Double score = recordMapper.getSightsScoreByUser(userId, sightsId);
+        sightsDTO.setScore(score == null ? -1 : score);
         return sightsDTO;
     }
 

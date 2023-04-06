@@ -64,6 +64,34 @@ public class SightsDTO implements Serializable {
 
     private Integer CommentNum;
 
+    private Integer ifCollect;
+    private Integer ifLike;
+    private Double score;
+
+    public Integer getIfCollect() {
+        return ifCollect;
+    }
+
+    public void setIfCollect(Integer ifCollect) {
+        this.ifCollect = ifCollect;
+    }
+
+    public Integer getIfLike() {
+        return ifLike;
+    }
+
+    public void setIfLike(Integer ifLike) {
+        this.ifLike = ifLike;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
+    }
+
     public List<TicketDTO> getTickets() {
         return tickets;
     }

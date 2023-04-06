@@ -35,7 +35,7 @@ public interface ISightsBaseService
      * @param sightsId
      * @return
      */
-    public SightsDTO selectDetailSightsById(Long sightsId);
+    public SightsDTO selectDetailSightsById(Long sightsId,Long userId);
 
     /**
      * 查询景点基本信息列表

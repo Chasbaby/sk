@@ -87,8 +87,8 @@ public class SightsBaseAnController extends BaseController {
 
     /**
      * 获得单个景点信息
-     * 点击景点之后, 也要加入历史记录哦
      */
+    @PreAuthorize("@ss.hasRole('common')")
     @ApiOperation("获取单个景点信息")
     @GetMapping("/{sightsId}")
     public AjaxResult getSightsInfo(@PathVariable Long sightsId){
@@ -96,8 +96,10 @@ public class SightsBaseAnController extends BaseController {
         if (sightsId == null){
             return AjaxResult.error("请联系官方，没有此景点信息");
         }
+        //  这里其实可以不用的
+        Long userId = getUserId();
         // 景点信息 (有些在缓存中的信息 并没有加入 但是无所谓)
-        SightsDTO sightsDTO = iSightsBaseService.selectDetailSightsById(sightsId);
+        SightsDTO sightsDTO = iSightsBaseService.selectDetailSightsById(sightsId,userId);
         return AjaxResult.success(sightsDTO);
     }
 

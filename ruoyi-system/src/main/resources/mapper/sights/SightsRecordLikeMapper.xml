@@ -42,7 +42,7 @@
     </select>
     <select id="getUserSightsCollect" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="Long"
             resultMap="com.ruoyi.sights.mapper.SightsBaseMapper.SightsBaseResult">
-            select distinct a.sights_id,a.sights_like,a.sights_hits,
+            select distinct a.sights_id,a.sights_like,a.sights_hits,a.sights_intro,
                             a.sights_view,a.sights_collect,a.sights_score,
                             a.sights_name,a.sights_eng,a.sights_image,b.create_time
             from sights_base a

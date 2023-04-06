@@ -124,7 +124,7 @@ public interface IArticleService
      * 包括的内容很多
      * @return
      */
-    public ArticleDetail getArticleDetail(Long articleId);
+    public ArticleDetail getArticleDetail(Long articleId,Long userId);
 
     /**
      * 获取文章稿件

@@ -343,7 +343,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Override
     public int ifCollect(Long sightsId, Long userId) {
         int i = recordMapper.judgeCollect(userId, sightsId);
-        if (i==1){
+        if (i == 1){
             cancelCollect(sightsId,userId);
         }
         return i;

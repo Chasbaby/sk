@@ -76,7 +76,7 @@ public interface SightsRecordMapper {
     @Insert("insert into sights_user_collect(user_id,sights_id) values (#{userId},#{sightsId})")
     public int addCollect(@Param("userId") Long userId, @Param("sightsId") Long sightsId);
 
-    @Delete("delete from sights_user_collect where where user_id = #{userId} and sights_id = #{sightsId} limit 1")
+    @Delete("delete from sights_user_collect where user_id = #{userId} and sights_id = #{sightsId} limit 1")
     public int deleteCollect(@Param("userId") Long userId, @Param("sightsId") Long sightsId);
     /**
      * 判断是否点赞

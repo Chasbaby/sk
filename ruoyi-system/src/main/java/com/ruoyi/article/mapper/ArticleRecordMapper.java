@@ -34,23 +34,18 @@ public interface ArticleRecordMapper{
 
     /**
      * 判断是否唯一
-     * @param articleRecord
-     * @return
      */
     @Select("select count(0) from article_record_like " +
             "where article_id = #{articleId} and user_id = #{userId} limit 1")
-    @ResultMap("com.ruoyi.article.mapper.ArticleMapper.ArticleRecordResult")
-    public int judgeOnlyOneLikeArticle(ArticleRecord articleRecord);
+    public int judgeOnlyOneLikeArticle(@Param("articleId")Long articleId,@Param("userId") Long userId);
 
     /**
      * 增加收藏
-     * @param articleRecord
      * @return
      */
-    @Insert("insert into article_record_collect(article_id,user_id,create_time) " +
-            "values (#{articleId},#{userId},#{createTime}) ")
-    @ResultMap("com.ruoyi.article.mapper.ArticleMapper.ArticleRecordResult")
-    public int addCollectArticle(ArticleRecord articleRecord);
+    @Insert("insert into article_record_collect(article_id,user_id) " +
+            "values (#{articleId},#{userId})")
+    public int addCollectArticle(@Param("articleId")Long articleId,@Param("userId") Long userId);
 
     /**
      * 取消收藏
@@ -63,13 +58,10 @@ public interface ArticleRecordMapper{
     public int deleteCollectArticle(ArticleRecord articleRecord);
     /**
      * 判断是否唯一
-     * @param articleRecord
-     * @return
      */
     @Select("select count(0) from article_record_collect " +
             "where article_id = #{articleId} and user_id = #{userId} limit 1")
-    @ResultMap("com.ruoyi.article.mapper.ArticleMapper.ArticleRecordResult")
-    public int judgeOnlyOneCollectArticle(ArticleRecord articleRecord);
+    public int judgeOnlyOneCollectArticle(@Param("articleId")Long articleId,@Param("userId") Long userId);
 
     /**
      * 增加浏览量

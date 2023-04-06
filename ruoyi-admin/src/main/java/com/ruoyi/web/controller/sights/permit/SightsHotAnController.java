@@ -66,8 +66,9 @@ public class SightsHotAnController extends BaseController {
     @GetMapping("/like/{sightsId}")
     public AjaxResult addLike(@PathVariable Long sightsId){
         int i = hotService.ifLike(sightsId, getUserId());
-        kafkaTemplate.send(KafkaTopicsConstant.SIGHTSLIKE,sightsId+KafkaTopicsConstant.DELIMITER+getUserId());
+
         if ( i == 0 ){
+            kafkaTemplate.send(KafkaTopicsConstant.SIGHTSLIKE,sightsId+KafkaTopicsConstant.DELIMITER+getUserId());
             return AjaxResult.success("点赞成功了哦");
         }
         return AjaxResult.success("取消点赞,期待下一次哦");
@@ -86,8 +87,9 @@ public class SightsHotAnController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult addCollect(@PathVariable Long sightsId){
         int i = hotService.ifCollect(sightsId, getUserId());
-        kafkaTemplate.send(KafkaTopicsConstant.SIGHTSCOLLECT,sightsId+KafkaTopicsConstant.DELIMITER+getUserId());
+
         if (i == 0){
+            kafkaTemplate.send(KafkaTopicsConstant.SIGHTSCOLLECT,sightsId+KafkaTopicsConstant.DELIMITER+getUserId());
             return AjaxResult.success("收藏成功");
         }
         return AjaxResult.success("取消收藏,期待下一次见面");
@@ -98,8 +100,11 @@ public class SightsHotAnController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult addScore(@PathVariable Long sightsId,@PathVariable Double score){
         int i = hotService.ifScore(sightsId, score, getUserId());
-        kafkaTemplate.send(KafkaTopicsConstant.SIGHTSSCORE,sightsId+KafkaTopicsConstant.DELIMITER
-                +getUserId()+KafkaTopicsConstant.DELIMITER+score);
+        if (i == 0){
+            kafkaTemplate.send(KafkaTopicsConstant.SIGHTSSCORE,sightsId+KafkaTopicsConstant.DELIMITER
+                    +getUserId()+KafkaTopicsConstant.DELIMITER+score);
+        }
+
         return AjaxResult.success("评分成功喽");
     }
 

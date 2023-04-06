@@ -245,10 +245,11 @@ public class ArticleAnController extends BaseController {
      * @return 信息
      */
     @ApiOperation("获取文章的详细信息")
-    @Anonymous
+    @PreAuthorize("@ss.hasRole('common')")
     @PostMapping("/getDetail/{articleId}")
     public AjaxResult getArticleDetail(@PathVariable Long articleId){
-        ArticleDetail detail = articleService.getArticleDetail(articleId);
+        Long userId = getUserId();
+        ArticleDetail detail = articleService.getArticleDetail(articleId,userId);
         return AjaxResult.success(detail);
     }
 

@@ -145,7 +145,7 @@ public class ArticleServiceImpl implements IArticleService
     @Override
     public int articleAddCancelLike(ArticleRecord record) {
         // 判断是否点赞 1为点赞了  0为没有点赞
-        int i = articleRecordMapper.judgeOnlyOneLikeArticle(record);
+        int i = articleRecordMapper.judgeOnlyOneLikeArticle(record.getArticleId(),record.getUserId());
         if (i==0){
             articleRecordMapper.addLikeArticle(record);
         }else {
@@ -163,9 +163,10 @@ public class ArticleServiceImpl implements IArticleService
     @Override
     public int articleAddCancelCollect(ArticleRecord record) {
 
-        int i = articleRecordMapper.judgeOnlyOneCollectArticle(record);
+        int i = articleRecordMapper.judgeOnlyOneCollectArticle(record.getArticleId(),record.getUserId());
+
         if (i==0){
-            articleRecordMapper.addCollectArticle(record);
+            articleRecordMapper.addCollectArticle(record.getArticleId(),record.getUserId());
         }else {
             articleRecordMapper.deleteCollectArticle(record);
         }
@@ -279,7 +280,7 @@ public class ArticleServiceImpl implements IArticleService
      * @return
      */
     @Override
-    public ArticleDetail getArticleDetail(Long articleId) {
+    public ArticleDetail getArticleDetail(Long articleId,Long user) {
         ArticleDetail detail = new ArticleDetail();
         UserDTO userDTO = new UserDTO();
         VisitorDTO visitorDTO = new VisitorDTO();
@@ -303,9 +304,12 @@ public class ArticleServiceImpl implements IArticleService
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-
         detail.setUser(userDTO);
         detail.setVisitor(visitorDTO);
+
+        detail.setIfCollect(articleRecordMapper.judgeOnlyOneCollectArticle(articleId,user));
+        detail.setIfLike(articleRecordMapper.judgeOnlyOneLikeArticle(articleId,user));
+
         return detail;
     }
 

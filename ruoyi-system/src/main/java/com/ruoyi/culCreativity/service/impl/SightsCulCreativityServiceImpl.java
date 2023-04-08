@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import com.ruoyi.article.service.impl.ArticleServiceImpl;
 import com.ruoyi.common.constant.Constants;
@@ -244,6 +245,25 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     public int deleteBatchesCulByIds(Long[] culId) {
         int i = sightsCulCreativityMapper.deleteBatchesCul(culId);
         return i;
+    }
+
+    /**
+     * ways  0  审核通过
+     *       1  审核不通过
+     *       2  进行中
+      * @param user
+     * @param way
+     * @return
+     */
+    @Override
+    public List<CulHomeDTO> getUserAllArticleByWays(Long user, Integer way) {
+        List<SightsCulCreativity> culCreativities = sightsCulCreativityMapper.getAllCUlByWays(user, way);
+        List<CulHomeDTO> collect = culCreativities.stream().map(item -> {
+            CulHomeDTO homeDTO = new CulHomeDTO();
+            BeanUtils.copyBeanProp(homeDTO, item);
+            return homeDTO;
+        }).collect(Collectors.toList());
+        return collect;
     }
 
 

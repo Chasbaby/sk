@@ -2,14 +2,15 @@ package com.ruoyi.culCreativity.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author chas
  * @introduction
- * @data
+ * @date 2023-4
  */
-public class CulHomeDTO {
+public class CulHomeDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private Long culCreativityId;
     private Long userId;

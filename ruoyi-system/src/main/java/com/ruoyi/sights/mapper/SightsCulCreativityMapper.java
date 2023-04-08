@@ -143,5 +143,8 @@ public interface SightsCulCreativityMapper
     /**批量删除*/
     public int deleteBatchesCul(Long[] culCreativityId);
 
+    /** 获取用户所有文创*/
+    public List<SightsCulCreativity> getAllCUlByWays(@Param("userId") Long userId,@Param("ways") Integer ways);
+
 
 }

@@ -175,4 +175,6 @@ public interface ISightsCulCreativityService
     /** 批量删除*/
     public int deleteBatchesCulByIds(Long[] culId);
 
+    public  List<CulHomeDTO> getUserAllArticleByWays(Long user,Integer way);
+
 }

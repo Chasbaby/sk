@@ -1,5 +1,7 @@
 package com.ruoyi.sights.domain.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -15,12 +17,24 @@ public class TicketDTO implements Serializable {
 
     private Long ticketId;
     private Long sightsId;
+    private Integer ticketNum;
     private BigDecimal ticketPrice;
     private BigDecimal discount;
     private String selfService;
     private String ticketStatus;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date ticketBegintime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date ticketEndtime;
+
+
+    public Integer getTicketNum() {
+        return ticketNum;
+    }
+
+    public void setTicketNum(Integer ticketNum) {
+        this.ticketNum = ticketNum;
+    }
 
     public Long getTicketId() {
         return ticketId;

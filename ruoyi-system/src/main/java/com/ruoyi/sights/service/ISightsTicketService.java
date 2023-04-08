@@ -13,6 +13,8 @@ import com.ruoyi.sights.domain.SightsTicket;
  */
 public interface ISightsTicketService 
 {
+
+
     /**
      * 查询门票
      * 

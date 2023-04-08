@@ -166,6 +166,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where b.user_id = #{userId} and a.del_flag = 'N' and a.is_ok ='Y' and a.status ='1'
         order by b.create_time desc
     </select>
+    <select id="getAllCUlByWays" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" resultMap="SightsCulCreativityResult">
+        <include refid="selectSightsCulCreativityVo"/>
+        <where>
+            <if test="ways == 0"> and is_ok='Y'</if>
+            <if test="ways == 1"> and is_ok='N'</if>
+            <if test="ways == 2"> and is_Ok='U'</if>
+        </where>
+        and del_flag = 'N' and user_id = #{userId}
+        order by create_time desc
+    </select>
 
 
     <insert id="insertSightsCulCreativity" parameterType="SightsCulCreativity" useGeneratedKeys="true" keyProperty="culCreativityId">

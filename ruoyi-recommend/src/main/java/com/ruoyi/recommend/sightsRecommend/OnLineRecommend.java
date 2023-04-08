@@ -38,6 +38,7 @@ import static com.ruoyi.recommend.util.SparkUtil.*;
  * @author Chas
  * @date 2023-2
  */
+
 public class OnLineRecommend {
     public final static Logger logger = LoggerFactory.getLogger(OnLineRecommend.class);
     @Autowired
@@ -67,7 +68,7 @@ public class OnLineRecommend {
         JavaStreamingContext javaStreamingContext = new JavaStreamingContext(javaSparkContext, new Duration(20000));
 
         // 从数据库中读取信息
-        Dataset<SightsRecs> dataset = (Dataset<SightsRecs>) readFromMysql(spark, "");
+        Dataset<SightsRecs> dataset = (Dataset<SightsRecs>) readFromMysql(spark, "sightsrecs");
         // 加载数据，相似度矩阵，广播出去
         Map<Long, Iterable<Tuple2<Long, Double>>> longIterableMap = dataset
                 .toJavaRDD()
@@ -108,14 +109,14 @@ public class OnLineRecommend {
         List<SightsUserStream> SightsUserStream= new LinkedList<>();
         map.foreachRDD((VoidFunction<JavaRDD<SightsUserStream>>) sightsUserStreamJavaRDD ->
                 sightsUserStreamJavaRDD.foreach(f->{
-                    // TODO: 核心算法流程
-                    // 1. 从redis里取出当前用户的最近评分，保存成一个Map[(productId, score)]
+                    // 核心算法流程
+                    // 1. 从redis里取出当前用户的最近评分，保存成一个Map[(sightsId, score)]
                     Map<Long, Double> ratings = getUserRecentlyRatings(10, f.getUserId());
-                    // 2. 从相似度矩阵中获取当前商品最相似的商品列表，作为备选列表，保存成一个List[productId]
+                    // 2. 从相似度矩阵中获取当前景点最相似的景点列表，作为备选列表，保存成一个List[sightsId]
                     List<Long> candidateSights  = getTopSimSights(10, f.getSightsId(), f.getUserId(), broadcast.value());
-                    // 3. 计算每个备选商品的推荐优先级，得到当前用户的实时推荐列表，保存成 Array[(productId, score)]
+                    // 3. 计算每个备选景点的推荐优先级，得到当前用户的实时推荐列表，保存成 Array[(sightsId, score)]
                     Map<Long, Double> StreamRecs = computeSightsScore(candidateSights, ratings, broadcast.value());
-                    //todo 将 StreamRecs 存入数据库
+                    // 将 StreamRecs 存入数据库
                     Set<Long> longKey = StreamRecs.keySet();
                     longKey.forEach(key->{
                         Double score = StreamRecs.get(key);

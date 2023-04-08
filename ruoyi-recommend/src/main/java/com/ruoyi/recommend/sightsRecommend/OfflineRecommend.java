@@ -34,12 +34,16 @@ public class OfflineRecommend {
     public void offlineService(){
         SparkSession spark = buildSparkSession("local[*]", "OffLineRecommend", true);
         Dataset<SightsRecordScore> sightsRecordScore = (Dataset<SightsRecordScore>) readFromMysql(spark, "sights_record_score");
-        JavaRDD<Tuple3<Long, Long, Double>> ratingRDD = sightsRecordScore.toJavaRDD().map((Function<SightsRecordScore, Tuple3<Long, Long, Double>>) sightsRecordScore1 ->
+        JavaRDD<Tuple3<Long, Long, Double>> ratingRDD = sightsRecordScore.toJavaRDD()
+                .map((Function<SightsRecordScore, Tuple3<Long, Long, Double>>)
+                        sightsRecordScore1 ->
                         new Tuple3<>(sightsRecordScore1.getUserId(), sightsRecordScore1.getSightsId(), sightsRecordScore1.getScore()))
                 .cache();
         // 提取出所有用户和景点的数据集
-        JavaRDD<Integer> userRDD = ratingRDD.map((Function<Tuple3<Long, Long, Double>, Integer>) f -> Math.toIntExact(f._1().intValue())).distinct();
-        JavaRDD<Integer> sightsRDD = ratingRDD.map((Function<Tuple3<Long, Long, Double>, Integer>) f -> Math.toIntExact(f._2().intValue())).distinct();
+        JavaRDD<Integer> userRDD = ratingRDD.map((Function<Tuple3<Long, Long, Double>, Integer>)
+                f -> Math.toIntExact(f._1().intValue())).distinct();
+        JavaRDD<Integer> sightsRDD = ratingRDD.map((Function<Tuple3<Long, Long, Double>, Integer>)
+                f -> Math.toIntExact(f._2().intValue())).distinct();
 
         // 核心计算过程
         // 1. 训练隐语义模型

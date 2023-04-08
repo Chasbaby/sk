@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import static com.ruoyi.recommend.util.SparkUtil.*;
 import static org.apache.commons.collections4.IteratorUtils.getIterator;
 
+// 基于景点的协同过滤
 public class ItemCFRecommend {
 
     public void ItemCFService(){
@@ -24,8 +25,8 @@ public class ItemCFRecommend {
         Dataset<Row> ratingDF = sightsRecordScore
                 .toDF("userId", "sightsId", "score")
                 .cache();
-        // TODO: 核心算法，计算同现相似度，得到商品的相似列表
-        // 统计每个景点的评分个数，按照productId来做group by
+        // TODO: 核心算法，计算相似度，得到景点的相似列表
+        // 统计每个景点的评分个数，按照sightsId来做group by
         Dataset<Row> sightsRatingCountDF = ratingDF
                 .groupBy("sightsId")
                 .count();

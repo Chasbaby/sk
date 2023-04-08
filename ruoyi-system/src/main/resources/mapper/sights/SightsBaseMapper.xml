@@ -157,7 +157,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by sights_id
         limit 8;
     </select>
-    <select id="getNeedNumSightsHot" resultType="com.ruoyi.sights.domain.SightsBase" resultMap="SightsBaseResult">
+
+    <select id="getNeedNumSightsHot" resultType="com.ruoyi.sights.domain.SightsBase" resultMap="SightsBaseResult" parameterType="String">
         <include refid="selectSightsBaseVo"/>
         where sights_id not in
         <foreach collection="array" close=")" separator="," open="(" item="sightsId">
@@ -252,6 +253,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sightsCity != null">sights_city = #{sightsCity},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="sightsCode !=null">sights_code = #{sightsCode},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="sightsTelephone !=null and sightsTelephone !=''">sights_telephone = #{sightsTelephone},</if>

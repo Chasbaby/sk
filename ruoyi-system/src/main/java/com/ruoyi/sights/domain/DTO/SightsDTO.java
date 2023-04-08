@@ -61,12 +61,21 @@ public class SightsDTO implements Serializable {
     private List<TicketDTO> tickets;
 
     private Integer scoreNum;
-
+    /**景点购物二维码*/
+    private String sightsCode;
     private Integer CommentNum;
 
     private Integer ifCollect;
     private Integer ifLike;
     private Double score;
+
+    public String getSightsCode() {
+        return sightsCode;
+    }
+
+    public void setSightsCode(String sightsCode) {
+        this.sightsCode = sightsCode;
+    }
 
     public Integer getIfCollect() {
         return ifCollect;

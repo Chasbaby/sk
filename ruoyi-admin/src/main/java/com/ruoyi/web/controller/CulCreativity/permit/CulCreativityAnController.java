@@ -245,7 +245,13 @@ public class CulCreativityAnController extends BaseController {
     @GetMapping("/person/{num}")
     @PreAuthorize("@ss.hasRole('common')")
     public TableDataInfo getUserAllCul(@PathVariable Integer num){
-        return null;
+
+        if (num==null){
+            return errorMsg("类型错误，请联系管理员");
+        }
+        startPage();
+        List<CulHomeDTO> homeDTOS = creativityService.getUserAllArticleByWays(getUserId(),num);
+        return getDataTable(homeDTOS);
     }
 
     @ApiOperation("批量删除")

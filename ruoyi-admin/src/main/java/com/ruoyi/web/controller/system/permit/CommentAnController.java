@@ -5,6 +5,7 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.common.utils.ip.AddressUtils;
 import com.ruoyi.system.domain.Comment;
 import com.ruoyi.system.domain.CommentRecordLike;
 import com.ruoyi.system.domain.domainVo.CommentDTO;
@@ -73,7 +74,7 @@ public class CommentAnController extends BaseController {
         String ip = getLoginUser().getIpaddr();
         Comment comment = new Comment();
         BeanUtils.copyBeanProp(comment,commentVO);
-        comment.setCommentIp(ip);
+        comment.setCommentIp(AddressUtils.getRealAddressByIP(ip));
         comment.setUserId(getUserId());
         comment.setCreateBy(getUsername());
         if (commentVO.getParentId()==-1){

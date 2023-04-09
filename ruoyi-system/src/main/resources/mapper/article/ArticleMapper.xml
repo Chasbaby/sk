@@ -65,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="articleTitle != null  and articleTitle != ''"> or article_title like concat('%',#{articleTitle},'%')</if>
             <if test="articleContent != null  and articleContent != ''"> or article_content like concat('%',#{articleContent},'%')</if>
         </where>
-        and a.is_delete='N' and a.is_ok='Y' and a.status='1'
+        and a.is_delete='N' and a.is_ok='Y' and a.status='0'
         order by a.create_time desc
     </select>
 
@@ -74,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from article a
             left join article_record_collect b
                 on a.article_id = b.article_id
-        where b.user_id = #{userId} and a.is_delete = 'N' and a.is_ok= 'Y' and a.status = '1'
+        where b.user_id = #{userId} and a.is_delete = 'N' and a.is_ok= 'Y' and a.status = '0'
         order by b.create_time desc
     </select>
     <select id="selectArticleLikeByUserId" resultType="com.ruoyi.article.domain.Article" parameterType="Long" resultMap="ArticleResult">
@@ -82,7 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from article a
                  left join article_record_like b
                            on a.article_id = b.article_id
-        where b.user_id = #{userId} and a.is_delete = 'N' and a.is_ok= 'Y' and a.status = '1'
+        where b.user_id = #{userId} and a.is_delete = 'N' and a.is_ok= 'Y' and a.status = '0'
         order by b.create_time desc
     </select>
     <select id="selectArticleViewByUserId" resultType="com.ruoyi.article.domain.Article" parameterType="Long" resultMap="ArticleResult">
@@ -90,7 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from article a
                  left join article_record_view b
                            on a.article_id = b.article_id
-        where b.user_id = #{userId} and a.is_delete = 'N' and a.is_ok= 'Y' and a.status = '1'
+        where b.user_id = #{userId} and a.is_delete = 'N' and a.is_ok= 'Y' and a.status = '0'
         order by b.create_time desc
     </select>
     <select id="getArticleDraft" resultType="com.ruoyi.article.domain.Article" parameterType="Long" resultMap="ArticleResult">
@@ -111,7 +111,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectArticleInPersonPage" resultType="com.ruoyi.article.domain.Article" resultMap="ArticleResult">
         <include refid="selectArticleVo"/>
         <where>
-            <if test="way == 0">and is_ok = 'Y' and  status = '1' and is_delete = 'N'</if>
+            <if test="way == 0">and is_ok = 'Y' and  status = '0' and is_delete = 'N'</if>
             <if test="way == 1">and is_delete = 'N'</if>
         </where>
         and user_id = #{userId}
@@ -150,9 +150,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId != null">user_id,</if>
             <if test="articleCategory != null">article_category,</if>
-            <if test="articleCover != null">article_cover,</if>
+            <if test="articleCover != null and articleCover !=''">article_cover,</if>
             <if test="articleTitle != null">article_title,</if>
-            <if test="articleContent != null">article_content,</if>
+            <if test="articleContent != null ">article_content,</if>
             <if test="articleType != null">article_type,</if>
             <if test="originalUrl != null">original_url,</if>
             <if test="articleLike != null">article_like,</if>
@@ -172,7 +172,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">#{userId},</if>
             <if test="articleCategory != null">#{articleCategory},</if>
-            <if test="articleCover != null">#{articleCover},</if>
+            <if test="articleCover != null and articleCover !=''">#{articleCover},</if>
             <if test="articleTitle != null">#{articleTitle},</if>
             <if test="articleContent != null">#{articleContent},</if>
             <if test="articleType != null">#{articleType},</if>

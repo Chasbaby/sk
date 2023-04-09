@@ -245,7 +245,6 @@ public class CulCreativityAnController extends BaseController {
     @GetMapping("/person/{num}")
     @PreAuthorize("@ss.hasRole('common')")
     public TableDataInfo getUserAllCul(@PathVariable Integer num){
-
         if (num==null){
             return errorMsg("类型错误，请联系管理员");
         }
@@ -269,11 +268,5 @@ public class CulCreativityAnController extends BaseController {
         record.setCreateTime(DateUtils.getNowDate());
         return record;
     }
-
-
-
-
-
-
 
 }

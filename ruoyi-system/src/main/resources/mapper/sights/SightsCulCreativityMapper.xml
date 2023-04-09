@@ -95,7 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectCulInPersonPage" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" resultMap="SightsCulCreativityResult">
         <include refid="selectSightsCulCreativityVo"/>
         <where>
-            <if test="way ==0"> and is_ok = 'Y' and status = '1' and del_flag = 'N'</if>
+            <if test="way ==0"> and is_ok = 'Y' and status = '0' and del_flag = 'N'</if>
             <if test="way ==1">and del_flag = 'N'</if>
         </where>
         and user_id = #{userId}
@@ -107,7 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from sights_cul_creativity a
             left join cul_record_collect b
                 on a.cul_creativity_id = b.cul_creativity_id
-        where b.user_id = #{userId} and a.del_flag = 'N' and a.is_ok ='Y' and a.status ='1'
+        where b.user_id = #{userId} and a.del_flag = 'N' and a.is_ok ='Y' and a.status ='0'
         order by b.create_time desc
 
     </select>
@@ -118,7 +118,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                a.cul_creativity_image,a.cul_creativity_intro,a.cul_creativity_like,
                a.cul_creativity_collection,a.cul_creativity_hits,a.create_time  from sights_cul_creativity a
                    left join concerns b on a.user_id = b.prior_user
-                where b.main_user = #{userId} and a.status = '1'
+                where b.main_user = #{userId} and a.status = '0'
                   and a.is_ok = 'Y' and a.del_flag = 'N'
 #                   and b.if_remind = 'Y' and b.cul_num >0
                 order by a.create_time DESC
@@ -154,7 +154,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from sights_cul_creativity a
                  left join cul_record_like b
                            on a.cul_creativity_id = b.cul_creativity_id
-        where b.user_id = #{userId} and a.del_flag = 'N' and a.is_ok ='Y' and a.status ='1'
+        where b.user_id = #{userId} and a.del_flag = 'N' and a.is_ok ='Y' and a.status ='0'
         order by b.create_time desc
     </select>
     <select id="selectCulViewByUserId" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" parameterType="Long" resultMap="SightsCulCreativityResult">
@@ -163,7 +163,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from sights_cul_creativity a
                  left join cul_record_view b
                            on a.cul_creativity_id = b.cul_creativity_id
-        where b.user_id = #{userId} and a.del_flag = 'N' and a.is_ok ='Y' and a.status ='1'
+        where b.user_id = #{userId} and a.del_flag = 'N' and a.is_ok ='Y' and a.status ='0'
         order by b.create_time desc
     </select>
     <select id="getAllCUlByWays" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" resultMap="SightsCulCreativityResult">

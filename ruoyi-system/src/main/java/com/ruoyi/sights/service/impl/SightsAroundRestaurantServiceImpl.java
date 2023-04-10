@@ -2,7 +2,11 @@ package com.ruoyi.sights.service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.sights.domain.DTO.RestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.sights.mapper.SightsAroundRestaurantMapper;
@@ -114,7 +118,12 @@ public class SightsAroundRestaurantServiceImpl implements ISightsAroundRestauran
     }
 
     @Override
-    public List<SightsAroundRestaurant> selectAroundRestBySights(Long sightsId) {
-        return sightsAroundRestaurantMapper.selectAroundRestBySights(sightsId);
+    public List<RestDTO> selectAroundRestBySights(Long sightsId) {
+        List<SightsAroundRestaurant> restaurants = sightsAroundRestaurantMapper.selectAroundRestBySights(sightsId);
+        return restaurants.stream().map(item->{
+            RestDTO dto = new RestDTO();
+            BeanUtils.copyBeanProp(dto,item);
+            return dto;
+        }).collect(Collectors.toList());
     }
 }

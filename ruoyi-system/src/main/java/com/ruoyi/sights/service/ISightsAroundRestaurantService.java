@@ -2,6 +2,8 @@ package com.ruoyi.sights.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import com.ruoyi.sights.domain.DTO.RestDTO;
 import com.ruoyi.sights.domain.SightsAroundRestaurant;
 
 /**
@@ -68,5 +70,5 @@ public interface ISightsAroundRestaurantService
     /**
      * 获取某景点相关餐馆
      */
-    public List<SightsAroundRestaurant> selectAroundRestBySights(Long sightsId);
+    public List<RestDTO> selectAroundRestBySights(Long sightsId);
 }

@@ -64,4 +64,6 @@ public interface SightsAroundHotelMapper
      */
 
     public List<SightsAroundHotel> selectAroundHotelsBySightsId(Long sights);
+
+    public List<SightsAroundHotel> getHotelBySightsId();
 }

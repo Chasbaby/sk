@@ -45,6 +45,11 @@ public class SightsUserBehavior implements Serializable {
         SpringUtils.getBean(RedisCache.class).lock(SUKEY);
         List<SightsUserBehavior> cacheList = SpringUtils.getBean(RedisCache.class).getCacheList(SUKEY);
         // 如果列表中存在数据 则结束
+//        while(cacheList.iterator().hasNext()){
+//            SightsUserBehavior next = cacheList.iterator().next();
+//
+//            //todo
+//        }
         if (cacheList.contains(behavior)){
             return;
         }

@@ -2,6 +2,8 @@ package com.ruoyi.sights.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import com.ruoyi.sights.domain.DTO.HotelDTO;
 import com.ruoyi.sights.domain.SightsAroundHotel;
 
 /**
@@ -70,4 +72,8 @@ public interface ISightsAroundHotelService
      */
 
     public void scoreHotel(Long hotelId, BigDecimal score);
+
+    public List<HotelDTO> getHotelBySightsId(Long sightsId);
+
+
 }

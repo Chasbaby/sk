@@ -124,21 +124,5 @@ public class SightsAroundRestaurantController extends BaseController
         return AjaxResult.success("绑定成功");
     }
 
-    /**
-     * 获取景点周边酒店
-     */
-    @Anonymous
-    @PostMapping("/around/{sightsId}")
-    public AjaxResult getAroundRestaurant(@PathVariable Long sightsId){
-        return AjaxResult.success(sightsAroundRestaurantService.selectAroundRestBySights(sightsId));
-    }
-    /**
-     * 匿名评分
-     */
-    @Anonymous
-    @GetMapping("/score")
-    public AjaxResult scoreRestaurant(Long restaurantId, BigDecimal score){
-        sightsAroundRestaurantService.scoreRestaurant(restaurantId,score);
-        return AjaxResult.success("评分成功");
-    }
+
 }

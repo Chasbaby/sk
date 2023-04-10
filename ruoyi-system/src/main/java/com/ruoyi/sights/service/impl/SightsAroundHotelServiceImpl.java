@@ -2,7 +2,11 @@ package com.ruoyi.sights.service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.sights.domain.DTO.HotelDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.sights.mapper.SightsAroundHotelMapper;
@@ -113,5 +117,15 @@ public class SightsAroundHotelServiceImpl implements ISightsAroundHotelService
         sightsAroundHotel.setHotelReviewers(reviewers);
         // 更新数据
         sightsAroundHotelMapper.updateSightsAroundHotel(sightsAroundHotel);
+    }
+
+    @Override
+    public List<HotelDTO> getHotelBySightsId(Long sightsId) {
+        List<SightsAroundHotel> hotels = sightsAroundHotelMapper.selectAroundHotelsBySightsId(sightsId);
+        return hotels.stream().map(item->{
+            HotelDTO dto = new HotelDTO();
+            BeanUtils.copyBeanProp(dto,item);
+            return dto;
+        }).collect(Collectors.toList());
     }
 }

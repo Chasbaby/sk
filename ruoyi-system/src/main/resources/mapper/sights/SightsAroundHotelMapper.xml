@@ -47,10 +47,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSightsAroundHotelVo"/>
         where hotel_id = #{hotelId}
     </select>
+
     <select id="selectAroundHotelsBySightsId" resultType="com.ruoyi.sights.domain.SightsAroundHotel">
         <include refid="selectSightsAroundHotelVo"/>
         where sights_id = #{sightsId} and show_flag = 'Y'
     </select>
+
 
     <insert id="insertSightsAroundHotel" parameterType="SightsAroundHotel" useGeneratedKeys="true" keyProperty="hotelId">
         insert into sights_around_hotel

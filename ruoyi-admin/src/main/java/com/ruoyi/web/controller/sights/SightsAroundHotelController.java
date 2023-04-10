@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.annotation.RepeatSubmit;
+import com.ruoyi.sights.service.ISightsAroundRestaurantService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,7 @@ public class SightsAroundHotelController extends BaseController
 {
     @Autowired
     private ISightsAroundHotelService sightsAroundHotelService;
+
 
     /**
      * 查询酒店列表
@@ -124,24 +126,5 @@ public class SightsAroundHotelController extends BaseController
         return AjaxResult.success("绑定成功");
     }
 
-    /**
-     * 获取景点周边餐馆
-     * 展示的数量要固定呀
-     */
-    @Anonymous
-    @PostMapping("/around/{sightsId}")
-    public AjaxResult getAroundHotel(@PathVariable Long sightsId){
-        return AjaxResult.success(sightsAroundHotelService.selectAroundHotelBySightsId(sightsId));
-    }
 
-    /**
-     * 匿名评分
-     */
-    @RepeatSubmit(interval = 10000,message = "请勿重复评分")
-    @Anonymous
-    @GetMapping("/score")
-    public AjaxResult scoreHotel(Long hotelId, BigDecimal score){
-        sightsAroundHotelService.scoreHotel(hotelId,score);
-        return AjaxResult.success("评分成功");
-    }
 }

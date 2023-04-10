@@ -9,7 +9,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 活动对象 sys_activity
- * 
+ *  个人或者平台都可以发起活动
  * @author ruoyi
  * @date 2023-04-10
  */

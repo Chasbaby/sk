@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.SysActivity;
+import com.ruoyi.system.domain.domainVo.ActivityPersonDTO;
 
 /**
  * 活动Service接口
@@ -58,4 +59,9 @@ public interface ISysActivityService
      * @return 结果
      */
     public int deleteSysActivityByActivityId(Long activityId);
+
+    /**
+     * 首部轮播活动
+     */
+    public List<ActivityPersonDTO> getPersonSwiper();
 }

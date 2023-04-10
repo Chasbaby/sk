@@ -70,4 +70,9 @@ public interface SysTypesetMapper
      * @return
      */
     public List<SysTypeset> getTypesetCul3();
+
+    /**
+     * 获取创作中心活动图
+     */
+    public SysTypeset getPersonPicture();
 }

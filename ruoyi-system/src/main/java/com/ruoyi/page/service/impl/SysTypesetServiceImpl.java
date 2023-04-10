@@ -103,4 +103,10 @@ public class SysTypesetServiceImpl implements ISysTypesetService
     public List<SysTypeset> getTypesetCul3() {
         return sysTypesetMapper.getTypesetCul3();
     }
+
+    @Override
+    public SysTypeset getPersonPicture() {
+
+        return sysTypesetMapper.getPersonPicture();
+    }
 }

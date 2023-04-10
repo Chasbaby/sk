@@ -46,6 +46,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSysTypesetVo"/>
         where typeset_page = 0 and typeset_position = 6 or typeset_position = 7 or typeset_position = 8 and flag = 'Y'
     </select>
+    <select id="getPersonPicture" resultType="com.ruoyi.page.domain.SysTypeset" resultMap="SysTypesetResult">
+        <include refid="selectSysTypesetVo"/>
+        where typeset_page = 2 and  typeset_position= 0 and flag = 'Y'
+    </select>
 
     <insert id="insertSysTypeset" parameterType="SysTypeset">
         insert into sys_typeset

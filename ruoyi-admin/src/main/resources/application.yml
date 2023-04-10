@@ -20,7 +20,7 @@ baidu:
 
 # 搜索模式 可选 elasticsearch或mysql
 search:
-  mode: elasticsearch
+  mode: mysql
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080

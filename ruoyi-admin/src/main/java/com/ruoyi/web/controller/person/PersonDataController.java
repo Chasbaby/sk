@@ -148,6 +148,12 @@ public class PersonDataController extends BaseController {
         return null;
     }
 
+    @ApiOperation("获取创作中心活动图")
+    @GetMapping("/activity/picture")
+    public AjaxResult getActPerson(){
+        return AjaxResult.success(sysTypesetService.getPersonPicture());
+    }
+
 
 
 

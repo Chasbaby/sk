@@ -58,4 +58,6 @@ public interface SysActivityMapper
      * @return 结果
      */
     public int deleteSysActivityByActivityIds(Long[] activityIds);
+
+    public List<SysActivity> getPersonSwiper();
 }

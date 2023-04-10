@@ -1,7 +1,10 @@
 package com.ruoyi.system.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.system.domain.domainVo.ActivityPersonDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysActivityMapper;
@@ -92,5 +95,17 @@ public class SysActivityServiceImpl implements ISysActivityService
     public int deleteSysActivityByActivityId(Long activityId)
     {
         return sysActivityMapper.deleteSysActivityByActivityId(activityId);
+    }
+
+    @Override
+    public List<ActivityPersonDTO> getPersonSwiper() {
+        List<SysActivity> swiper = sysActivityMapper.getPersonSwiper();
+        List<ActivityPersonDTO> personDTOS = new ArrayList<>();
+        swiper.stream().forEach(item->{
+            ActivityPersonDTO personDTO = new ActivityPersonDTO();
+            BeanUtils.copyBeanProp(personDTO,item);
+            personDTOS.add(personDTO);
+        });
+        return personDTOS;
     }
 }

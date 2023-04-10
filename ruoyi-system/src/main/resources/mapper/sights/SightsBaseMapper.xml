@@ -151,6 +151,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by 0.1 * sights_id + 0.2 * sights_view + 0.3 * sights_like + 0.4 * sights_collect + sights_hot + sights_score * 100 desc
         limit 15
     </select>
+
     <select id="getRandomSights" resultType="com.ruoyi.sights.domain.SightsBase" resultMap="SightsBaseResult">
         <include refid="selectSightsBaseVo"/>
         where sights_id >= (select floor( Rand() * (select MAX(sights_id) from sights_base ) ) )

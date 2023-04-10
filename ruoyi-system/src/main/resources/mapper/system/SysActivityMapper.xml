@@ -47,11 +47,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSysActivityVo"/>
         where activity_id = #{activityId}
     </select>
+
     <select id="getPersonSwiper" resultType="com.ruoyi.system.domain.SysActivity" resultMap="SysActivityResult">
+        <include refid="selectSysActivityVo"/>
+        where over_time >= now() and  activity_id >= (select floor( Rand() * (select MAX(activity_id) from sys_activity ) ) )
+        limit 5
+    </select>
+
+    <select id="getListShow" resultType="com.ruoyi.system.domain.SysActivity" resultMap="SysActivityResult">
         <include refid="selectSysActivityVo"/>
         where over_time >= now()
         order by activity_hot
-        limit 5
+        limit 2
+    </select>
+    <select id="getActList" resultType="com.ruoyi.system.domain.SysActivity" resultMap="SysActivityResult">
+        <include refid="selectSysActivityVo"/>
+        order by activity_hot begin_time
     </select>
 
     <insert id="insertSysActivity" parameterType="SysActivity" useGeneratedKeys="true" keyProperty="activityId">

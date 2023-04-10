@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.system.domain.domainVo.ActivityListDTO;
 import com.ruoyi.system.domain.domainVo.ActivityPersonDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,6 +98,10 @@ public class SysActivityServiceImpl implements ISysActivityService
         return sysActivityMapper.deleteSysActivityByActivityId(activityId);
     }
 
+    /**
+     * 活动轮播
+     * @return
+     */
     @Override
     public List<ActivityPersonDTO> getPersonSwiper() {
         List<SysActivity> swiper = sysActivityMapper.getPersonSwiper();
@@ -108,4 +113,29 @@ public class SysActivityServiceImpl implements ISysActivityService
         });
         return personDTOS;
     }
+
+    /*** 活动列表*/
+    @Override
+    public List<ActivityListDTO> getActList() {
+        List<SysActivity> show = sysActivityMapper.getListShow();
+        List<ActivityListDTO> personDTOS = new ArrayList<>();
+        show.forEach(item->{
+            ActivityListDTO activityListDTO = new ActivityListDTO();
+            BeanUtils.copyBeanProp(activityListDTO,item);
+            personDTOS.add(activityListDTO);
+        });
+        return personDTOS;
+    }
+
+    /**
+     * 分页获取活动列表
+     * @return
+     */
+    @Override
+    public List<SysActivity> getAllList() {
+        List<SysActivity> list = sysActivityMapper.getActList();
+        return list;
+    }
+
+
 }

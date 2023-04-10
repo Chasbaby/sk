@@ -59,5 +59,16 @@ public interface SysActivityMapper
      */
     public int deleteSysActivityByActivityIds(Long[] activityIds);
 
+    /**
+     * 活动轮播
+     * @return
+     */
     public List<SysActivity> getPersonSwiper();
+
+    /**
+     * 活动列表
+     */
+     public List<SysActivity> getListShow();
+
+     public List<SysActivity> getActList();
 }

@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.SysActivity;
+import com.ruoyi.system.domain.domainVo.ActivityListDTO;
 import com.ruoyi.system.domain.domainVo.ActivityPersonDTO;
 
 /**
@@ -64,4 +65,16 @@ public interface ISysActivityService
      * 首部轮播活动
      */
     public List<ActivityPersonDTO> getPersonSwiper();
+
+    /**
+     * 活动列表
+     * @return
+     */
+    public List<ActivityListDTO> getActList();
+
+    /**
+     * 分页获取活动列表
+     * @return
+     */
+    public List<SysActivity> getAllList();
 }

@@ -1,7 +1,11 @@
 package com.ruoyi.web.controller.activity.permit;
 
 import com.ruoyi.common.annotation.Anonymous;
+import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.system.domain.SysActivity;
+import com.ruoyi.system.domain.domainVo.ActivityListDTO;
 import com.ruoyi.system.domain.domainVo.ActivityPersonDTO;
 import com.ruoyi.system.service.ISysActivityService;
 import io.swagger.annotations.Api;
@@ -21,7 +25,7 @@ import java.util.List;
 @Api("活动展示")
 @RestController
 @RequestMapping("/activity")
-public class ActivityAnController {
+public class ActivityAnController extends BaseController {
 
     @Autowired
     private ISysActivityService activityService;
@@ -38,8 +42,24 @@ public class ActivityAnController {
     @GetMapping("/person/hot")
     @Anonymous
     public AjaxResult getHotActivity(){
-        List<ActivityPersonDTO> swiper = activityService.getPersonSwiper();
-        return AjaxResult.success(swiper);
+        List<ActivityListDTO> list = activityService.getActList();
+        return AjaxResult.success(list);
+    }
+
+    @ApiOperation("获取活动列表")
+    @GetMapping("/list")
+    @Anonymous
+    public TableDataInfo getListAct(){
+        startPage();
+        List<SysActivity> list = activityService.getAllList();
+        return getDataTable(list);
+    }
+
+    @ApiOperation("获取活动详细信息")
+    @GetMapping("/detail/")
+    @Anonymous
+    public AjaxResult getActDetail(){
+return null;
     }
 
 

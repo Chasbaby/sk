@@ -71,4 +71,8 @@ public interface SysActivityMapper
      public List<SysActivity> getListShow();
 
      public List<SysActivity> getActList();
+
+     public int updateHot(List<Long> activityId);
+
+     public int reduceHot();
 }

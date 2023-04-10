@@ -2,10 +2,20 @@ package com.ruoyi.system.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.core.domain.entity.DTO.UserDTO;
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.sights.domain.DTO.SightsRandomDTO;
+import com.ruoyi.sights.domain.SightsBase;
+import com.ruoyi.sights.mapper.SightsBaseMapper;
+import com.ruoyi.system.domain.domainVo.ActivityDetailDTO;
 import com.ruoyi.system.domain.domainVo.ActivityListDTO;
 import com.ruoyi.system.domain.domainVo.ActivityPersonDTO;
+import com.ruoyi.system.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysActivityMapper;
@@ -23,6 +33,15 @@ public class SysActivityServiceImpl implements ISysActivityService
 {
     @Autowired
     private SysActivityMapper sysActivityMapper;
+
+    @Autowired
+    private SightsBaseMapper baseMapper;
+
+    @Autowired
+    private RedisCache redisCache;
+
+    @Autowired
+    private SysUserMapper userMapper;
 
     /**
      * 查询活动
@@ -135,6 +154,51 @@ public class SysActivityServiceImpl implements ISysActivityService
     public List<SysActivity> getAllList() {
         List<SysActivity> list = sysActivityMapper.getActList();
         return list;
+    }
+
+    /**
+     * 定时增加热点
+     */
+    @Override
+    public void addHot() {
+        if (redisCache.hasKey(Constants.ACTIVITY_RECORD)){
+            redisCache.lock(Constants.ACTIVITY_RECORD);
+            List<Long> cacheList = redisCache.getCacheList(Constants.ACTIVITY_RECORD);
+            redisCache.deleteObject(Constants.ACTIVITY_RECORD);
+            sysActivityMapper.updateHot(cacheList);
+        }
+    }
+
+    /**
+     * 定时减少热点
+     */
+    @Override
+    public void reduceHot() {
+        sysActivityMapper.reduceHot();
+    }
+
+    /**
+     * 活动详细数据
+     * @param activityId
+     * @return
+     */
+    @Override
+    public ActivityDetailDTO getDetail(Long activityId) {
+        SysActivity activity = selectSysActivityByActivityId(activityId);
+        ActivityDetailDTO detailDTO = new ActivityDetailDTO();
+        detailDTO.setActivity(activity);
+        if ("0".equals(activity.getSource())){
+            SightsBase base = baseMapper.selectSightsBaseBySightsId(activity.getSightsId());
+            SightsRandomDTO dto = new SightsRandomDTO();
+            BeanUtils.copyBeanProp(dto,base);
+            detailDTO.setSights(dto);
+        }else if ("1".equals(activity.getSource())||"2".equals(activity.getSource())){
+            SysUser sysUser = userMapper.selectUserById(activity.getUserId());
+            UserDTO dto = new UserDTO();
+            BeanUtils.copyBeanProp(dto,sysUser);
+            detailDTO.setUser(dto);
+        }
+        return detailDTO;
     }
 
 

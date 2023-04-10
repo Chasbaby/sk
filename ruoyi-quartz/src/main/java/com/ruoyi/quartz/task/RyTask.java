@@ -5,6 +5,7 @@ import com.ruoyi.home.service.IHomeAdService;
 import com.ruoyi.home.service.IHomeNewsService;
 import com.ruoyi.sights.service.ISightsBaseService;
 import com.ruoyi.sights.service.ISightsHotService;
+import com.ruoyi.system.service.ISysActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.utils.StringUtils;
@@ -33,6 +34,9 @@ public class RyTask
     private ISightsHotService hotService;
     @Autowired
     private ISightsCulCreativityService culCreativityService;
+
+    @Autowired
+    private ISysActivityService activityService;
 
     public void AutoDeleteNews(){iHomeNewsService.deleteHomeNewsByQuartz();}
 
@@ -65,9 +69,15 @@ public class RyTask
     public void clearSightsHistoryRecord(){
 
     }
-
     public void addAnonymousByRedis(){
         culCreativityService.addAnonymousByRedis();
+    }
+
+    public void addActHot(){
+        activityService.addHot();
+    }
+    public void reduceActHot(){
+        activityService.reduceHot();
     }
 
 

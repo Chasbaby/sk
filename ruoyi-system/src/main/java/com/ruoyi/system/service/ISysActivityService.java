@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.SysActivity;
+import com.ruoyi.system.domain.domainVo.ActivityDetailDTO;
 import com.ruoyi.system.domain.domainVo.ActivityListDTO;
 import com.ruoyi.system.domain.domainVo.ActivityPersonDTO;
 
@@ -77,4 +78,16 @@ public interface ISysActivityService
      * @return
      */
     public List<SysActivity> getAllList();
+
+    /**
+     * 定时任务 提高热度
+     */
+    public void addHot();
+
+    /**
+     * 定时任务 减少活动热度
+     */
+    public void reduceHot();
+
+    public ActivityDetailDTO getDetail(Long activityId);
 }

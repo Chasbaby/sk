@@ -57,12 +57,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getListShow" resultType="com.ruoyi.system.domain.SysActivity" resultMap="SysActivityResult">
         <include refid="selectSysActivityVo"/>
         where over_time >= now()
-        order by activity_hot
+        order by activity_hot desc
         limit 2
     </select>
     <select id="getActList" resultType="com.ruoyi.system.domain.SysActivity" resultMap="SysActivityResult">
         <include refid="selectSysActivityVo"/>
-        order by activity_hot begin_time
+        order by activity_hot desc ,begin_time desc
     </select>
 
     <insert id="insertSysActivity" parameterType="SysActivity" useGeneratedKeys="true" keyProperty="activityId">
@@ -133,6 +133,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where activity_id = #{activityId}
     </update>
+    <update id="updateHot" parameterType="list">
+        update sys_activity set activity_hot = activity_hot + 100 where activity_id in
+        <foreach collection="array" item="activityId" close=")" open="(" separator=",">
+            #{activityId}
+        </foreach>
+    </update>
+    <update id="reduceHot">
+        update sys_activity set activity_hot = activity_hot * 0.9
+        order by begin_time desc, activity_hot desc
+        limit 10
+    </update>
+
 
     <delete id="deleteSysActivityByActivityId" parameterType="Long">
         delete from sys_activity where activity_id = #{activityId}

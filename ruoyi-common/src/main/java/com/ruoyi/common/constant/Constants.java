@@ -203,4 +203,7 @@ public class Constants
     public static final String SIGHTS_HISTORY_USER = "SIGHTS_HISTORY_USER_";
 
     public static final String CUL_COLLECT_ANONYMOUS="CUL_COLLECT_ANONYMOUS";
+
+    public static final String ACTIVITY_RECORD = "ACTIVITY_RECORD";
+
 }

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysActivityMapper">
+    
+    <resultMap type="SysActivity" id="SysActivityResult">
+        <result property="activityId"    column="activity_id"    />
+        <result property="sightsId"    column="sights_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="source"    column="source"    />
+        <result property="activityTitle"    column="activity_title"    />
+        <result property="activityIntroduction"    column="activity_introduction"    />
+        <result property="activityContent"    column="activity_content"    />
+        <result property="activityMultiparts"    column="activity_multiparts"    />
+        <result property="activityImage"    column="activity_image"    />
+        <result property="activityHot"    column="activity_hot"    />
+        <result property="activityReward"    column="activity_reward"    />
+        <result property="activityPublisher"    column="activity_publisher"    />
+        <result property="beginTime"    column="begin_time"    />
+        <result property="overTime"    column="over_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysActivityVo">
+        select activity_id, sights_id, user_id, source, activity_title, activity_introduction, activity_content, activity_multiparts, activity_image, activity_hot, activity_reward, activity_publisher, begin_time, over_time, create_time, create_by, update_time, update_by, remark from sys_activity
+    </sql>
+
+    <select id="selectSysActivityList" parameterType="SysActivity" resultMap="SysActivityResult">
+        <include refid="selectSysActivityVo"/>
+        <where>  
+            <if test="sightsId != null "> and sights_id = #{sightsId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="source != null  and source != ''"> and source = #{source}</if>
+            <if test="activityTitle != null  and activityTitle != ''"> and activity_title like concat('%', #{activityTitle}, '%')</if>
+            <if test="activityPublisher != null  and activityPublisher != ''"> and activity_publisher = #{activityPublisher}</if>
+            <if test="beginTime != null "> and begin_time = #{beginTime}</if>
+            <if test="overTime != null "> and over_time = #{overTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysActivityByActivityId" parameterType="Long" resultMap="SysActivityResult">
+        <include refid="selectSysActivityVo"/>
+        where activity_id = #{activityId}
+    </select>
+        
+    <insert id="insertSysActivity" parameterType="SysActivity" useGeneratedKeys="true" keyProperty="activityId">
+        insert into sys_activity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sightsId != null">sights_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="source != null">source,</if>
+            <if test="activityTitle != null and activityTitle != ''">activity_title,</if>
+            <if test="activityIntroduction != null and activityIntroduction != ''">activity_introduction,</if>
+            <if test="activityContent != null and activityContent != ''">activity_content,</if>
+            <if test="activityMultiparts != null">activity_multiparts,</if>
+            <if test="activityImage != null">activity_image,</if>
+            <if test="activityHot != null">activity_hot,</if>
+            <if test="activityReward != null">activity_reward,</if>
+            <if test="activityPublisher != null">activity_publisher,</if>
+            <if test="beginTime != null">begin_time,</if>
+            <if test="overTime != null">over_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sightsId != null">#{sightsId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="source != null">#{source},</if>
+            <if test="activityTitle != null and activityTitle != ''">#{activityTitle},</if>
+            <if test="activityIntroduction != null and activityIntroduction != ''">#{activityIntroduction},</if>
+            <if test="activityContent != null and activityContent != ''">#{activityContent},</if>
+            <if test="activityMultiparts != null">#{activityMultiparts},</if>
+            <if test="activityImage != null">#{activityImage},</if>
+            <if test="activityHot != null">#{activityHot},</if>
+            <if test="activityReward != null">#{activityReward},</if>
+            <if test="activityPublisher != null">#{activityPublisher},</if>
+            <if test="beginTime != null">#{beginTime},</if>
+            <if test="overTime != null">#{overTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysActivity" parameterType="SysActivity">
+        update sys_activity
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sightsId != null">sights_id = #{sightsId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="source != null">source = #{source},</if>
+            <if test="activityTitle != null and activityTitle != ''">activity_title = #{activityTitle},</if>
+            <if test="activityIntroduction != null and activityIntroduction != ''">activity_introduction = #{activityIntroduction},</if>
+            <if test="activityContent != null and activityContent != ''">activity_content = #{activityContent},</if>
+            <if test="activityMultiparts != null">activity_multiparts = #{activityMultiparts},</if>
+            <if test="activityImage != null">activity_image = #{activityImage},</if>
+            <if test="activityHot != null">activity_hot = #{activityHot},</if>
+            <if test="activityReward != null">activity_reward = #{activityReward},</if>
+            <if test="activityPublisher != null">activity_publisher = #{activityPublisher},</if>
+            <if test="beginTime != null">begin_time = #{beginTime},</if>
+            <if test="overTime != null">over_time = #{overTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where activity_id = #{activityId}
+    </update>
+
+    <delete id="deleteSysActivityByActivityId" parameterType="Long">
+        delete from sys_activity where activity_id = #{activityId}
+    </delete>
+
+    <delete id="deleteSysActivityByActivityIds" parameterType="String">
+        delete from sys_activity where activity_id in 
+        <foreach item="activityId" collection="array" open="(" separator="," close=")">
+            #{activityId}
+        </foreach>
+    </delete>
+</mapper>

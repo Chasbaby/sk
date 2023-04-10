@@ -8,18 +8,15 @@ import cn.easyes.annotation.rely.Analyzer;
 import cn.easyes.annotation.rely.FieldStrategy;
 import cn.easyes.annotation.rely.FieldType;
 import cn.easyes.annotation.rely.IdType;
-import com.ruoyi.common.core.redis.RedisCache;
+import com.ruoyi.common.annotation.Excel;
+import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.sights.service.ISightsHotService;
 import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.BaseEntity;
-
 
 import java.util.Date;
-
 
 import static com.ruoyi.common.constant.ESConstant.POST_TAG;
 import static com.ruoyi.common.constant.ESConstant.PRE_TAG;

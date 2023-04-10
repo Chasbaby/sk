@@ -23,6 +23,7 @@ public class BaseEntity implements Serializable
     @IndexField(exist = false)
     /** 搜索值 */
     private String searchValue;
+
     @IndexField(strategy = FieldStrategy.NOT_EMPTY,fieldType = FieldType.TEXT)
     /** 创建者 */
     private String createBy;

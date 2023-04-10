@@ -9,6 +9,7 @@ import org.apache.poi.sl.usermodel.Sheet;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author chas
@@ -45,13 +46,11 @@ public class SightsUserBehavior implements Serializable {
         SpringUtils.getBean(RedisCache.class).lock(SUKEY);
         List<SightsUserBehavior> cacheList = SpringUtils.getBean(RedisCache.class).getCacheList(SUKEY);
         // 如果列表中存在数据 则结束
-//        while(cacheList.iterator().hasNext()){
-//            SightsUserBehavior next = cacheList.iterator().next();
-//
-//            //todo
-//        }
-        if (cacheList.contains(behavior)){
-            return;
+        while(cacheList.iterator().hasNext()){
+            SightsUserBehavior next = cacheList.iterator().next();
+            if (behavior.equals(next)){
+                return;
+            }
         }
         cacheList.add(behavior);
         // 删除redis中key数据
@@ -60,7 +59,6 @@ public class SightsUserBehavior implements Serializable {
         SpringUtils.getBean(RedisCache.class).setCacheList(SUKEY,cacheList);
 
 //        List<SightsUserBehavior> cacheList1 = SpringUtils.getBean(RedisCache.class).getCacheList(SUKEY);
-        System.out.println("我执行了");
     }
 
     /**
@@ -138,5 +136,21 @@ public class SightsUserBehavior implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SightsUserBehavior)) return false;
+        SightsUserBehavior that = (SightsUserBehavior) o;
+        return userId.equals(that.userId) && sightsId.equals(that.sightsId)
+                && Objects.equals(sightsLike, that.sightsLike) && Objects.equals(sightsHits, that.sightsHits)
+                && Objects.equals(sightsView, that.sightsView) && Objects.equals(sightsCollect, that.sightsCollect)
+                && Objects.equals(sightsScore, that.sightsScore);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, sightsId, sightsLike, sightsHits, sightsView, sightsCollect, sightsScore);
     }
 }

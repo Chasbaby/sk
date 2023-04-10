@@ -1,4 +1,4 @@
-package com.ruoyi.sights.mapper;
+package com.ruoyi.mapperEs.ee;
 
 import cn.easyes.core.conditions.interfaces.BaseEsMapper;
 import com.ruoyi.sights.domain.SightsBase;

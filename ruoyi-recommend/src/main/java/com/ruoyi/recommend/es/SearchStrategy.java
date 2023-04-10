@@ -32,4 +32,5 @@ public interface SearchStrategy {
      */
     List<MultiSearchDTO> showAllSearch(String keywords);
 
+
 }

@@ -28,7 +28,6 @@ public class SearchController {
     @Autowired
     private SightsStrategyContext strategyContext;
 
-
     /**
      * 搜索一切
      * @param keywords

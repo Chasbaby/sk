@@ -20,7 +20,7 @@ baidu:
 
 # 搜索模式 可选 elasticsearch或mysql
 search:
-  mode: mysql
+  mode: elasticsearch
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080
@@ -178,6 +178,12 @@ hadoop:
   namenode: localhost
   port: 9000
   username: root
+
+easy-es:
+  enable: true
+  address: 127.0.0.1:9200
+
+
 
 
 

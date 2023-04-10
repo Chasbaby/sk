@@ -1,7 +1,14 @@
 package com.ruoyi.article.domain;
 
 import java.util.Date;
+
+import cn.easyes.annotation.IndexField;
+import cn.easyes.annotation.IndexId;
+import cn.easyes.annotation.IndexName;
+import cn.easyes.annotation.rely.FieldStrategy;
+import cn.easyes.annotation.rely.IdType;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -13,14 +20,20 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2023-03-05
  */
+@Data
+@IndexName(value = "article",shardsNum = 3,replicasNum = 2)
 public class Article extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
+    @IndexId(type = IdType.CUSTOMIZE)
+    @Excel(name = "文章id",type = Excel.Type.EXPORT,cellType = Excel.ColumnType.NUMERIC)
     /** 文章id */
     private Long articleId;
 
-    /** 作者 */
+    @IndexField(strategy = FieldStrategy.NOT_EMPTY)
+    @Excel(name = "作者",type = Excel.Type.ALL,cellType = Excel.ColumnType.NUMERIC )
+    /** 作者id */
     private Long userId;
 
     /** 文章分类 */
@@ -80,160 +93,6 @@ public class Article extends BaseEntity
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "审核时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date judgeTime;
-
-    public void setArticleId(Long articleId) 
-    {
-        this.articleId = articleId;
-    }
-
-    public Long getArticleId() 
-    {
-        return articleId;
-    }
-    public void setUserId(Long userId) 
-    {
-        this.userId = userId;
-    }
-
-    public Long getUserId() 
-    {
-        return userId;
-    }
-    public void setArticleCategory(String articleCategory) 
-    {
-        this.articleCategory = articleCategory;
-    }
-
-    public String getArticleCategory() 
-    {
-        return articleCategory;
-    }
-    public void setArticleCover(String articleCover) 
-    {
-        this.articleCover = articleCover;
-    }
-
-    public String getArticleCover() 
-    {
-        return articleCover;
-    }
-    public void setArticleTitle(String articleTitle) 
-    {
-        this.articleTitle = articleTitle;
-    }
-
-    public String getArticleTitle() 
-    {
-        return articleTitle;
-    }
-    public void setArticleContent(String articleContent) 
-    {
-        this.articleContent = articleContent;
-    }
-
-    public String getArticleContent() 
-    {
-        return articleContent;
-    }
-    public void setArticleType(String articleType) 
-    {
-        this.articleType = articleType;
-    }
-
-    public String getArticleType() 
-    {
-        return articleType;
-    }
-    public void setOriginalUrl(String originalUrl) 
-    {
-        this.originalUrl = originalUrl;
-    }
-
-    public String getOriginalUrl() 
-    {
-        return originalUrl;
-    }
-    public void setArticleLike(Long articleLike) 
-    {
-        this.articleLike = articleLike;
-    }
-
-    public Long getArticleLike() 
-    {
-        return articleLike;
-    }
-    public void setArticleView(Long articleView) 
-    {
-        this.articleView = articleView;
-    }
-
-    public Long getArticleView() 
-    {
-        return articleView;
-    }
-    public void setArticleCollect(Long articleCollect) 
-    {
-        this.articleCollect = articleCollect;
-    }
-
-    public Long getArticleCollect() 
-    {
-        return articleCollect;
-    }
-    public void setIsTop(String isTop) 
-    {
-        this.isTop = isTop;
-    }
-
-    public String getIsTop() 
-    {
-        return isTop;
-    }
-    public void setIsDelete(String isDelete) 
-    {
-        this.isDelete = isDelete;
-    }
-
-    public String getIsDelete() 
-    {
-        return isDelete;
-    }
-    public void setIsOk(String isOk) 
-    {
-        this.isOk = isOk;
-    }
-
-    public String getIsOk() 
-    {
-        return isOk;
-    }
-    public void setStatus(String status) 
-    {
-        this.status = status;
-    }
-
-    public String getStatus() 
-    {
-        return status;
-    }
-    public void setJudgeBy(String judgeBy) 
-    {
-        this.judgeBy = judgeBy;
-    }
-
-    public String getJudgeBy() 
-    {
-        return judgeBy;
-    }
-    public void setJudgeTime(Date judgeTime) 
-    {
-        this.judgeTime = judgeTime;
-    }
-
-    public Date getJudgeTime() 
-    {
-        return judgeTime;
-    }
 
     @Override
     public String toString() {

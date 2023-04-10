@@ -86,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateSysTypeset" parameterType="SysTypeset">
         update sys_typeset
         <trim prefix="SET" suffixOverrides=",">
-            <if test="typesetImage != null">typeset_image = #{typesetImage},</if>
+            <if test="typesetImage != null and typesetImage !=''">typeset_image = #{typesetImage},</if>
             <if test="typesetPage != null">typeset_page = #{typesetPage},</if>
             <if test="typesetPosition != null">typeset_position = #{typesetPosition},</if>
             <if test="typesetIntroduction != null">typeset_introduction = #{typesetIntroduction},</if>

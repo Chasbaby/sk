@@ -6,6 +6,7 @@ import com.ruoyi.recommend.es.SearchStrategy;
 import com.ruoyi.recommend.es.domain.MultiSearchDTO;
 import com.ruoyi.recommend.es.domain.SearchAjaxDTO;
 import com.ruoyi.search.SightsSearchDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class SightsStrategyContext {
     @Value("${search.mode}")
     private String searchMode;
 
-    @Resource
+    @Autowired
     private Map<String, SearchStrategy> searchStrategyMap;
 
     /**

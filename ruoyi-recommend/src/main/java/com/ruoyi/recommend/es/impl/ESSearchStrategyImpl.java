@@ -1,21 +1,23 @@
 package com.ruoyi.recommend.es.impl;
 
 import cn.easyes.core.conditions.LambdaEsQueryWrapper;
-import com.ruoyi.common.enums.SearchCaseType;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.mapperEs.ee.ArticleESMapper;
+import com.ruoyi.mapperEs.ee.CulESMapper;
 import com.ruoyi.recommend.es.SearchStrategy;
 import com.ruoyi.recommend.es.domain.MultiSearchDTO;
 import com.ruoyi.recommend.es.domain.SearchAjaxDTO;
 import com.ruoyi.sights.domain.SightsBase;
 import com.ruoyi.search.SightsSearchDTO;
-import com.ruoyi.sights.mapper.SightsESMapper;
+import com.ruoyi.mapperEs.ee.SightsESMapper;
+import com.ruoyi.sights.mapper.SightsBaseMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.ruoyi.common.constant.ESConstant.POST_TAG;
@@ -29,8 +31,19 @@ import static com.ruoyi.common.constant.ESConstant.PRE_TAG;
 @Service("esSearchStrategyImpl")
 public class ESSearchStrategyImpl implements SearchStrategy {
 
-    @Resource
+    @Autowired
     private SightsESMapper sightsESMapper;
+
+//    @Resource
+//    private ArticleESMapper articleESMapper;
+//
+//    @Resource
+//    private CulESMapper culESMapper;
+
+    @Autowired
+    private SightsBaseMapper baseMapper;
+
+
 
     @Override
     public List<SearchAjaxDTO> searchAll(String keywords) {
@@ -74,5 +87,27 @@ public class ESSearchStrategyImpl implements SearchStrategy {
     @Override
     public List<MultiSearchDTO> showAllSearch(String keywords) {
         return null;
+    }
+
+    /**
+     * 在项目开始时将所有景点注入es种
+     */
+    @PostConstruct
+    public void initSightsInEs() {
+        List<SightsBase> sightsBases = baseMapper.selectSightsBaseList(new SightsBase());
+        Integer integer = sightsESMapper.insertBatch(sightsBases);
+        System.out.println("一共"+integer+"数据加入es成功");
+//        LambdaEsQueryWrapper<SightsBase> wrapper = new LambdaEsQueryWrapper<>();
+//        List<SightsBase> baseList = sightsESMapper.selectList(wrapper);
+//        baseList.stream().forEach(item->{
+//            System.out.println(item);
+//        });
+    }
+    /**
+     * 项目关闭时 看看要不要把es所有的东西删了
+     */
+    public void deleteSightsInEs() {
+
+
     }
 }

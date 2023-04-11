@@ -6,6 +6,7 @@ import com.ruoyi.common.enums.baidu.GeocoderType;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.baidu.domain.Geocoder;
 import com.ruoyi.common.utils.baidu.domain.ParaGeo;
+import com.ruoyi.common.utils.baidu.translate.TransApi;
 import com.ruoyi.common.utils.http.HttpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,8 @@ public class BaiduUtils {
     private final static String AK="qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt";
     private final static String url="https://api.map.baidu.com/geocoding/v3/";
     private final static Logger logger = LoggerFactory.getLogger("baiduService");
+
+
 
     /**
      * 正地理编码
@@ -50,10 +53,15 @@ public class BaiduUtils {
 //        paraGeo.setOutput("json");
 //        Geocoder geocoder = getGeocoder(paraGeo);
 //        geocoder.getResult();
+//
+//        String s = HttpUtils.sendGet("https://api.map.baidu.com/place/v2/search?query=景点&region=广州市&output=json&ak=qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt");
+//        System.out.println(s);
+        String APP_ID = "20230411001637577";
+        String SECURITY_KEY = "E9tdbkYH75MOAyUfoyVQ";
+        TransApi api = new TransApi(APP_ID, SECURITY_KEY);
 
-        String s = HttpUtils.sendGet("https://api.map.baidu.com/place/v2/search?query=景点&region=广州市&output=json&ak=qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt");
-        System.out.println(s);
-
+        String query = "小池池最棒哦";
+        System.out.println(api.getTransResult(query, "auto", "en"));
 
     }
 }

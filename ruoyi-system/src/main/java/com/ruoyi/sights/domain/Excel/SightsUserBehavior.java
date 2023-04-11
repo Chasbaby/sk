@@ -4,7 +4,6 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.utils.spring.SpringUtils;
-import org.apache.poi.sl.usermodel.Sheet;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -40,6 +39,10 @@ public class SightsUserBehavior implements Serializable {
 
     /**
      * 将信息放入redis
+     * 操作随意 但是同一数据每日只能记录一次 保证了 用户 构造虚假数据
+     *
+     * 用set更好哦
+     *
      * @param behavior
      */
     public static void storeSightsUserDataInRedis(SightsUserBehavior behavior){
@@ -58,7 +61,7 @@ public class SightsUserBehavior implements Serializable {
         // 重新设置
         SpringUtils.getBean(RedisCache.class).setCacheList(SUKEY,cacheList);
 
-//        List<SightsUserBehavior> cacheList1 = SpringUtils.getBean(RedisCache.class).getCacheList(SUKEY);
+        // List<SightsUserBehavior> cacheList1 = SpringUtils.getBean(RedisCache.class).getCacheList(SUKEY);
     }
 
     /**

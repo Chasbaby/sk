@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.excel.mapper.excelRecordMapper">
+    <resultMap id="excelId" type="excelRecord">
+        <result property="excelId" column="excel_id"/>
+        <result property="excelName" column="excel_name"/>
+        <result property="type" column="type"/>
+        <result property="titleName" column="title_name"/>
+        <result property="sheetName" column="sheet_name"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <insert id="insertExcel" parameterType="excelRecord" useGeneratedKeys="true" keyProperty="excelId">
+        insert into excel_record
+        <trim prefix="(" suffixOverrides="," suffix=")">
+            <if test="excelId != null and excelId !=''">excel_id,</if>
+            <if test="excelName !=null and excelName !=''">excel_name,</if>
+            <if test="type !=null and type !='' ">type,</if>
+            <if test="titleName !=null and titleName !=''">title_name,</if>
+            <if test="sheetName !=null and sheetName !=''">sheet_name,</if>
+            <if test="createTime !=null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="excelId != null and excelId !=''">#{excelId},</if>
+            <if test="excelName !=null and excelName !=''">#{excelName},</if>
+            <if test="type !=null and type !=''">#{type},</if>
+            <if test="titleName !=null and titleName !=''">#{titleName},</if>
+            <if test="sheetName !=null and sheetName !=''">#{sheetName},</if>
+            <if test="createTime !=null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <select id="selectExcel" resultType="com.ruoyi.excel.domain.excelRecord" resultMap="excelId">
+        select excel_id,excel_name,type,title_name,sheet_name,create_time from excel_record
+        <where>
+            <if test="excelId != null and excelId !=''">and excel_id = #{excelId}</if>
+            <if test="excelName !=null and excelName !=''">and excel_name = #{excelName}</if>
+            <if test="type !=null and type !=''">and type = #{type}</if>
+            <if test="titleName !=null and titleName !=''">and title_name = #{titleName}</if>
+            <if test="sheetName !=null and sheetName !=''">and sheet_name = #{sheetName}</if>
+            <if test="createTime !=null">and create_time = #{createTime}</if>
+        </where>
+    </select>
+    <select id="selectDayExcel" resultType="com.ruoyi.excel.domain.excelRecord" resultMap="excelId">
+        select excel_id,excel_name,type,title_name,sheet_name,create_time from excel_record
+        where  DATE_FORMAT(create_time,'%Y-%m-%d') = curdate()
+    </select>
+
+
+</mapper>

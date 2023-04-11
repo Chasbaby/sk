@@ -76,12 +76,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update sys_partner
         <trim prefix="SET" suffixOverrides=",">
             <if test="partnerRoute !=null and partnerRoute !=''">partner_route = #{partnerRoute},</if>
-            <if test="partnerIntro != null and partnerIntro != ''">partner_intro = #{partnerIntro},</if>
-            <if test="partnerLogo != null and partnerLogo != ''">partner_logo = #{partnerLogo},</if>
+            <if test="partnerIntro != null and partnerIntro !=''">partner_intro = #{partnerIntro},</if>
+            <if test="partnerLogo != null and partnerLogo !=''">partner_logo = #{partnerLogo},</if>
             <if test="cooperationCore != null">cooperation_core = #{cooperationCore},</if>
             <if test="cooperationBegin != null">cooperation_begin = #{cooperationBegin},</if>
             <if test="cooperationEnd != null">cooperation_end = #{cooperationEnd},</if>
-            <if test="cooperationDocument != null and cooperationDocument != ''">cooperation_document = #{cooperationDocument},</if>
+            <if test="cooperationDocument != null and cooperationDocument !=''">cooperation_document = #{cooperationDocument},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>

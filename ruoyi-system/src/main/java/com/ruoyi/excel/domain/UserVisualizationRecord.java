@@ -24,7 +24,7 @@ public class UserVisualizationRecord implements Serializable {
     private Long view;
     private Long comments;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date record;
+    private Date recordTime;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 }

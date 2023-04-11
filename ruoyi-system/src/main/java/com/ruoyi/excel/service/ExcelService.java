@@ -2,8 +2,11 @@ package com.ruoyi.excel.service;
 
 /**
  * @author chas
- * @introduction
- * @date
+ * @introduction Excel定时任务
+ * @date 2023-4
  */
 public interface ExcelService {
+
+
+
 }

@@ -4,7 +4,67 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ruoyi.excel.mapper.UserVisualizationMapper">
-    <resultMap id="" type="">
-
+    <resultMap id="UserVisualizationRecordId" type="UserVisualizationRecord">
+        <result column="visualization_id" property="visualizationId"/>
+        <result column="user_id" property="userId"/>
+        <result column="subscribe" property="subscribe"/>
+        <result column="fans" property="fans"/>
+        <result column="concerns" property="concerns"/>
+        <result column="like" property="like"/>
+        <result column="collect" property="collect"/>
+        <result column="view" property="view"/>
+        <result column="comments" property="comments"/>
+        <result column="record_time" property="recordTime"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
+
+    <insert id="insertVis" parameterType="userVisualizationRecord" keyProperty="visualizationId" useGeneratedKeys="true">
+        insert into user_visualization_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="visualizationId !=null and visualizationId !=''">visualization_id,</if>
+            <if test="userId !=null and userId !=''">user_id,</if>
+            <if test="subscribe !=null and subscribe!=''">subscribe,</if>
+            <if test="fans !=null and fans !=''">fans,</if>
+            <if test="concerns !=null and concerns !=''">concerns,</if>
+            <if test="like !=null and like !=''">like,</if>
+            <if test="collect !=null and collect !=''">collect,</if>
+            <if test="view !=null and view !=''">view,</if>
+            <if test="comments !=null and comments !=''">comments,</if>
+            <if test="recordTime !=null and recordTime !=''">record_time,</if>
+            <if test="createTime !=null and createTime !=''">create_time,</if>
+        </trim>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="visualizationId !=null and visualizationId !=''">#{visualizationId},</if>
+            <if test="userId !=null and userId !=''">#{userId},</if>
+            <if test="subscribe !=null and subscribe!=''">#{subscribe},</if>
+            <if test="fans !=null and fans !=''">#{fans},</if>
+            <if test="concerns !=null and concerns !=''">#{concerns},</if>
+            <if test="like !=null and like !=''">#{like},</if>
+            <if test="collect !=null and collect !=''">#{collect},</if>
+            <if test="view !=null and view !=''">#{view},</if>
+            <if test="comments !=null and comments !=''">#{comments},</if>
+            <if test="recordTime !=null and recordTime !=''">#{recordTime},</if>
+            <if test="createTime !=null and createTime !=''">#{createTime},</if>
+        </trim>
+    </insert>
+
+
+    <select id="getWeekRecordByUserId"
+            resultType="com.ruoyi.excel.domain.UserVisualizationRecord"
+            parameterType="Long" resultMap="UserVisualizationRecordId">
+#             select * from user_visualization_record where   问gpt哦
+
+    </select>
+    <select id="getMonthRecordByUserId"
+            resultType="com.ruoyi.excel.domain.UserVisualizationRecord"
+            parameterType="Long" resultMap="UserVisualizationRecordId">
+#             select * from user_visualization_record where
+    </select>
+    <select id="getYearRecordByUserId"
+            resultType="com.ruoyi.excel.domain.UserVisualizationRecord"
+            parameterType="Long" resultMap="UserVisualizationRecordId">
+#             select * from user_visualization_record where
+    </select>
+
+
 </mapper>

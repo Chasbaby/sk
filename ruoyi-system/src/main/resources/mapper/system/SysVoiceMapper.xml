@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysVoiceMapper">
+    
+    <resultMap type="SysVoice" id="SysVoiceResult">
+        <result property="voiceId"    column="voice_id"    />
+        <result property="voicePage"    column="voice_page"    />
+        <result property="voicePosition"    column="voice_position"    />
+        <result property="voiceIntroduction"    column="voice_introduction"    />
+        <result property="voiceContent"    column="voice_content"    />
+        <result property="voiceVolume"    column="voice_volume"    />
+        <result property="voiceLanguange"    column="voice_languange"    />
+        <result property="voiceRate"    column="voice_rate"    />
+        <result property="voicePitch"    column="voice_pitch"    />
+        <result property="flag"    column="flag"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysVoiceVo">
+        select voice_id, voice_page, voice_position, voice_introduction, voice_content, voice_volume, voice_languange, voice_rate, voice_pitch, flag, update_by, update_time, create_by, create_time, remark from sys_voice
+    </sql>
+
+    <select id="selectSysVoiceList" parameterType="SysVoice" resultMap="SysVoiceResult">
+        <include refid="selectSysVoiceVo"/>
+        <where>  
+            <if test="voicePage != null "> and voice_page = #{voicePage}</if>
+            <if test="voicePosition != null "> and voice_position = #{voicePosition}</if>
+            <if test="voiceIntroduction != null  and voiceIntroduction != ''"> and voice_introduction = #{voiceIntroduction}</if>
+            <if test="voiceContent != null  and voiceContent != ''"> and voice_content = #{voiceContent}</if>
+            <if test="voiceVolume != null "> and voice_volume = #{voiceVolume}</if>
+            <if test="voiceLanguange != null  and voiceLanguange != ''"> and voice_languange = #{voiceLanguange}</if>
+            <if test="voiceRate != null "> and voice_rate = #{voiceRate}</if>
+            <if test="voicePitch != null "> and voice_pitch = #{voicePitch}</if>
+            <if test="flag != null  and flag != ''"> and flag = #{flag}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysVoiceByVoiceId" parameterType="Long" resultMap="SysVoiceResult">
+        <include refid="selectSysVoiceVo"/>
+        where voice_id = #{voiceId}
+    </select>
+        
+    <insert id="insertSysVoice" parameterType="SysVoice" useGeneratedKeys="true" keyProperty="voiceId">
+        insert into sys_voice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="voicePage != null">voice_page,</if>
+            <if test="voicePosition != null">voice_position,</if>
+            <if test="voiceIntroduction != null">voice_introduction,</if>
+            <if test="voiceContent != null">voice_content,</if>
+            <if test="voiceVolume != null">voice_volume,</if>
+            <if test="voiceLanguange != null">voice_languange,</if>
+            <if test="voiceRate != null">voice_rate,</if>
+            <if test="voicePitch != null">voice_pitch,</if>
+            <if test="flag != null">flag,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="voicePage != null">#{voicePage},</if>
+            <if test="voicePosition != null">#{voicePosition},</if>
+            <if test="voiceIntroduction != null">#{voiceIntroduction},</if>
+            <if test="voiceContent != null">#{voiceContent},</if>
+            <if test="voiceVolume != null">#{voiceVolume},</if>
+            <if test="voiceLanguange != null">#{voiceLanguange},</if>
+            <if test="voiceRate != null">#{voiceRate},</if>
+            <if test="voicePitch != null">#{voicePitch},</if>
+            <if test="flag != null">#{flag},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysVoice" parameterType="SysVoice">
+        update sys_voice
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="voicePage != null">voice_page = #{voicePage},</if>
+            <if test="voicePosition != null">voice_position = #{voicePosition},</if>
+            <if test="voiceIntroduction != null">voice_introduction = #{voiceIntroduction},</if>
+            <if test="voiceContent != null">voice_content = #{voiceContent},</if>
+            <if test="voiceVolume != null">voice_volume = #{voiceVolume},</if>
+            <if test="voiceLanguange != null">voice_languange = #{voiceLanguange},</if>
+            <if test="voiceRate != null">voice_rate = #{voiceRate},</if>
+            <if test="voicePitch != null">voice_pitch = #{voicePitch},</if>
+            <if test="flag != null">flag = #{flag},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where voice_id = #{voiceId}
+    </update>
+
+    <delete id="deleteSysVoiceByVoiceId" parameterType="Long">
+        delete from sys_voice where voice_id = #{voiceId}
+    </delete>
+
+    <delete id="deleteSysVoiceByVoiceIds" parameterType="String">
+        delete from sys_voice where voice_id in 
+        <foreach item="voiceId" collection="array" open="(" separator="," close=")">
+            #{voiceId}
+        </foreach>
+    </delete>
+</mapper>

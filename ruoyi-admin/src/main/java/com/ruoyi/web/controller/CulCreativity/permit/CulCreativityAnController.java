@@ -83,7 +83,7 @@ public class CulCreativityAnController extends BaseController {
     @GetMapping("/like/{culCreativityId}")
     public AjaxResult CreativityLike(@PathVariable Long culCreativityId){
         CulRecord record = createRecord(culCreativityId);
-        int i = creativityService.addCulLike(record);
+        creativityService.addCulLike(record);
         return AjaxResult.success();
     }
 

@@ -64,7 +64,7 @@ public interface SightsRecordMapper {
      * @param sightsId
      * @return
      */
-    @Update("update sights_record_score set score = #{score} where user_id = #{userId} and sights_id = #{sightId}")
+    @Update("update sights_record_score set score = #{score} where user_id = #{userId} and sights_id = #{sightsId}")
     public int updateScore(@Param("score") Double score, @Param("userId") Long userId, @Param("sightsId") Long sightsId);
 
     /**
@@ -105,7 +105,8 @@ public interface SightsRecordMapper {
      * @param sightsId
      * @return
      */
-    @Select("select count(0) from sights_user_collect where user_id = #{userId} and sights_id = #{sightsId} limit 1")
+    @Select("select count(0) from sights_user_collect " +
+            "where user_id = #{userId} and sights_id = #{sightsId}")
     public int judgeCollect(@Param("userId") Long userId, @Param("sightsId") Long sightsId);
 
 

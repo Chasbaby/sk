@@ -125,15 +125,9 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     {
         return sightsCulCreativityMapper.deleteSightsCulCreativityByCulCreativityId(culCreativityId);
     }
-
-
-
-
-
     /**
      * 获取文创详细信息
      * @param culCreativityId id
-     * @return
      */
     @Override
     public CulDetail getCulDetail(Long culCreativityId) {
@@ -170,8 +164,14 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     @Transactional
     @Override
     public int addCulLike(CulRecord record) {
+        int i = recordMapper.judgeOnlyOneLikeCul(record);
+        if (i==0){
+            recordMapper.addLikeCul(record);
+        }else {
+            recordMapper.deleteLikeCul(record);
+        }
 
-        return 0;
+        return i;
     }
 
     /**
@@ -182,7 +182,26 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     @Transactional
     @Override
     public int addCulView(CulRecord record) {
-        return 0;
+        int i = recordMapper.addViewCul(record);
+        return i;
+    }
+
+    /**
+     * 增加 取消 收藏
+     * @param record
+     * @return
+     */
+    @Transactional
+    @Override
+    public int addCulCollect(CulRecord record) {
+        int i = recordMapper.judgeOnlyOneCollectCul(record);
+        if (i==0){
+            recordMapper.addCollectCul(record);
+        }else {
+            recordMapper.deleteCollectCul(record);
+        }
+
+        return i;
     }
 
     /**
@@ -267,17 +286,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     }
 
 
-    /**
-     * 增加 取消 收藏
-     * @param record
-     * @return
-     */
-    @Transactional
-    @Override
-    public int addCulCollect(CulRecord record) {
 
-        return 0;
-    }
 
     /**
      * 用户主页展示 完成

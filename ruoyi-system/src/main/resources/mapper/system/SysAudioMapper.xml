@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysAudioMapper">
+    
+    <resultMap type="SysAudio" id="SysAudioResult">
+        <result property="audioId"    column="audio_id"    />
+        <result property="speakLabel"    column="speak_label"    />
+        <result property="baiduLabel"    column="baidu_label"    />
+        <result property="langZh"    column="lang_zh"    />
+        <result property="langEn"    column="lang_en"    />
+        <result property="flag"    column="flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysAudioVo">
+        select audio_id, speak_label, baidu_label, lang_zh, lang_en, flag, create_time, create_by, update_time, update_by, remark from sys_audio
+    </sql>
+
+    <select id="selectSysAudioList" parameterType="SysAudio" resultMap="SysAudioResult">
+        <include refid="selectSysAudioVo"/>
+        <where>  
+            <if test="speakLabel != null  and speakLabel != ''"> and speak_label = #{speakLabel}</if>
+            <if test="baiduLabel != null  and baiduLabel != ''"> and baidu_label = #{baiduLabel}</if>
+            <if test="langZh != null  and langZh != ''"> and lang_zh = #{langZh}</if>
+            <if test="langEn != null  and langEn != ''"> and lang_en = #{langEn}</if>
+            <if test="flag != null  and flag != ''"> and flag = #{flag}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysAudioByAudioId" parameterType="Long" resultMap="SysAudioResult">
+        <include refid="selectSysAudioVo"/>
+        where audio_id = #{audioId}
+    </select>
+        
+    <insert id="insertSysAudio" parameterType="SysAudio" useGeneratedKeys="true" keyProperty="audioId">
+        insert into sys_audio
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="speakLabel != null">speak_label,</if>
+            <if test="baiduLabel != null">baidu_label,</if>
+            <if test="langZh != null">lang_zh,</if>
+            <if test="langEn != null">lang_en,</if>
+            <if test="flag != null">flag,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="speakLabel != null">#{speakLabel},</if>
+            <if test="baiduLabel != null">#{baiduLabel},</if>
+            <if test="langZh != null">#{langZh},</if>
+            <if test="langEn != null">#{langEn},</if>
+            <if test="flag != null">#{flag},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysAudio" parameterType="SysAudio">
+        update sys_audio
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="speakLabel != null">speak_label = #{speakLabel},</if>
+            <if test="baiduLabel != null">baidu_label = #{baiduLabel},</if>
+            <if test="langZh != null">lang_zh = #{langZh},</if>
+            <if test="langEn != null">lang_en = #{langEn},</if>
+            <if test="flag != null">flag = #{flag},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where audio_id = #{audioId}
+    </update>
+
+    <delete id="deleteSysAudioByAudioId" parameterType="Long">
+        delete from sys_audio where audio_id = #{audioId}
+    </delete>
+
+    <delete id="deleteSysAudioByAudioIds" parameterType="String">
+        delete from sys_audio where audio_id in 
+        <foreach item="audioId" collection="array" open="(" separator="," close=")">
+            #{audioId}
+        </foreach>
+    </delete>
+</mapper>

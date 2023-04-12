@@ -206,6 +206,9 @@ public class SightsHotServiceImpl implements ISightsHotService {
         int i = recordMapper.judgeLike(userId, sightsId);
         if (i == 1){
             cancelLike(sightsId,userId);
+        }else {
+            // 插入数据库
+            recordMapper.addLike(userId,sightsId);
         }
         return i;
     }
@@ -256,8 +259,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
 
         // 将信息保存至
         storeSightsUserDataInRedis(userBehavior);
-        // 插入数据库
-        recordMapper.addLike(userId,sightsId);
+
 
     }
 
@@ -293,8 +295,11 @@ public class SightsHotServiceImpl implements ISightsHotService {
         int i = recordMapper.judgeScore(userId, sightsId);
         if (i==1){
             // 已经评分 则修改
-            recordMapper.updateScore(score,sightsId,userId);
+            recordMapper.updateScore(score,userId,sightsId);
+        }else {
+            recordMapper.addScore(userId,sightsId,score);
         }
+
         return i;
     }
 
@@ -328,9 +333,6 @@ public class SightsHotServiceImpl implements ISightsHotService {
 
         // 将信息保存至
         storeSightsUserDataInRedis(userBehavior);
-        // 插入数据库
-        recordMapper.addScore(userId,sightsId,score);
-
 
     }
 
@@ -343,8 +345,12 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Override
     public int ifCollect(Long sightsId, Long userId) {
         int i = recordMapper.judgeCollect(userId, sightsId);
+
         if (i == 1){
             cancelCollect(sightsId,userId);
+        }
+        if (i==0){
+            recordMapper.addCollect(userId, sightsId);
         }
         return i;
     }
@@ -367,18 +373,15 @@ public class SightsHotServiceImpl implements ISightsHotService {
             sightsBase.addCollect();
             redisCache.setCacheObject(HOTLABLE+sightsBase.getSightsId(),sightsBase);
         }
-
         // 3. 创建Excel
         SightsUserBehavior userBehavior = new SightsUserBehavior();
         userBehavior.setSightsCollect(1L);
         userBehavior.setUserId(userId);
         userBehavior.setSightsId(sightsId);
         userBehavior.setCreateTime(new Date());
-
         // 将信息保存至
         storeSightsUserDataInRedis(userBehavior);
 
-        recordMapper.addCollect(userId,sightsId);
     }
 
     /**
@@ -390,10 +393,15 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Override
     public void cancelCollect(Long sightsId, Long userId) {
         if (redisCache.hasKey(HOTLABLE+sightsId) && !redisCache.isExpire(HOTLABLE+sightsId)){
+
             redisCache.lock(HOTLABLE+sightsId);
+
             SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
-            base.setSightsCollect(base.getSightsCollect()-1);
+                // 已经通过触发器实现了
+//            base.setSightsCollect(base.getSightsCollect()-1);
+
             redisCache.setCacheObject(HOTLABLE+sightsId,base);
+
         }
         recordMapper.deleteCollect(userId,sightsId);
     }
@@ -422,11 +430,8 @@ public class SightsHotServiceImpl implements ISightsHotService {
         behavior.setUserId(userId);
         behavior.setSightsHits(1L);
         behavior.setCreateTime(new Date());
-
         storeSightsUserDataInRedis(behavior);
-
         recordMapper.addHits(userId,sightsId);
-
     }
 
     /**

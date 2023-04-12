@@ -19,6 +19,8 @@ import com.ruoyi.culCreativity.mapper.CulRecordMapper;
 import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.SightsCulDTO;
 import com.ruoyi.sights.mapper.*;
+import com.ruoyi.system.domain.SysAudio;
+import com.ruoyi.system.mapper.SysAudioMapper;
 import com.ruoyi.system.mapper.SysUserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.culCreativity.ISightsCulCreativityService;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.ruoyi.common.utils.baidu.TranslateUtils.getTranslateResult;
 
 /**
  * 文创Service业务层处理
@@ -36,6 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class SightsCulCreativityServiceImpl implements ISightsCulCreativityService 
 {
+    private final static String pattern="<(\\S*?)[^>]*>.*?|<.*? />";
     private static final Logger log = LoggerFactory.getLogger(SightsCulCreativityServiceImpl.class);
     @Autowired
     private SightsCulCreativityMapper sightsCulCreativityMapper;
@@ -48,6 +53,9 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
 
     @Autowired
     private RedisCache redisCache;
+
+    @Autowired
+    private SysAudioMapper audioMapper;
 
 
 
@@ -285,7 +293,33 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
         return collect;
     }
 
-
+    /**
+     * 文创语音
+     * @param id  id
+     * @param position   0 intro 1 content
+     * @param audioId id
+     * @return
+     */
+    @Override
+    public CulVoiceDTO transReturnCul(Long id, Integer position, Long audioId) {
+        SysAudio audio = audioMapper.selectSysAudioByAudioId(audioId);
+        CulVoiceDTO voiceDTO = new CulVoiceDTO();
+        SightsCulCreativity culCreativity = sightsCulCreativityMapper.selectSightsCulCreativityByCulCreativityId(id);
+        if (position ==0 ){
+            String intro = culCreativity.getCulCreativityIntro();
+            String s = intro.replaceAll(pattern, "");
+            String result = getTranslateResult(s, null, audio.getBaiduLabel());
+            voiceDTO.setCulCreativityIntroOUT(result);
+        }else {
+            String content = culCreativity.getCulCreativityContent();
+            String s = content.replaceAll(pattern, "");
+            String result = getTranslateResult(s, null, audio.getBaiduLabel());
+            voiceDTO.setCulCreativityContentOUT(result);
+        }
+        voiceDTO.setCulCreativityId(id);
+        voiceDTO.setSpeakTTS(audio.getSpeakLabel());
+        return voiceDTO;
+    }
 
 
     /**

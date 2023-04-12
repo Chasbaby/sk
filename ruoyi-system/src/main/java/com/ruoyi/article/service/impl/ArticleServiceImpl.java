@@ -17,6 +17,8 @@ import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.domain.entity.SysVisitor;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.sights.domain.DTO.SightsStatisticTopDTO;
+import com.ruoyi.system.domain.SysAudio;
+import com.ruoyi.system.mapper.SysAudioMapper;
 import com.ruoyi.system.mapper.SysUserMapper;
 import com.ruoyi.system.mapper.SysVisitorMapper;
 import org.apache.commons.beanutils.BeanUtils;
@@ -27,6 +29,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+
+import static com.ruoyi.common.utils.baidu.TranslateUtils.getTranslateResult;
 
 /**
  * 文章Service业务层处理
@@ -39,6 +43,8 @@ public class ArticleServiceImpl implements IArticleService
 {
     private static final Logger log = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
+    private final static String pattern="<(\\S*?)[^>]*>.*?|<.*? />";
+
     @Autowired
     private ArticleMapper articleMapper;
 
@@ -50,6 +56,9 @@ public class ArticleServiceImpl implements IArticleService
 
     @Autowired
     private SysVisitorMapper visitorMapper;
+
+    @Autowired
+    private SysAudioMapper audioMapper;
 
 
 
@@ -477,6 +486,21 @@ public class ArticleServiceImpl implements IArticleService
             articleTopDTOS.add(dto);
         });
         return articleTopDTOS;
+    }
+
+    @Override
+    public ArticleVoiceDTO transReturn(Long id, Integer position, Long audioId) {
+        SysAudio audio = audioMapper.selectSysAudioByAudioId(audioId);
+        ArticleVoiceDTO voiceDTO = new ArticleVoiceDTO();
+        Article article = articleMapper.selectArticleByArticleId(id);
+        String content = article.getArticleContent();
+        String s = content.replaceAll(pattern, "");
+        String result = getTranslateResult(s, null, audio.getBaiduLabel());
+        voiceDTO.setArticleContentOUT(result);
+        voiceDTO.setArticleId(id);
+        voiceDTO.setSpeakTTS(audio.getSpeakLabel());
+        return voiceDTO;
+
     }
 
 

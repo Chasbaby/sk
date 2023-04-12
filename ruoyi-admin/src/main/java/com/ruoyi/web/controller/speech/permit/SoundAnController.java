@@ -1,10 +1,12 @@
 package com.ruoyi.web.controller.speech.permit;
 
+import com.ruoyi.article.domain.dto.ArticleVoiceDTO;
 import com.ruoyi.article.service.IArticleService;
 import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.culCreativity.ISightsCulCreativityService;
+import com.ruoyi.culCreativity.domain.dto.CulVoiceDTO;
 import com.ruoyi.sights.domain.DTO.SightsVoiceDTO;
 import com.ruoyi.sights.service.ISightsBaseService;
 import com.ruoyi.system.service.ISysAudioService;
@@ -89,17 +91,15 @@ public class SoundAnController extends BaseController {
                 return AjaxResult.success(voiceDTO);
             }
             case 1:{
-                System.out.println("yy");
+                CulVoiceDTO voiceDTO = culCreativityService.transReturnCul(id, position, audioId);
+                return AjaxResult.success(voiceDTO);
             }
-                break;
             case 2:{
-                System.out.println("zz");
+                ArticleVoiceDTO voiceDTO = articleService.transReturn(id, position, audioId);
+                return AjaxResult.success(voiceDTO);
             }
-                break;
-            default: break;
-
         }
-        return null;
+        return AjaxResult.error("找不到所读内容,请联系管理员修改");
     }
 
 

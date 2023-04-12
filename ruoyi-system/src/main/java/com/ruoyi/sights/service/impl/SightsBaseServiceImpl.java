@@ -1,29 +1,25 @@
 package com.ruoyi.sights.service.impl;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.baidu.domain.Geocoder;
-import com.ruoyi.common.utils.baidu.domain.GeocoderResultMap;
-import com.ruoyi.common.utils.baidu.domain.ParaGeo;
 import com.ruoyi.common.utils.bean.BeanUtils;
-import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.*;
+import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.mapper.*;
+import com.ruoyi.sights.service.ISightsBaseService;
 import com.ruoyi.sights.service.ISightsTicketService;
 import com.ruoyi.system.domain.SysAudio;
 import com.ruoyi.system.service.ICommentService;
 import com.ruoyi.system.service.ISysAudioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.sights.service.ISightsBaseService;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.ruoyi.common.utils.baidu.BaiduUtils.getGeocoder;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import static com.ruoyi.common.utils.baidu.TranslateUtils.getTranslateResult;
 
 /**
@@ -515,20 +511,46 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         return statisticTopDTOS;
     }
 
+    /**
+     * position 0 是景点详细
+     * position 1 是公告
+     * position 2 是景点介绍
+     * @param id 景点id
+     * @param position 0 1 2
+     * @param audioId id
+     * @return
+     */
     @Override
     public SightsVoiceDTO transReturn(Long id, Integer position, Long audioId) {
         SysAudio audio = audioService.selectSysAudioByAudioId(audioId);
         SightsVoiceDTO voiceDTO = new SightsVoiceDTO();
-        SightsBase base = sightsBaseMapper.selectSightsBaseBySightsId(id);
-        String content = base.getSightsDetail().replaceAll(pattern, "");
-        String result = getTranslateResult(content, null, audio.getBaiduLabel());
-
-        voiceDTO.setSightsDetailOUT(result);
+        if (position == 0 || position == 2){
+            SightsBase base = sightsBaseMapper.selectSightsBaseBySightsId(id);
+            if (position == 0){
+                String content = base.getSightsDetail().replaceAll(pattern, "");
+                String result = getTranslateResult(content, null, audio.getBaiduLabel());
+                voiceDTO.setSightsDetailOUT(result);
+            }else {
+                String intro = base.getSightsIntro().replaceAll(pattern, "");
+                String result = getTranslateResult(intro, null, audio.getBaiduLabel());
+                voiceDTO.setSightsIntroOUT(result);
+            }
+        }else{
+            SightsBulletin bulletin = new SightsBulletin();
+            bulletin.setSightsId(id);
+            bulletin.setStatus("0");
+            bulletin.setTopFlag("Y");
+            bulletin.setDelFlag("N");
+            List<SightsBulletin> bulletins = bulletinMapper.selectSightsBulletinList(bulletin);
+            SightsBulletin sightsBulletin = bulletins.get(0);
+            String content = sightsBulletin.getBulletinContent();
+            String result = content.replaceAll(pattern, "");
+            String s = getTranslateResult(result, null, audio.getBaiduLabel());
+            voiceDTO.setBulletContentOUT(s);
+        }
         voiceDTO.setSpeakTTS(audio.getSpeakLabel());
         voiceDTO.setSightsId(id);
         return voiceDTO;
-
-
     }
 
     /**

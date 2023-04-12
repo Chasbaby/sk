@@ -16,4 +16,6 @@ public class SightsVoiceDTO {
     private String sightsIntroOUT;
 
     private String speakTTS;
+
+    private String bulletContentOUT;
 }

@@ -177,4 +177,6 @@ public interface ISightsCulCreativityService
 
     public  List<CulHomeDTO> getUserAllArticleByWays(Long user,Integer way);
 
+    public CulVoiceDTO transReturnCul(Long id ,Integer position,Long audioId);
+
 }

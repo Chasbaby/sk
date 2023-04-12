@@ -157,6 +157,10 @@ public interface IArticleService
 
     public List<ArticleTopDTO> getArticleTop();
 
+    public ArticleVoiceDTO transReturn(Long id,Integer position,Long audioId);
+
+
+
 
 
 

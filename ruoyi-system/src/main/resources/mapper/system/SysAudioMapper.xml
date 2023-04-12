@@ -37,7 +37,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSysAudioVo"/>
         where audio_id = #{audioId}
     </select>
-        
+    <select id="getAllSysAudio" resultType="com.ruoyi.system.domain.SysAudio" resultMap="SysAudioResult">
+        <include refid="selectSysAudioVo"/>
+        where flag = 'Y'
+    </select>
+    <select id="getAudioByTo" resultType="com.ruoyi.system.domain.SysAudio" parameterType="string" resultMap="SysAudioResult">
+        <include refid="selectSysAudioVo"/>
+        where flag = 'Y' and audio_id = #{audioId}
+        limit 1
+    </select>
+
     <insert id="insertSysAudio" parameterType="SysAudio" useGeneratedKeys="true" keyProperty="audioId">
         insert into sys_audio
         <trim prefix="(" suffix=")" suffixOverrides=",">

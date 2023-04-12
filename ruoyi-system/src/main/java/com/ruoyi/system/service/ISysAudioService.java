@@ -59,5 +59,8 @@ public interface ISysAudioService
      */
     public int deleteSysAudioByAudioId(Long audioId);
 
-    public SysAudio selectAudioBy();
+
+    public List<SysAudio> selectAllAudio();
+
+    public SysAudio selectAudioByTo();
 }

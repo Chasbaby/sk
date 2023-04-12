@@ -58,4 +58,11 @@ public interface SysAudioMapper
      * @return 结果
      */
     public int deleteSysAudioByAudioIds(Long[] audioIds);
+
+    /**
+     * 获取所有语言类型
+     */
+    public List<SysAudio> getAllSysAudio();
+
+    public SysAudio getAudioByTo(String to);
 }

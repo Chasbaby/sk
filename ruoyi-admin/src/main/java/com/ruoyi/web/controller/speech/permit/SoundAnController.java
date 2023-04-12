@@ -5,6 +5,7 @@ import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.culCreativity.ISightsCulCreativityService;
+import com.ruoyi.sights.domain.DTO.SightsVoiceDTO;
 import com.ruoyi.sights.service.ISightsBaseService;
 import com.ruoyi.system.service.ISysAudioService;
 import com.ruoyi.system.service.ISysVoiceService;
@@ -43,6 +44,14 @@ public class SoundAnController extends BaseController {
     @Autowired
     private ISightsCulCreativityService culCreativityService;
 
+
+    @Anonymous
+    @GetMapping("/allAudio")
+    @ApiOperation("选取语言")
+    public AjaxResult choice(){
+        return AjaxResult.success(audioService.selectAllAudio());
+    }
+
     /**
      * 短语句翻译
      * @param voice 内容
@@ -60,9 +69,38 @@ public class SoundAnController extends BaseController {
         return AjaxResult.success(result);
     }
 
-//    @ApiOperation("")
-//    @Anonymous
-//    @GetMapping("/")
+    /**
+     * @param source   source : 0 景点  1 文创  2 文章
+     * @param id       对应 id
+     * @param position 对应位置
+     * @param audioId  转后的语言id
+     * @return
+     */
+    @ApiOperation("段落翻译")
+    @Anonymous
+    @GetMapping("/{source}/{id}/{position}/{audioId}")
+    public AjaxResult fullVoice(@PathVariable("source") Integer source ,
+                                @PathVariable("id") Long id ,
+                                @PathVariable("position") Integer position,
+                                @PathVariable("audioId") Long audioId){
+        switch (source){
+            case 0:{
+                SightsVoiceDTO voiceDTO = baseService.transReturn(id,position,audioId);
+                return AjaxResult.success(voiceDTO);
+            }
+            case 1:{
+                System.out.println("yy");
+            }
+                break;
+            case 2:{
+                System.out.println("zz");
+            }
+                break;
+            default: break;
+
+        }
+        return null;
+    }
 
 
 

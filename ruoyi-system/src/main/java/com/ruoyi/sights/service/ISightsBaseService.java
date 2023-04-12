@@ -6,6 +6,7 @@ import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.SightsDTO;
 import com.ruoyi.sights.domain.DTO.SightsRecommendDTO;
 import com.ruoyi.sights.domain.DTO.SightsStatisticTopDTO;
+import com.ruoyi.sights.domain.DTO.SightsVoiceDTO;
 
 /**
  * 景点基本信息Service接口
@@ -237,5 +238,7 @@ public interface ISightsBaseService
     public void OpenHitViewLikeByQuartz();
 
     public List<SightsStatisticTopDTO> getStatisticSightsTop();
+
+    public SightsVoiceDTO transReturn(Long id ,Integer position,Long audioId);
 
 }

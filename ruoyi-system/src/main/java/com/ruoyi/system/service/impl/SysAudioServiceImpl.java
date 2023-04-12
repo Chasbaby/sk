@@ -94,8 +94,20 @@ public class SysAudioServiceImpl implements ISysAudioService
         return sysAudioMapper.deleteSysAudioByAudioId(audioId);
     }
 
+    /**
+     * 所有
+     * @return
+     */
     @Override
-    public SysAudio selectAudioBy() {
+    public List<SysAudio> selectAllAudio() {
+        List<SysAudio> sysAudio = sysAudioMapper.getAllSysAudio();
+        return sysAudio;
+    }
+
+    @Override
+    public SysAudio selectAudioByTo() {
+
         return null;
     }
+
 }

@@ -15,13 +15,16 @@ import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.*;
 import com.ruoyi.sights.mapper.*;
 import com.ruoyi.sights.service.ISightsTicketService;
+import com.ruoyi.system.domain.SysAudio;
 import com.ruoyi.system.service.ICommentService;
+import com.ruoyi.system.service.ISysAudioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.sights.service.ISightsBaseService;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.ruoyi.common.utils.baidu.BaiduUtils.getGeocoder;
+import static com.ruoyi.common.utils.baidu.TranslateUtils.getTranslateResult;
 
 /**
  *
@@ -33,6 +36,7 @@ import static com.ruoyi.common.utils.baidu.BaiduUtils.getGeocoder;
 @Service
 public class SightsBaseServiceImpl implements ISightsBaseService 
 {
+    private final static String pattern="<(\\S*?)[^>]*>.*?|<.*? />";
     @Autowired
     private SightsBaseMapper sightsBaseMapper;
 
@@ -60,6 +64,9 @@ public class SightsBaseServiceImpl implements ISightsBaseService
     @Autowired
     private SightsRecordMapper recordMapper;
 
+    @Autowired
+    private ISysAudioService audioService;
+
 
 
     /**
@@ -86,6 +93,7 @@ public class SightsBaseServiceImpl implements ISightsBaseService
     public SightsDTO selectDetailSightsById(Long sightsId,Long userId){
         SightsDTO sightsDTO = new SightsDTO();
         SightsBulletin sightsBulletin = new SightsBulletin();
+        sightsBulletin.setSightsId(sightsId);
         sightsBulletin.setDelFlag("N");// 没有删除
         sightsBulletin.setTopFlag("Y"); // 置顶啦啦啦啦
         sightsBulletin.setStatus("0"); // 正常
@@ -507,26 +515,21 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         return statisticTopDTOS;
     }
 
-//    @Override
-//    public void update() {
-//
-//
-//        getall.forEach(item->{
-//            ParaGeo paraGeo = new ParaGeo();
-//            paraGeo.setAddress(item.getSightsLocation().trim());
-//            paraGeo.setOutput("json");
-//            paraGeo.setAk("qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt");
-//            Geocoder geocoder = getGeocoder(paraGeo);
-//
-//            GeocoderResultMap result = geocoder.getResult();
-//
-//            item.setSightsLatitude(result.getLocation().getLat());
-//            item.setSightsLongitude(result.getLocation().getLng());
-//
-//            sightsBaseMapper.updateSightsBase(item);
-//        });
-//
-//    }
+    @Override
+    public SightsVoiceDTO transReturn(Long id, Integer position, Long audioId) {
+        SysAudio audio = audioService.selectSysAudioByAudioId(audioId);
+        SightsVoiceDTO voiceDTO = new SightsVoiceDTO();
+        SightsBase base = sightsBaseMapper.selectSightsBaseBySightsId(id);
+        String content = base.getSightsDetail().replaceAll(pattern, "");
+        String result = getTranslateResult(content, null, audio.getBaiduLabel());
+
+        voiceDTO.setSightsDetailOUT(result);
+        voiceDTO.setSpeakTTS(audio.getSpeakLabel());
+        voiceDTO.setSightsId(id);
+        return voiceDTO;
+
+
+    }
 
     /**
      * 点击排行榜 ( 定时多久刷新一次 )

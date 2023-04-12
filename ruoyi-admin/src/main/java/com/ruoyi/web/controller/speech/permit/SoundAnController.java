@@ -78,7 +78,7 @@ public class SoundAnController extends BaseController {
      * @param audioId  转后的语言id
      * @return
      */
-    @ApiOperation("段落翻译")
+    @ApiOperation("选择性翻译")
     @Anonymous
     @GetMapping("/{source}/{id}/{position}/{audioId}")
     public AjaxResult fullVoice(@PathVariable("source") Integer source ,

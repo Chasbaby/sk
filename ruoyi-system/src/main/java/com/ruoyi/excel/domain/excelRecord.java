@@ -15,9 +15,11 @@ import java.util.Date;
 public class excelRecord implements Serializable {
     private Long excelId;
     private String excelName;
+    // 类型(景点0 文创1 文章2)
     private String type;
     private Integer titleName;
     private String sheetName;
+    private String ifOk;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 }

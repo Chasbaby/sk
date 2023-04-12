@@ -602,6 +602,31 @@ public class ExcelUtil<T>
             IOUtils.closeQuietly(out);
         }
     }
+    /**
+     * 对list数据源将其里面的数据导入到excel表单
+     * return 数据
+     */
+    public String exportExcelData(){
+        OutputStream out = null;
+        try
+        {
+            writeSheet();
+            String filename = encodingFilename(sheetName);
+            out = new FileOutputStream(getAbsoluteFile(filename));
+            wb.write(out);
+            return filename;
+        }
+        catch (Exception e)
+        {
+            log.error("导出Excel异常{}", e.getMessage());
+            throw new UtilException("导出Excel失败，请联系网站管理员！");
+        }
+        finally
+        {
+            IOUtils.closeQuietly(wb);
+            IOUtils.closeQuietly(out);
+        }
+    }
 
     /**
      * 创建写入数据到Sheet

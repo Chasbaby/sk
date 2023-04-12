@@ -1,9 +1,15 @@
 package com.ruoyi.sights.domain.Excel;
 
 import com.ruoyi.common.annotation.Excel;
+import com.ruoyi.common.config.RuoYiConfig;
+import com.ruoyi.common.constant.ExcelConstants;
 import com.ruoyi.common.core.redis.RedisCache;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.utils.spring.SpringUtils;
+import com.ruoyi.excel.domain.excelRecord;
+import com.ruoyi.excel.mapper.excelRecordMapper;
+import com.ruoyi.excel.service.impl.ExcelServiceImpl;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -70,9 +76,18 @@ public class SightsUserBehavior implements Serializable {
     public static void redisToExcelSightsUser(){
         List<SightsUserBehavior> cacheList = SpringUtils.getBean(RedisCache.class).getCacheList(SUKEY);
         ExcelUtil<SightsUserBehavior> behaviorExcelUtil = new ExcelUtil<>(SightsUserBehavior.class);
-        behaviorExcelUtil.init(cacheList,"sightsUserData",null, Excel.Type.EXPORT);
-        behaviorExcelUtil.exportExcel();
+        behaviorExcelUtil.init(cacheList, ExcelConstants.SIGHTS_EXCEL,null, Excel.Type.EXPORT);
+        String fileName = behaviorExcelUtil.exportExcelData();
+        excelRecord record = new excelRecord();
+        record.setExcelName(RuoYiConfig.getDownloadPath()+fileName);
+        record.setSheetName(ExcelConstants.SIGHTS_EXCEL);
+        record.setType("0");
+        record.setCreateTime(DateUtils.getNowDate());
+        System.out.println(record);
+        int i = SpringUtils.getBean(excelRecordMapper.class).insertExcel(record);
+        System.out.println(i+"条记录插入成功");
         SpringUtils.getBean(RedisCache.class).deleteObject(SUKEY);
+
     }
 
 

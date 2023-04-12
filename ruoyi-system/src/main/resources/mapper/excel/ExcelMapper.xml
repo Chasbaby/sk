@@ -7,6 +7,7 @@
         <result property="excelId" column="excel_id"/>
         <result property="excelName" column="excel_name"/>
         <result property="type" column="type"/>
+        <result property="ifOk" column="if_ok"/>
         <result property="titleName" column="title_name"/>
         <result property="sheetName" column="sheet_name"/>
         <result property="createTime" column="create_time"/>
@@ -20,6 +21,7 @@
             <if test="type !=null and type !='' ">type,</if>
             <if test="titleName !=null and titleName !=''">title_name,</if>
             <if test="sheetName !=null and sheetName !=''">sheet_name,</if>
+            <if test="ifOk !=null and isOk !=''">if_ok,</if>
             <if test="createTime !=null">create_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -28,6 +30,7 @@
             <if test="type !=null and type !=''">#{type},</if>
             <if test="titleName !=null and titleName !=''">#{titleName},</if>
             <if test="sheetName !=null and sheetName !=''">#{sheetName},</if>
+            <if test="ifOk !=null and isOk !=''">#{ifOk},</if>
             <if test="createTime !=null">#{createTime},</if>
         </trim>
     </insert>
@@ -40,11 +43,12 @@
             <if test="type !=null and type !=''">and type = #{type}</if>
             <if test="titleName !=null and titleName !=''">and title_name = #{titleName}</if>
             <if test="sheetName !=null and sheetName !=''">and sheet_name = #{sheetName}</if>
+            <if test="ifOk !=null and isOk !=''">and if_ok = #{ifOk}</if>
             <if test="createTime !=null">and create_time = #{createTime}</if>
         </where>
     </select>
     <select id="selectDayExcel" resultType="com.ruoyi.excel.domain.excelRecord" resultMap="excelId">
-        select excel_id,excel_name,type,title_name,sheet_name,create_time from excel_record
+        select excel_id,excel_name,type,title_name,sheet_name,if_ok,create_time from excel_record
         where  DATE_FORMAT(create_time,'%Y-%m-%d') = curdate()
     </select>
 

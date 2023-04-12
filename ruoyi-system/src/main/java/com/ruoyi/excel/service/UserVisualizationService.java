@@ -6,4 +6,5 @@ package com.ruoyi.excel.service;
  * @date 2023-4
  */
 public interface UserVisualizationService{
+    public void countDataToday();
 }

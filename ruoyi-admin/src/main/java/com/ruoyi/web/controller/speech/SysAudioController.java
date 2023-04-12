@@ -1,4 +1,4 @@
-package com.ruoyi.web.controller.system;
+package com.ruoyi.web.controller.speech;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;

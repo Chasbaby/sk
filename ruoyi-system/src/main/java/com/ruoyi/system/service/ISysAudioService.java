@@ -58,4 +58,6 @@ public interface ISysAudioService
      * @return 结果
      */
     public int deleteSysAudioByAudioId(Long audioId);
+
+    public SysAudio selectAudioBy();
 }

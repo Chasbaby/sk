@@ -93,4 +93,9 @@ public class SysAudioServiceImpl implements ISysAudioService
     {
         return sysAudioMapper.deleteSysAudioByAudioId(audioId);
     }
+
+    @Override
+    public SysAudio selectAudioBy() {
+        return null;
+    }
 }

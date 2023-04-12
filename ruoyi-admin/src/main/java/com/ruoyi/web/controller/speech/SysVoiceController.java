@@ -1,7 +1,9 @@
-package com.ruoyi.web.controller.system;
+package com.ruoyi.web.controller.speech;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.utils.DateUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,6 +79,8 @@ public class SysVoiceController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody SysVoice sysVoice)
     {
+        sysVoice.setCreateBy(getUsername());
+        sysVoice.setCreateTime(DateUtils.getNowDate());
         return toAjax(sysVoiceService.insertSysVoice(sysVoice));
     }
 
@@ -88,6 +92,8 @@ public class SysVoiceController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SysVoice sysVoice)
     {
+        sysVoice.setUpdateBy(getUsername());
+        sysVoice.setUpdateTime(DateUtils.getNowDate());
         return toAjax(sysVoiceService.updateSysVoice(sysVoice));
     }
 

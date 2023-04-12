@@ -164,11 +164,11 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     @Transactional
     @Override
     public int addCulLike(CulRecord record) {
-        int i = recordMapper.judgeOnlyOneLikeCul(record);
+        int i = recordMapper.judgeOnlyOneLikeCul(record.getUserId(),record.getCulId());
         if (i==0){
-            recordMapper.addLikeCul(record);
+            recordMapper.addLikeCul(record.getUserId(),record.getCulId());
         }else {
-            recordMapper.deleteLikeCul(record);
+            recordMapper.deleteLikeCul(record.getUserId(),record.getCulId());
         }
 
         return i;
@@ -182,7 +182,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     @Transactional
     @Override
     public int addCulView(CulRecord record) {
-        int i = recordMapper.addViewCul(record);
+        int i = recordMapper.addViewCul(record.getUserId(),record.getCulId());
         return i;
     }
 
@@ -194,11 +194,11 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     @Transactional
     @Override
     public int addCulCollect(CulRecord record) {
-        int i = recordMapper.judgeOnlyOneCollectCul(record);
+        int i = recordMapper.judgeOnlyOneCollectCul(record.getUserId(),record.getCulId());
         if (i==0){
-            recordMapper.addCollectCul(record);
+            recordMapper.addCollectCul(record.getUserId(),record.getCulId());
         }else {
-            recordMapper.deleteCollectCul(record);
+            recordMapper.deleteCollectCul(record.getUserId(),record.getCulId());
         }
 
         return i;

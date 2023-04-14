@@ -51,6 +51,12 @@ public class ArticleAnController extends BaseController {
 //            kafkaTemplate.send("myFlume","xxxxxxxxxxxxx");
 //        }
 
+        kafkaTemplate.send("myFlume","SIGHTS:1|1|4.5:"+DateUtils.getNowDate().getTime());
+        kafkaTemplate.send("myFlume","SIGHTS:1|5|5:"+DateUtils.getNowDate().getTime());
+        kafkaTemplate.send("myFlume","SIGHTS:1|6|6:"+DateUtils.getNowDate().getTime());
+        kafkaTemplate.send("myFlume","SIGHTS:1|7|8:"+DateUtils.getNowDate().getTime());
+
+
         articleService.xxx();
         return null;
     }

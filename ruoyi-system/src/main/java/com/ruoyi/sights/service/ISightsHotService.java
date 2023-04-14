@@ -103,4 +103,5 @@ public interface ISightsHotService {
      */
     public List<SightsRandomDTO> getRandomSights();
 
+
 }

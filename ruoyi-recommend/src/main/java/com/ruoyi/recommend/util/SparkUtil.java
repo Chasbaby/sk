@@ -34,7 +34,8 @@ public class SparkUtil {
      * @return SparkSession
      */
     public static SparkSession buildSparkSession(@NotNull String master, @NotNull String appName, boolean implicits){
-        SparkConf conf = new SparkConf().setMaster(master).setAppName(appName);
+        SparkConf conf = new SparkConf().setMaster(master).setAppName(appName).set("spark.streaming.concurrentJobs","3");
+
         SparkSession sparkSession = SparkSession.builder().config(conf).getOrCreate();
         if (implicits){
             sparkSession.implicits();

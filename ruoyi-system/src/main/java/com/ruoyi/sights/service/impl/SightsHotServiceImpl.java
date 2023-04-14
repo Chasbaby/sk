@@ -230,6 +230,8 @@ public class SightsHotServiceImpl implements ISightsHotService {
 
     }
 
+
+
     /**
      * 增加点赞
      * @param sightsId

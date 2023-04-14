@@ -65,7 +65,7 @@ public class ArticleServiceImpl implements IArticleService
 
     public void xxx(){
         for (int i = 0; i < 100; i++) {
-            log.info("sights:info");
+            log.info("SIGHTS:1|1|4.5:"+DateUtils.getNowDate().getTime());
             log.warn("sights:warn");
             log.error("sights:error");
         }

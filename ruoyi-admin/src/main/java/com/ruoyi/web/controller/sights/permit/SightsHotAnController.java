@@ -5,11 +5,18 @@ import com.ruoyi.common.constant.KafkaTopicsConstant;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.core.redis.RedisCache;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.recommend.sightsRecommend.OnLineRecommend;
 import com.ruoyi.sights.domain.DTO.SightsReturnDTO;
 import com.ruoyi.sights.service.ISightsHotService;
 import com.ruoyi.sights.service.ISightsRecordService;
+import com.ruoyi.web.controller.common.CommonController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +25,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +39,9 @@ import java.util.List;
 @RequestMapping("/hotSights")
 public class SightsHotAnController extends BaseController {
 
+    private static final Logger log = LoggerFactory.getLogger(SightsHotAnController.class);
+
+
     @Autowired
     private ISightsHotService hotService;
 
@@ -38,6 +50,9 @@ public class SightsHotAnController extends BaseController {
 
     @Autowired
     private KafkaTemplate<String,String> kafkaTemplate;
+
+    @Autowired
+    private RedisCache redisCache;
 
 
     @Anonymous
@@ -99,6 +114,38 @@ public class SightsHotAnController extends BaseController {
     @GetMapping("/score/{sightsId}/{score}")
     @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult addScore(@PathVariable Long sightsId,@PathVariable Double score){
+        // 实时推荐 将数据传入redis
+        String key = "userId:"+getUserId();
+        Boolean hasKey = redisCache.hasKey(key);
+        String value = sightsId + ":" + score;
+        if (hasKey){
+            redisCache.lock(key); // 加锁
+            // 格式 : sightsId:score
+            List<String> list = redisCache.getCacheList(key); //获取值
+            String temp = null ;
+            //遍历
+            while (list.iterator().hasNext()) {
+                String next = list.iterator().next();
+                if (next.split(":")[0].equals(sightsId.toString())) { // 是不是一个景点呀
+                    String s = next.replace(next.split(":")[1], score.toString());// 是的话修改个得分
+                    list.iterator().remove();                               // 将数据移除
+                    temp = s;                                               // 保存 修改值
+                    break;  // 结束喽
+                }
+            }
+            // 如果值被修改 也就是 不为null  则将该数据插入list
+            if (StringUtils.isNotNull(temp)){
+                list.add(temp);
+            }
+            redisCache.setCacheList(key,list);
+        }else {
+            List<String> list = new ArrayList<>();
+            list.add(value);
+            redisCache.setCacheList(key,list);
+        }
+
+        logger.info("SIGHTS:"+getUserId()+"|"+sightsId+"|"+score+"|"+ DateUtils.getNowDate().getTime());
+
         int i = hotService.ifScore(sightsId, score, getUserId());
         if (i == 0){
             kafkaTemplate.send(KafkaTopicsConstant.SIGHTSSCORE,sightsId+KafkaTopicsConstant.DELIMITER
@@ -108,7 +155,10 @@ public class SightsHotAnController extends BaseController {
         return AjaxResult.success("评分成功喽");
     }
 
-
-
+    @PostConstruct
+    public void startRecommend(){
+        OnLineRecommend recommend = new OnLineRecommend();
+        recommend.OnlineService();
+    }
 
 }

@@ -1,11 +1,13 @@
 package com.ruoyi.common.core.redis;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.crossstore.ChangeSetBackedTransactionSynchronization;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.geo.Distance;
@@ -28,6 +30,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 @Component
 public class RedisCache
 {
+
     @Autowired
     public RedisTemplate redisTemplate;
 

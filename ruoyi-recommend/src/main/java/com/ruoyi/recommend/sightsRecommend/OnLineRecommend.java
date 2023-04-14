@@ -10,7 +10,9 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.*;
+import org.apache.spark.api.java.function.Function;
+import org.apache.spark.api.java.function.PairFunction;
+import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
@@ -25,8 +27,8 @@ import org.apache.spark.streaming.kafka010.LocationStrategies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import scala.Serializable;
 import scala.Tuple2;
-
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,12 +41,12 @@ import static com.ruoyi.recommend.util.SparkUtil.*;
  * @date 2023-2
  */
 
-public class OnLineRecommend {
+public class OnLineRecommend implements Serializable {
     public final static Logger logger = LoggerFactory.getLogger(OnLineRecommend.class);
     @Autowired
-    private RedisCache redisCache;
+    transient private RedisCache redisCache;
     @Autowired
-    private SightsRecordScoreMapper sightsRecordScoreMapper;
+    transient private SightsRecordScoreMapper sightsRecordScoreMapper;
 
     /**
      * 实时推荐核心代码
@@ -60,15 +62,17 @@ public class OnLineRecommend {
         kafkaParams.put("enable.auto.commit", "false");
 
         // 接收数据的主题  (消费者)
-        Collection<String> topics = Arrays.asList("OnLineRecommend");
+        Collection<String> topics = Arrays.asList("sparkOnline");
 
-        SparkSession spark = buildSparkSession("local[*]", "OnLineRecommend", true);
+        SparkSession spark = buildSparkSession("local[2]", "OnLineRecommend", true);
+
         SparkContext sc = spark.sparkContext();
         JavaSparkContext javaSparkContext = JavaSparkContext.fromSparkContext(sc);
-        JavaStreamingContext javaStreamingContext = new JavaStreamingContext(javaSparkContext, new Duration(20000));
+        JavaStreamingContext javaStreamingContext = new JavaStreamingContext(javaSparkContext, new Duration(1000*60*5));
 
         // 从数据库中读取信息
         Dataset<SightsRecs> dataset = (Dataset<SightsRecs>) readFromMysql(spark, "sightsrecs");
+
         // 加载数据，相似度矩阵，广播出去
         Map<Long, Iterable<Tuple2<Long, Double>>> longIterableMap = dataset
                 .toJavaRDD()
@@ -106,7 +110,9 @@ public class OnLineRecommend {
                     Double.parseDouble(split[2].trim()),
                     Long.parseLong(split[4].trim()));
         });
-        List<SightsUserStream> SightsUserStream= new LinkedList<>();
+
+        List<SightsUserStream> UserStream= new LinkedList<>();
+
         map.foreachRDD((VoidFunction<JavaRDD<SightsUserStream>>) sightsUserStreamJavaRDD ->
                 sightsUserStreamJavaRDD.foreach(f->{
                     // 核心算法流程
@@ -120,18 +126,21 @@ public class OnLineRecommend {
                     Set<Long> longKey = StreamRecs.keySet();
                     longKey.forEach(key->{
                         Double score = StreamRecs.get(key);
-                        SightsUserStream.add(new SightsUserStream(f.getUserId(),key,score,new Date().getTime()));
+                        UserStream.add(new SightsUserStream(f.getUserId(),key,score,new Date().getTime()));
                     });
                 })
         );
-        Dataset<Row> dataFrame = spark.createDataFrame(SightsUserStream, SightsUserStream.getClass());
-        writeToMysql(dataFrame,"onlineRecs","overwrite");
+
+        Dataset<Row> dataFrame = spark.createDataFrame(UserStream, SightsUserStream.class).toDF("userId","sightsId","sightsScore","timestamp");
+        writeToMysql(dataFrame,"onlinerecs","overwrite");
         javaStreamingContext.start();
-        try {
-            javaStreamingContext.awaitTermination();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//
+////            javaStreamingContext.awaitTermination();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
     }
 
     /**
@@ -143,10 +152,10 @@ public class OnLineRecommend {
     public  Map<Long,Double> getUserRecentlyRatings(int num,Long userId){
         Map map = new HashMap();
         List<String> list = redisCache.getCacheListRange("userId:" + userId.toString(), 0, num);
-        list.forEach(f->{
-           String[] split = f.split(":");
-           map.put(Long.parseLong(split[0]),Double.parseDouble(split[1]));
-        });
+            list.forEach(f->{
+                String[] split = f.split(":");
+                map.put(Long.parseLong(split[0]),Double.parseDouble(split[1]));
+            });
         return map;
   }
 
@@ -180,7 +189,7 @@ public class OnLineRecommend {
   }
 
     /**
-     *  计算每个备选商品的推荐得分
+     *  计算每个备选景点的推荐得分
      * @param candidateSights
      * @param userRecentlyRatings
      * @param simProducts
@@ -189,9 +198,9 @@ public class OnLineRecommend {
     public Map<Long,Double> computeSightsScore(List<Long> candidateSights,
                                                 Map<Long,Double> userRecentlyRatings,
                                                 Map<Long,Map<Long,Double>> simProducts){
-        //定义一个长度可变数组Map，用于保存每一个备选景点的基础得分，(productId, score)
+        //定义一个长度可变数组Map，用于保存每一个备选景点的基础得分，(sightsId, score)
         ArrayList<Map<Long,List<Double>>> scores  = new ArrayList<>();
-        // 定义两个map，用于保存每个景点的高分和低分的计数器，productId -> count
+        // 定义两个map，用于保存每个景点的高分和低分的计数器，sightsId -> count
         Map<Long, Double> inMap = new HashMap<>();
         Map<Long, Double> deMap = new HashMap<>();
         Set<Long> userRecentlyRating = userRecentlyRatings.keySet();

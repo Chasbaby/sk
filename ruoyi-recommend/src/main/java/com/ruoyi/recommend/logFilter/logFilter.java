@@ -37,28 +37,16 @@ public class logFilter {
         Properties setting = new Properties();
         setting.put(StreamsConfig.APPLICATION_ID_CONFIG,"logFilter");
         setting.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
+        setting.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+        setting.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG,Serdes.String().getClass().getName());
 
         KStream<String, String> stream = streamsBuilder.stream("myFlume");
-
-        stream.foreach((key,value)-> System.out.println("我是你啊啊啊 啊啊啊"+value));
-
-        stream.to("WordsWithCountsTopic");
-
+        stream.filter((key,value)->value.contains("SIGHTS:")).map(((KeyValueMapper<String, String, KeyValue<String, String>>)
+                (key, value) -> new KeyValue<>(key, value.split("SIGHTS:")[1])))
+                .to("sparkOnline");
         final Topology topo =streamsBuilder.build();
         final KafkaStreams streams = new KafkaStreams(topo, setting);
         streams.start();
-
-//        stream.filter((key, value) -> value.contains("sights:")).to("WordsWithCountsTopic");
-
-//        System.out.println("开始了");
-//        KStream<String, String> myFlume = streamsBuilder.stream("myFlume");
-//        myFlume.map((KeyValueMapper<String, String, KeyValue<?, ?>>) (s, s2) -> {
-//            System.out.println("ssss");
-//            System.out.println(s+s2);
-//
-//            return new KeyValue<>("key",s+s2);
-//        }).to("WordsWithCountsTopic");
-
         return stream;
     }
 }

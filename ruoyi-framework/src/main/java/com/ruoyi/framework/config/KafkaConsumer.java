@@ -3,6 +3,7 @@ package com.ruoyi.framework.config;
 import com.ruoyi.common.constant.KafkaTopicsConstant;
 import com.ruoyi.common.utils.JsonUtils;
 import com.ruoyi.culCreativity.ISightsCulCreativityService;
+import com.ruoyi.recommend.sightsRecommend.OnLineRecommend;
 import com.ruoyi.sights.domain.SightsBase;
 import com.ruoyi.sights.service.ISightsHotService;
 import com.sun.javaws.IconUtil;
@@ -111,12 +112,13 @@ public class KafkaConsumer {
 
     }
 
-
-    @KafkaListener(topics = "WordsWithCountsTopic")
-    public void Words(String msg,String value){
-
-        System.out.println("WordsWithCountsTopic"+msg+value);
-    }
+//
+//    @KafkaListener(topics = "sparkOnline")
+//    public void Words(String key,String value){
+//        OnLineRecommend recommend = new OnLineRecommend();
+//        recommend.OnlineService();
+//
+//    }
     @KafkaListener(topics = "OnLineRecommend")
     public void sss(String msg,String value){
         System.out.println("这是onLineRecommend"+ value);

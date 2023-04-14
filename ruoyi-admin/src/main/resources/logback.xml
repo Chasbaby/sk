@@ -73,13 +73,6 @@
         </encoder>
     </appender>
 
-<!--    <appender name="myflume" class="org.apache.flume.client.avro.shaded.">-->
-
-<!--    </appender>-->
-
-<!--    <appender name="HDFS" class="">-->
-
-<!--    </appender>-->
 
 <!--    https://blog.csdn.net/warrah/article/details/78774547-->
 <!--    https://blog.csdn.net/jy02268879/article/details/81024758-->
@@ -107,15 +100,6 @@
 
 <!--    </appender>-->
 
-<!--    <appender name="MKafka" class="com.github.danielwegener.logback.kafka.KafkaAppender">-->
-<!--        <encoder>-->
-<!--            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
-<!--        </encoder>-->
-<!--        <topic>chas</topic>-->
-<!--        <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>-->
-<!--        <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>-->
-<!--        <producerConfig>bootstrap.servers=localhost:9092</producerConfig>-->
-<!--    </appender>-->
 
 	<!-- 系统模块日志级别控制  -->
 	<logger name="com.ruoyi" level="warn" />

@@ -4,6 +4,7 @@ import com.ruoyi.article.service.impl.ArticleServiceImpl;
 import com.ruoyi.culCreativity.ISightsCulCreativityService;
 import com.ruoyi.home.service.IHomeAdService;
 import com.ruoyi.home.service.IHomeNewsService;
+import com.ruoyi.recommend.sightsRecommend.ItemCFRecommend;
 import com.ruoyi.recommend.sightsRecommend.OfflineRecommend;
 import com.ruoyi.sights.service.ISightsBaseService;
 import com.ruoyi.sights.service.ISightsHotService;
@@ -88,6 +89,11 @@ public class RyTask
     public void offlineRecommend(){
         log.info("离线计算开始喽");
         OfflineRecommend recommend = new OfflineRecommend();
+    }
+
+    public void itemCF(){
+        ItemCFRecommend cfRecommend = new ItemCFRecommend();
+        cfRecommend.ItemCFService();
     }
 
 

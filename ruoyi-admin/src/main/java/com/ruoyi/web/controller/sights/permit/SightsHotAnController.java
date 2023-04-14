@@ -162,12 +162,4 @@ public class SightsHotAnController extends BaseController {
         OnLineRecommend recommend = new OnLineRecommend();
         recommend.OnlineService();
     }
-
-    @PostConstruct
-    public void xxx(){
-        ItemCFRecommend cfRecommend = new ItemCFRecommend();
-        cfRecommend.ItemCFService();
-    }
-
-
 }

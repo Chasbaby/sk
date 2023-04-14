@@ -22,6 +22,10 @@ import java.util.List;
 
 import static com.ruoyi.recommend.util.SparkUtil.*;
 
+/**
+ * 内容相似度 待完成
+ */
+
 public class ContentRecommend {
 
     @Autowired

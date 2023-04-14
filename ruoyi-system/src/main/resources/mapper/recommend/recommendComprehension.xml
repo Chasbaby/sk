@@ -5,4 +5,40 @@
 <mapper namespace="com.ruoyi.recommend.mapper.recommendComprehension">
 
     <select id="getHistoryHotSights" resultType="com.ruoyi.sights.domain.SightsBase"></select>
+
+    <select
+            id="getItemCFSights"
+            resultType="com.ruoyi.sights.domain.SightsBase"
+            parameterType="Long"
+            resultMap="com.ruoyi.sights.mapper.SightsBaseMapper.SightsBaseResult">
+            SELECT
+                sights_id,sights_score,sights_eng,sights_name,sights_category
+            FROM
+                sights_base
+            WHERE
+                    sights_id IN (
+                    SELECT
+                        i.sightsIdTwo
+                    FROM
+                        sights_base s
+                            LEFT JOIN itemcfsights i ON s.sights_id = i.sightsIdOne
+                    WHERE
+                        s.sights_id = #{sightsId}
+                    order by i.sightsScore desc
+                )
+            limit 5
+
+    </select>
+    <select
+            id="getNoSights"
+            resultType="com.ruoyi.sights.domain.SightsBase"
+            resultMap="com.ruoyi.sights.mapper.SightsBaseMapper.SightsBaseResult">
+            select  sights_id,sights_score,sights_eng,sights_name,sights_category
+            from sights_base where sights_id not in
+            <foreach collection="list" item="sightsId" open="(" close=")" separator=",">
+                #{sightsId}
+            </foreach>
+            order by sights_score
+            limit #{num}
+    </select>
 </mapper>

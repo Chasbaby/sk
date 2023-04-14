@@ -61,6 +61,11 @@ public class SightsRecommendServiceImpl implements SightsRecommendService {
         return sightsCountDTOS;
     }
 
+    /**
+     * 公共内容
+     * @param sightsCountDTOS
+     * @param sights
+     */
     private void getReasonSights(List<SightsCountDTO> sightsCountDTOS, List<SightsBase> sights) {
         int size = sights.size();
         if (size < 5) {

@@ -23,7 +23,7 @@ public class ItemCFRecommend {
         SparkSession spark = buildSparkSession("local[*]", "ItemCFRecommend", true);
         Dataset<SightsRecordScore> sightsRecordScore = (Dataset<SightsRecordScore>) readFromMysql(spark, "sights_record_score");
         Dataset<Row> ratingDF = sightsRecordScore
-                .toDF("userId", "sightsId", "score")
+                .toDF("userId", "sightsId", "score","createTime")
                 .cache();
         // TODO: 核心算法，计算相似度，得到景点的相似列表
         // 统计每个景点的评分个数，按照sightsId来做group by
@@ -36,9 +36,7 @@ public class ItemCFRecommend {
         // 将评分按照用户id两两配对，统计两个景点被同一个用户评分过的次数
         Dataset<Row> joinDF = ratingWithCountDF
                 .join(ratingWithCountDF, "userId")
-                .toDF("userId"
-                        , "sightsIdOne", "scoreOne", "countOne"
-                        , "sightsIdTwo", "scoreTwo", "countTwo")
+                .toDF("userId", "sightsIdOne", "scoreOne","createTimeOne", "countOne", "sightsIdTwo", "scoreTwo","createTimeTwo", "countTwo")
                 .select("userId", "sightsIdOne", "countOne",
                         "sightsIdTwo", "countTwo");
         // 创建一张临时表，用于写sql查询
@@ -72,7 +70,7 @@ public class ItemCFRecommend {
             all.addAll(temp);
         });
         writeToMysql(spark.createDataFrame(all,SightsRecs.class),
-                "ItemCFSights","overwrite");
+                "itemcfsights","overwrite");
         spark.stop();
     }
 }

@@ -42,6 +42,7 @@ import static com.ruoyi.recommend.util.SparkUtil.*;
  */
 
 public class OnLineRecommend implements Serializable {
+
     public final static Logger logger = LoggerFactory.getLogger(OnLineRecommend.class);
     @Autowired
     transient private RedisCache redisCache;

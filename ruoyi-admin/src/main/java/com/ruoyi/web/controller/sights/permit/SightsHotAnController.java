@@ -8,6 +8,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.recommend.sightsRecommend.OfflineRecommend;
 import com.ruoyi.recommend.sightsRecommend.OnLineRecommend;
 import com.ruoyi.sights.domain.DTO.SightsReturnDTO;
 import com.ruoyi.sights.service.ISightsHotService;
@@ -160,5 +161,6 @@ public class SightsHotAnController extends BaseController {
         OnLineRecommend recommend = new OnLineRecommend();
         recommend.OnlineService();
     }
+
 
 }

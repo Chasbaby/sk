@@ -1,11 +1,15 @@
 package com.ruoyi.quartz.task;
 
+import com.ruoyi.article.service.impl.ArticleServiceImpl;
 import com.ruoyi.culCreativity.ISightsCulCreativityService;
 import com.ruoyi.home.service.IHomeAdService;
 import com.ruoyi.home.service.IHomeNewsService;
+import com.ruoyi.recommend.sightsRecommend.OfflineRecommend;
 import com.ruoyi.sights.service.ISightsBaseService;
 import com.ruoyi.sights.service.ISightsHotService;
 import com.ruoyi.system.service.ISysActivityService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.utils.StringUtils;
@@ -20,6 +24,7 @@ import static com.ruoyi.sights.domain.SightsBase.hotTimeReduce;
 @Component("ryTask")
 public class RyTask
 {
+    private static final Logger log = LoggerFactory.getLogger(RyTask.class);
     @Autowired
     private IHomeAdService iHomeAdService;
     public void AutoDeleteAd(){
@@ -78,6 +83,11 @@ public class RyTask
     }
     public void reduceActHot(){
         activityService.reduceHot();
+    }
+
+    public void offlineRecommend(){
+        log.info("离线计算开始喽");
+        OfflineRecommend recommend = new OfflineRecommend();
     }
 
 

@@ -32,6 +32,12 @@ public class SightsRecordScore implements Serializable {
         this.createTime = createTime;
     }
 
+    public SightsRecordScore(Long userId, Long sightsId, Double score) {
+        this.userId = userId;
+        this.sightsId = sightsId;
+        this.score = score;
+    }
+
     public Long getUserId() {
         return userId;
     }

@@ -40,6 +40,11 @@
             <artifactId>ruoyi-system</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-recommend</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

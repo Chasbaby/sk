@@ -71,7 +71,7 @@ public class OnLineRecommend implements Serializable {
         JavaStreamingContext javaStreamingContext = new JavaStreamingContext(javaSparkContext, new Duration(1000*60*5));
 
         // 从数据库中读取信息
-        Dataset<SightsRecs> dataset = (Dataset<SightsRecs>) readFromMysql(spark, "sightsrecs");
+        Dataset<SightsRecs> dataset = (Dataset<SightsRecs>)readFromMysql(spark, "sightsrecs");
 
         // 加载数据，相似度矩阵，广播出去
         Map<Long, Iterable<Tuple2<Long, Double>>> longIterableMap = dataset

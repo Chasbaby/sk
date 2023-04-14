@@ -47,9 +47,6 @@ public class ArticleAnController extends BaseController {
     @Anonymous
     @GetMapping("/test")
     public AjaxResult xxxx(){
-//        for (int i = 0; i < 110; i++) {
-//            kafkaTemplate.send("myFlume","xxxxxxxxxxxxx");
-//        }
 
         kafkaTemplate.send("myFlume","SIGHTS:1|1|4.5:"+DateUtils.getNowDate().getTime());
         kafkaTemplate.send("myFlume","SIGHTS:1|5|5:"+DateUtils.getNowDate().getTime());

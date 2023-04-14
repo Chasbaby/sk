@@ -46,7 +46,6 @@ public class SightsRecommendAnController extends BaseController {
     @Anonymous
     @GetMapping("/common")
     public AjaxResult commonRecommend(){
-
         return AjaxResult.success(recommendService.getRandomAttractions());
     }
 

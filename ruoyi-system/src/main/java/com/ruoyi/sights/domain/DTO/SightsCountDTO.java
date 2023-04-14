@@ -16,4 +16,5 @@ public class SightsCountDTO implements Serializable {
     private String sightsEng;
     private String sightsName;
     private String sightsCategory;
+    private String sightsImage;
 }

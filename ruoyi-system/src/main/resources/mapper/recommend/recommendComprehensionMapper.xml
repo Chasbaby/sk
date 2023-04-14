@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.recommend.mapper.recommendComprehension">
+<mapper namespace="com.ruoyi.recommend.mapper.recommendComprehensionMapper">
 
     <select id="getHistoryHotSights" resultType="com.ruoyi.sights.domain.SightsBase"></select>
 
@@ -12,7 +12,7 @@
             parameterType="Long"
             resultMap="com.ruoyi.sights.mapper.SightsBaseMapper.SightsBaseResult">
             SELECT
-                sights_id,sights_score,sights_eng,sights_name,sights_category
+                sights_id,sights_score,sights_eng,sights_name,sights_category,sights_image
             FROM
                 sights_base
             WHERE
@@ -27,18 +27,36 @@
                     order by i.sightsScore desc
                 )
             limit 5
-
     </select>
     <select
             id="getNoSights"
             resultType="com.ruoyi.sights.domain.SightsBase"
             resultMap="com.ruoyi.sights.mapper.SightsBaseMapper.SightsBaseResult">
             select  sights_id,sights_score,sights_eng,sights_name,sights_category
-            from sights_base where sights_id not in
-            <foreach collection="list" item="sightsId" open="(" close=")" separator=",">
-                #{sightsId}
-            </foreach>
+            from sights_base
+                    where sights_id not in
+                    <foreach collection="list" item="sightsId" open="(" close=")" separator=",">
+                        #{sightsId}
+                    </foreach>
             order by sights_score
             limit #{num}
     </select>
+    <select
+            id="getOnlineRecommend"
+            resultType="com.ruoyi.sights.domain.SightsBase"
+            resultMap="com.ruoyi.sights.mapper.SightsBaseMapper.SightsBaseResult"
+            parameterType="Long">
+            select sights_id,sights_score,sights_eng,sights_name,sights_category,sights_image
+                from sights_base
+                where
+                     sights_id in (
+                         select i.sightsId
+                         from sights_base s
+                            left join onlinerecs i on s.sights_id = i.sightsId
+                         where i.userId = #{userId}
+                     order by i.sightsScore desc
+                    )
+            limit 5
+    </select>
+
 </mapper>

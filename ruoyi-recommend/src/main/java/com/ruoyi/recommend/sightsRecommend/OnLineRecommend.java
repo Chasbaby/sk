@@ -135,12 +135,7 @@ public class OnLineRecommend implements Serializable {
         Dataset<Row> dataFrame = spark.createDataFrame(UserStream, SightsUserStream.class).toDF("userId","sightsId","sightsScore","timestamp");
         writeToMysql(dataFrame,"onlinerecs","overwrite");
         javaStreamingContext.start();
-//        try {
-//
-////            javaStreamingContext.awaitTermination();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+
 
     }
 

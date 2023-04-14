@@ -12,4 +12,6 @@ import java.util.List;
 public interface SightsRecommendService {
 
     public List<SightsCountDTO> SimilarAttractions(Long sightsId);
+    public List<SightsCountDTO> onlineAttractions(Long userId);
+    public List<SightsCountDTO> getRandomAttractions();
 }

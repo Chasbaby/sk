@@ -6,11 +6,13 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface recommendComprehension {
+public interface recommendComprehensionMapper {
 
     public List<SightsBase> getHistoryHotSights();
 
     public List<SightsBase>  getItemCFSights(Long sightsId);
 
     public List<SightsBase> getNoSights(@Param("sightsId") List<Long> sightsId, @Param("num") Integer num);
+
+    public List<SightsBase> getOnlineRecommend(Long userId);
 }

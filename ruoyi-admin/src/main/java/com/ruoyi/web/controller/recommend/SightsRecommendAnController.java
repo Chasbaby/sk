@@ -26,8 +26,6 @@ public class SightsRecommendAnController extends BaseController {
     @Autowired
     private SightsRecommendService recommendService;
 
-
-
     @ApiOperation("相似景点")
     @Anonymous()
     @GetMapping("/similar/attractions/{sightsId}")

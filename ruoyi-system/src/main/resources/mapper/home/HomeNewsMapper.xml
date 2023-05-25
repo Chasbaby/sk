@@ -75,6 +75,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
         order by news_hits desc
     </select>
+    <select id="selectNewsDetail" resultType="com.ruoyi.home.domain.HomeNews" parameterType="long" resultMap="HomeNewsResult" >
+        <include refid="selectHomeNewsVo"/>
+        where news_id = #{newsId} and del_flag = "N"  and show_flag = "Y"
+    </select>
 
     <insert id="insertHomeNews" parameterType="HomeNews" useGeneratedKeys="true" keyProperty="newsId">
         insert into home_news

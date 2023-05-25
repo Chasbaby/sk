@@ -93,6 +93,7 @@ public class RyTask
 
     public void itemCF(){
         ItemCFRecommend cfRecommend = new ItemCFRecommend();
+        //协同过滤
         cfRecommend.ItemCFService();
     }
 

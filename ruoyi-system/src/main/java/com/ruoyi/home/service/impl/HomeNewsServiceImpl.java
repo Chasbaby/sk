@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.home.domain.dto.newsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.home.mapper.HomeNewsMapper;
@@ -179,5 +181,14 @@ public class HomeNewsServiceImpl implements IHomeNewsService
     @Override
     public int updateNewsHits(Long newsId) {
         return homeNewsMapper.updateNewHits(newsId);
+    }
+
+    /** 获取新闻详细信息*/
+    @Override
+    public newsDTO getNewsInfo(Long newsId) {
+        HomeNews news = homeNewsMapper.selectNewsDetail(newsId);
+        newsDTO dto = new newsDTO();
+        BeanUtils.copyBeanProp(dto,news);
+        return dto;
     }
 }

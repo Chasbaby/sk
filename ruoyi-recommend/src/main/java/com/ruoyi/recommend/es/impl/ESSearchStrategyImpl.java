@@ -92,7 +92,7 @@ public class ESSearchStrategyImpl implements SearchStrategy {
     /**
      * 在项目开始时将所有景点注入es种
      */
-    @PostConstruct
+    //@PostConstruct
     public void initSightsInEs() {
         List<SightsBase> sightsBases = baseMapper.selectSightsBaseList(new SightsBase());
         Integer integer = sightsESMapper.insertBatch(sightsBases);

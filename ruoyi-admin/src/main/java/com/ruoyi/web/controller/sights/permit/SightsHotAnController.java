@@ -157,6 +157,9 @@ public class SightsHotAnController extends BaseController {
         return AjaxResult.success("评分成功喽");
     }
 
+    /**
+     * 实时推荐
+     */
     @PostConstruct
     public void startRecommend(){
         OnLineRecommend recommend = new OnLineRecommend();

@@ -2,6 +2,7 @@ package com.ruoyi.home.service;
 
 import java.util.List;
 import com.ruoyi.home.domain.HomeNews;
+import com.ruoyi.home.domain.dto.newsDTO;
 
 /**
  * 新闻Service接口
@@ -9,8 +10,7 @@ import com.ruoyi.home.domain.HomeNews;
  * @author ruoyi
  * @date 2022-08-19
  */
-public interface IHomeNewsService 
-{
+public interface IHomeNewsService {
     /**
      * 查询新闻
      * 
@@ -81,5 +81,10 @@ public interface IHomeNewsService
     public List<HomeNews> selectGoodNews(HomeNews homeNews,int num);
 
     public int updateNewsHits(Long newsId);
+
+    /** 获取单个新闻详细信息*/
+    public newsDTO getNewsInfo(Long newsId);
+
+
 
 }

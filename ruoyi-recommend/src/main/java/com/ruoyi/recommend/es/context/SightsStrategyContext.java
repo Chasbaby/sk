@@ -59,5 +59,4 @@ public class SightsStrategyContext {
         return multiSearch;
     }
 
-
 }

@@ -91,4 +91,7 @@ public interface HomeNewsMapper
 //     * 查询逻辑删除的数量
 //     */
 //    public int selectDeleteAdNumByLogic();
+
+    /** 获取新闻详细信息*/
+    public HomeNews selectNewsDetail(Long newsId);
 }

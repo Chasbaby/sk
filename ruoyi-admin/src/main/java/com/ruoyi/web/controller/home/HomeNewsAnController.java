@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 面向游客展示  新闻模块
- *
  * @author Chas
  */
 
@@ -46,6 +45,13 @@ public class HomeNewsAnController extends BaseController {
     @GetMapping("/getInfo/{newsId}")
     public AjaxResult getNewInfo(@PathVariable Long newsId){
         return AjaxResult.success(homeNewsService.getNewsInfo(newsId));
+    }
+
+    @Anonymous
+    @ApiOperation("轮播新闻展示 (置顶机制)")
+    @GetMapping("/swiper")
+    public AjaxResult getSwiperShow(){
+        return AjaxResult.success(homeNewsService.getSwiper());
     }
 
 }

@@ -11,6 +11,7 @@ import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.home.domain.dto.newsDTO;
 import com.ruoyi.home.domain.dto.newsListDTO;
 import com.ruoyi.home.domain.dto.newsRandomDTO;
+import com.ruoyi.home.domain.dto.newsSwiperDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.home.mapper.HomeNewsMapper;
@@ -20,8 +21,8 @@ import com.ruoyi.home.service.IHomeNewsService;
 /**
  * 新闻Service业务层处理
  * 
- * @author ruoyi
- * @date 2022-08-19
+ * @author ruoyi chas
+ * @date 2022-08-19  2023-6-25
  */
 @Service
 public class HomeNewsServiceImpl implements IHomeNewsService 
@@ -216,5 +217,28 @@ public class HomeNewsServiceImpl implements IHomeNewsService
             BeanUtils.copyBeanProp(randomDTO,item);
             return randomDTO;
         }).collect(Collectors.toList());
+    }
+
+    /** swiper
+     *  默认 第二章图片为
+     * **/
+    @Override
+    public List<newsSwiperDTO> getSwiper(){
+        List<HomeNews> list = homeNewsMapper.selectTopNews();
+        list.stream().forEach(item->{
+            System.out.println(item.getNewsId());
+            System.out.println(item.getImageId());
+        });
+
+        List<newsSwiperDTO> swiperDTOS = new ArrayList<>();
+        while (list.iterator().hasNext()) {
+            HomeNews next = list.iterator().next();
+            String s = next.getImageId().split(",")[1];
+            next.setImageId(s);
+            newsSwiperDTO swiperDTO = new newsSwiperDTO();
+            BeanUtils.copyBeanProp(swiperDTO,next);
+            swiperDTOS.add(swiperDTO);
+        }
+        return swiperDTOS;
     }
 }

@@ -94,4 +94,6 @@ public interface HomeNewsMapper
 
     /** 获取新闻详细信息*/
     public HomeNews selectNewsDetail(Long newsId);
+
+    public List<HomeNews> selectNewsList();
 }

@@ -98,13 +98,11 @@ public class SightsHotAnController extends BaseController {
         kafkaTemplate.send(KafkaTopicsConstant.SIGHTSHIT,sightsId+KafkaTopicsConstant.DELIMITER+getUserId());
         return AjaxResult.success();
     }
-
     @ApiOperation("热度 ->增加取消收藏")
     @GetMapping("/collect/{sightsId}")
     @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult addCollect(@PathVariable Long sightsId){
         int i = hotService.ifCollect(sightsId, getUserId());
-
         if (i == 0){
             kafkaTemplate.send(KafkaTopicsConstant.SIGHTSCOLLECT,sightsId+KafkaTopicsConstant.DELIMITER+getUserId());
             return AjaxResult.success("收藏成功");
@@ -160,9 +158,10 @@ public class SightsHotAnController extends BaseController {
     /**
      * 实时推荐
      */
-    @PostConstruct
+    //@PostConstruct
     public void startRecommend(){
         OnLineRecommend recommend = new OnLineRecommend();
         recommend.OnlineService();
     }
+
 }

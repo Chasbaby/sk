@@ -3,6 +3,7 @@ package com.ruoyi.home.service;
 import java.util.List;
 import com.ruoyi.home.domain.HomeNews;
 import com.ruoyi.home.domain.dto.newsDTO;
+import com.ruoyi.home.domain.dto.newsListDTO;
 
 /**
  * 新闻Service接口
@@ -84,6 +85,9 @@ public interface IHomeNewsService {
 
     /** 获取单个新闻详细信息*/
     public newsDTO getNewsInfo(Long newsId);
+
+    /** 获取最新的新闻**/
+    public List<newsListDTO> getListNews();
 
 
 

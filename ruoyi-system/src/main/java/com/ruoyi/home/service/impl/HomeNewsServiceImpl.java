@@ -1,12 +1,15 @@
 package com.ruoyi.home.service.impl;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.home.domain.dto.newsDTO;
+import com.ruoyi.home.domain.dto.newsListDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.home.mapper.HomeNewsMapper;
@@ -190,5 +193,16 @@ public class HomeNewsServiceImpl implements IHomeNewsService
         newsDTO dto = new newsDTO();
         BeanUtils.copyBeanProp(dto,news);
         return dto;
+    }
+
+    /** 获取新闻列表 **/
+    @Override
+    public List<newsListDTO> getListNews() {
+        List<HomeNews> list = homeNewsMapper.selectNewsList();
+        return list.stream().map(item->{
+            newsListDTO listDTO = new newsListDTO();
+            BeanUtils.copyBeanProp(listDTO,item);
+            return listDTO;
+        }).collect(Collectors.toList());
     }
 }

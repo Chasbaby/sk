@@ -10,6 +10,7 @@ import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.home.domain.dto.newsDTO;
 import com.ruoyi.home.domain.dto.newsListDTO;
+import com.ruoyi.home.domain.dto.newsRandomDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.home.mapper.HomeNewsMapper;
@@ -203,6 +204,17 @@ public class HomeNewsServiceImpl implements IHomeNewsService
             newsListDTO listDTO = new newsListDTO();
             BeanUtils.copyBeanProp(listDTO,item);
             return listDTO;
+        }).collect(Collectors.toList());
+    }
+
+    /*** 获取随机新闻*/
+    @Override
+    public List<newsRandomDTO> getRandomNew() {
+        List<HomeNews> list = homeNewsMapper.selectRandomNews();
+        return list.stream().map(item->{
+            newsRandomDTO randomDTO = new newsRandomDTO();
+            BeanUtils.copyBeanProp(randomDTO,item);
+            return randomDTO;
         }).collect(Collectors.toList());
     }
 }

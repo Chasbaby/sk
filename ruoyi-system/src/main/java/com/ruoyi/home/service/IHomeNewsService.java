@@ -4,6 +4,7 @@ import java.util.List;
 import com.ruoyi.home.domain.HomeNews;
 import com.ruoyi.home.domain.dto.newsDTO;
 import com.ruoyi.home.domain.dto.newsListDTO;
+import com.ruoyi.home.domain.dto.newsRandomDTO;
 
 /**
  * 新闻Service接口
@@ -88,6 +89,8 @@ public interface IHomeNewsService {
 
     /** 获取最新的新闻**/
     public List<newsListDTO> getListNews();
+
+    public List<newsRandomDTO> getRandomNew();
 
 
 

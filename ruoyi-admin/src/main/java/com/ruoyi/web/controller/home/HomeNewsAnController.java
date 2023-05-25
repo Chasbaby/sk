@@ -31,7 +31,7 @@ public class HomeNewsAnController extends BaseController {
     @ApiOperation("/获取随机新闻")
     @GetMapping("/getRandomNew")
     public AjaxResult getRandomNews(){
-        return null;
+        return AjaxResult.success(homeNewsService.getRandomNew());
     }
 
     @Anonymous

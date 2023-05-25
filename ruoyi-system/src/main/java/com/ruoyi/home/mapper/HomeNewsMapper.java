@@ -96,4 +96,6 @@ public interface HomeNewsMapper
     public HomeNews selectNewsDetail(Long newsId);
 
     public List<HomeNews> selectNewsList();
+
+    public List<HomeNews> selectRandomNews();
 }

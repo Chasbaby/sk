@@ -236,8 +236,8 @@ public class HomeNewsServiceImpl implements IHomeNewsService
 
     /** 专栏显示*/
     @Override
-    public List<newsColumnDTO> getNewsColumn() {
-        List<HomeNews> list = homeNewsMapper.selectColumnNews();
+    public List<newsColumnDTO> getNewsColumn(Long columnId) {
+        List<HomeNews> list = homeNewsMapper.selectColumnNews(columnId);
 
         List<newsColumnDTO> columnDTOS = new LinkedList<>();
         list.stream().forEach(item->{
@@ -246,6 +246,21 @@ public class HomeNewsServiceImpl implements IHomeNewsService
             columnDTOS.add(columnDTO);
         });
         return columnDTOS;
+    }
+
+    /** 提取key*/
+    @Override
+    public List<newsKeyDTO> convertToKey() {
+        List<HomeNews> news = homeNewsMapper.selectKeysNews();
+        if (news == null){
+            return new LinkedList<>();
+        }
+        List<newsKeyDTO> keyDTOS = new LinkedList<>();
+        return news.stream().map(item->{
+            newsKeyDTO keyDTO = new newsKeyDTO();
+            BeanUtils.copyBeanProp(keyDTO,item);
+            return keyDTO;
+        }).collect(Collectors.toList());
     }
 
     /**

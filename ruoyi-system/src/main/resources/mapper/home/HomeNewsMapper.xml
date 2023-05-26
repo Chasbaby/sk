@@ -97,11 +97,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by create_time desc
         limit 5
     </select>
-    <select id="selectColumnNews" resultType="com.ruoyi.home.domain.HomeNews" resultMap="HomeNewsResult" >
+    <select id="selectColumnNews" resultType="com.ruoyi.home.domain.HomeNews" resultMap="HomeNewsResult" parameterType="long">
         <include refid="selectHomeNewsVo"/>
-        where del_flag = "N"  and show_flag = "Y" and news_type = "4"
+        where del_flag = "N"  and show_flag = "Y" and news_type = #{columnId}
         order by  create_time desc news_hits desc
         limit 4
+    </select>
+    <select id="selectKeysNews" resultType="com.ruoyi.home.domain.HomeNews" resultMap="HomeNewsResult">
+        select news_id,news_key,news_title from home_news
+        where del_flag = "N"  and show_flag = "Y"
     </select>
 
     <insert id="insertHomeNews" parameterType="HomeNews" useGeneratedKeys="true" keyProperty="newsId">

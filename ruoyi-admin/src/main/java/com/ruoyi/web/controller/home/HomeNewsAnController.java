@@ -27,7 +27,6 @@ public class HomeNewsAnController extends BaseController {
     @Autowired
     private IHomeNewsService homeNewsService;
 
-
     @Anonymous
     @ApiOperation("/获取随机新闻")
     @GetMapping("/getRandomNew")
@@ -58,9 +57,17 @@ public class HomeNewsAnController extends BaseController {
 
     @Anonymous
     @ApiOperation("专栏")
-    @GetMapping("/column")
-    public AjaxResult getColumnNews(){
-        return AjaxResult.success(homeNewsService.getNewsColumn());
+    @GetMapping("/column/{columnId}")
+    public AjaxResult getColumnNews(@NotNull(message = "栏目不能为空") @PathVariable Long columnId){
+        return AjaxResult.success(homeNewsService.getNewsColumn(columnId));
+    }
+
+    @Anonymous
+    @ApiOperation("新闻相似度(待完成)")
+    @GetMapping("/similarNews")
+    public AjaxResult getSimilarNews(){
+
+        return null;
     }
 
 }

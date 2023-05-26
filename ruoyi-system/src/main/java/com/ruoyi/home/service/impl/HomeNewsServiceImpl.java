@@ -1,9 +1,6 @@
 package com.ruoyi.home.service.impl;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.ruoyi.common.utils.DateUtils;
@@ -225,16 +222,12 @@ public class HomeNewsServiceImpl implements IHomeNewsService
     @Override
     public List<newsSwiperDTO> getSwiper(){
         List<HomeNews> list = homeNewsMapper.selectTopNews();
-        list.stream().forEach(item->{
-            System.out.println(item.getNewsId());
-            System.out.println(item.getImageId());
-        });
 
         List<newsSwiperDTO> swiperDTOS = new ArrayList<>();
-        while (list.iterator().hasNext()) {
-            HomeNews next = list.iterator().next();
-            String s = next.getImageId().split(",")[1];
-            next.setImageId(s);
+        Iterator<HomeNews> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            HomeNews next = iterator.next();
+            next.setImageId(next.getImageId().split(",")[1]);
             newsSwiperDTO swiperDTO = new newsSwiperDTO();
             BeanUtils.copyBeanProp(swiperDTO,next);
             swiperDTOS.add(swiperDTO);

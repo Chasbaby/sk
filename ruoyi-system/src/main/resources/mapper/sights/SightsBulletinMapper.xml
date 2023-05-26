@@ -23,12 +23,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSightsBulletinVo">
-        select bulletin_id, sights_id, bulletin_title, bulletin_type, bulletin_intro, bulletin_content, bulletin_multiparts, status, del_flag, top_flag, create_by, create_time, update_by, update_time, remark from sights_bulletin
+        select bulletin_id, sights_id, bulletin_title, bulletin_type, bulletin_intro, bulletin_content,
+               bulletin_multiparts, status, del_flag, top_flag, create_by, create_time, update_by, update_time, remark from sights_bulletin
     </sql>
 
     <select id="selectSightsBulletinList" parameterType="SightsBulletin" resultMap="SightsBulletinResult">
         <include refid="selectSightsBulletinVo"/>
-        <where>  
+        <where>
+            <if test="sightsId != null">sightd_id,</if>
             <if test="bulletinTitle != null  and bulletinTitle != ''"> and bulletin_title like concat('%', #{bulletinTitle}, '%')</if>
             <if test="bulletinType != null  and bulletinType != ''"> and bulletin_type = #{bulletinType}</if>
             <if test="bulletinIntro != null  and bulletinIntro != ''"> and bulletin_intro like concat('%', #{bulletinIntro}, '%')</if>

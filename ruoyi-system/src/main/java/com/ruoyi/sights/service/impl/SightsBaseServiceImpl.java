@@ -88,17 +88,22 @@ public class SightsBaseServiceImpl implements ISightsBaseService
      */
     public SightsDTO selectDetailSightsById(Long sightsId,Long userId){
         SightsDTO sightsDTO = new SightsDTO();
+
         SightsBulletin sightsBulletin = new SightsBulletin();
         sightsBulletin.setSightsId(sightsId);
         sightsBulletin.setDelFlag("N");// 没有删除
         sightsBulletin.setTopFlag("Y"); // 置顶啦啦啦啦
         sightsBulletin.setStatus("0"); // 正常
+
+
         List<SightsBulletin> sightsBulletins = bulletinMapper.selectSightsBulletinList(sightsBulletin);// 最多限制5个了啦
+
         List<BulletinDTO> bulletinDTOS = sightsBulletins.stream().map(item -> {
             BulletinDTO dto = new BulletinDTO();
             BeanUtils.copyBeanProp(dto, item);
             return dto;
         }).collect(Collectors.toList());
+
         SightsBase sightsBase = sightsBaseMapper.selectSightsBaseBySightsId(sightsId);
         BeanUtils.copyBeanProp(sightsDTO,sightsBase);
         sightsDTO.setBulletin(bulletinDTOS);

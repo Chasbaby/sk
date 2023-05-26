@@ -1,7 +1,9 @@
 package com.ruoyi.home.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author chas
@@ -16,4 +18,6 @@ public class newsDTO implements Serializable {
     private String newsContent;
     private String newsAuthor;
     private String imageId;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
 }

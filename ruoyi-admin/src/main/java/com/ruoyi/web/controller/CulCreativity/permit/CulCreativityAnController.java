@@ -25,6 +25,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static com.ruoyi.framework.config.SensitiveConfig.filter;
@@ -185,7 +186,7 @@ public class CulCreativityAnController extends BaseController {
     @ApiOperation("文创收藏")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/collect/{culCreativityId}")
-    public AjaxResult culCollect(@PathVariable Long culCreativityId){
+    public AjaxResult culCollect(@NotNull(message = "主键不能为空") @PathVariable Long culCreativityId){
         CulRecord record = createRecord(culCreativityId);
         int flag = creativityService.addCulCollect(record);
         if (flag == 1){

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 面向游客展示  新闻模块
  * @author Chas
@@ -43,7 +45,7 @@ public class HomeNewsAnController extends BaseController {
     @Anonymous
     @ApiOperation("获取新闻详细信息")
     @GetMapping("/getInfo/{newsId}")
-    public AjaxResult getNewInfo(@PathVariable Long newsId){
+    public AjaxResult getNewInfo(@NotNull(message = "id不能为空") @PathVariable Long newsId){
         return AjaxResult.success(homeNewsService.getNewsInfo(newsId));
     }
 
@@ -52,6 +54,13 @@ public class HomeNewsAnController extends BaseController {
     @GetMapping("/swiper")
     public AjaxResult getSwiperShow(){
         return AjaxResult.success(homeNewsService.getSwiper());
+    }
+
+    @Anonymous
+    @ApiOperation("专栏")
+    @GetMapping("/column")
+    public AjaxResult getColumnNews(){
+        return AjaxResult.success(homeNewsService.getNewsColumn());
     }
 
 }

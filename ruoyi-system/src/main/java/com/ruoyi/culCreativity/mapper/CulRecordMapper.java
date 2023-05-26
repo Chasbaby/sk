@@ -24,7 +24,6 @@ public interface CulRecordMapper {
      */
     @Delete("delete from cul_record_like " +
             "where user_id = #{userId} and cul_creativity_id=#{culId} limit 1")
-//    @ResultMap("com.ruoyi.sights.mapper.SightsCulCreativityMapper.CulRecordResult")
     public int deleteLikeCul(@Param("userId") Long userId,@Param("culId") Long culId);
 
     /**
@@ -32,7 +31,6 @@ public interface CulRecordMapper {
      */
     @Select("select count(0) from cul_record_like " +
             "where user_id = #{userId} and cul_creativity_id=#{culId} limit 1 ")
-//    @ResultMap("com.ruoyi.sights.mapper.SightsCulCreativityMapper.CulRecordResult")
     public int judgeOnlyOneLikeCul(@Param("userId") Long userId,@Param("culId") Long culId);
 
     /**
@@ -40,32 +38,26 @@ public interface CulRecordMapper {
      */
     @Insert("insert into cul_record_collect(user_id,cul_creativity_id)" +
             " values (#{userId},#{culId})")
-//    @ResultMap("com.ruoyi.sights.mapper.SightsCulCreativityMapper.CulRecordResult")
     public int addCollectCul(@Param("userId") Long userId,@Param("culId") Long culId);
 
     @Delete("delete from cul_record_collect" +
             " where user_id = #{userId} and cul_creativity_id=#{culId} limit 1")
-//    @ResultMap("com.ruoyi.sights.mapper.SightsCulCreativityMapper.CulRecordResult")
     public int deleteCollectCul(@Param("userId") Long userId,@Param("culId") Long culId);
 
     @Select("select count(0) from cul_record_collect " +
-            "where user_id = #{userId} and cul_creativity_id=#{culId} limit 1")
-//    @ResultMap("com.ruoyi.sights.mapper.SightsCulCreativityMapper.CulRecordResult")
+            "where user_id = #{userId} and cul_creativity_id = #{culId} limit 1")
     public int judgeOnlyOneCollectCul(@Param("userId") Long userId,@Param("culId") Long culId);
 
     /**
      * 下面是浏览操作
      */
     @Insert("insert into cul_record_view(user_id,cul_creativity_id) values (#{userId},#{culId}) ")
-//    @ResultMap("com.ruoyi.sights.mapper.SightsCulCreativityMapper.CulRecordResult")
     public int addViewCul(@Param("userId") Long userId,@Param("culId") Long culId);
 
     @Update("update cul_record_view set create_time = #{createTime} " +
             "where user_id = #{userId} and cul_creativity_id=#{culId} limit 1")
-//    @ResultMap("com.ruoyi.sights.mapper.SightsCulCreativityMapper.CulRecordResult")
     public int updateViewTime(@Param("createTime") Date createTime,@Param("userId") Long userId,@Param("culId") Long culId);
 
     @Select("select count(0) from cul_record_view where user_id = #{userId} and cul_creativity_id=#{culId} limit 1")
-//    @ResultMap("com.ruoyi.sights.mapper.SightsCulCreativityMapper.CulRecordResult")
     public int judgeOnlyOneViewCul(@Param("userId") Long userId,@Param("culId") Long culId);
 }

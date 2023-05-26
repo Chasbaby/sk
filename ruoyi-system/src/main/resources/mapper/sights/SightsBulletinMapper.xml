@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectSightsBulletinList" parameterType="SightsBulletin" resultMap="SightsBulletinResult">
         <include refid="selectSightsBulletinVo"/>
         <where>
-            <if test="sightsId != null">and sightd_id = #{sightsId},</if>
+            <if test="sightsId != null">and sightd_id = #{sightsId}</if>
             <if test="bulletinTitle != null  and bulletinTitle != ''"> and bulletin_title like concat('%', #{bulletinTitle}, '%')</if>
             <if test="bulletinType != null  and bulletinType != ''"> and bulletin_type = #{bulletinType}</if>
             <if test="bulletinIntro != null  and bulletinIntro != ''"> and bulletin_intro like concat('%', #{bulletinIntro}, '%')</if>
@@ -47,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="searchBullAboutSights" resultType="com.ruoyi.sights.domain.SightsBulletin" resultMap="SightsBulletinResult">
         <include refid="selectSightsBulletinVo"/>
         <where>
-            <if test="sightsId != null">and sightd_id = #{sightsId},</if>
+            <if test="sightsId != null">and sightd_id = #{sightsId}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
             <if test="delFlag != null  and delFlag != ''"> and del_flag = #{delFlag}</if>
             <if test="topFlag != null  and topFlag != ''"> and top_flag = #{topFlag}</if>

@@ -5,10 +5,7 @@ import java.util.stream.Collectors;
 
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
-import com.ruoyi.home.domain.dto.newsDTO;
-import com.ruoyi.home.domain.dto.newsListDTO;
-import com.ruoyi.home.domain.dto.newsRandomDTO;
-import com.ruoyi.home.domain.dto.newsSwiperDTO;
+import com.ruoyi.home.domain.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.home.mapper.HomeNewsMapper;
@@ -236,6 +233,21 @@ public class HomeNewsServiceImpl implements IHomeNewsService
         }
         return swiperDTOS;
     }
+
+    /** 专栏显示*/
+    @Override
+    public List<newsColumnDTO> getNewsColumn() {
+        List<HomeNews> list = homeNewsMapper.selectColumnNews();
+
+        List<newsColumnDTO> columnDTOS = new LinkedList<>();
+        list.stream().forEach(item->{
+            newsColumnDTO columnDTO = new newsColumnDTO();
+            BeanUtils.copyBeanProp(columnDTO,item);
+            columnDTOS.add(columnDTO);
+        });
+        return columnDTOS;
+    }
+
     /**
      *  适用于 Wed Nov 09 09:26:24 CST 2022  转为   09|/Nov.|2022   记得用 | 分割
      * */

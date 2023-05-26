@@ -2,10 +2,7 @@ package com.ruoyi.home.service;
 
 import java.util.List;
 import com.ruoyi.home.domain.HomeNews;
-import com.ruoyi.home.domain.dto.newsDTO;
-import com.ruoyi.home.domain.dto.newsListDTO;
-import com.ruoyi.home.domain.dto.newsRandomDTO;
-import com.ruoyi.home.domain.dto.newsSwiperDTO;
+import com.ruoyi.home.domain.dto.*;
 
 /**
  * 新闻Service接口
@@ -95,5 +92,7 @@ public interface IHomeNewsService {
     public List<newsRandomDTO> getRandomNew();
 
     public List<newsSwiperDTO> getSwiper();
+
+    public List<newsColumnDTO> getNewsColumn();
 
 }

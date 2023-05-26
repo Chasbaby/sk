@@ -100,4 +100,6 @@ public interface HomeNewsMapper
     public List<HomeNews> selectRandomNews();
 
     public List<HomeNews> selectTopNews();
+
+    public List<HomeNews> selectColumnNews();
 }

@@ -58,4 +58,6 @@ public interface SightsBulletinMapper
      * @return 结果
      */
     public int deleteSightsBulletinByBulletinIds(Long[] bulletinIds);
+
+    public List<SightsBulletin> searchBullAboutSights(SightsBulletin bulletin);
 }

@@ -96,7 +96,7 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         sightsBulletin.setStatus("0"); // 正常
 
 
-        List<SightsBulletin> sightsBulletins = bulletinMapper.selectSightsBulletinList(sightsBulletin);// 最多限制5个了啦
+        List<SightsBulletin> sightsBulletins = bulletinMapper.searchBullAboutSights(sightsBulletin);// 最多限制5个了啦
 
         List<BulletinDTO> bulletinDTOS = sightsBulletins.stream().map(item -> {
             BulletinDTO dto = new BulletinDTO();

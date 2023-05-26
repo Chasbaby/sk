@@ -17,7 +17,6 @@ public class newsSwiperDTO implements Serializable {
     private String imageId;
     private String newsAuthor;
     private String newsTitle;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
+    private String createTime;
     private String newsIntroduction;
 }

@@ -230,8 +230,27 @@ public class HomeNewsServiceImpl implements IHomeNewsService
             next.setImageId(next.getImageId().split(",")[1]);
             newsSwiperDTO swiperDTO = new newsSwiperDTO();
             BeanUtils.copyBeanProp(swiperDTO,next);
+            String date = DateToMyString(next.getCreateTime().toString());
+            swiperDTO.setCreateTime(date);
             swiperDTOS.add(swiperDTO);
         }
         return swiperDTOS;
     }
+    /**
+     *  适用于 Wed Nov 09 09:26:24 CST 2022  转为   09|/Nov.|2022   记得用 | 分割
+     * */
+    public static String DateToMyString(String date){
+        StringBuilder builder = new StringBuilder();
+        String[] strings = date.split(" ");
+        return builder.
+                append(strings[2]).
+                append("|").
+                append("/").
+                append(strings[1]).
+                append(".").
+                append("|").
+                append(strings[5]).
+                toString();
+    }
 }
+

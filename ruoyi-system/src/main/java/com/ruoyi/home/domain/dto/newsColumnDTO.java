@@ -15,6 +15,7 @@ import java.util.Date;
 public class newsColumnDTO implements Serializable {
     private Long newsId;
     private String newsTitle;
+    private String imageId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 }

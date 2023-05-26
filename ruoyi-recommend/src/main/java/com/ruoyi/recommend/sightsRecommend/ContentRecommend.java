@@ -46,7 +46,7 @@ public class ContentRecommend {
         Dataset<Row> sightsTagsDF = spark.createDataFrame(temp, SightsTags.class).cache();
 
         // TODO: 用TF-IDF提取商品特征向量
-        Dataset<Row> rescaledDataDF = getTokenizerResult(sightsTagsDF);
+        Dataset<Row> rescaledDataDF = getTokenizerResult(sightsTagsDF,"tags");
 
         JavaRDD<Tuple2<Long, DoubleMatrix>> sightsFeatures = rescaledDataDF
                 .toJavaRDD()
@@ -55,7 +55,7 @@ public class ContentRecommend {
                                 row.getAs("features")))
                 .map((Function<Tuple2<Long, double[]>, Tuple2<Long, DoubleMatrix>>) f ->
                         new Tuple2<>(f._1, new DoubleMatrix(f._2)));
-        // 两两配对商品，计算余弦相似度
+        // 两两配对,计算余弦相似度
         List<SightsRecs> sightsRecs = sightsFeatures
                 .cartesian(sightsFeatures)
                 .filter((Function<Tuple2<Tuple2<Long, DoubleMatrix>, Tuple2<Long, DoubleMatrix>>, Boolean>)
@@ -70,10 +70,10 @@ public class ContentRecommend {
         spark.stop();
     }
 
-    private Dataset<Row> getTokenizerResult(Dataset<Row> sightsTagsDF) {
+    public static Dataset<Row> getTokenizerResult(Dataset<Row> sightsTagsDF,String tags) {
         // 1. 实例化一个分词器，用来做分词，默认按照空格分
         Tokenizer tokenizer = new Tokenizer()
-                .setInputCol("tags")
+                .setInputCol(tags)
                 .setOutputCol("words");
         // 用分词器做转换，得到增加一个新列words的DF
         Dataset<Row> wordsDataDF = tokenizer.transform(sightsTagsDF);

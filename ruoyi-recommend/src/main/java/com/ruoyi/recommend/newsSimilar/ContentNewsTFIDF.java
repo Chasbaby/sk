@@ -1,16 +1,22 @@
 package com.ruoyi.recommend.newsSimilar;
 
+import com.ruoyi.home.domain.dto.NewsRecs;
 import com.ruoyi.home.domain.dto.newsKeyDTO;
 import com.ruoyi.home.service.IHomeNewsService;
+import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
+import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+import org.jblas.DoubleMatrix;
 import org.springframework.beans.factory.annotation.Autowired;
+import scala.Tuple2;
 
 import java.util.List;
 
-import static com.ruoyi.recommend.util.SparkUtil.buildSparkSession;
+import static com.ruoyi.recommend.sightsRecommend.ContentRecommend.getTokenizerResult;
+import static com.ruoyi.recommend.util.SparkUtil.*;
 
 /**
  * @author chas
@@ -26,12 +32,28 @@ public class ContentNewsTFIDF {
         List<newsKeyDTO> news = newsService.convertToKey();
         SparkSession spark = buildSparkSession("local[*]", "NEWS_TF_IDF", true);
         Dataset<Row> dataset = spark.createDataFrame(news, newsKeyDTO.class);
-        dataset
+        JavaRDD<newsKeyDTO> newsKeyDTOJavaRDD = dataset
                 .toJavaRDD().map((Function<Row, newsKeyDTO>) v1 -> {
                     String keys = v1.getAs("newsKey");
                     String tags = keys.replace(",", " ");
-                    return new newsKeyDTO(v1.getAs(""),v1.getAs(""),tags);
+                    return new newsKeyDTO(v1.getAs("newsId"),
+                            v1.getAs("newsTitle"), tags);
                 });
+        Dataset<Row> cache = spark.createDataFrame(newsKeyDTOJavaRDD, newsKeyDTO.class).cache();
+        Dataset<Row> newsKey = getTokenizerResult(cache, "newsKey");
+        JavaRDD<Tuple2<Long, DoubleMatrix>> map = newsKey.toJavaRDD().map((Function<Row, Tuple2<Long, double[]>>) v1 ->
+                        new Tuple2<>(v1.getAs("newsId"), v1.getAs("features")))
+                .map((Function<Tuple2<Long, double[]>, Tuple2<Long, DoubleMatrix>>) f ->
+                        new Tuple2<>(f._1, new DoubleMatrix(f._2)));
+        List<NewsRecs> collect = map.cartesian(map).filter((Function<Tuple2<Tuple2<Long, DoubleMatrix>,
+                        Tuple2<Long, DoubleMatrix>>, Boolean>) f -> !f._1._1.equals(f._2._2))
+                .mapToPair((PairFunction<Tuple2<Tuple2<Long, DoubleMatrix>, Tuple2<Long, DoubleMatrix>>, Long, Tuple2<Long, Double>>)
+                        f -> new Tuple2<>(f._1._1, new Tuple2<>(f._2._1, consinSim(f._1._2(), f._2._2())))).filter(f -> f._2._2 > 0.01)
+                .map((Function<Tuple2<Long, Tuple2<Long, Double>>, NewsRecs>)
+                        f -> new NewsRecs(f._1, f._2._1, f._2._2)).collect();
+
+        writeToMysql(spark.createDataFrame(collect,NewsRecs.class),"ContentBasedNewsRecs","overwrite");
+
 
     }
 }

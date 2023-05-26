@@ -252,10 +252,10 @@ public class HomeNewsServiceImpl implements IHomeNewsService
     @Override
     public List<newsKeyDTO> convertToKey() {
         List<HomeNews> news = homeNewsMapper.selectKeysNews();
+
         if (news == null){
             return new LinkedList<>();
         }
-        List<newsKeyDTO> keyDTOS = new LinkedList<>();
         return news.stream().map(item->{
             newsKeyDTO keyDTO = new newsKeyDTO();
             BeanUtils.copyBeanProp(keyDTO,item);

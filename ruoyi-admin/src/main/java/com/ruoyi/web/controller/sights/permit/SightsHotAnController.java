@@ -8,6 +8,8 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.home.service.IHomeNewsService;
+import com.ruoyi.recommend.newsSimilar.ContentNewsTFIDF;
 import com.ruoyi.recommend.sightsRecommend.ItemCFRecommend;
 import com.ruoyi.recommend.sightsRecommend.OfflineRecommend;
 import com.ruoyi.recommend.sightsRecommend.OnLineRecommend;
@@ -55,6 +57,7 @@ public class SightsHotAnController extends BaseController {
 
     @Autowired
     private RedisCache redisCache;
+
 
 
     @Anonymous
@@ -162,6 +165,14 @@ public class SightsHotAnController extends BaseController {
     public void startRecommend(){
         OnLineRecommend recommend = new OnLineRecommend();
         recommend.OnlineService();
+    }
+
+   //@PostConstruct
+    @Anonymous
+    @GetMapping("/xxx")
+    public void startNews(){
+        ContentNewsTFIDF newsTFIDF = new ContentNewsTFIDF();
+        newsTFIDF.startTFIDFNews();
     }
 
 }

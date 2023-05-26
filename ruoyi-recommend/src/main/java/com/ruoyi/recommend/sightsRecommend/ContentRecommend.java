@@ -1,5 +1,6 @@
 package com.ruoyi.recommend.sightsRecommend;
 
+import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.recommend.domain.SightsRecs;
 import com.ruoyi.sights.domain.SightsTags;
 import com.ruoyi.sights.mapper.SightsTagsMapper;
@@ -10,6 +11,7 @@ import org.apache.spark.ml.feature.HashingTF;
 import org.apache.spark.ml.feature.IDF;
 import org.apache.spark.ml.feature.IDFModel;
 import org.apache.spark.ml.feature.Tokenizer;
+import org.apache.spark.ml.linalg.SparseVector;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -27,12 +29,8 @@ import static com.ruoyi.recommend.util.SparkUtil.*;
  */
 
 public class ContentRecommend {
-
-    @Autowired
-    private SightsTagsMapper sightsTagsMapper;
-
     public void ContentService(){
-        List<SightsTags> sights = sightsTagsMapper.selectAllSightsAndTags();
+        List<SightsTags> sights = SpringUtils.getBean(SightsTagsMapper.class).selectAllSightsAndTags();
         SparkSession spark = buildSparkSession("local[*]", "ContentRecommend", true);
         Dataset<Row> sightsTags = spark.createDataFrame(sights, SightsTags.class);
         JavaRDD<SightsTags> temp = sightsTags
@@ -45,21 +43,22 @@ public class ContentRecommend {
         });
         Dataset<Row> sightsTagsDF = spark.createDataFrame(temp, SightsTags.class).cache();
 
-        // TODO: 用TF-IDF提取商品特征向量
+        //  用TF-IDF提取商品特征向量
         Dataset<Row> rescaledDataDF = getTokenizerResult(sightsTagsDF,"tags");
 
         JavaRDD<Tuple2<Long, DoubleMatrix>> sightsFeatures = rescaledDataDF
                 .toJavaRDD()
-                .map((Function<Row, Tuple2<Long, double[]>>) row ->
-                        new Tuple2<>(row.getAs("sightsId"),
-                                row.getAs("features")))
+                .map((Function<Row, Tuple2<Long,double[]>>) f->{
+                    SparseVector vector =  f.getAs("features");
+                    return new Tuple2<>(f.getAs("sightsId"),vector.toArray());
+                } )
                 .map((Function<Tuple2<Long, double[]>, Tuple2<Long, DoubleMatrix>>) f ->
                         new Tuple2<>(f._1, new DoubleMatrix(f._2)));
         // 两两配对,计算余弦相似度
         List<SightsRecs> sightsRecs = sightsFeatures
                 .cartesian(sightsFeatures)
                 .filter((Function<Tuple2<Tuple2<Long, DoubleMatrix>, Tuple2<Long, DoubleMatrix>>, Boolean>)
-                        f -> !f._1._1.equals(f._2._2))
+                        f -> !f._1._1.equals(f._2._1))
                 .mapToPair((PairFunction<Tuple2<Tuple2<Long, DoubleMatrix>, Tuple2<Long, DoubleMatrix>>, Long, Tuple2<Long, Double>>)
                         f -> new Tuple2<>(f._1._1, new Tuple2<>(f._2._1, consinSim(f._1._2, f._2._2))))
                 .filter(f -> f._2._2 > 0.4)

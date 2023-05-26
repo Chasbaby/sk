@@ -236,7 +236,7 @@ public class HomeNewsServiceImpl implements IHomeNewsService
 
     /** 专栏显示*/
     @Override
-    public List<newsColumnDTO> getNewsColumn(Long columnId) {
+    public List<newsColumnDTO> getNewsColumn(String columnId) {
         List<HomeNews> list = homeNewsMapper.selectColumnNews(columnId);
 
         List<newsColumnDTO> columnDTOS = new LinkedList<>();

@@ -58,7 +58,7 @@ public class HomeNewsAnController extends BaseController {
     @Anonymous
     @ApiOperation("专栏")
     @GetMapping("/column/{columnId}")
-    public AjaxResult getColumnNews(@NotNull(message = "栏目不能为空") @PathVariable Long columnId){
+    public AjaxResult getColumnNews(@NotNull(message = "栏目不能为空") @PathVariable String columnId){
         return AjaxResult.success(homeNewsService.getNewsColumn(columnId));
     }
 

@@ -101,7 +101,7 @@ public interface HomeNewsMapper
 
     public List<HomeNews> selectTopNews();
 
-    public List<HomeNews> selectColumnNews(Long columnId);
+    public List<HomeNews> selectColumnNews(String columnId);
 
     public List<HomeNews> selectKeysNews();
 }

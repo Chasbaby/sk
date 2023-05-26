@@ -93,7 +93,7 @@ public interface IHomeNewsService {
 
     public List<newsSwiperDTO> getSwiper();
 
-    public List<newsColumnDTO> getNewsColumn(Long columnId);
+    public List<newsColumnDTO> getNewsColumn(String columnId);
 
     public List<newsKeyDTO> convertToKey();
 

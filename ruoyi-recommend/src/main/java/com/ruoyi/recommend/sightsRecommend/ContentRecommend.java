@@ -16,18 +16,17 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.jblas.DoubleMatrix;
-import org.springframework.beans.factory.annotation.Autowired;
 import scala.Tuple2;
 
 
 import java.util.List;
 
 import static com.ruoyi.recommend.util.SparkUtil.*;
-
 /**
- * 内容相似度 待完成
+ * @author chas
+ * @introduction  景点内容相似度
+ * @date 2023-5-26 调试完成
  */
-
 public class ContentRecommend {
     public void ContentService(){
         List<SightsTags> sights = SpringUtils.getBean(SightsTagsMapper.class).selectAllSightsAndTags();

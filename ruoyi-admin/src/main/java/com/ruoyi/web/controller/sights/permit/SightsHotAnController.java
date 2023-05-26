@@ -167,9 +167,8 @@ public class SightsHotAnController extends BaseController {
         recommend.OnlineService();
     }
 
+
    //@PostConstruct
-    @Anonymous
-    @GetMapping("/xxx")
     public void startNews(){
         ContentNewsTFIDF newsTFIDF = new ContentNewsTFIDF();
         newsTFIDF.startTFIDFNews();

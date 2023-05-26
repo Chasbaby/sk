@@ -12,12 +12,8 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.jblas.DoubleMatrix;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import scala.Serializable;
 import scala.Tuple2;
-
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 import static com.ruoyi.recommend.sightsRecommend.ContentRecommend.getTokenizerResult;
@@ -42,17 +38,14 @@ public class ContentNewsTFIDF implements Serializable {
                     return new newsKeyDTO(v1.getAs("newsId"),
                             v1.getAs("newsTitle"), tags);
                 });
-
         Dataset<Row> cache = spark.createDataFrame(newsKeyDTOJavaRDD, newsKeyDTO.class).cache();
         Dataset<Row> newsKey = getTokenizerResult(cache, "newsKey");
-
         JavaRDD<Tuple2<Long, DoubleMatrix>> map = newsKey.toJavaRDD().map((Function<Row, Tuple2<Long, double[]>>) f -> {
             SparseVector vector = f.getAs("features");
             double[] array = vector.toArray();
             return new Tuple2<>(f.getAs("newsId"), array);
         }).map((Function<Tuple2<Long, double[]>, Tuple2<Long, DoubleMatrix>>) f ->
                 new Tuple2<>(f._1, new DoubleMatrix(f._2)));
-
         List<NewsRecs> collect = map.cartesian(map).filter((Function<Tuple2<Tuple2<Long, DoubleMatrix>,
                         Tuple2<Long, DoubleMatrix>>, Boolean>) f -> !f._1._1.equals(f._2._1))
                 .mapToPair((PairFunction<Tuple2<Tuple2<Long, DoubleMatrix>, Tuple2<Long, DoubleMatrix>>, Long, Tuple2<Long, Double>>)

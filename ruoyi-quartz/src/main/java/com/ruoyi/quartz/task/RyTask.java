@@ -1,9 +1,12 @@
 package com.ruoyi.quartz.task;
 
 import com.ruoyi.article.service.impl.ArticleServiceImpl;
+import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.culCreativity.ISightsCulCreativityService;
 import com.ruoyi.home.service.IHomeAdService;
 import com.ruoyi.home.service.IHomeNewsService;
+import com.ruoyi.recommend.newsSimilar.ContentNewsTFIDF;
+import com.ruoyi.recommend.sightsRecommend.ContentRecommend;
 import com.ruoyi.recommend.sightsRecommend.ItemCFRecommend;
 import com.ruoyi.recommend.sightsRecommend.OfflineRecommend;
 import com.ruoyi.sights.service.ISightsBaseService;
@@ -95,6 +98,14 @@ public class RyTask
         ItemCFRecommend cfRecommend = new ItemCFRecommend();
         //协同过滤
         cfRecommend.ItemCFService();
+    }
+    public void sightsContentSimilar(){
+        ContentRecommend recommend = new ContentRecommend();
+        recommend.ContentService();
+    }
+    public void newsContentSimilar(){
+        ContentNewsTFIDF newsTFIDF = new ContentNewsTFIDF();
+        newsTFIDF.startTFIDFNews();
     }
 
 

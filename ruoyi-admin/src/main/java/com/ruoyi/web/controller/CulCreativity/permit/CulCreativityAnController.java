@@ -153,7 +153,7 @@ public class CulCreativityAnController extends BaseController {
 
         SightsCulCreativity culCreativity = new SightsCulCreativity();
         BeanUtils.copyBeanProp(culCreativity,createDTO);
-        culCreativity.setCulCreativityContent(filter(createDTO.getCulCreativityContent()));
+        //culCreativity.setCulCreativityContent(filter(createDTO.getCulCreativityContent()));
         culCreativity.setUserId(getUserId());
         creativityService.insertSightsCulCreativity(culCreativity);
         // 消息推送开启
@@ -175,7 +175,7 @@ public class CulCreativityAnController extends BaseController {
     public AjaxResult reSubmitCul(@RequestBody CulCreateDTO createDTO){
         SightsCulCreativity creativity = new SightsCulCreativity();
         BeanUtils.copyBeanProp(creativity,createDTO);
-        creativity.setCulCreativityContent(filter(creativity.getCulCreativityContent()));
+        //creativity.setCulCreativityContent(filter(creativity.getCulCreativityContent()));
         creativity.setIsOk("U");
         creativityService.updateSightsCulCreativity(creativity);
         //消息推送

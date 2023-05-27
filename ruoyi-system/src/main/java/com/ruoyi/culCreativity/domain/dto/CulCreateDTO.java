@@ -4,7 +4,6 @@ import com.ruoyi.common.utils.validate.AddGroup;
 import com.ruoyi.common.utils.validate.EditGroup;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -20,6 +19,8 @@ public class CulCreateDTO implements Serializable {
     @NotBlank(message = "内容不能为空",groups = {AddGroup.class, EditGroup.class})
     private String culCreativityContent;
 
+    private String culCreativityTags;
+
     private String culCreativityImage;
 
     private String culCreativityCategory;
@@ -27,6 +28,14 @@ public class CulCreateDTO implements Serializable {
     private String culCreativityType;
     @NotBlank(message = "状态不能为空",groups = {AddGroup.class, EditGroup.class})
     private String status;
+
+    public String getCulCreativityTags() {
+        return culCreativityTags;
+    }
+
+    public void setCulCreativityTags(String culCreativityTags) {
+        this.culCreativityTags = culCreativityTags;
+    }
 
     public String getCulCreativityTitle() {
         return culCreativityTitle;

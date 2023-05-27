@@ -95,15 +95,19 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         sightsBulletin.setTopFlag("Y"); // 置顶啦啦啦啦
         sightsBulletin.setStatus("0"); // 正常
 
-
         List<SightsBulletin> sightsBulletins = bulletinMapper.searchBullAboutSights(sightsBulletin);// 最多限制5个了啦
-
-        List<BulletinDTO> bulletinDTOS = sightsBulletins.stream().map(item -> {
+        List<BulletinDTO> bulletinDTOS = new LinkedList<>();
+        if(!sightsBulletins.isEmpty()){
+            bulletinDTOS = sightsBulletins.stream().map(item -> {
+                BulletinDTO dto = new BulletinDTO();
+                BeanUtils.copyBeanProp(dto, item);
+                return dto;
+            }).collect(Collectors.toList());
+        }else {
             BulletinDTO dto = new BulletinDTO();
-            BeanUtils.copyBeanProp(dto, item);
-            return dto;
-        }).collect(Collectors.toList());
-
+            dto.setBulletinContent("暂时没有公告哦,请等待相关景点安排，谢谢!");
+            bulletinDTOS.add(dto);
+        }
         SightsBase sightsBase = sightsBaseMapper.selectSightsBaseBySightsId(sightsId);
         BeanUtils.copyBeanProp(sightsDTO,sightsBase);
         sightsDTO.setBulletin(bulletinDTOS);

@@ -30,7 +30,9 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 @Component
 public class RedisCache
 {
+    public static void main(String[] args) {
 
+    }
     @Autowired
     public RedisTemplate redisTemplate;
 
@@ -333,11 +335,13 @@ public class RedisCache
         }
         return count;
     }
-    public Object hGet(String key, String hashKey) {
-        return redisTemplate.opsForHash().get(key, hashKey);
-    }
     public Long decr(String key, long delta) {
         return redisTemplate.opsForValue().increment(key, -delta);
+    }
+
+    // 下面的是 hash
+    public Object hGet(String key, String hashKey) {
+        return redisTemplate.opsForHash().get(key, hashKey);
     }
     public Boolean hSet(String key, String hashKey, Object value, long time) {
         redisTemplate.opsForHash().put(key, hashKey, value);
@@ -362,74 +366,40 @@ public class RedisCache
     public Boolean hHasKey(String key, String hashKey) {
         return redisTemplate.opsForHash().hasKey(key, hashKey);
     }
-
-
     public Long hIncr(String key, String hashKey, Long delta) {
         return redisTemplate.opsForHash().increment(key, hashKey, delta);
     }
-
-
     public Long hDecr(String key, String hashKey, Long delta) {
         return redisTemplate.opsForHash().increment(key, hashKey, -delta);
     }
 
-
+    // 下面是set
     public Double zIncr(String key, Object value, Double score) {
         return redisTemplate.opsForZSet().incrementScore(key, value, score);
     }
-
-
     public Double zDecr(String key, Object value, Double score) {
         return redisTemplate.opsForZSet().incrementScore(key, value, -score);
     }
-
-
-//    public Map<Object, Double> zReverseRangeWithScore(String key, long start, long end) {
-//        return redisTemplate.opsForZSet().reverseRangeWithScores(key, start, end)
-//                .stream()
-//                .collect(Collectors.toMap(ZSetOperations.TypedTuple::getValue, ZSetOperations.TypedTuple::getScore));
-//    }
-
-
     public Double zScore(String key, Object value) {
         return redisTemplate.opsForZSet().score(key, value);
     }
-
-
-//    public Map<Object, Double> zAllScore(String key) {
-//        return Objects.requireNonNull(redisTemplate.opsForZSet().rangeWithScores(key, 0, -1))
-//                .stream()
-//                .collect(Collectors.toMap(ZSetOperations.TypedTuple::getValue, ZSetOperations.TypedTuple::getScore));
-//    }
-
-
-    public Set<Object> sMembers(String key) {
+    public Set<Object> setMembers(String key) {
         return redisTemplate.opsForSet().members(key);
     }
-
-
+    public Boolean sIsMember(String key, Object value) {
+        return redisTemplate.opsForSet().isMember(key, value);
+    }
     public Long sAdd(String key, Object... values) {
         return redisTemplate.opsForSet().add(key, values);
     }
-
-
     public Long sAddExpire(String key, long time, Object... values) {
         Long count = redisTemplate.opsForSet().add(key, values);
         expire(key, time);
         return count;
     }
-
-
-    public Boolean sIsMember(String key, Object value) {
-        return redisTemplate.opsForSet().isMember(key, value);
-    }
-
-
     public Long sSize(String key) {
         return redisTemplate.opsForSet().size(key);
     }
-
-
     public Long sRemove(String key, Object... values) {
         return redisTemplate.opsForSet().remove(key, values);
     }
@@ -438,45 +408,32 @@ public class RedisCache
     public List<Object> lRange(String key, long start, long end) {
         return redisTemplate.opsForList().range(key, start, end);
     }
-
-
     public Long lSize(String key) {
         return redisTemplate.opsForList().size(key);
     }
-
-
     public Object lIndex(String key, long index) {
         return redisTemplate.opsForList().index(key, index);
     }
-
-
     public Long lPush(String key, Object value) {
         return redisTemplate.opsForList().rightPush(key, value);
     }
-
-
     public Long lPush(String key, Object value, long time) {
         Long index = redisTemplate.opsForList().rightPush(key, value);
         expire(key, time);
         return index;
     }
-
-
     public Long lPushAll(String key, Object... values) {
         return redisTemplate.opsForList().rightPushAll(key, values);
     }
-
-
     public Long lPushAll(String key, Long time, Object... values) {
         Long count = redisTemplate.opsForList().rightPushAll(key, values);
         expire(key, time);
         return count;
     }
-
-
     public Long lRemove(String key, long count, Object value) {
         return redisTemplate.opsForList().remove(key, count, value);
     }
+
 
 
     public Boolean bitAdd(String key, int offset, boolean b) {

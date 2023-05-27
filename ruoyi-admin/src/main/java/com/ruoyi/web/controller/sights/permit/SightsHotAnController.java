@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author chas
@@ -46,6 +47,11 @@ public class SightsHotAnController extends BaseController {
     private static final Logger log = LoggerFactory.getLogger(SightsHotAnController.class);
 
 
+    /**
+     * sMembers
+     * sIsMember   cache 的
+     */
+
     @Autowired
     private ISightsHotService hotService;
 
@@ -58,6 +64,15 @@ public class SightsHotAnController extends BaseController {
     @Autowired
     private RedisCache redisCache;
 
+
+
+    @Anonymous
+    @GetMapping("/xxxxxxxxx")
+    public AjaxResult xxx(){
+        Boolean aBoolean = redisCache.sIsMember("xxx", "xxx");
+        Set<Object> xxx = redisCache.setMembers("xxx");
+        return null;
+    }
 
 
     @Anonymous
@@ -77,6 +92,7 @@ public class SightsHotAnController extends BaseController {
     @GetMapping("/view/{sightsId}")
     @PreAuthorize("@ss.hasRole('common')")
     public AjaxResult addView(@PathVariable Long sightsId){
+
         kafkaTemplate.send(KafkaTopicsConstant.SIGHTSVIEW, sightsId +KafkaTopicsConstant.DELIMITER + getUserId());
         return AjaxResult.success();
     }

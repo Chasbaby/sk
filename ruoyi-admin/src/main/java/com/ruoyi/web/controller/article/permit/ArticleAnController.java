@@ -145,7 +145,9 @@ public class ArticleAnController extends BaseController {
         // 复制对象
         Article articleHandle = new Article();
         BeanUtils.copyBeanProp(articleHandle,article);
-        articleHandle.setArticleContent(filter(article.getArticleContent()));
+        // 过滤
+        //articleHandle.setArticleContent(filter(article.getArticleContent()));
+
         // 设置用户信息
         articleHandle.setUserId(getUserId());
         // 存入数据库
@@ -180,7 +182,7 @@ public class ArticleAnController extends BaseController {
     public AjaxResult reSubmitArticle(@RequestBody ArticleCreateDTO article){
         Article articleHandle = new Article();
         BeanUtils.copyBeanProp(articleHandle,article);
-        articleHandle.setArticleContent(filter(article.getArticleContent()));
+        //articleHandle.setArticleContent(filter(article.getArticleContent()));
         articleHandle.setIsOk("U");
         articleService.updateArticle(articleHandle);
         // 消息推送

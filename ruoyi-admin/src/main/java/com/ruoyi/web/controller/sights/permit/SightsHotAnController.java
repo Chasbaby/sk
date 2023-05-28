@@ -82,6 +82,7 @@ public class SightsHotAnController extends BaseController {
         return AjaxResult.success(hotService.currentHotSights());
     }
 
+    @Anonymous
     @ApiOperation("随机获取景点展示")
     @GetMapping("/randomSights")
     public AjaxResult getRandomSights(){

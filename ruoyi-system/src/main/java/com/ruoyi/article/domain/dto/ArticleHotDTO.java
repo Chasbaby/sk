@@ -14,4 +14,5 @@ public class ArticleHotDTO implements Serializable {
     private Long articleId;
     private Long userId;
     private String articleTitle;
+    private Long articleHot;
 }

@@ -516,6 +516,7 @@ public class ArticleServiceImpl implements IArticleService
         List<Article> list = articleMapper.simpleHotArticle();
         return list.stream().map(item->{
             ArticleHotDTO hotDTO = new ArticleHotDTO();
+            hotDTO.setArticleHot(item.getArticleCollect()+item.getArticleView()+item.getArticleLike());
             try {
                 BeanUtils.copyProperties(hotDTO,item);
             } catch (IllegalAccessException e) {

@@ -18,16 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
-import static com.ruoyi.framework.config.SensitiveConfig.filter;
 
 
 /**
  * 面向游客的文章操作
  * @author Chas
- * @date 2023-3
+ * @date 2023-3 -5
  */
 @Api("面向游客的文章操作")
 @RestController
@@ -52,8 +49,6 @@ public class ArticleAnController extends BaseController {
         kafkaTemplate.send("myFlume","SIGHTS:1|5|5:"+DateUtils.getNowDate().getTime());
         kafkaTemplate.send("myFlume","SIGHTS:1|6|6:"+DateUtils.getNowDate().getTime());
         kafkaTemplate.send("myFlume","SIGHTS:1|7|8:"+DateUtils.getNowDate().getTime());
-
-
         articleService.xxx();
         return null;
     }
@@ -273,8 +268,6 @@ public class ArticleAnController extends BaseController {
 
     /**
      * 获取某用户的所有文章 分类
-     * @param num
-     * @return
      */
     @PreAuthorize("@ss.hasRole('common')")
     @ApiOperation("获取某用户的所有文章")

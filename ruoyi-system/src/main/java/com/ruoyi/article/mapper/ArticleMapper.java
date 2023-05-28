@@ -159,7 +159,7 @@ public interface ArticleMapper
      */
     public List<Article> getArticleTop();
 
-    public List<Article> SearchArticlePerson();
+    public List<Article> simpleHotArticle();
 
 
 }

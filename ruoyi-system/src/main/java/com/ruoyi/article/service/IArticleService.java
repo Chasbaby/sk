@@ -159,6 +159,8 @@ public interface IArticleService
 
     public ArticleVoiceDTO transReturn(Long id,Integer position,Long audioId);
 
+    public List<ArticleHotDTO> simpleHotArticle();
+
 
 
 

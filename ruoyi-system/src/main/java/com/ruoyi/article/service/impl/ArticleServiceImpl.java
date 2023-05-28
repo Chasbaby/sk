@@ -487,6 +487,13 @@ public class ArticleServiceImpl implements IArticleService
         return articleTopDTOS;
     }
 
+    /**
+     * 翻译
+     * @param id
+     * @param position
+     * @param audioId
+     * @return
+     */
     @Override
     public ArticleVoiceDTO transReturn(Long id, Integer position, Long audioId) {
         SysAudio audio = audioMapper.selectSysAudioByAudioId(audioId);
@@ -501,4 +508,22 @@ public class ArticleServiceImpl implements IArticleService
         return voiceDTO;
     }
 
+    /**
+     * 文章简约小热度哦
+     * */
+    @Override
+    public List<ArticleHotDTO> simpleHotArticle() {
+        List<Article> list = articleMapper.simpleHotArticle();
+        return list.stream().map(item->{
+            ArticleHotDTO hotDTO = new ArticleHotDTO();
+            try {
+                BeanUtils.copyProperties(hotDTO,item);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+            return hotDTO;
+        }).collect(Collectors.toList());
+    }
 }

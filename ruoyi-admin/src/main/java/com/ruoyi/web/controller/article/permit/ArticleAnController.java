@@ -297,6 +297,21 @@ public class ArticleAnController extends BaseController {
         int i = articleService.deleteArticlesByUser(articleIds);
         return AjaxResult.success("成功删除"+i+"篇文章");
     }
+
+    @ApiOperation("文章综合指标排行版")
+    @Anonymous
+    @GetMapping("/TopArticle")
+    public AjaxResult topTop(){
+        return AjaxResult.success(articleService.getArticleTop());
+    }
+
+    @ApiOperation("简略热度文章")
+    @Anonymous
+    @GetMapping("/hotArticle")
+    public AjaxResult hotArticle(){
+        return AjaxResult.success(articleService.simpleHotArticle());
+    }
+
     /**
      *  创建记录
      * @param articleId

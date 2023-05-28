@@ -131,6 +131,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by article_like *0.3 + article_view * 0.2 + article_collect *0.5 desc
         limit 15
     </select>
+    <select id="simpleHotArticle" resultType="com.ruoyi.article.domain.Article" resultMap="ArticleResult">
+        <include refid="selectArticleVo"/>
+        where is_delete = 'N' and is_ok = 'Y' and status = '0'
+        order by article_like + article_view + article_collect desc
+        limit 10
+    </select>
 
     <!--    <select id="getArticleRate" resultType="java.lang.Double">-->
 <!--#         select ((select count(0) from article-->

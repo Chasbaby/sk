@@ -75,7 +75,7 @@ public class SightsRecommendServiceImpl implements SightsRecommendService {
                 List<SightsBase> bases = comprehension.getNoSights(list, 5 - size);
                 sights.addAll(bases);
             }else {
-                // 是0  就 随机
+                // 是0  就
                 List<SightsBase> sightsBases = baseMapper.getRandomSights();
                 List<SightsBase> collect = sightsBases.stream().limit(5).collect(Collectors.toList());
                 sights.addAll(collect);

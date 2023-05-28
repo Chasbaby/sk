@@ -1,6 +1,8 @@
 package com.ruoyi.recommend.es.context;
 
 
+import com.ruoyi.article.domain.dto.ArticleSearchPersonDTO;
+import com.ruoyi.article.domain.dto.ArticleTopDTO;
 import com.ruoyi.common.enums.SearchCaseType;
 import com.ruoyi.recommend.es.SearchStrategy;
 import com.ruoyi.recommend.es.domain.MultiSearchDTO;
@@ -58,5 +60,18 @@ public class SightsStrategyContext {
                 .showAllSearch(keywords);
         return multiSearch;
     }
+
+    /**
+     * 文章单独搜素
+     * @param keywords
+     * @return
+     */
+    public List<ArticleSearchPersonDTO> executeSearchArticle(String keywords){
+        List<ArticleSearchPersonDTO> dtos = searchStrategyMap
+                .get(getStrategy(searchMode))
+                .showArticleSearch(keywords);
+        return dtos;
+    }
+
 
 }

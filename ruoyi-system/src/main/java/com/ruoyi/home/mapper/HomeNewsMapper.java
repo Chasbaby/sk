@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.home.domain.HomeAd;
 import com.ruoyi.home.domain.HomeNews;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 新闻Mapper接口
@@ -104,4 +105,9 @@ public interface HomeNewsMapper
     public List<HomeNews> selectColumnNews(String columnId);
 
     public List<HomeNews> selectKeysNews();
+
+    public List<HomeNews> selectSimilarNews(Long newsId);
+
+    // 辅助相似度的
+    public List<HomeNews> selectRandomLimitNews(@Param("num") Integer num,@Param("newsId") Long[] newsId);
 }

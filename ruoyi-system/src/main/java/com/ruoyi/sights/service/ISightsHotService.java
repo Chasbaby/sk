@@ -98,7 +98,7 @@ public interface ISightsHotService {
     public int ifLike(Long sightsId,Long userId);
 
     /**
-     * 随机获取景点展示
+     * 获取景点展示
      * @return
      */
     public List<SightsRandomDTO> getRandomSights();

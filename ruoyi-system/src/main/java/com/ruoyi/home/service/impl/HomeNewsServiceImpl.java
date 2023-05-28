@@ -58,8 +58,7 @@ public class HomeNewsServiceImpl implements IHomeNewsService
      * @return 结果
      */
     @Override
-    public int insertHomeNews(HomeNews homeNews)
-    {
+    public int insertHomeNews(HomeNews homeNews) {
         homeNews.setCreateTime(DateUtils.getNowDate());
         return homeNewsMapper.insertHomeNews(homeNews);
     }
@@ -71,8 +70,7 @@ public class HomeNewsServiceImpl implements IHomeNewsService
      * @return 结果
      */
     @Override
-    public int updateHomeNews(HomeNews homeNews)
-    {
+    public int updateHomeNews(HomeNews homeNews) {
         homeNews.setUpdateTime(DateUtils.getNowDate());
         return homeNewsMapper.updateHomeNews(homeNews);
     }
@@ -84,8 +82,7 @@ public class HomeNewsServiceImpl implements IHomeNewsService
      * @return 结果
      */
     @Override
-    public int deleteHomeNewsByNewsIds(Long[] newsIds)
-    {
+    public int deleteHomeNewsByNewsIds(Long[] newsIds) {
         return homeNewsMapper.deleteHomeNewsByNewsIdsByLogic(newsIds);
     }
 
@@ -221,12 +218,10 @@ public class HomeNewsServiceImpl implements IHomeNewsService
         List<HomeNews> list = homeNewsMapper.selectTopNews();
 
         List<newsSwiperDTO> swiperDTOS = new ArrayList<>();
-        Iterator<HomeNews> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            HomeNews next = iterator.next();
+        for (HomeNews next : list) {
             next.setImageId(next.getImageId().split(",")[1]);
             newsSwiperDTO swiperDTO = new newsSwiperDTO();
-            BeanUtils.copyBeanProp(swiperDTO,next);
+            BeanUtils.copyBeanProp(swiperDTO, next);
             String date = DateToMyString(next.getCreateTime().toString());
             swiperDTO.setCreateTime(date);
             swiperDTOS.add(swiperDTO);
@@ -260,6 +255,29 @@ public class HomeNewsServiceImpl implements IHomeNewsService
             newsKeyDTO keyDTO = new newsKeyDTO();
             BeanUtils.copyBeanProp(keyDTO,item);
             return keyDTO;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<newsListDTO> getSimilarNews(Long newsId) {
+        List<HomeNews> list = homeNewsMapper.selectSimilarNews(newsId);
+        int size = list.size();
+        if(size != 5){
+            Iterator<HomeNews> iterator = list.iterator();
+            Long[] need = new Long[5-size];
+            int i = 0;
+            while (iterator.hasNext()){
+                HomeNews next = iterator.next();
+                need[i] = next.getNewsId();
+                i++;
+            }
+            List<HomeNews> news = homeNewsMapper.selectRandomLimitNews(5 - size,need);
+            list.addAll(news);
+        }
+        return list.stream().map(item->{
+            newsListDTO dto = new newsListDTO();
+            BeanUtils.copyBeanProp(dto,item);
+            return dto;
         }).collect(Collectors.toList());
     }
 

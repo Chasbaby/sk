@@ -59,6 +59,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectArticleVo"/>
         where article_id = #{articleId}
     </select>
+
+
     <select id="selectArticleInSearchList" resultType="com.ruoyi.article.domain.Article" resultMap="ArticleResult">
         select a.article_id,a.user_id,a.article_category,a.article_cover,a.article_title,a.article_content,a.original_url from article a
         <where>
@@ -66,8 +68,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="articleContent != null  and articleContent != ''"> or article_content like concat('%',#{articleContent},'%')</if>
         </where>
         and a.is_delete='N' and a.is_ok='Y' and a.status='0'
-        order by a.create_time desc
+        order by a.article_like desc,a.create_time desc
     </select>
+
 
     <select id="selectArticleCollectByUserId" resultType="com.ruoyi.article.domain.Article" parameterType="Long" resultMap="ArticleResult">
         select distinct a.article_id,a.user_id,a.article_title,a.article_cover,a.article_content,a.article_type,b.create_time,a.article_like,a.article_view,a.article_collect
@@ -128,6 +131,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by article_like *0.3 + article_view * 0.2 + article_collect *0.5 desc
         limit 15
     </select>
+
     <!--    <select id="getArticleRate" resultType="java.lang.Double">-->
 <!--#         select ((select count(0) from article-->
 <!--#                  where create_time = now() and is_delete = 'N' and  is_ok ='Y') + 1)-->

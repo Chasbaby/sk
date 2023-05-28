@@ -1,6 +1,8 @@
 package com.ruoyi.recommend.es.impl;
 
 import com.ruoyi.article.domain.Article;
+import com.ruoyi.article.domain.dto.ArticleSearchPersonDTO;
+import com.ruoyi.article.domain.dto.ArticleTopDTO;
 import com.ruoyi.article.mapper.ArticleMapper;
 import com.ruoyi.common.enums.SearchCaseType;
 import com.ruoyi.common.utils.StringUtils;
@@ -22,6 +24,8 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
+import static com.ruoyi.common.constant.ESConstant.POST_TAG;
+import static com.ruoyi.common.constant.ESConstant.PRE_TAG;
 import static com.ruoyi.recommend.es.impl.common.*;
 
 /**
@@ -178,8 +182,27 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
         }
     }
 
-    private List<MultiSearchDTO> articleToMuti(List<Article> articles) {
+    /**
+     * 文章单独检索
+     * @param keywords
+     * @return
+     */
+    @Override
+    public List<ArticleSearchPersonDTO> showArticleSearch(String keywords) {
+        Article article = new Article();
+        article.setArticleContent(keywords);
+        article.setArticleTitle(keywords);
+        List<Article> articles = articleMapper.selectArticleInSearchList(article);
+        return articles.stream().map(item->{
+            ArticleSearchPersonDTO personDTO = new ArticleSearchPersonDTO();
+            BeanUtils.copyBeanProp(personDTO,item);
+            personDTO.setArticleTitle(personDTO.getArticleTitle()
+                    .replaceAll(keywords,PRE_TAG + keywords +POST_TAG));
+            return personDTO;
+        }).collect(Collectors.toList());
+    }
 
+    private List<MultiSearchDTO> articleToMuti(List<Article> articles){
         List<MultiSearchDTO> articleSearch = articles.stream().map(item -> {
             MultiSearchDTO searchDTO = new MultiSearchDTO();
             searchDTO.setMultipleWork(item.getUserId());

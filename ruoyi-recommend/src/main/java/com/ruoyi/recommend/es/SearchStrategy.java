@@ -1,5 +1,7 @@
 package com.ruoyi.recommend.es;
 
+import com.ruoyi.article.domain.dto.ArticleSearchPersonDTO;
+import com.ruoyi.article.domain.dto.ArticleTopDTO;
 import com.ruoyi.common.enums.SearchCaseType;
 import com.ruoyi.recommend.es.domain.MultiSearchDTO;
 import com.ruoyi.recommend.es.domain.SearchAjaxDTO;
@@ -31,6 +33,13 @@ public interface SearchStrategy {
      * @return 一切
      */
     List<MultiSearchDTO> showAllSearch(String keywords);
+
+    /**
+     * 文章单独检索
+     * @param keywords
+     * @return
+     */
+    List<ArticleSearchPersonDTO> showArticleSearch(String keywords);
 
 
 }

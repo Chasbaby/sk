@@ -25,7 +25,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectHomeNewsVo">
-        select news_id, news_title, news_type, news_introduction,news_content, news_author, news_hits, news_key, image_id, top_flag, del_flag, show_flag, create_time, create_by, update_time, update_by, remark from home_news
+        select news_id, news_title, news_type, news_introduction,news_content, news_author, news_hits, news_key,
+               image_id, top_flag, del_flag, show_flag, create_time, create_by, update_time, update_by, remark from home_news
     </sql>
     <delete id="deleteHomeNewsByQuartz">
         delete from home_news Where del_flag = "Y"
@@ -85,12 +86,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by create_time desc
         limit 5
     </select>
+
     <select id="selectRandomNews" resultType="com.ruoyi.home.domain.HomeNews" resultMap="HomeNewsResult" >
         <include refid="selectHomeNewsVo"/>
         where news_id >=(select floor( Rand() *( select MAX(news_id) from home_news ) ) ) and del_flag = "N"  and show_flag = "Y"
         order by news_id
         limit 5
     </select>
+
     <select id="selectTopNews" resultType="com.ruoyi.home.domain.HomeNews" resultMap="HomeNewsResult">
         <include refid="selectHomeNewsVo"/>
         where del_flag = "N"  and show_flag = "Y" and top_flag = "Y"
@@ -107,6 +110,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select news_id,news_key,news_title from home_news
         where del_flag = "N"  and show_flag = "Y"
     </select>
+
+<!--    # news_id, news_title, news_type, news_introduction,news_content, news_author, news_hits, news_key,-->
+<!--    # image_id, top_flag, del_flag, show_flag, create_time, create_by, update_time, update_by, remark-->
+
+    <select id="selectSimilarNews" resultType="com.ruoyi.home.domain.HomeNews"
+            parameterType="long" resultMap="HomeNewsResult">
+            select news_id,news_title,news_introduction,news_type,news_author,image_id,create_time
+                from home_news
+                where  news_id in(
+                    select i.newsIdTwo
+                        from home_news s
+                            left join contentbasednewsrecs i on s.news_id = i.newsIdOne
+                        where i.newsIdOne = #{newsId}
+                    order by i.newsScore desc
+                    ) and del_flag = "N"  and show_flag = "Y"
+            limit 5
+    </select>
+
+    <select id="selectRandomLimitNews" resultType="com.ruoyi.home.domain.HomeNews" resultMap="HomeNewsResult">
+        select news_id,news_title,news_introduction,news_type,news_author,image_id,create_time from home_news
+        where del_flag = "N"  and show_flag = "Y"
+          and news_id >=(select floor(RAND() *(select MAX(news_id) from home_news)))
+          and news_id not in
+            <foreach collection="list" item="newsId" open="(" close=")" separator=",">
+                #{newsId}
+            </foreach>
+        limit #{num}
+    </select>
+
 
     <insert id="insertHomeNews" parameterType="HomeNews" useGeneratedKeys="true" keyProperty="newsId">
         insert into home_news

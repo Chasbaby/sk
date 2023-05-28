@@ -97,4 +97,6 @@ public interface IHomeNewsService {
 
     public List<newsKeyDTO> convertToKey();
 
+    public List<newsListDTO>  getSimilarNews(Long newsId);
+
 }

@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.search;
 
 
 import com.ruoyi.common.annotation.Anonymous;
+import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.recommend.es.context.SightsStrategyContext;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api("全局搜索")
 @RestController
 @RequestMapping("/search")
-public class SearchController {
+public class SearchController extends BaseController {
 
     @Autowired
     private SightsStrategyContext strategyContext;
@@ -56,6 +57,13 @@ public class SearchController {
 
         return AjaxResult.success(strategyContext.executeShowAll(keywords));
 
+    }
+
+    @Anonymous
+    @ApiOperation("文章搜索")
+    @GetMapping("/article/{keyword}")
+    public AjaxResult searchArticle(@PathVariable String keywords){
+        return AjaxResult.success(strategyContext.executeSearchArticle(keywords));
     }
 
 

@@ -214,7 +214,7 @@ public class SightsHotServiceImpl implements ISightsHotService {
     }
 
     /**
-     * 随机获取景点展示
+     * 获取景点展示
      * @return
      */
     @Override

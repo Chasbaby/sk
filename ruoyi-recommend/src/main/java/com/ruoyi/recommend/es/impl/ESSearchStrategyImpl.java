@@ -1,6 +1,8 @@
 package com.ruoyi.recommend.es.impl;
 
 import cn.easyes.core.conditions.LambdaEsQueryWrapper;
+import com.ruoyi.article.domain.dto.ArticleSearchPersonDTO;
+import com.ruoyi.article.domain.dto.ArticleTopDTO;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.mapperEs.ee.ArticleESMapper;
 import com.ruoyi.mapperEs.ee.CulESMapper;
@@ -86,6 +88,11 @@ public class ESSearchStrategyImpl implements SearchStrategy {
 
     @Override
     public List<MultiSearchDTO> showAllSearch(String keywords) {
+        return null;
+    }
+
+    @Override
+    public List<ArticleSearchPersonDTO> showArticleSearch(String keywords) {
         return null;
     }
 

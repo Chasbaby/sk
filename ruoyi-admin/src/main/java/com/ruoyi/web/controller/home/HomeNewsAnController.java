@@ -63,11 +63,10 @@ public class HomeNewsAnController extends BaseController {
     }
 
     @Anonymous
-    @ApiOperation("新闻相似度(待完成)")
-    @GetMapping("/similarNews")
-    public AjaxResult getSimilarNews(){
-
-        return null;
+    @ApiOperation("新闻相似度")
+    @GetMapping("/similarNews/{newsId}")
+    public AjaxResult getSimilarNews(@PathVariable Long newsId){
+        return AjaxResult.success(homeNewsService.getSimilarNews(newsId));
     }
 
 }

@@ -21,7 +21,7 @@
                         i.sightsIdTwo
                     FROM
                         sights_base s
-                            LEFT JOIN itemcfsights i ON s.sights_id = i.sightsIdOne
+                             left join itemcfsights i ON s.sights_id = i.sightsIdOne
                     WHERE
                         s.sights_id = #{sightsId}
                     order by i.sightsScore desc

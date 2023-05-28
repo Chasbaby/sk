@@ -468,7 +468,6 @@ public class ArticleServiceImpl implements IArticleService
 
     /**
      * 文章排行
-     * @return
      */
     @Override
     public List<ArticleTopDTO> getArticleTop() {
@@ -500,8 +499,6 @@ public class ArticleServiceImpl implements IArticleService
         voiceDTO.setArticleId(id);
         voiceDTO.setSpeakTTS(audio.getSpeakLabel());
         return voiceDTO;
-
     }
-
 
 }

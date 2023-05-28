@@ -18,10 +18,6 @@ public class SearchAjaxDTO implements Serializable {
     /** 搜素返回值**/
     private List<?> searchReturns;
 
-
-
-
-
     public SearchAjaxDTO(List<?> searchReturns) {
         this.searchReturns = searchReturns;
     }

@@ -305,6 +305,15 @@ public class ArticleAnController extends BaseController {
         return AjaxResult.success(articleService.simpleHotArticle());
     }
 
+    @ApiOperation("分页获取文章 测试")
+    @Anonymous
+    @GetMapping("/articleShow")
+    public TableDataInfo articleShow(){
+        startPage();
+        List<ArticleShowDTO> articles = articleService.getShowArticles();
+        return getDataTable(articles);
+    }
+
     /**
      *  创建记录
      * @param articleId

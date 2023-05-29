@@ -2,6 +2,7 @@ package com.ruoyi.article.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -526,5 +527,23 @@ public class ArticleServiceImpl implements IArticleService
             }
             return hotDTO;
         }).collect(Collectors.toList());
+    }
+
+    /**
+     * 分页展示哦
+     * @return
+     */
+    @Override
+    public List<ArticleShowDTO> getShowArticles() {
+        List<ArticleShowDTO> articlesShow = articleMapper.selectRandomArticlesShowList();
+        Iterator<ArticleShowDTO> iterator = articlesShow.iterator();
+        while (iterator.hasNext()){
+            ArticleShowDTO next = iterator.next();
+            Long userId = next.getUserId();
+            SysUser sysUser = userMapper.selectUserById(userId);
+            next.setNickName(sysUser.getNickName());
+            next.setAvatar(sysUser.getAvatar());
+        }
+        return articlesShow;
     }
 }

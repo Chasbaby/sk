@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.article.domain.dto.ArticleCreateDTO;
+import com.ruoyi.article.domain.dto.ArticleShowDTO;
 import com.ruoyi.article.domain.dto.ArticleStatisticPie;
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
 import org.apache.ibatis.annotations.Param;
@@ -160,6 +161,8 @@ public interface ArticleMapper
     public List<Article> getArticleTop();
 
     public List<Article> simpleHotArticle();
+
+    public List<ArticleShowDTO> selectRandomArticlesShowList();
 
 
 }

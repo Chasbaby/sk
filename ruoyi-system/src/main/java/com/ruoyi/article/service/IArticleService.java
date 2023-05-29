@@ -161,6 +161,8 @@ public interface IArticleService
 
     public List<ArticleHotDTO> simpleHotArticle();
 
+    public List<ArticleShowDTO> getShowArticles();
+
 
 
 

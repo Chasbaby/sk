@@ -72,10 +72,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectSightsInSearchList" resultType="com.ruoyi.sights.domain.SightsBase" parameterType="SightsBase" resultMap="SightsBaseResult">
         select sights_id,sights_name,sights_location,sights_detail,sights_intro,sights_image from sights_base
         <where>
-            <if test="sightsName != null  and sightsName != ''"> or sights_name like concat('%', #{sightsName}, '%')</if>
-            <if test="sightsLocation != null  and sightsLocation != ''"> or sights_location like concat('%', #{sightsLocation}, '%')</if>
-            <if test="sightsIntro != null  and sightsIntro != ''"> or sights_intro like concat('%', #{sightsIntro}, '%')</if>
-            <if test="sightsDetail !=null and sightsDetail !=''"> or sights_detail like concat('%', #{sightsDetail},'%')</if>
+            <if test="sightsName != null  and sightsName != ''"> or sights_name like concat('%',#{sightsName},'%')</if>
+            <if test="sightsLocation != null  and sightsLocation != ''"> or sights_location like concat('%',#{sightsLocation},'%')</if>
+            <if test="sightsIntro != null  and sightsIntro != ''"> or sights_intro like concat('%',#{sightsIntro},'%')</if>
+            <if test="sightsDetail !=null and sightsDetail !=''"> or sights_detail like concat('%',#{sightsDetail},'%')</if>
         </where>
     </select>
 
@@ -180,7 +180,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by sights_hot desc
         limit 5
     </select>
-
+    <select id="selectSightsSearchPerson" resultType="com.ruoyi.sights.domain.SightsBase" resultMap="SightsBaseResult">
+        <include refid="selectSightsBaseVo"/>
+        <where>
+            <if test="sightsLocation !=null and sightsLocation !=null">or sights_location like concat('%',#{sightsLocation},'%')</if>
+            <if test="sightsIntro !=null and sightsIntro !=null">or sights_intro like concat('%',#{sightsIntro},'%')</if>
+            <if test="sightsEng !=null and sightsEng !=null">or sights_eng like concat('%',#{sightsEng},'%')</if>
+            <if test="sightsName !=null and sightsName !=null">or sights_name like concat('%',#{sightsName},'%')</if>
+            <if test="sightsCity !=null and sightsCity !=null">or sights_city like concat('%',#{sightsCity},'%')</if>
+        </where>
+        order by sights_hot desc
+    </select>
 
     <insert id="insertSightsBase" parameterType="SightsBase" useGeneratedKeys="true" keyProperty="sightsId">
         insert into sights_base

@@ -2,7 +2,6 @@ package com.ruoyi.home.mapper;
 
 import java.util.List;
 
-import com.ruoyi.home.domain.HomeAd;
 import com.ruoyi.home.domain.HomeNews;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,10 +9,9 @@ import org.apache.ibatis.annotations.Param;
  * 新闻Mapper接口
  * 
  * @author ruoyi
- * @date 2022-08-19
+ * @date 2022-08-19  2023-5-29
  */
-public interface HomeNewsMapper 
-{
+public interface HomeNewsMapper {
     /**
      * 查询新闻
      * 
@@ -109,5 +107,5 @@ public interface HomeNewsMapper
     public List<HomeNews> selectSimilarNews(Long newsId);
 
     // 辅助相似度的
-    public List<HomeNews> selectRandomLimitNews(@Param("num") Integer num,@Param("newsId") Long[] newsId);
+    public List<HomeNews> selectRandomLimitNews(@Param("newsId") Long[] newsId,@Param("num") Integer num);
 }

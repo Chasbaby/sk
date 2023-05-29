@@ -20,4 +20,5 @@ public class SightsSwiperDTO implements Serializable {
     private String sightsImage;
     private String sightsNation;
     private String sightsCity;
+    private String sightsIntro;
 }

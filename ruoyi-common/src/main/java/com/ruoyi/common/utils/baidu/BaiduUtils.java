@@ -56,12 +56,14 @@ public class BaiduUtils {
 //
 //        String s = HttpUtils.sendGet("https://api.map.baidu.com/place/v2/search?query=景点&region=广州市&output=json&ak=qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt");
 //        System.out.println(s);
-        String APP_ID = "20230411001637577";
-        String SECURITY_KEY = "E9tdbkYH75MOAyUfoyVQ";
-        TransApi api = new TransApi(APP_ID, SECURITY_KEY);
-
-        String query = "小池池最棒哦";
-        System.out.println(api.getTransResult(query, "auto", "en"));
-
+//        String APP_ID = "20230411001637577";
+//        String SECURITY_KEY = "E9tdbkYH75MOAyUfoyVQ";
+//        TransApi api = new TransApi(APP_ID, SECURITY_KEY);
+//
+//        String query = "小池池最棒哦";
+//        System.out.println(api.getTransResult(query, "auto", "en"));
+        String xxx ="https://api.map.baidu.com/weather/v1/?location=117.645088,28.869585&data_type=all&ak=qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt";
+        String s = HttpUtils.sendGet(xxx);
+        System.out.println(s);
     }
 }

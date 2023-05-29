@@ -1,12 +1,11 @@
 package com.ruoyi.sights.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import com.ruoyi.sights.domain.SightsBase;
 import com.ruoyi.sights.domain.SightsRecordHistory;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.core.parameters.P;
+
 
 /**
  * 景点基本信息Mapper接口
@@ -178,6 +177,8 @@ public interface SightsBaseMapper
     public int selectTopNum();
 
     public List<SightsBase> selectSightsSwiper();
+
+    public List<SightsBase> selectSightsSearchPerson(SightsBase sightsBase);
 
 
 

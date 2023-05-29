@@ -271,7 +271,7 @@ public class HomeNewsServiceImpl implements IHomeNewsService
                 need[i] = next.getNewsId();
                 i++;
             }
-            List<HomeNews> news = homeNewsMapper.selectRandomLimitNews(5 - size,need);
+            List<HomeNews> news = homeNewsMapper.selectRandomLimitNews(need,5 - size);
             list.addAll(news);
         }
         return list.stream().map(item->{

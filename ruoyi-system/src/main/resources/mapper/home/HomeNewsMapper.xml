@@ -128,12 +128,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             limit 5
     </select>
 
-    <select id="selectRandomLimitNews" resultType="com.ruoyi.home.domain.HomeNews" resultMap="HomeNewsResult">
+    <select id="selectRandomLimitNews" resultType="com.ruoyi.home.domain.HomeNews" resultMap="HomeNewsResult" parameterType="String">
         select news_id,news_title,news_introduction,news_type,news_author,image_id,create_time from home_news
         where del_flag = "N"  and show_flag = "Y"
           and news_id >=(select floor(RAND() *(select MAX(news_id) from home_news)))
           and news_id not in
-            <foreach collection="list" item="newsId" open="(" close=")" separator=",">
+            <foreach collection="newsId" item="newsId" open="(" close=")" separator=",">
                 #{newsId}
             </foreach>
         limit #{num}
@@ -218,6 +218,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update home_news set del_flag ="Y"
         where news_id = #{newsId}
     </update>
+
     <update id="deleteHomeNewsByNewsIdsByLogic" parameterType="Long">
         update home_news set del_flag ="Y"
         where news_id in
@@ -225,6 +226,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{newsId}
         </foreach>
     </update>
+
     <update id="updateNewHits" parameterType="long">
         update home_news set news_hits = new_hits +1
         where news_id = #{newsId}

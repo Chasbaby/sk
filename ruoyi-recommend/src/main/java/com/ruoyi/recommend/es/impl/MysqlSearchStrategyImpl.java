@@ -203,9 +203,33 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
         }).collect(Collectors.toList());
     }
 
+    /**
+     * 景点搜索
+     * @param keywords
+     * @return
+     */
     @Override
     public List<SightsSearchPersonDTO> showSightsSearch(String keywords) {
-        return null;
+        SightsBase base = new SightsBase();
+        base.setSightsLocation(keywords);
+        base.setSightsIntro(keywords);
+        base.setSightsEng(keywords);
+        base.setSightsName(keywords);
+        base.setSightsCity(keywords);
+        List<SightsBase> bases = sightsBaseMapper.selectSightsSearchPerson(base);
+        return bases.stream().map(item->{
+            SightsSearchPersonDTO sightsSearchPersonDTO = new SightsSearchPersonDTO();
+            BeanUtils.copyBeanProp(sightsSearchPersonDTO,item);
+            sightsSearchPersonDTO.setSightsLocation(sightsSearchPersonDTO.getSightsLocation()
+                    .replaceAll(keywords,PRE_TAG + keywords +POST_TAG));
+            sightsSearchPersonDTO.setSightsCity(sightsSearchPersonDTO.getSightsCity()
+                    .replaceAll(keywords,PRE_TAG + keywords +POST_TAG));
+            sightsSearchPersonDTO.setSightsName(sightsSearchPersonDTO.getSightsName()
+                    .replaceAll(keywords,PRE_TAG + keywords +POST_TAG));
+            sightsSearchPersonDTO.setSightsEng(sightsSearchPersonDTO.getSightsEng()
+                    .replaceAll(keywords,PRE_TAG + keywords +POST_TAG));
+            return sightsSearchPersonDTO;
+        }).collect(Collectors.toList());
     }
 
     private List<MultiSearchDTO> articleToMuti(List<Article> articles){

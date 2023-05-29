@@ -6,6 +6,7 @@ import com.ruoyi.common.enums.SearchCaseType;
 import com.ruoyi.recommend.es.domain.MultiSearchDTO;
 import com.ruoyi.recommend.es.domain.SearchAjaxDTO;
 import com.ruoyi.search.SightsSearchDTO;
+import com.ruoyi.sights.domain.DTO.SightsSearchPersonDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,13 @@ public interface SearchStrategy {
      * @return
      */
     List<ArticleSearchPersonDTO> showArticleSearch(String keywords);
+
+    /**
+     * 景点单独搜索
+     * @param keywords
+     * @return
+     */
+    List<SightsSearchPersonDTO> showSightsSearch(String keywords);
 
 
 }

@@ -37,7 +37,7 @@ public class SightsTagsAnController {
     @ApiOperation("为景点添加tags")
     @PostMapping("/addTags")
     @PreAuthorize("@ss.hasAnyRoles('common')")
-    public AjaxResult addSightsTags(@PathVariable Long sightsId, @PathVariable String tag){
+    public AjaxResult addSightsTags(@PathVariable Long sightsId, @PathVariable String tags){
         // 1. 检查tags 格式合理性 (手动)
         // 2. 检查tags 内容合理性 (kafka)
         // 3. 加入日志 用于 内容匹配

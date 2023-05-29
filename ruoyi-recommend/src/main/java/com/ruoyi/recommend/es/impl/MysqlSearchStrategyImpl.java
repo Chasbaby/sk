@@ -12,6 +12,7 @@ import com.ruoyi.recommend.es.domain.MultiSearchDTO;
 import com.ruoyi.recommend.es.domain.SearchAjaxDTO;
 import com.ruoyi.search.ArticleSearchDTO;
 import com.ruoyi.search.CulCreativitySearchDTO;
+import com.ruoyi.sights.domain.DTO.SightsSearchPersonDTO;
 import com.ruoyi.sights.domain.SightsBase;
 import com.ruoyi.search.SightsSearchDTO;
 import com.ruoyi.culCreativity.domain.SightsCulCreativity;
@@ -200,6 +201,11 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
                     .replaceAll(keywords,PRE_TAG + keywords +POST_TAG));
             return personDTO;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SightsSearchPersonDTO> showSightsSearch(String keywords) {
+        return null;
     }
 
     private List<MultiSearchDTO> articleToMuti(List<Article> articles){

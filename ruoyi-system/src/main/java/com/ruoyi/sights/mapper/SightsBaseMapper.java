@@ -172,6 +172,13 @@ public interface SightsBaseMapper
      */
     public int insertSightsHistoryByBatches(List<SightsRecordHistory> sightsRecordHistories);
 
+    /**
+     * 查询置顶数量
+     */
+    public int selectTopNum();
+
+    public List<SightsBase> selectSightsSwiper();
+
 
 
 }

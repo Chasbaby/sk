@@ -375,7 +375,7 @@ public class SightsBaseAnController extends BaseController {
     }
 
     /**
-     * 获取景点评分排行榜(数量后台固定)
+     * 获取景点评分排行榜(数量后台固定)    作废
      */
     @ApiOperation("获取景点评分排行榜")
     @GetMapping("/score/rank")
@@ -383,6 +383,27 @@ public class SightsBaseAnController extends BaseController {
         String s = iSysConfigService.selectConfigByKey("");
         List<SightsBase> baseList = iSightsBaseService.selectSightsTopViaScore(Convert.toInt(s));
         return AjaxResult.success(baseList);
+    }
+
+    @ApiOperation("置顶")
+    @PreAuthorize("@ss.hasPermi('sightBase:sights:add')")
+    @GetMapping("/ToTop/{sightsId}/{top}")
+    public AjaxResult addSightsTop(@PathVariable Long sightsId,@PathVariable String top){
+        if("Y".equals(top) && iSightsBaseService.selectTopNum()==5){
+            return AjaxResult.success("置顶失败,最多只能置顶5景点,请先取消部分景点");
+        }
+        SightsBase base = new SightsBase();
+        base.setSightsTop(top);
+        base.setSightsId(sightsId);
+        iSightsBaseService.updateSightsBase(base);
+        return AjaxResult.success("置顶成功");
+    }
+
+    @ApiOperation("景点轮播")
+    @GetMapping("/swiper")
+    @Anonymous
+    public AjaxResult getSightsSwiper(){
+        return AjaxResult.success(iSightsBaseService.getSightsSwiper());
     }
 
 

@@ -3,10 +3,7 @@ package com.ruoyi.sights.service;
 import java.util.List;
 
 import com.ruoyi.sights.domain.*;
-import com.ruoyi.sights.domain.DTO.SightsDTO;
-import com.ruoyi.sights.domain.DTO.SightsRecommendDTO;
-import com.ruoyi.sights.domain.DTO.SightsStatisticTopDTO;
-import com.ruoyi.sights.domain.DTO.SightsVoiceDTO;
+import com.ruoyi.sights.domain.DTO.*;
 
 /**
  * 景点基本信息Service接口
@@ -240,5 +237,9 @@ public interface ISightsBaseService
     public List<SightsStatisticTopDTO> getStatisticSightsTop();
 
     public SightsVoiceDTO transReturn(Long id ,Integer position,Long audioId);
+
+    public int selectTopNum();
+
+    public List<SightsSwiperDTO> getSightsSwiper();
 
 }

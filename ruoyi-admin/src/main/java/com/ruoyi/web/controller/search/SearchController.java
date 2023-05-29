@@ -9,6 +9,7 @@ import com.ruoyi.recommend.es.context.SightsStrategyContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,12 +62,16 @@ public class SearchController extends BaseController {
 
     @Anonymous
     @ApiOperation("文章搜索")
-    @GetMapping("/article/{keyword}")
-    public AjaxResult searchArticle(@PathVariable String keywords){
+    @GetMapping("/article/{keywords}")
+    public AjaxResult searchArticle(@PathVariable(required = false) String keywords){
         return AjaxResult.success(strategyContext.executeSearchArticle(keywords));
     }
 
-
-
+    @Anonymous
+    @ApiOperation("景点搜索")
+    @GetMapping("/sights/{keywords}")
+    public AjaxResult searchSights(@PathVariable(required = false) String keywords){
+        return AjaxResult.success(strategyContext.executeSearchSights(keywords));
+    }
 
 }

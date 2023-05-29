@@ -9,6 +9,7 @@ import com.ruoyi.mapperEs.ee.CulESMapper;
 import com.ruoyi.recommend.es.SearchStrategy;
 import com.ruoyi.recommend.es.domain.MultiSearchDTO;
 import com.ruoyi.recommend.es.domain.SearchAjaxDTO;
+import com.ruoyi.sights.domain.DTO.SightsSearchPersonDTO;
 import com.ruoyi.sights.domain.SightsBase;
 import com.ruoyi.search.SightsSearchDTO;
 import com.ruoyi.mapperEs.ee.SightsESMapper;
@@ -93,6 +94,11 @@ public class ESSearchStrategyImpl implements SearchStrategy {
 
     @Override
     public List<ArticleSearchPersonDTO> showArticleSearch(String keywords) {
+        return null;
+    }
+
+    @Override
+    public List<SightsSearchPersonDTO> showSightsSearch(String keywords) {
         return null;
     }
 

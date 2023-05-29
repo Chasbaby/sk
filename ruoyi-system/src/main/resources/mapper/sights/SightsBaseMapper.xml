@@ -26,6 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="sightsCategory"    column="sights_category"    />
         <result property="sightsNation"    column="sights_nation"    />
         <result property="sightsCity"    column="sights_city"    />
+        <result property="sightsTop" column="sights_top"/>
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
@@ -44,7 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                sights_name, sights_location, sights_longitude, sights_latitude,
                sights_image,sights_code,sights_intro, sights_detail, sights_category,
                sights_nation, sights_city, create_by, create_time, update_by,
-               update_time from sights_base
+               update_time,sights_top from sights_base
     </sql>
 
     <select id="selectSightsBaseList" parameterType="SightsBase" resultMap="SightsBaseResult">
@@ -58,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sightsHot !=null and sightsHot !=''">and sights_hot like concat('%',#{sightsHot},'%')</if>
             <if test="sightsEng !=null and sightsEng !=''">and sights_eng like concat('%',#{sightsEng},'%')</if>
             <if test="sightsOpen !=null and sightsOpen !=''">and sights_open like concat('%',#{sightsOpen},'%')</if>
-
+            <if test="sightsTop !=null and sightsTop!=''">and sights_top = #{sightsTop}</if>
             <if test="sightsName != null  and sightsName != ''"> and sights_name like concat('%', #{sightsName}, '%')</if>
             <if test="sightsLocation != null  and sightsLocation != ''"> and sights_location like concat('%', #{sightsLocation}, '%')</if>
             <if test="sightsIntro != null  and sightsIntro != ''"> and sights_intro like concat('%', #{sightsIntro}, '%')</if>
@@ -168,6 +169,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by sights_hot desc
         limit #{need}
     </select>
+    <select id="selectTopNum" resultType="java.lang.Integer">
+        select COUNT(sights_id) from sights_base
+        where sights_top = "Y"
+        limit 5
+    </select>
+    <select id="selectSightsSwiper" resultType="com.ruoyi.sights.domain.SightsBase" resultMap="SightsBaseResult">
+        <include refid="selectSightsBaseVo"/>
+        where sights_top = "Y"
+        order by sights_hot desc
+        limit 5
+    </select>
 
 
     <insert id="insertSightsBase" parameterType="SightsBase" useGeneratedKeys="true" keyProperty="sightsId">
@@ -191,6 +203,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
+            <if test="sightsTop !=null">sights_top,</if>
             <if test="sightsHot !=null and sightsHot !=''">sights_hot,</if>
             <if test="sightsEng !=null and sightsEng !=''">sights_eng,</if>
             <if test="sightsOpen !=null and sightsOpen !=''">sights_open,</if>
@@ -215,6 +228,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
+            <if test="sightsTop !=null">#{sightsTop},</if>
             <if test="sightsHot !=null and sightsHot !=''">#{sightsHot},</if>
             <if test="sightsEng !=null and sightsEng !=''">#{sightsEng},</if>
             <if test="sightsOpen !=null and sightsOpen !=''">#{sightsOpen},</if>
@@ -257,6 +271,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sightsCode !=null">sights_code = #{sightsCode},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="sightsTop !=null">sights_top = #{sightsTop},</if>
             <if test="sightsTelephone !=null and sightsTelephone !=''">sights_telephone = #{sightsTelephone},</if>
             <if test="sightsOpen !=null and sightsOpen !=''">sights_open = #{sightsOpen},</if>
             <if test="sightsEng !=null and sightsEng !=''">sights_eng = #{sightsEng},</if>

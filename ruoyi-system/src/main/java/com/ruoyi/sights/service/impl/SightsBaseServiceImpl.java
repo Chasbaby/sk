@@ -562,6 +562,24 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         return voiceDTO;
     }
 
+    @Override
+    public int selectTopNum() {
+        return sightsBaseMapper.selectTopNum();
+    }
+
+    /**
+     * 景点轮播
+     */
+    @Override
+    public List<SightsSwiperDTO> getSightsSwiper() {
+        List<SightsBase> bases = sightsBaseMapper.selectSightsSwiper();
+        return bases.stream().map(item->{
+            SightsSwiperDTO swiperDTO = new SightsSwiperDTO();
+            BeanUtils.copyBeanProp(swiperDTO,item);
+            return swiperDTO;
+        }).collect(Collectors.toList());
+    }
+
     /**
      * 点击排行榜 ( 定时多久刷新一次 )
      * @param num

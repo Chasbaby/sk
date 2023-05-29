@@ -148,6 +148,8 @@ public class SightsBase extends BaseEntity
     @IndexField(exist = false)
     private Date lastUpdated;
 
+    private String sightsTop;
+
 
     public synchronized void addView(){
         sightsView ++;

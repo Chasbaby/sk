@@ -8,6 +8,7 @@ import com.ruoyi.recommend.es.SearchStrategy;
 import com.ruoyi.recommend.es.domain.MultiSearchDTO;
 import com.ruoyi.recommend.es.domain.SearchAjaxDTO;
 import com.ruoyi.search.SightsSearchDTO;
+import com.ruoyi.sights.domain.DTO.SightsSearchPersonDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -70,6 +71,18 @@ public class SightsStrategyContext {
         List<ArticleSearchPersonDTO> dtos = searchStrategyMap
                 .get(getStrategy(searchMode))
                 .showArticleSearch(keywords);
+        return dtos;
+    }
+
+    /**
+     * 景点单独搜索
+     * @param keywords
+     * @return
+     */
+    public List<SightsSearchPersonDTO> executeSearchSights(String keywords){
+        List<SightsSearchPersonDTO> dtos = searchStrategyMap
+                .get(getStrategy(searchMode))
+                .showSightsSearch(keywords);
         return dtos;
     }
 

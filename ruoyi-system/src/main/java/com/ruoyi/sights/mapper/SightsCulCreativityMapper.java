@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.culCreativity.domain.SightsCulCreativity;
+import com.ruoyi.culCreativity.domain.dto.CulLazyDTO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.security.core.parameters.P;
@@ -102,7 +103,7 @@ public interface SightsCulCreativityMapper
      * @param userId
      * @return
      */
-    public List<SightsCulCreativity> selectLazyCul(Long userId);
+    public List<CulLazyDTO> selectLazyCul(Long userId);
 
     /**
      * 获取审核状态可视化 文创通过率

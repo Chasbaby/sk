@@ -6,7 +6,9 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.concerns.service.IConcernsService;
 import com.ruoyi.culCreativity.domain.CulRecord;
@@ -210,9 +212,9 @@ public class CulCreativityAnController extends BaseController {
     @GetMapping("/lazy")
     public TableDataInfo getConcernsLazyCul(){
         startPage();
-
+        Integer total = Convert.toInt(ServletUtils.getParameter("total"));
+        System.out.println(total);
         List<CulLazyDTO> concernsLazyCul = creativityService.getConcernsLazyCul(getUserId());
-
         return getDataTable(concernsLazyCul);
     }
 

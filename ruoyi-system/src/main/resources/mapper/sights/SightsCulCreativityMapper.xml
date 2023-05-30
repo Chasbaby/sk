@@ -32,6 +32,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
     </resultMap>
+
+    <resultMap id="CulLazyDTOResult" type="CulLazyDTO">
+        <result property="culCreativityId"    column="cul_creativity_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="culCreativityTitle"    column="cul_creativity_title"    />
+        <result property="culCreativityIntro"    column="cul_creativity_intro"    />
+        <result property="culCreativityLike"    column="cul_creativity_like"    />
+        <result property="culCreativityCollection"    column="cul_creativity_collection"    />
+        <result property="culCreativityHits"    column="cul_creativity_hits"    />
+        <result property="culCreativityView" column="cul_creativity_view"/>
+        <result property="culCreativityImage" column="cul_creativity_image"/>
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
     
     <resultMap id="CulRecordResult" type="CulRecord">
         <result property="culId" column="cul_creativity_id"/>
@@ -113,7 +126,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
-    <select id="selectLazyCul" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" parameterType="Long" resultMap="SightsCulCreativityResult">
+
+    <select id="selectLazyCul" resultType="com.ruoyi.culCreativity.domain.dto.CulLazyDTO" parameterType="Long" resultMap="CulLazyDTOResult">
         select a.cul_creativity_id,a.user_id,a.cul_creativity_title,
                a.cul_creativity_image,a.cul_creativity_intro,a.cul_creativity_like,
                a.cul_creativity_collection,a.cul_creativity_hits,a.create_time  from sights_cul_creativity a
@@ -121,8 +135,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 where b.main_user = #{userId} and a.status = '0'
                   and a.is_ok = 'Y' and a.del_flag = 'N'
 #                   and b.if_remind = 'Y' and b.cul_num >0
-                order by a.create_time DESC
+#                 order by a.create_time DESC
     </select>
+
+
+
+
 <!--    <select id="selectCulRate" resultType="java.lang.Double">-->
 <!--#         select ((select count(0) from sights_cul_creativity-->
 <!--#                 where create_time = now() and del_flag = 'N' and  is_ok ='Y') + 1)-->

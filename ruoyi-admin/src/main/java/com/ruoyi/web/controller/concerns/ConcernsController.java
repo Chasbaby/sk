@@ -47,9 +47,7 @@ public class ConcernsController extends BaseController {
         }else {
             return AjaxResult.success("成功关注,快去看看这位伙伴的新鲜事物吧");
         }
-
     }
-
     /**
      * 展示粉丝列表
      * @return 列表数据
@@ -58,6 +56,7 @@ public class ConcernsController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/showFans/{userId}")
     public TableDataInfo showFans(@PathVariable Long userId){
+        startPage();
         // 如果是自己
         if (userId == -1 || getUserId() == userId){
             List<UserFCDTO> userFCDTOS = concernsService.showFans(getUserId());
@@ -70,7 +69,6 @@ public class ConcernsController extends BaseController {
         params.put("ifSelf",false);
         return getDataTable(userFCDTOS,"欢迎您的加入",params);
     }
-
     /**
      * 展示关注列表
      * @return 列表数据
@@ -90,10 +88,4 @@ public class ConcernsController extends BaseController {
         params.put("ifSelf",false);
         return getDataTable(userFCDTOS,null,params);
     }
-
-
-
-
-
-
 }

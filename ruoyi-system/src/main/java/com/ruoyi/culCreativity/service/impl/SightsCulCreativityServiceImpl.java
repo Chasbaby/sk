@@ -1,24 +1,20 @@
 package com.ruoyi.culCreativity.service.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-
-import com.ruoyi.article.service.impl.ArticleServiceImpl;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.entity.DTO.UserDTO;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
-import com.ruoyi.culCreativity.domain.*;
+import com.ruoyi.culCreativity.ISightsCulCreativityService;
+import com.ruoyi.culCreativity.domain.CulRecord;
+import com.ruoyi.culCreativity.domain.SightsCulCreativity;
 import com.ruoyi.culCreativity.domain.dto.*;
 import com.ruoyi.culCreativity.mapper.CulRecordMapper;
-import com.ruoyi.sights.domain.*;
 import com.ruoyi.sights.domain.DTO.SightsCulDTO;
-import com.ruoyi.sights.mapper.*;
+import com.ruoyi.sights.domain.SightsBase;
+import com.ruoyi.sights.mapper.SightsBaseMapper;
+import com.ruoyi.sights.mapper.SightsCulCreativityMapper;
 import com.ruoyi.system.domain.SysAudio;
 import com.ruoyi.system.mapper.SysAudioMapper;
 import com.ruoyi.system.mapper.SysUserMapper;
@@ -26,8 +22,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.culCreativity.ISightsCulCreativityService;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.ruoyi.common.utils.baidu.TranslateUtils.getTranslateResult;
 
@@ -35,11 +36,10 @@ import static com.ruoyi.common.utils.baidu.TranslateUtils.getTranslateResult;
  * 文创Service业务层处理
  * 
  * @author ruoyi
- * @date 2022-11-10
+ * @date 2022-11-10  2023-5-30
  */
 @Service
-public class SightsCulCreativityServiceImpl implements ISightsCulCreativityService 
-{
+public class SightsCulCreativityServiceImpl implements ISightsCulCreativityService {
     private final static String pattern="<(\\S*?)[^>]*>.*?|<.*? />";
     private static final Logger log = LoggerFactory.getLogger(SightsCulCreativityServiceImpl.class);
     @Autowired
@@ -56,9 +56,6 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
 
     @Autowired
     private SysAudioMapper audioMapper;
-
-
-
 
     /**
      * 查询文创
@@ -380,20 +377,33 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      */
     @Override
     public List<CulLazyDTO> getConcernsLazyCul(Long userId) {
-        List<SightsCulCreativity> creativity = sightsCulCreativityMapper.selectLazyCul(userId);
-        List<CulLazyDTO> culLazyDTOS = new ArrayList<>();
-
-        creativity.stream().forEach(item->{
-            CulLazyDTO culLazyDTO = new CulLazyDTO();
+        List<CulLazyDTO> lazyDTOS = sightsCulCreativityMapper.selectLazyCul(userId);
+        if (lazyDTOS.isEmpty()) {
+            return new LinkedList<>();
+        }
+        Iterator<CulLazyDTO> iterator = lazyDTOS.iterator();
+        while (iterator.hasNext()){
+            CulLazyDTO next = iterator.next();
+            Long user = next.getUserId();
             UserDTO userDTO = new UserDTO();
-            BeanUtils.copyBeanProp(culLazyDTO,item);
-            Long user = item.getUserId();
             SysUser sysUser = userMapper.selectUserById(user);
             BeanUtils.copyBeanProp(userDTO,sysUser);
-            culLazyDTO.setUser(userDTO);
-            culLazyDTOS.add(culLazyDTO);
-        });;
-        return culLazyDTOS;
+            next.setUser(userDTO);
+        }
+        return lazyDTOS;
+//        List<CulLazyDTO> culLazyDTOS = new ArrayList<>();
+//
+//        creativity.stream().forEach(item->{
+//            CulLazyDTO culLazyDTO = new CulLazyDTO();
+//            UserDTO userDTO = new UserDTO();
+//            BeanUtils.copyBeanProp(culLazyDTO,item);
+//            Long user = item.getUserId();
+//            SysUser sysUser = userMapper.selectUserById(user);
+//            BeanUtils.copyBeanProp(userDTO,sysUser);
+//            culLazyDTO.setUser(userDTO);
+//            culLazyDTOS.add(culLazyDTO);
+//        });
+//        return culLazyDTOS;
     }
 
     /**

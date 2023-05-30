@@ -305,7 +305,7 @@ public class ArticleAnController extends BaseController {
         return AjaxResult.success(articleService.simpleHotArticle());
     }
 
-    @ApiOperation("分页获取文章 测试")
+    @ApiOperation("分页获取文章")
     @Anonymous
     @GetMapping("/articleShow")
     public TableDataInfo articleShow(){

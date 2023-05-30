@@ -321,7 +321,6 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
         return voiceDTO;
     }
 
-
     /**
      * 用户主页展示 完成
      */

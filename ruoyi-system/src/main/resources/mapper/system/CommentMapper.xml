@@ -26,6 +26,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
     </resultMap>
 
+    <resultMap id="CommentDTOResult" type="CommentDTO">
+        <result property="commentId"    column="comment_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="id" column="id"/>
+        <result property="commentContent"    column="comment_content"    />
+        <result property="commentView"    column="comment_view"    />
+        <result property="commentHits"    column="comment_hits"    />
+        <result property="commentLike"    column="comment_like"    />
+        <result property="commentSource"    column="comment_source"    />
+        <result property="commentIp"    column="comment_ip"    />
+        <result property="objectId" column="object_id"/>
+        <result property="visableStatus"    column="visable_status"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
     <sql id="selectCommentVo">
         select comment_id, id,parent_id, user_id, comment_content,
                comment_view, comment_hits, comment_like, comment_source,
@@ -61,12 +77,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select count(0) from comment where  comment_source = #{source} and id = #{id} and del_flag = 'N'
     </select>
 
-    <select id="selectAllParentComment" resultType="com.ruoyi.system.domain.Comment" resultMap="CommentResult">
+
+    <select id="selectAllParentComment" resultType="com.ruoyi.system.domain.domainVo.CommentDTO" resultMap="CommentDTOResult">
         <include refid="selectCommentVo"/>
         where comment_source = #{source} and id = #{id} and  parent_id = -1 and judge_status = '0' and del_flag = 'N'
         order by create_time desc
     </select>
-    <select id="selectAllChildrenCommentByParentId" resultType="com.ruoyi.system.domain.Comment" parameterType="Long" resultMap="CommentResult">
+
+
+    <select id="selectAllChildrenCommentByParentId" resultType="com.ruoyi.system.domain.domainVo.CommentDTO" parameterType="Long" resultMap="CommentDTOResult">
         <include refid="selectCommentVo"/>
         where parent_id = #{commentId} and judge_status = '0' and del_flag = 'N'
         order by create_time desc
@@ -96,7 +115,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 #         visable_status = 'N' and
         order by create_time desc
     </select>
-    <select id="getAllCommentsByWays" resultType="com.ruoyi.system.domain.Comment" resultMap="CommentResult">
+    <select id="getAllCommentsByWays" resultType="com.ruoyi.system.domain.domainVo.CommentDTO" resultMap="CommentDTOResult">
         <include refid="selectCommentVo"/>
         <where>
             <if test="way == 0"> and judge_status = '0'</if>

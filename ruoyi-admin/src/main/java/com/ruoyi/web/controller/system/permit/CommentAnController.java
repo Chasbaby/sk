@@ -58,8 +58,7 @@ public class CommentAnController extends BaseController {
     @PreAuthorize("@ss.hasRole('common')")
     @ApiOperation("新增评论")
     @PostMapping("/add")
-    public AjaxResult add(@RequestBody CommentVO commentVO)
-    {
+    public AjaxResult add(@RequestBody CommentVO commentVO) {
         if (commentVO.getCommentContent().trim().isEmpty()){
             return AjaxResult.error("评论不能为空");
         }
@@ -146,9 +145,8 @@ public class CommentAnController extends BaseController {
      */
     @Anonymous
     @ApiOperation("获取某个页面的所有父级评论")
-    @PostMapping("/getComment")
+    @GetMapping("/getComment")
     public TableDataInfo getFatherComment(CommentGetDTO commentGetDTO){
-
         if (commentGetDTO.getCommentSource().trim().isEmpty() || commentGetDTO.getId() == null){
             return errorMsg("地址定位失败，请联系管理员");
         }
@@ -184,8 +182,8 @@ public class CommentAnController extends BaseController {
      */
     @Anonymous
     @ApiOperation("获取某个父级下的所有评论")
-    @GetMapping("/getChildComment/{commentId}")
-    public TableDataInfo getChildComment(@PathVariable Long commentId){
+    @GetMapping("/getChildComment")
+    public TableDataInfo getChildComment(Long commentId){
         if (commentId == null){
             return errorMsg("请选择评论");
         }

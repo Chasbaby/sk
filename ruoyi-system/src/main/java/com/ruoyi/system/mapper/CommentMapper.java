@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.Comment;
+import com.ruoyi.system.domain.domainVo.CommentDTO;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -92,12 +93,12 @@ public interface CommentMapper
     /**
      * 获取某景点的所有父级评论
      */
-    public List<Comment> selectAllParentComment(@Param(value = "source") String source,@Param(value = "id") Long id);
+    public List<CommentDTO> selectAllParentComment(@Param(value = "source") String source, @Param(value = "id") Long id);
 
     /**
      * 根据父级评论查找 所有子集
      */
-    public List<Comment> selectAllChildrenCommentByParentId(Long commentId);
+    public List<CommentDTO> selectAllChildrenCommentByParentId(Long commentId);
 
     /**
      * 获取用户还没看的评论条数
@@ -139,7 +140,7 @@ public interface CommentMapper
      * @param way
      * @return
      */
-    public List<Comment> getAllCommentsByWays(@Param(value = "userId") Long userId ,@Param(value = "way") Integer way);
+    public List<CommentDTO> getAllCommentsByWays(@Param(value = "userId") Long userId ,@Param(value = "way") Integer way);
 
     /**
      * 修改已读状态

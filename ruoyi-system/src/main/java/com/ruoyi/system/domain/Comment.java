@@ -30,7 +30,7 @@ public class Comment extends BaseEntity
     /** 评论内容 */
     private String commentContent;
 
-    /**与scource 指名确定的comment*/
+    /**与 scource 指名确定的comment*/
     private Long id;
 
     /** 评论的浏览量 */

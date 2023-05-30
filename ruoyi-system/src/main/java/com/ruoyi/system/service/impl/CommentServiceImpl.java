@@ -1,7 +1,7 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +21,6 @@ import com.ruoyi.system.domain.Comment;
 import com.ruoyi.system.service.ICommentService;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.ruoyi.common.utils.EmojiUtils.emojiConverterToAlias;
 
 
 /**
@@ -237,13 +236,22 @@ public class CommentServiceImpl implements ICommentService
      */
     @Override
     public List<CommentDTO> getPageAllFatherComment(CommentGetDTO commentGetDTO) {
-        List<Comment> comments = commentMapper.selectAllParentComment(commentGetDTO.getCommentSource(), commentGetDTO.getId());
-        return comments
-                .stream()
-                .map(item -> {
-            CommentDTO commentDTO = handleComment(item);
-            return commentDTO;
-        }).collect(Collectors.toList());
+        List<CommentDTO> commentDTOS =commentMapper.selectAllParentComment(commentGetDTO.getCommentSource(), commentGetDTO.getId());
+
+        handleCommentDTO(commentDTOS);
+        return commentDTOS;
+    }
+
+    private void handleCommentDTO(List<CommentDTO> commentDTOS) {
+        Iterator<CommentDTO> iterator = commentDTOS.iterator();
+        while(iterator.hasNext()){
+            CommentDTO next = iterator.next();
+            Long userId = next.getUserId();
+            SysUser sysUser = userMapper.selectUserById(userId);
+            UserCommentDTO user = new UserCommentDTO();
+            BeanUtils.copyBeanProp(user, sysUser);
+            next.setUser(user);
+        }
     }
 
 
@@ -268,25 +276,24 @@ public class CommentServiceImpl implements ICommentService
      */
     @Override
     public List<CommentDTO> getChildComment(Long commentId) {
-        // 一定不能先查这个呀
-//        Comment comment = commentMapper.selectCommentByCommentId(commentId);
-//        Long userId = comment.getUserId();
-//        SysUser sysUser = userMapper.selectUserById(userId);
-//        String nickName = sysUser.getNickName();
-
-        List<Comment> comments = commentMapper.selectAllChildrenCommentByParentId(commentId);
-
+        List<CommentDTO> comments = commentMapper.selectAllChildrenCommentByParentId(commentId);
         if (comments.size() == 0){
             return new ArrayList<>();
         }
-        return comments.stream().map(item->{
-            CommentDTO commentDTO = handleComment(item);
-            // 获取父级信息 暂时只展示父级的姓名
-            SysUser father = userMapper.selectUserById(item.getObjectId());
-            commentDTO.setFatherName(father.getNickName());
+        Iterator<CommentDTO> iterator = comments.iterator();
+        while (iterator.hasNext()){
+            CommentDTO next = iterator.next();
+            SysUser sysUser = userMapper.selectUserById(next.getUserId());
+            UserCommentDTO userCommentDTO = new UserCommentDTO();
+            BeanUtils.copyBeanProp(userCommentDTO,sysUser);
 
-            return commentDTO;
-        }).collect(Collectors.toList());
+            next.setUser(userCommentDTO);
+
+            SysUser user = userMapper.selectUserById(next.getObjectId());
+
+            next.setFatherName(user.getNickName());
+        }
+        return comments;
     }
 
     @Override
@@ -350,11 +357,10 @@ public class CommentServiceImpl implements ICommentService
      */
     @Override
     public List<CommentDTO> getAllCommentsByWays(Long userId, Integer way) {
-        List<Comment> comments = commentMapper.getAllCommentsByWays(userId, way);
-        return comments
-                .stream()
-                .map(item-> handleComment(item))
-                .collect(Collectors.toList());
+
+        List<CommentDTO> comments = commentMapper.getAllCommentsByWays(userId, way);
+        handleCommentDTO(comments);
+        return comments;
     }
 
     @Override

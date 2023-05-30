@@ -73,5 +73,4 @@ public class SearchController extends BaseController {
     public AjaxResult searchSights(@PathVariable(required = false) String keywords){
         return AjaxResult.success(strategyContext.executeSearchSights(keywords));
     }
-
 }

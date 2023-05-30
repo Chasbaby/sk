@@ -123,7 +123,7 @@ public interface ISightsCulCreativityService
      * @param userId
      * @return
      */
-   public List<CulLazyDTO> getConcernsLazyCul(Long userId);
+   public List<CulLazyDTO> getConcernsLazyCul(Long userId,Integer pageSize,Integer pageNum);
 
     /**
      * 文创当天通过率
@@ -178,5 +178,7 @@ public interface ISightsCulCreativityService
     public  List<CulHomeDTO> getUserAllArticleByWays(Long user,Integer way);
 
     public CulVoiceDTO transReturnCul(Long id ,Integer position,Long audioId);
+
+    public List<CulRandomLazyDTO> getFallLazyDTO(Integer pageSize,Integer pageNum);
 
 }

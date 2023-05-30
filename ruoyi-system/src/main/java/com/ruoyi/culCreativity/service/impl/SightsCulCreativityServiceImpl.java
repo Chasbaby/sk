@@ -318,6 +318,11 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
         return voiceDTO;
     }
 
+    @Override
+    public List<CulRandomLazyDTO> getFallLazyDTO(Integer pageSize, Integer pageNum) {
+        return sightsCulCreativityMapper.selectFallLazy((pageNum - 1) * pageSize, pageSize);
+    }
+
     /**
      * 用户主页展示 完成
      */
@@ -376,8 +381,8 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      * @return
      */
     @Override
-    public List<CulLazyDTO> getConcernsLazyCul(Long userId) {
-        List<CulLazyDTO> lazyDTOS = sightsCulCreativityMapper.selectLazyCul(userId);
+    public List<CulLazyDTO> getConcernsLazyCul(Long userId,Integer pageSize,Integer pageNum) {
+        List<CulLazyDTO> lazyDTOS = sightsCulCreativityMapper.selectLazyCul(userId,(pageNum-1) * pageSize , pageSize);
         if (lazyDTOS.isEmpty()) {
             return new LinkedList<>();
         }
@@ -391,19 +396,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
             next.setUser(userDTO);
         }
         return lazyDTOS;
-//        List<CulLazyDTO> culLazyDTOS = new ArrayList<>();
-//
-//        creativity.stream().forEach(item->{
-//            CulLazyDTO culLazyDTO = new CulLazyDTO();
-//            UserDTO userDTO = new UserDTO();
-//            BeanUtils.copyBeanProp(culLazyDTO,item);
-//            Long user = item.getUserId();
-//            SysUser sysUser = userMapper.selectUserById(user);
-//            BeanUtils.copyBeanProp(userDTO,sysUser);
-//            culLazyDTO.setUser(userDTO);
-//            culLazyDTOS.add(culLazyDTO);
-//        });
-//        return culLazyDTOS;
+
     }
 
     /**

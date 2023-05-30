@@ -209,13 +209,10 @@ public class CulCreativityAnController extends BaseController {
 
     @ApiOperation("懒加载")
     @PreAuthorize("@ss.hasRole('common')")
-    @GetMapping("/lazy")
-    public TableDataInfo getConcernsLazyCul(){
-        startPage();
-        Integer total = Convert.toInt(ServletUtils.getParameter("total"));
-        System.out.println(total);
-        List<CulLazyDTO> concernsLazyCul = creativityService.getConcernsLazyCul(getUserId());
-        return getDataTable(concernsLazyCul);
+    @GetMapping("/lazy/{pageNum}/{pageSize}")
+    public AjaxResult getConcernsLazyCul(@PathVariable Integer pageNum,@PathVariable Integer pageSize){
+        List<CulLazyDTO> concernsLazyCul = creativityService.getConcernsLazyCul(getUserId(),pageSize,pageNum);
+        return AjaxResult.success(concernsLazyCul);
     }
 
     @ApiOperation("获取历史点赞记录")
@@ -240,6 +237,7 @@ public class CulCreativityAnController extends BaseController {
     @GetMapping("/getDraft")
     @PreAuthorize("@ss.hasRole('common')")
     public TableDataInfo getDraft(){
+        startPage();
         List<CulHomeDTO> draft = creativityService.getDraft(getUserId());
         return getDataTable(draft);
     }
@@ -264,6 +262,13 @@ public class CulCreativityAnController extends BaseController {
         return AjaxResult.success("成功删除"+i+"个文创");
     }
 
+    @Anonymous
+    @ApiOperation("文创展示")
+    @GetMapping("/lazy/fall/{pageNum}/{pageSize}")
+    public AjaxResult lazyCul(@PathVariable("pageNum") Integer pageNum,@PathVariable("pageSize") Integer pageSize){
+        return AjaxResult.success(creativityService.getFallLazyDTO(pageSize,pageNum));
+    }
+
     private CulRecord createRecord(Long culCreativityId) {
         CulRecord record = new CulRecord();
         record.setUserId(getUserId());
@@ -271,5 +276,6 @@ public class CulCreativityAnController extends BaseController {
         record.setCreateTime(DateUtils.getNowDate());
         return record;
     }
+
 
 }

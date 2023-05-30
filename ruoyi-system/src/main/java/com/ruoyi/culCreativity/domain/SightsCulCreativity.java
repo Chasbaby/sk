@@ -16,8 +16,7 @@ import java.util.Date;
  * @author ruoyi
  * @date 2022-11-10
  */
-public class SightsCulCreativity extends BaseEntity
-{
+public class SightsCulCreativity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /** 文创ID */

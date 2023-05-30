@@ -5,6 +5,7 @@ import java.util.List;
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.culCreativity.domain.SightsCulCreativity;
 import com.ruoyi.culCreativity.domain.dto.CulLazyDTO;
+import com.ruoyi.culCreativity.domain.dto.CulRandomLazyDTO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.security.core.parameters.P;
@@ -103,7 +104,7 @@ public interface SightsCulCreativityMapper
      * @param userId
      * @return
      */
-    public List<CulLazyDTO> selectLazyCul(Long userId);
+    public List<CulLazyDTO> selectLazyCul(@Param("userId") Long userId,@Param("begin") Integer begin,@Param("pageSize") Integer pageSize);
 
     /**
      * 获取审核状态可视化 文创通过率
@@ -146,6 +147,8 @@ public interface SightsCulCreativityMapper
 
     /** 获取用户所有文创*/
     public List<SightsCulCreativity> getAllCUlByWays(@Param("userId") Long userId,@Param("ways") Integer ways);
+
+    public List<CulRandomLazyDTO> selectFallLazy(@Param("begin") Integer begin,@Param("pageSize") Integer pageSize);
 
 
 }

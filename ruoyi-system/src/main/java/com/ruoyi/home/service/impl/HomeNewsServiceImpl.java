@@ -191,12 +191,7 @@ public class HomeNewsServiceImpl implements IHomeNewsService
     /** 获取新闻列表 **/
     @Override
     public List<newsListDTO> getListNews() {
-        List<HomeNews> list = homeNewsMapper.selectNewsList();
-        return list.stream().map(item->{
-            newsListDTO listDTO = new newsListDTO();
-            BeanUtils.copyBeanProp(listDTO,item);
-            return listDTO;
-        }).collect(Collectors.toList());
+        return homeNewsMapper.selectNewsList();
     }
 
     /*** 获取随机新闻*/

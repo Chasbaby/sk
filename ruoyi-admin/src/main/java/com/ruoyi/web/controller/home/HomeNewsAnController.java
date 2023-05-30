@@ -4,6 +4,7 @@ package com.ruoyi.web.controller.home;
 import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.home.service.IHomeNewsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,8 +38,9 @@ public class HomeNewsAnController extends BaseController {
     @Anonymous
     @ApiOperation("获取最近新闻(7天内)")
     @GetMapping("/getRecentlyNew")
-    public AjaxResult getRecentlyNew(){
-        return AjaxResult.success(homeNewsService.getListNews());
+    public TableDataInfo getRecentlyNew(){
+        startPage();
+        return getDataTable(homeNewsService.getListNews());
     }
 
     @Anonymous

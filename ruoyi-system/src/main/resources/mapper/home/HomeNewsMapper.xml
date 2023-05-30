@@ -23,6 +23,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="remark"    column="remark"    />
     </resultMap>
+    
+    <resultMap id="HomeNewsListResult" type="newsListDTO">
+        <result property="newsId"    column="news_id"    />
+        <result property="newsTitle"    column="news_title"    />
+        <result property="newsType"    column="news_type"    />
+        <result property="imageId"    column="image_id"    />
+        <result property="newsAuthor"    column="news_author"    />
+        <result property="newsIntroduction" column="news_introduction"/>
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
 
     <sql id="selectHomeNewsVo">
         select news_id, news_title, news_type, news_introduction,news_content, news_author, news_hits, news_key,
@@ -80,11 +90,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectHomeNewsVo"/>
         where news_id = #{newsId} and del_flag = "N"  and show_flag = "Y"
     </select>
-    <select id="selectNewsList" resultType="com.ruoyi.home.domain.HomeNews" resultMap="HomeNewsResult">
+    <select id="selectNewsList" resultType="com.ruoyi.home.domain.dto.newsListDTO" resultMap="HomeNewsListResult">
         <include refid="selectHomeNewsVo"/>
         where del_flag = "N"  and show_flag = "Y"
         order by create_time desc
-        limit 5
     </select>
 
     <select id="selectRandomNews" resultType="com.ruoyi.home.domain.HomeNews" resultMap="HomeNewsResult" >

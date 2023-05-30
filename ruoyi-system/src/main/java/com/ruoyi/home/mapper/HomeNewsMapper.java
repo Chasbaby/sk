@@ -3,6 +3,7 @@ package com.ruoyi.home.mapper;
 import java.util.List;
 
 import com.ruoyi.home.domain.HomeNews;
+import com.ruoyi.home.domain.dto.newsListDTO;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -94,7 +95,7 @@ public interface HomeNewsMapper {
     /** 获取新闻详细信息*/
     public HomeNews selectNewsDetail(Long newsId);
 
-    public List<HomeNews> selectNewsList();
+    public List<newsListDTO> selectNewsList();
 
     public List<HomeNews> selectRandomNews();
 

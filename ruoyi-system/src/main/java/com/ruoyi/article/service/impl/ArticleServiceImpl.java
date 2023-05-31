@@ -44,7 +44,7 @@ public class ArticleServiceImpl implements IArticleService
 {
     private static final Logger log = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
-    private final static String pattern="<(\\S*?)[^>]*>.*?|<.*? />";
+    private final static String pattern ="<(\\S*?)[^>]*>.*?|<.*? />";
 
     @Autowired
     private ArticleMapper articleMapper;
@@ -539,6 +539,7 @@ public class ArticleServiceImpl implements IArticleService
         Iterator<ArticleShowDTO> iterator = articlesShow.iterator();
         while (iterator.hasNext()){
             ArticleShowDTO next = iterator.next();
+            next.setArticleContent(next.getArticleContent().replaceAll(pattern,""));
             Long userId = next.getUserId();
             SysUser sysUser = userMapper.selectUserById(userId);
             next.setNickName(sysUser.getNickName());

@@ -8,4 +8,5 @@ import java.io.Serializable;
  * @date 2023-5-31
  */
 public class Panorama implements Serializable {
+
 }

@@ -3,6 +3,8 @@ package com.ruoyi.common.utils.baidu;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.utils.baidu.domain.IP.Geocoder;
 import com.ruoyi.common.utils.baidu.domain.IP.ParaGeo;
+import com.ruoyi.common.utils.baidu.domain.weather.DomesticWeather;
+import com.ruoyi.common.utils.baidu.domain.weather.Weather;
 import com.ruoyi.common.utils.http.HttpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 public class BaiduUtils {
     @Value("${baidu.map.ak}")
     private final static String AK="qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt";
-    private final static String url="https://api.map.baidu.com/geocoding/v3/";
+    private final static String Geocoder_url="https://api.map.baidu.com/geocoding/v3/";
+    private final static String Weather_url = "https://api.map.baidu.com/weather/v1/?";
     private final static Logger logger = LoggerFactory.getLogger("baiduService");
 
 
@@ -31,10 +34,16 @@ public class BaiduUtils {
      * @return Geocoder
      */
     public static Geocoder getGeocoder(ParaGeo paraGeo){
-        String s = HttpUtils.sendGet(url,paraGeo.ObjectToPara(),"utf-8");
+        String s = HttpUtils.sendGet(Geocoder_url,paraGeo.ObjectToPara(),"utf-8");
         Geocoder geocoder = JSONObject.parseObject(s, Geocoder.class);
         return geocoder;
     }
+
+    public static Weather getWeather(DomesticWeather weather){
+        return null;
+    }
+
+
 
 
     public static void main(String[] args) {
@@ -53,7 +62,10 @@ public class BaiduUtils {
 //
 //        String query = "小池池最棒哦";
 //        System.out.println(api.getTransResult(query, "auto", "en"));
-        String xxx="https://api.map.baidu.com/panorama/v2?width=512&height=256&location=116.313393,40.04778&fov=180&ak=qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt";
+
+
+
+        String xxx="https://api.map.baidu.com/weather_abroad/v1/?district_id=AFG10003003001&data_type=all&ak=qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt";
         String s = HttpUtils.sendGet(xxx);
         System.out.println(s);
     }

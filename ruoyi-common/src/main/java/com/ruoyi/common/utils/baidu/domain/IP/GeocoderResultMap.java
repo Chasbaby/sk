@@ -1,4 +1,4 @@
-package com.ruoyi.common.utils.baidu.domain;
+package com.ruoyi.common.utils.baidu.domain.IP;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -58,7 +58,7 @@ public class GeocoderResultMap implements Serializable {
     private String analysLevel;
 
 
-    public GeocoderResultMap(com.ruoyi.common.utils.baidu.domain.location location, int precise, int confidence, int comprehension, String level, String analysLevel) {
+    public GeocoderResultMap(com.ruoyi.common.utils.baidu.domain.IP.location location, int precise, int confidence, int comprehension, String level, String analysLevel) {
         this.location = location;
         this.precise = precise;
         this.confidence = confidence;
@@ -67,11 +67,11 @@ public class GeocoderResultMap implements Serializable {
         this.analysLevel = analysLevel;
     }
 
-    public com.ruoyi.common.utils.baidu.domain.location getLocation() {
+    public com.ruoyi.common.utils.baidu.domain.IP.location getLocation() {
         return location;
     }
 
-    public void setLocation(com.ruoyi.common.utils.baidu.domain.location location) {
+    public void setLocation(com.ruoyi.common.utils.baidu.domain.IP.location location) {
         this.location = location;
     }
 

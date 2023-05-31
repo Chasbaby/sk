@@ -1,4 +1,4 @@
-package com.ruoyi.common.utils.baidu.domain;
+package com.ruoyi.common.utils.baidu.domain.IP;
 
 import com.ruoyi.common.utils.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;

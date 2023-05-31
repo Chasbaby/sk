@@ -264,9 +264,10 @@ public class CulCreativityAnController extends BaseController {
 
     @Anonymous
     @ApiOperation("文创展示")
-    @GetMapping("/lazy/fall/{pageNum}/{pageSize}")
-    public AjaxResult lazyCul(@PathVariable("pageNum") Integer pageNum,@PathVariable("pageSize") Integer pageSize){
-        return AjaxResult.success(creativityService.getFallLazyDTO(pageSize,pageNum));
+    @GetMapping("/lazy/fall")
+    public TableDataInfo lazyCul(){
+        startPage();
+        return getDataTable(creativityService.getFallLazyDTO());
     }
 
     private CulRecord createRecord(Long culCreativityId) {
@@ -276,6 +277,4 @@ public class CulCreativityAnController extends BaseController {
         record.setCreateTime(DateUtils.getNowDate());
         return record;
     }
-
-
 }

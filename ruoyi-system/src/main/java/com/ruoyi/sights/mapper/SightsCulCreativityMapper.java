@@ -148,7 +148,7 @@ public interface SightsCulCreativityMapper
     /** 获取用户所有文创*/
     public List<SightsCulCreativity> getAllCUlByWays(@Param("userId") Long userId,@Param("ways") Integer ways);
 
-    public List<CulRandomLazyDTO> selectFallLazy(@Param("begin") Integer begin,@Param("pageSize") Integer pageSize);
+    public List<CulRandomLazyDTO> selectFallLazy();
 
 
 }

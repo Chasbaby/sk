@@ -4,18 +4,12 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ruoyi.common.utils.JsonUtils;
-import com.ruoyi.common.utils.baidu.domain.Geocoder;
-import com.ruoyi.common.utils.baidu.domain.GeocoderResultMap;
-import com.ruoyi.common.utils.baidu.domain.ParaGeo;
-import com.ruoyi.recommend.sightsRecommend.ItemCFRecommend;
-import com.ruoyi.recommend.sightsRecommend.OfflineRecommend;
-import com.ruoyi.recommend.sightsRecommend.OnLineRecommend;
+import com.ruoyi.common.utils.baidu.domain.IP.Geocoder;
+import com.ruoyi.common.utils.baidu.domain.IP.GeocoderResultMap;
+import com.ruoyi.common.utils.baidu.domain.IP.ParaGeo;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,8 +28,6 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 import static com.ruoyi.common.utils.baidu.BaiduUtils.getGeocoder;
-import static com.ruoyi.recommend.sightsRecommend.DataLoad.test444;
-import static com.ruoyi.recommend.sightsRecommend.StatisticRecommend.StatisticService;
 
 /**
  * 景点基本信息Controller

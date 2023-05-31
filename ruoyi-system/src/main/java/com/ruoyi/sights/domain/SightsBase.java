@@ -1,9 +1,6 @@
 package com.ruoyi.sights.domain;
 
-import cn.easyes.annotation.HighLight;
-import cn.easyes.annotation.IndexField;
-import cn.easyes.annotation.IndexId;
-import cn.easyes.annotation.IndexName;
+import cn.easyes.annotation.*;
 import cn.easyes.annotation.rely.Analyzer;
 import cn.easyes.annotation.rely.FieldStrategy;
 import cn.easyes.annotation.rely.FieldType;
@@ -13,6 +10,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.sights.service.ISightsHotService;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -23,12 +21,21 @@ import static com.ruoyi.common.constant.ESConstant.PRE_TAG;
 
 
 /**
+ * ES:
+ * @IndexName 索引名注解    value：指定索引名；shardsNum：分片数；replicasNum：副本数
+ * @IndexId ES主键注解    type：指定注解类型，CUSTOMIZE表示自定义
+ * @IndexField ES字段注解    fieldType：字段在索引中的类型；analyzer：索引文档时用的分词器；nestedClass：嵌套类
+ * @Score 得分注解    decimalPlaces：得分保留小数位，实体类中被作为ES查询得分返回的字段使用
+ */
+
+/**
  * 景点基本信息对象 sights_base
  * 
  * @author ruoyi chas
- * @date 2022-10-25
+ * @date 2022-10-25 2023-5-31
  */
 @Data
+@EqualsAndHashCode
 @IndexName(value = "sights",shardsNum = 3,replicasNum = 2)
 public class SightsBase extends BaseEntity
 {
@@ -149,6 +156,10 @@ public class SightsBase extends BaseEntity
     private Date lastUpdated;
 
     private String sightsTop;
+
+    /** decimalPlaces：得分保留小数位，实体类中被作为ES查询得分返回的字段使用 **/
+    @Score
+    private Float score;
 
 
     public synchronized void addView(){

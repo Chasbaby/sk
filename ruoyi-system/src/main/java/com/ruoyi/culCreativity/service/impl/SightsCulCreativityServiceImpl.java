@@ -319,8 +319,9 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     }
 
     @Override
-    public List<CulRandomLazyDTO> getFallLazyDTO(Integer pageSize, Integer pageNum) {
-        return sightsCulCreativityMapper.selectFallLazy((pageNum - 1) * pageSize, pageSize);
+    public List<CulRandomLazyDTO> getFallLazyDTO() {
+
+        return sightsCulCreativityMapper.selectFallLazy();
     }
 
     /**

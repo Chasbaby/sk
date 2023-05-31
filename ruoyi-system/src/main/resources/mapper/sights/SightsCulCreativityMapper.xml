@@ -207,7 +207,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select cul_creativity_id,user_id,cul_creativity_title,cul_creativity_image,sights_id from sights_cul_creativity
         where del_flag = 'N' and is_ok ='Y' and status ='0'
         order by create_time desc
-        limit #{begin},#{pageSize}
     </select>
 
 

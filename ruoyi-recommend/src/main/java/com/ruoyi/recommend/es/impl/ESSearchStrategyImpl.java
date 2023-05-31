@@ -2,24 +2,20 @@ package com.ruoyi.recommend.es.impl;
 
 import cn.easyes.core.conditions.LambdaEsQueryWrapper;
 import com.ruoyi.article.domain.dto.ArticleSearchPersonDTO;
-import com.ruoyi.article.domain.dto.ArticleTopDTO;
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.mapperEs.ee.ArticleESMapper;
-import com.ruoyi.mapperEs.ee.CulESMapper;
+import com.ruoyi.mapperEs.ee.SightsESMapper;
 import com.ruoyi.recommend.es.SearchStrategy;
 import com.ruoyi.recommend.es.domain.MultiSearchDTO;
 import com.ruoyi.recommend.es.domain.SearchAjaxDTO;
+import com.ruoyi.search.SightsSearchDTO;
 import com.ruoyi.sights.domain.DTO.SightsSearchPersonDTO;
 import com.ruoyi.sights.domain.SightsBase;
-import com.ruoyi.search.SightsSearchDTO;
-import com.ruoyi.mapperEs.ee.SightsESMapper;
 import com.ruoyi.sights.mapper.SightsBaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,6 +95,23 @@ public class ESSearchStrategyImpl implements SearchStrategy {
 
     @Override
     public List<SightsSearchPersonDTO> showSightsSearch(String keywords) {
+        if(keywords.isEmpty()){
+            return new LinkedList<>();
+        }
+        LambdaEsQueryWrapper<SightsBase> wrapper = new LambdaEsQueryWrapper<>();
+        LambdaEsQueryWrapper<SightsBase> queryWrapper = wrapper.and(i -> i
+                .like(SightsBase::getSightsDetail, keywords)
+                .or()
+                .like(SightsBase::getSightsIntro, keywords)
+                .or()
+                .like(SightsBase::getSightsName, keywords)
+                .or()
+                .like(SightsBase::getSightsLocation, keywords));
+        List<SightsBase> bases = sightsESMapper.selectList(queryWrapper);
+        //sightsESMapper
+        bases.forEach(item->{
+            System.out.println(item.getSightsId());
+        });
         return null;
     }
 

@@ -179,6 +179,6 @@ public interface ISightsCulCreativityService
 
     public CulVoiceDTO transReturnCul(Long id ,Integer position,Long audioId);
 
-    public List<CulRandomLazyDTO> getFallLazyDTO(Integer pageSize,Integer pageNum);
+    public List<CulRandomLazyDTO> getFallLazyDTO();
 
 }

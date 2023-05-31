@@ -182,6 +182,7 @@ hadoop:
 easy-es:
   enable: true
   address: 127.0.0.1:9200
+  banner: false
 
 
 

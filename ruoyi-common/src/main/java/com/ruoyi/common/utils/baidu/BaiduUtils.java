@@ -1,21 +1,12 @@
 package com.ruoyi.common.utils.baidu;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.ruoyi.common.enums.baidu.GeocoderType;
-import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.common.utils.baidu.domain.Geocoder;
-import com.ruoyi.common.utils.baidu.domain.ParaGeo;
-import com.ruoyi.common.utils.baidu.translate.TransApi;
+import com.ruoyi.common.utils.baidu.domain.IP.Geocoder;
+import com.ruoyi.common.utils.baidu.domain.IP.ParaGeo;
 import com.ruoyi.common.utils.http.HttpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import javax.swing.text.html.Option;
-import java.lang.reflect.Method;
-import java.util.Arrays;
 
 /**
  * @author Chas
@@ -62,7 +53,7 @@ public class BaiduUtils {
 //
 //        String query = "小池池最棒哦";
 //        System.out.println(api.getTransResult(query, "auto", "en"));
-        String xxx ="https://api.map.baidu.com/weather/v1/?location=117.645088,28.869585&data_type=all&ak=qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt";
+        String xxx="https://api.map.baidu.com/panorama/v2?width=512&height=256&location=116.313393,40.04778&fov=180&ak=qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt";
         String s = HttpUtils.sendGet(xxx);
         System.out.println(s);
     }

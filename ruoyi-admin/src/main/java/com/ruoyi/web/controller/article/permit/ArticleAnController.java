@@ -189,6 +189,17 @@ public class ArticleAnController extends BaseController {
         BeanUtils.copyBeanProp(articleHandle,article);
         //articleHandle.setArticleContent(filter(article.getArticleContent()));
         articleHandle.setIsOk("U");
+
+        String s ="旅行|";
+        if (article.getArticleTags().length>0){
+            String[] tags = article.getArticleTags();
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < tags.length; i++) {
+                builder.append(tags[i]).append("|");
+            }
+            s= builder.toString();
+        }
+        articleHandle.setArticleTags(s);
         articleService.updateArticle(articleHandle);
         // 消息推送
         concernsService.setRemind(getUserId());

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tags.mapper.TagsChoiceMapper">
+    
+    <resultMap type="TagsChoice" id="TagsChoiceResult">
+        <result property="tagsId"    column="tags_id"    />
+        <result property="tagsContent"    column="tags_content"    />
+        <result property="tagsType"    column="tags_type"    />
+        <result property="ifDel"    column="if_del"    />
+        <result property="ifBan"    column="if_ban"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectTagsChoiceVo">
+        select tags_id, tags_content, tags_type, if_del, if_ban, create_time, create_by, update_time, update_by, remark from tags_choice
+    </sql>
+
+    <select id="selectTagsChoiceList" parameterType="TagsChoice" resultMap="TagsChoiceResult">
+        <include refid="selectTagsChoiceVo"/>
+        <where>  
+            <if test="tagsContent != null  and tagsContent != ''"> and tags_content like concat('%', #{tagsContent}, '%')</if>
+            <if test="tagsType != null  and tagsType != ''"> and tags_type = #{tagsType}</if>
+            <if test="ifDel != null  and ifDel != ''"> and if_del = #{ifDel}</if>
+            <if test="ifBan != null  and ifBan != ''"> and if_ban = #{ifBan}</if>
+        </where>
+    </select>
+    
+    <select id="selectTagsChoiceByTagsId" parameterType="Long" resultMap="TagsChoiceResult">
+        <include refid="selectTagsChoiceVo"/>
+        where tags_id = #{tagsId}
+    </select>
+        
+    <insert id="insertTagsChoice" parameterType="TagsChoice" useGeneratedKeys="true" keyProperty="tagsId">
+        insert into tags_choice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tagsContent != null">tags_content,</if>
+            <if test="tagsType != null">tags_type,</if>
+            <if test="ifDel != null">if_del,</if>
+            <if test="ifBan != null">if_ban,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tagsContent != null">#{tagsContent},</if>
+            <if test="tagsType != null">#{tagsType},</if>
+            <if test="ifDel != null">#{ifDel},</if>
+            <if test="ifBan != null">#{ifBan},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTagsChoice" parameterType="TagsChoice">
+        update tags_choice
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tagsContent != null">tags_content = #{tagsContent},</if>
+            <if test="tagsType != null">tags_type = #{tagsType},</if>
+            <if test="ifDel != null">if_del = #{ifDel},</if>
+            <if test="ifBan != null">if_ban = #{ifBan},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where tags_id = #{tagsId}
+    </update>
+
+    <delete id="deleteTagsChoiceByTagsId" parameterType="Long">
+        delete from tags_choice where tags_id = #{tagsId}
+    </delete>
+
+    <delete id="deleteTagsChoiceByTagsIds" parameterType="String">
+        delete from tags_choice where tags_id in 
+        <foreach item="tagsId" collection="array" open="(" separator="," close=")">
+            #{tagsId}
+        </foreach>
+    </delete>
+</mapper>

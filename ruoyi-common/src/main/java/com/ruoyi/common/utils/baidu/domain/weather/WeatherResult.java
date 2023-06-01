@@ -11,18 +11,18 @@ import java.util.List;
  * @date 2023-5-31
  */
 public class WeatherResult implements Serializable {
-    private address ADDRESS;
+    private address LOCATION;
     private now NOW;
     private List<alert> ALERT;
     private List<indexes> INDEXES;
     private List<forecasts> FORECASTS;
 
     public address getADDRESS() {
-        return ADDRESS;
+        return LOCATION;
     }
 
-    public void setADDRESS(address ADDRESS) {
-        this.ADDRESS = ADDRESS;
+    public void setADDRESS(address LOCATION) {
+        this.LOCATION = LOCATION;
     }
 
     public now getNOW() {
@@ -60,7 +60,7 @@ public class WeatherResult implements Serializable {
     @Override
     public String toString() {
         return "WeatherResult{" +
-                "ADDRESS=" + ADDRESS +
+                "LOCATION=" + LOCATION +
                 ", NOW=" + NOW +
                 ", ALERT=" + ALERT +
                 ", INDEXES=" + INDEXES +

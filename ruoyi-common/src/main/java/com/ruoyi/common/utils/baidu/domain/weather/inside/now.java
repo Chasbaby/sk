@@ -28,22 +28,22 @@ import java.io.Serializable;
  */
 public class now implements Serializable {
     private Integer temp;
-    private  Integer feelsLike;
+    private Integer feelsLike;
     private Integer rh;
     private String windClass;
-    private  String windDir;
-    private    String text;
-    private  String prec_1h;
-    private  Integer clouds;
-    private  Integer vis;
-    private   Integer aqi;
+    private String windDir;
+    private String text;
+    private String prec_1h;
+    private Integer clouds;
+    private Integer vis;
+    private Integer aqi;
     private Integer pm25;
     private Integer pm10;
-    private  Integer no2;
-    private  Integer so2;
-    private   Integer o3;
-    private   Double co;
-    private  String uptime;
+    private Integer no2;
+    private Integer so2;
+    private Integer o3;
+    private Double co;
+    private String uptime;
 
 
 

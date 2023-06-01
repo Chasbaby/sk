@@ -1,5 +1,7 @@
 package com.ruoyi.article.domain.dto;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -7,6 +9,7 @@ import java.io.Serializable;
  * @author Chas
  * @data 2023-3
  */
+@Data
 public class ArticleCreateDTO  implements Serializable {
 
     /** 文章id */
@@ -36,76 +39,6 @@ public class ArticleCreateDTO  implements Serializable {
     /** 状态值 1公开 2私密 3评论可见 */
     private String status;
 
+    private String[] articleTags;
 
-    public Long getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Long articleId) {
-        this.articleId = articleId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getArticleCategory() {
-        return articleCategory;
-    }
-
-    public void setArticleCategory(String articleCategory) {
-        this.articleCategory = articleCategory;
-    }
-
-    public String getArticleCover() {
-        return articleCover;
-    }
-
-    public void setArticleCover(String articleCover) {
-        this.articleCover = articleCover;
-    }
-
-    public String getArticleTitle() {
-        return articleTitle;
-    }
-
-    public void setArticleTitle(String articleTitle) {
-        this.articleTitle = articleTitle;
-    }
-
-    public String getArticleContent() {
-        return articleContent;
-    }
-
-    public void setArticleContent(String articleContent) {
-        this.articleContent = articleContent;
-    }
-
-    public String getArticleType() {
-        return articleType;
-    }
-
-    public void setArticleType(String articleType) {
-        this.articleType = articleType;
-    }
-
-    public String getOriginalUrl() {
-        return originalUrl;
-    }
-
-    public void setOriginalUrl(String originalUrl) {
-        this.originalUrl = originalUrl;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

@@ -139,7 +139,17 @@ public class ArticleAnController extends BaseController {
     public AjaxResult createArticle(@RequestBody ArticleCreateDTO article){
         // 复制对象
         Article articleHandle = new Article();
+        String s= new String();
+        if( article.getArticleTags().length > 0  ){
+            String[] tags = article.getArticleTags();
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < tags.length; i++) {
+                builder.append(tags[i]).append("|");
+            }
+            s = builder.toString();
+        }
         BeanUtils.copyBeanProp(articleHandle,article);
+        articleHandle.setArticleTags(s);
         // 过滤
         //articleHandle.setArticleContent(filter(article.getArticleContent()));
 

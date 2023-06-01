@@ -16,6 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="articleLike"    column="article_like"    />
         <result property="articleView"    column="article_view"    />
         <result property="articleCollect"    column="article_collect"    />
+        <result property="articleTags" column="article_tags"/>
         <result property="isTop"    column="is_top"    />
         <result property="isDelete"    column="is_delete"    />
         <result property="isOk"    column="is_ok"    />
@@ -45,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectArticleVo">
-        select article_id, user_id, article_category, article_cover, article_title, article_content,
+        select article_id, user_id, article_category, article_cover, article_title, article_content,article_tags,
                article_type, original_url, article_like, article_view, article_collect, is_top, is_delete,
                is_ok, status, create_time, update_time, create_by, update_by, judge_by, judge_time from article
     </sql>
@@ -62,6 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null  and status != ''"> and status = #{status}</if>
             <if test="judgeBy != null  and judgeBy != ''"> and judge_by = #{judgeBy}</if>
             <if test="judgeTime != null "> and judge_time = #{judgeTime}</if>
+            <if test="articleTags !=null and articleTags!=''">and article_tags = #{articleTags}</if>
         </where>
     </select>
     
@@ -194,6 +196,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="judgeBy != null">judge_by,</if>
             <if test="judgeTime != null">judge_time,</if>
+            <if test="articleTags !=null and articleTags !=''">article_tags,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">#{userId},</if>
@@ -216,6 +219,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="judgeBy != null">#{judgeBy},</if>
             <if test="judgeTime != null">#{judgeTime},</if>
+            <if test="articleTags !=null and articleTags !=''">#{articleTags},</if>
          </trim>
     </insert>
 
@@ -242,6 +246,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="judgeBy != null">judge_by = #{judgeBy},</if>
             <if test="judgeTime != null">judge_time = #{judgeTime},</if>
+            <if test="articleTags !=null and articleTags !=''">article_tags = #{articleTags},</if>
         </trim>
         where article_id = #{articleId}
     </update>

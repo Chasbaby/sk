@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @introduction  地理位置信息
  * @date 2023-5-31
  */
-public class address implements Serializable {
+public class address implements Serializable{
     /** 国家*/
     private String country;
     /** 省份*/

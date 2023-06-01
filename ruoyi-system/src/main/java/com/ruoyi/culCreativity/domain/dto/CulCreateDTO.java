@@ -21,7 +21,7 @@ public class CulCreateDTO implements Serializable {
     //@NotBlank(message = "内容不能为空",groups = {AddGroup.class, EditGroup.class})
     private String culCreativityContent;
 
-    //private String culCreativityTags;
+    private String[] culCreativityTags;
 
     private String culCreativityImage;
 

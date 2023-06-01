@@ -107,6 +107,9 @@ public class Article extends BaseEntity
     @Excel(name = "状态值",dictType = "article_state",type = Excel.Type.ALL)
     private String status;
 
+    @Excel(name = "tags")
+    private String articleTags;
+
     @IndexField(exist = false)
     /** 审核者 */
     @Excel(name = "审核者",cellType = Excel.ColumnType.STRING,type = Excel.Type.EXPORT)

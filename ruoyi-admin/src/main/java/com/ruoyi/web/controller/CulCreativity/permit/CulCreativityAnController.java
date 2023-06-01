@@ -154,7 +154,17 @@ public class CulCreativityAnController extends BaseController {
     public AjaxResult create(@RequestBody CulCreateDTO createDTO){
 
         SightsCulCreativity culCreativity = new SightsCulCreativity();
+        String s = new String();
+        if (createDTO.getCulCreativityTags().length > 0 ){
+            String[] tags = createDTO.getCulCreativityTags();
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < tags.length; i++) {
+                builder.append(tags[i]).append("、");
+            }
+             s = builder.toString();
+        }
         BeanUtils.copyBeanProp(culCreativity,createDTO);
+        culCreativity.setCulCreativityTags(s);
         //culCreativity.setCulCreativityContent(filter(createDTO.getCulCreativityContent()));
         culCreativity.setUserId(getUserId());
         creativityService.insertSightsCulCreativity(culCreativity);

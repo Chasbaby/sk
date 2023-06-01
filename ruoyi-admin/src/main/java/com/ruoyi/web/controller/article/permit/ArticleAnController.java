@@ -139,7 +139,7 @@ public class ArticleAnController extends BaseController {
     public AjaxResult createArticle(@RequestBody ArticleCreateDTO article){
         // 复制对象
         Article articleHandle = new Article();
-        String s= new String();
+        String s= "旅行|";
         if( article.getArticleTags().length > 0  ){
             String[] tags = article.getArticleTags();
             StringBuilder builder = new StringBuilder();

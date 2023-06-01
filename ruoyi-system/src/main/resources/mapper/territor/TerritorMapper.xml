@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.territorInfo.mapper.TerritorMapper">
+    
+    <resultMap type="Territor" id="TerritorResult">
+        <result property="territorId"      column="territor_id"    />
+        <result property="areacode"        column="areacode"    />
+        <result property="districtcode"    column="districtcode"    />
+        <result property="cityGeocode"    column="city_geocode"    />
+        <result property="city"           column="city"    />
+        <result property="districtGeocode"    column="district_geocode"    />
+        <result property="district"           column="district"    />
+        <result property="lon"      column="lon"    />
+        <result property="lat"      column="lat"    />
+        <result property="staFc"    column="sta_fc"    />
+        <result property="staRt"    column="sta_rt"    />
+        <result property="province" column="province"/>
+        <result property="fcLon"    column="fc_lon"    />
+        <result property="fcLat"    column="fc_lat"    />
+        <result property="rtLon"    column="rt_lon"    />
+        <result property="rtLat"    column="rt_lat"    />
+        <result property="originAreacode"    column="origin_areacode"    />
+        <result property="exclude"    column="exclude"    />
+        <result property="remark"     column="remark"    />
+    </resultMap>
+
+    <sql id="selectTerritorVo">
+        select territor_id, areacode, districtcode, city_geocode, city, district_geocode, district, lon, lat, sta_fc, sta_rt, province, fc_lon, fc_lat, rt_lon, rt_lat, origin_areacode, exclude, remark from territor
+    </sql>
+
+    <select id="selectTerritorList" parameterType="Territor" resultMap="TerritorResult">
+        <include refid="selectTerritorVo"/>
+        <where>  
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="district != null  and district != ''"> and district = #{district}</if>
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="exclude != null "> and exclude = #{exclude}</if>
+        </where>
+    </select>
+    
+    <select id="selectTerritorByTerritorId" parameterType="Integer" resultMap="TerritorResult">
+        <include refid="selectTerritorVo"/>
+        where territor_id = #{territorId}
+    </select>
+        
+    <insert id="insertTerritor" parameterType="Territor" useGeneratedKeys="true" keyProperty="territorId">
+        insert into territor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="areacode != null">areacode,</if>
+            <if test="districtcode != null">districtcode,</if>
+            <if test="cityGeocode != null">city_geocode,</if>
+            <if test="city != null">city,</if>
+            <if test="districtGeocode != null">district_geocode,</if>
+            <if test="district != null">district,</if>
+            <if test="lon != null">lon,</if>
+            <if test="lat != null">lat,</if>
+            <if test="staFc != null">sta_fc,</if>
+            <if test="staRt != null">sta_rt,</if>
+            <if test="province != null">province,</if>
+            <if test="fcLon != null">fc_lon,</if>
+            <if test="fcLat != null">fc_lat,</if>
+            <if test="rtLon != null">rt_lon,</if>
+            <if test="rtLat != null">rt_lat,</if>
+            <if test="originAreacode != null">origin_areacode,</if>
+            <if test="exclude != null">exclude,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="areacode != null">#{areacode},</if>
+            <if test="districtcode != null">#{districtcode},</if>
+            <if test="cityGeocode != null">#{cityGeocode},</if>
+            <if test="city != null">#{city},</if>
+            <if test="districtGeocode != null">#{districtGeocode},</if>
+            <if test="district != null">#{district},</if>
+            <if test="lon != null">#{lon},</if>
+            <if test="lat != null">#{lat},</if>
+            <if test="staFc != null">#{staFc},</if>
+            <if test="staRt != null">#{staRt},</if>
+            <if test="province != null">#{province},</if>
+            <if test="fcLon != null">#{fcLon},</if>
+            <if test="fcLat != null">#{fcLat},</if>
+            <if test="rtLon != null">#{rtLon},</if>
+            <if test="rtLat != null">#{rtLat},</if>
+            <if test="originAreacode != null">#{originAreacode},</if>
+            <if test="exclude != null">#{exclude},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTerritor" parameterType="Territor">
+        update territor
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areacode != null">areacode = #{areacode},</if>
+            <if test="districtcode != null">districtcode = #{districtcode},</if>
+            <if test="cityGeocode != null">city_geocode = #{cityGeocode},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="districtGeocode != null">district_geocode = #{districtGeocode},</if>
+            <if test="district != null">district = #{district},</if>
+            <if test="lon != null">lon = #{lon},</if>
+            <if test="lat != null">lat = #{lat},</if>
+            <if test="staFc != null">sta_fc = #{staFc},</if>
+            <if test="staRt != null">sta_rt = #{staRt},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="fcLon != null">fc_lon = #{fcLon},</if>
+            <if test="fcLat != null">fc_lat = #{fcLat},</if>
+            <if test="rtLon != null">rt_lon = #{rtLon},</if>
+            <if test="rtLat != null">rt_lat = #{rtLat},</if>
+            <if test="originAreacode != null">origin_areacode = #{originAreacode},</if>
+            <if test="exclude != null">exclude = #{exclude},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where territor_id = #{territorId}
+    </update>
+
+    <delete id="deleteTerritorByTerritorId" parameterType="Integer">
+        delete from territor where territor_id = #{territorId}
+    </delete>
+
+    <delete id="deleteTerritorByTerritorIds" parameterType="String">
+        delete from territor where territor_id in 
+        <foreach item="territorId" collection="array" open="(" separator="," close=")">
+            #{territorId}
+        </foreach>
+    </delete>
+</mapper>

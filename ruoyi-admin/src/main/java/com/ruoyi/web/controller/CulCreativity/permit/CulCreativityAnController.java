@@ -154,12 +154,12 @@ public class CulCreativityAnController extends BaseController {
     public AjaxResult create(@RequestBody CulCreateDTO createDTO){
 
         SightsCulCreativity culCreativity = new SightsCulCreativity();
-        String s = new String();
+        String s = "文创|";
         if (createDTO.getCulCreativityTags().length > 0 ){
             String[] tags = createDTO.getCulCreativityTags();
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < tags.length; i++) {
-                builder.append(tags[i]).append("、");
+                builder.append(tags[i]).append("|");
             }
              s = builder.toString();
         }

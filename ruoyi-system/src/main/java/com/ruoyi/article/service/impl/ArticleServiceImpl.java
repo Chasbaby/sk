@@ -316,7 +316,8 @@ public class ArticleServiceImpl implements IArticleService
         }
         detail.setUser(userDTO);
         detail.setVisitor(visitorDTO);
-
+        String[] strings = article.getArticleTags().split("\\|");
+        detail.setArticleTags(strings);
         detail.setIfCollect(articleRecordMapper.judgeOnlyOneCollectArticle(articleId,user));
         detail.setIfLike(articleRecordMapper.judgeOnlyOneLikeArticle(articleId,user));
 
@@ -378,6 +379,7 @@ public class ArticleServiceImpl implements IArticleService
     @Override
     public ArticleCreateDTO reEditArticle(Long articleId) {
         Article article = selectArticleByArticleId(articleId);
+
         ArticleCreateDTO createDTO = new ArticleCreateDTO();
         try {
             BeanUtils.copyProperties(createDTO,article);
@@ -386,6 +388,16 @@ public class ArticleServiceImpl implements IArticleService
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+
+        String[] split = null;
+        if (article.getArticleTags()!=null){
+            split = article.getArticleTags().split("\\|");
+
+        } else {
+            split = new String[1];
+            split[0]="旅行|";
+        }
+        createDTO.setArticleTags(split);
         return createDTO;
     }
 

@@ -138,7 +138,10 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     public CulDetail getCulDetail(Long culCreativityId) {
         CulDetail detail = new CulDetail();
         SightsCulCreativity creativity = sightsCulCreativityMapper.selectDetailById(culCreativityId);
+        String tags = creativity.getCulCreativityTags();
+        String[] split = tags.split("\\|");
         BeanUtils.copyBeanProp(detail,creativity);
+        detail.setCulCreativityTags(split);
         Long userId = creativity.getUserId();
         // 如果是用户发表的文创
         if ( userId != null){
@@ -533,9 +536,11 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     public CulCreateDTO reEditCul(Long culId) {
         SightsCulCreativity creativity = selectSightsCulCreativityByCulCreativityId(culId);
         CulCreateDTO createDTO = new CulCreateDTO();
+        String tags = creativity.getCulCreativityTags();
+        String[] split = tags.split("//|");
         BeanUtils.copyBeanProp(createDTO,creativity);
+        createDTO.setCulCreativityTags(split);
         return createDTO;
-
     }
 
 }

@@ -19,6 +19,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="sightsLocation"    column="sights_location"    />
         <result property="sightsLongitude"    column="sights_longitude"    />
         <result property="sightsLatitude"    column="sights_latitude"    />
+        <result property="sightsCover" column="sights_cover"/>
+        <result property="sightsVideo" column="sights_video"/>
         <result property="sightsImage"    column="sights_image"    />
         <result property="sightsCode"      column="sights_code"/>
         <result property="sightsIntro"    column="sights_intro"    />
@@ -40,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSightsBaseVo">
-        select sights_id,sights_hits,sights_like,sights_view,sights_score,
+        select sights_id,sights_hits,sights_like,sights_view,sights_score,sights_video,sights_cover,
                sights_hot,sights_telephone,sights_eng,sights_open,sights_collect,
                sights_name, sights_location, sights_longitude, sights_latitude,
                sights_image,sights_code,sights_intro, sights_detail, sights_category,
@@ -54,6 +56,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sightsView != null "> and sights_view &gt;= #{sightsView}</if>
             <if test="sightsHits != null "> and sights_hits &gt;= #{sightsHits}</if>
             <if test="sightsLike != null "> and sights_like >= #{sightsLike}</if>
+
+            <if test="sightsVideo !=null and sightsVideo !=''">and sights_video = #{sightsVideo}</if>
+            <if test="sightsCover !=null and sightsCover !=''">and sights_cover = #{sightsCover}</if>
 
             <if test="sightsTelephone !=null and sightsTelephone !=''">and sights_telephone like concat('%',#{sightsTelephone},'%')</if>
             <if test="sightsHot !=null and sightsHot !=''">and sights_hot like concat('%',#{sightsHot},'%')</if>
@@ -203,6 +208,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sightsLongitude != null">sights_longitude,</if>
             <if test="sightsLatitude != null">sights_latitude,</if>
             <if test="sightsImage != null">sights_image,</if>
+
+            <if test="sightsVideo !=null and sightsVideo !=''">sights_video,</if>
+            <if test="sightsCover !=null and sightsCover !=''">sights_cover,</if>
+
             <if test="sightsCode !=null">sights_code,</if>
             <if test="sightsIntro != null">sights_intro,</if>
             <if test="sightsDetail != null">sights_detail,</if>
@@ -228,6 +237,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sightsLongitude != null">#{sightsLongitude},</if>
             <if test="sightsLatitude != null">#{sightsLatitude},</if>
             <if test="sightsImage != null">#{sightsImage},</if>
+
+            <if test="sightsVideo !=null and sightsVideo !=''">#{sightsVideo},</if>
+            <if test="sightsCover !=null and sightsCover !=''">#{sightsCover},</if>
+
             <if test="sightsCode !=null">#{sightsCode},</if>
             <if test="sightsIntro != null">#{sightsIntro},</if>
             <if test="sightsDetail != null">#{sightsDetail},</if>
@@ -271,6 +284,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sightsLongitude != null">sights_longitude = #{sightsLongitude},</if>
             <if test="sightsLatitude != null">sights_latitude = #{sightsLatitude},</if>
             <if test="sightsImage != null">sights_image = #{sightsImage},</if>
+
+            <if test="sightsVideo !=null and sightsVideo !=''">sights_video = #{sightsVideo},</if>
+            <if test="sightsCover !=null and sightsCover !=''">sights_cover = #{sightsCover},</if>
+
             <if test="sightsIntro != null">sights_intro = #{sightsIntro},</if>
             <if test="sightsDetail != null">sights_detail = #{sightsDetail},</if>
             <if test="sightsCategory != null">sights_category = #{sightsCategory},</if>

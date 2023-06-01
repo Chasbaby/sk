@@ -115,6 +115,10 @@ public class SightsBase extends BaseEntity
     @Excel(name="图片",type = Excel.Type.ALL,cellType= Excel.ColumnType.IMAGE)
     /** 景点图片url  最多5张*/
     private String sightsImage;
+    /*** 视频 */
+    private String sightsVideo;
+    /** 缩略图 */
+    private String sightsCover;
 
     @IndexField(exist = false)
     @Excel(name = "二维码",type = Excel.Type.ALL,cellType = Excel.ColumnType.IMAGE)

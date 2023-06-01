@@ -2,6 +2,8 @@ package com.ruoyi.web.controller.tags;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.utils.DateUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,6 +79,8 @@ public class TagsChoiceController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody TagsChoice tagsChoice)
     {
+        tagsChoice.setCreateBy(getUsername());
+        tagsChoice.setCreateTime(DateUtils.getNowDate());
         return toAjax(tagsChoiceService.insertTagsChoice(tagsChoice));
     }
 
@@ -88,6 +92,8 @@ public class TagsChoiceController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody TagsChoice tagsChoice)
     {
+        tagsChoice.setUpdateBy(getUsername());
+        tagsChoice.setUpdateTime(DateUtils.getNowDate());
         return toAjax(tagsChoiceService.updateTagsChoice(tagsChoice));
     }
 

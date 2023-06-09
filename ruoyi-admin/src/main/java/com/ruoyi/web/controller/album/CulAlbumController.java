@@ -101,4 +101,6 @@ public class CulAlbumController extends BaseController
     {
         return toAjax(culAlbumService.deleteCulAlbumByAlbumIds(albumIds));
     }
+
+
 }

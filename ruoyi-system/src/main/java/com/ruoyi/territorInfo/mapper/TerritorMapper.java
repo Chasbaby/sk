@@ -58,4 +58,9 @@ public interface TerritorMapper
      * @return 结果
      */
     public int deleteTerritorByTerritorIds(Integer[] territorIds);
+
+
+    public List<Territor> getChinaProvince();
+
+    public List<Territor> getChinaCity(String cityGeocode);
 }

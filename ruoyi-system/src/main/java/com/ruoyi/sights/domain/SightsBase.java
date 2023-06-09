@@ -151,6 +151,9 @@ public class SightsBase extends BaseEntity
     @Excel(name = "景点国家",type = Excel.Type.ALL)
     private String sightsNation;
 
+    /** 编码ID*/
+    private Long territorId;
+
     @IndexField(exist = false)
     /** 景点城市 */
     @Excel(name = "景点城市",type = Excel.Type.ALL)
@@ -164,6 +167,8 @@ public class SightsBase extends BaseEntity
     /** decimalPlaces：得分保留小数位，实体类中被作为ES查询得分返回的字段使用 **/
     @Score
     private Float score;
+
+
 
 
     public synchronized void addView(){

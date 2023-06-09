@@ -1,6 +1,11 @@
 package com.ruoyi.territorInfo.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.territorInfo.domain.dto.TerritorCityDTO;
+import com.ruoyi.territorInfo.domain.dto.TerritorProvinceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.territorInfo.mapper.TerritorMapper;
@@ -89,4 +94,31 @@ public class TerritorServiceImpl implements ITerritorService {
     {
         return territorMapper.deleteTerritorByTerritorId(territorId);
     }
+
+    /**
+     * 获取 中国所有省级信息
+     * @return
+     */
+    @Override
+    public List<TerritorProvinceDTO> getProvinceInfo() {
+        List<Territor> province = territorMapper.getChinaProvince();
+        return province.stream().map(item->{
+            TerritorProvinceDTO provinceDTO = new TerritorProvinceDTO();
+            BeanUtils.copyBeanProp(provinceDTO,item);
+            return provinceDTO;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TerritorCityDTO> getCityInfo(String cityGeocode) {
+        List<Territor> city = territorMapper.getChinaCity(cityGeocode);
+
+        return city.stream().map(item->{
+            TerritorCityDTO cityDTO = new TerritorCityDTO();
+            BeanUtils.copyBeanProp(cityDTO,item);
+            return cityDTO;
+        }).collect(Collectors.toList());
+    }
+
+
 }

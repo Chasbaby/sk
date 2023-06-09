@@ -44,7 +44,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTerritorVo"/>
         where territor_id = #{territorId}
     </select>
-        
+    <select id="getChinaProvince" resultType="com.ruoyi.territorInfo.domain.Territor">
+        <include refid="selectTerritorVo"/>
+        where exclude = 1
+    </select>
+    <select id="getChinaCity" resultType="com.ruoyi.territorInfo.domain.Territor" parameterType="string">
+        <include refid="selectTerritorVo"/>
+        where exclude = 0 and city_geocode = #{cityGeocode}
+    </select>
+
     <insert id="insertTerritor" parameterType="Territor" useGeneratedKeys="true" keyProperty="territorId">
         insert into territor
         <trim prefix="(" suffix=")" suffixOverrides=",">

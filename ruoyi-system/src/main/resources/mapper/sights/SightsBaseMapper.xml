@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="SightsBase" id="SightsBaseResult">
         <result property="sightsId"    column="sights_id"/>
+        <result property="territorId" column="territor_id" />
         <result property="sightsHits" column="sights_hits"/>
         <result property="sightsLike" column="sights_like"/>
         <result property="sightsView" column="sights_view"/>
@@ -42,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSightsBaseVo">
-        select sights_id,sights_hits,sights_like,sights_view,sights_score,sights_video,sights_cover,
+        select sights_id,sights_hits,sights_like,sights_view,sights_score,sights_video,sights_cover,territor_id,
                sights_hot,sights_telephone,sights_eng,sights_open,sights_collect,
                sights_name, sights_location, sights_longitude, sights_latitude,
                sights_image,sights_code,sights_intro, sights_detail, sights_category,
@@ -56,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sightsView != null "> and sights_view &gt;= #{sightsView}</if>
             <if test="sightsHits != null "> and sights_hits &gt;= #{sightsHits}</if>
             <if test="sightsLike != null "> and sights_like >= #{sightsLike}</if>
-
+            <if test="territor_id != null"> and territor_id = #{territorId}</if>
             <if test="sightsVideo !=null and sightsVideo !=''">and sights_video = #{sightsVideo}</if>
             <if test="sightsCover !=null and sightsCover !=''">and sights_cover = #{sightsCover}</if>
 
@@ -200,6 +201,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertSightsBase" parameterType="SightsBase" useGeneratedKeys="true" keyProperty="sightsId">
         insert into sights_base
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="territorId !=null">terrior_id,</if>
             <if test="sightsName != null and sightsName != ''">sights_name,</if>
             <if test="sightsView != null">sights_view,</if>
             <if test="sightsHits != null">sights_hits,</if>
@@ -208,10 +210,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sightsLongitude != null">sights_longitude,</if>
             <if test="sightsLatitude != null">sights_latitude,</if>
             <if test="sightsImage != null">sights_image,</if>
-
             <if test="sightsVideo !=null and sightsVideo !=''">sights_video,</if>
             <if test="sightsCover !=null and sightsCover !=''">sights_cover,</if>
-
             <if test="sightsCode !=null">sights_code,</if>
             <if test="sightsIntro != null">sights_intro,</if>
             <if test="sightsDetail != null">sights_detail,</if>
@@ -229,6 +229,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sightsTelephone !=null and sightsTelephone !=''">sights_telephone,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="territorId !=null">#{territorId},</if>
             <if test="sightsView != null">#{sightsView},</if>
             <if test="sightsHits != null">#{sightsHits},</if>
             <if test="sightsLike != null">#{sightsLike},</if>
@@ -279,15 +280,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateSightsBase" parameterType="SightsBase">
         update sights_base
         <trim prefix="SET" suffixOverrides=",">
+            <if test="territorId !=null">territor_id = #{territorId},</if>
             <if test="sightsName != null and sightsName != ''">sights_name = #{sightsName},</if>
             <if test="sightsLocation != null and sightsLocation != ''">sights_location = #{sightsLocation},</if>
             <if test="sightsLongitude != null">sights_longitude = #{sightsLongitude},</if>
             <if test="sightsLatitude != null">sights_latitude = #{sightsLatitude},</if>
             <if test="sightsImage != null">sights_image = #{sightsImage},</if>
-
             <if test="sightsVideo !=null and sightsVideo !=''">sights_video = #{sightsVideo},</if>
             <if test="sightsCover !=null and sightsCover !=''">sights_cover = #{sightsCover},</if>
-
             <if test="sightsIntro != null">sights_intro = #{sightsIntro},</if>
             <if test="sightsDetail != null">sights_detail = #{sightsDetail},</if>
             <if test="sightsCategory != null">sights_category = #{sightsCategory},</if>

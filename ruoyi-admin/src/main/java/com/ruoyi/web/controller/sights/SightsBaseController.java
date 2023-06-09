@@ -99,8 +99,6 @@ public class SightsBaseController extends BaseController {
     {
         ParaGeo paraGeo = new ParaGeo();
         paraGeo.setAddress(sightsBase.getSightsLocation().trim());
-        paraGeo.setOutput("json");
-        paraGeo.setAk("qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt");
         Geocoder geocoder = getGeocoder(paraGeo);
 
         GeocoderResultMap result = geocoder.getResult();

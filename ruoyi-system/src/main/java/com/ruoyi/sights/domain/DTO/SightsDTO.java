@@ -1,5 +1,6 @@
 package com.ruoyi.sights.domain.DTO;
 
+import com.ruoyi.common.utils.baidu.domain.weather.WeatherResult;
 import com.ruoyi.sights.domain.SightsTicket;
 import lombok.Data;
 
@@ -15,6 +16,11 @@ import java.util.List;
 public class SightsDTO implements Serializable {
     /** 景点ID */
     private Long sightsId;
+
+    private Integer territorId;
+
+    private WeatherResult weather;
+
     /** 景点点赞量*/
     private Long sightsLike;
 

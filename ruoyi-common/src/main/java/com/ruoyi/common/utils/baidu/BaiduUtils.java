@@ -35,16 +35,21 @@ public class BaiduUtils {
      * @return Geocoder
      */
     public static Geocoder getGeocoder(ParaGeo paraGeo){
+        paraGeo.setAk(AK);
+        paraGeo.setOutput("json");
         String s = HttpUtils.sendGet(Geocoder_url,paraGeo.ObjectToPara(),UTF8);
-        Geocoder geocoder = JSONObject.parseObject(s, Geocoder.class);
-        return geocoder;
+        return JSONObject.parseObject(s, Geocoder.class);
     }
 
-//    public static Weather getWeather(DomesticWeather weather){
-//        HttpUtils.sendGet(Weather_url,,UTF8)
-//        return null;
-//    }
-//
+    public static Weather getWeather(String district){
+        DomesticWeather weather= new DomesticWeather();
+        weather.setDistrictId(district);
+        weather.setOutput("json");
+        weather.setAk(AK);
+        String s = HttpUtils.sendGet(Weather_url, weather.ObjectToPara(), UTF8);
+        return JSONObject.parseObject(s, Weather.class);
+    }
+
 
 
 

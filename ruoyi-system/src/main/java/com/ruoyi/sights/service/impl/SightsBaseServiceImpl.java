@@ -4,6 +4,7 @@ import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.baidu.domain.weather.Weather;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.sights.domain.DTO.*;
 import com.ruoyi.sights.domain.*;
@@ -13,6 +14,8 @@ import com.ruoyi.sights.service.ISightsTicketService;
 import com.ruoyi.system.domain.SysAudio;
 import com.ruoyi.system.service.ICommentService;
 import com.ruoyi.system.service.ISysAudioService;
+import com.ruoyi.territorInfo.domain.Territor;
+import com.ruoyi.territorInfo.mapper.TerritorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.ruoyi.common.utils.baidu.BaiduUtils.getWeather;
 import static com.ruoyi.common.utils.baidu.TranslateUtils.getTranslateResult;
 
 /**
@@ -63,6 +67,9 @@ public class SightsBaseServiceImpl implements ISightsBaseService
     @Autowired
     private ISysAudioService audioService;
 
+    @Autowired
+    private TerritorMapper territorMapper;
+
 
 
     /**
@@ -88,6 +95,12 @@ public class SightsBaseServiceImpl implements ISightsBaseService
      */
     public SightsDTO selectDetailSightsById(Long sightsId,Long userId){
         SightsDTO sightsDTO = new SightsDTO();
+        Integer territorId = sightsDTO.getTerritorId();
+
+        Territor territor = territorMapper.selectTerritorByTerritorId(territorId);
+        // todo  获取天气信息
+        Weather weather = getWeather(territor.getDistrict());
+        sightsDTO.setWeather(weather.getResult());
 
         SightsBulletin sightsBulletin = new SightsBulletin();
         sightsBulletin.setSightsId(sightsId);

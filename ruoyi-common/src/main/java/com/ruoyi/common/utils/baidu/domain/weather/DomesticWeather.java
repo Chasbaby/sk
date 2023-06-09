@@ -1,5 +1,7 @@
 package com.ruoyi.common.utils.baidu.domain.weather;
 
+import com.ruoyi.common.utils.StringUtils;
+
 import java.io.Serializable;
 
 /***
@@ -17,6 +19,8 @@ import java.io.Serializable;
  * @introduction 国内天气预报
  * @date 2023-5-31
  */
+
+
 public class DomesticWeather implements Serializable{
     String districtId;
     Double location;
@@ -36,6 +40,15 @@ public class DomesticWeather implements Serializable{
         this.output = output;
         this.coordtype = coordtype;
     }
+
+    // todo 待补充
+    public String ObjectToPara(){
+        return "districtId" +getDistrictId()
+                +"&ak"+getAk()
+                +((StringUtils.isEmpty(getOutput()))?"":"output"+getOutput())
+                ;
+    }
+
 
     public String getDistrictId() {
         return districtId;

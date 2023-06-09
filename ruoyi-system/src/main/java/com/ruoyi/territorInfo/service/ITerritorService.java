@@ -2,6 +2,8 @@ package com.ruoyi.territorInfo.service;
 
 import java.util.List;
 import com.ruoyi.territorInfo.domain.Territor;
+import com.ruoyi.territorInfo.domain.dto.TerritorCityDTO;
+import com.ruoyi.territorInfo.domain.dto.TerritorProvinceDTO;
 
 /**
  * 国内数据Service接口
@@ -58,4 +60,14 @@ public interface ITerritorService
      * @return 结果
      */
     public int deleteTerritorByTerritorId(Integer territorId);
+
+    /**
+     * 获取中国所有省信息
+     */
+    public List<TerritorProvinceDTO> getProvinceInfo();
+
+    /**
+     * 根据省份获取区
+     */
+    public List<TerritorCityDTO> getCityInfo(String cityGeocode);
 }

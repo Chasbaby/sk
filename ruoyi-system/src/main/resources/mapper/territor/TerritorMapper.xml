@@ -27,7 +27,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTerritorVo">
-        select territor_id, areacode, districtcode, city_geocode, city, district_geocode, district, lon, lat, sta_fc, sta_rt, province, fc_lon, fc_lat, rt_lon, rt_lat, origin_areacode, exclude, remark from territor
+        select territor_id, areacode, districtcode, city_geocode, city, district_geocode, district, lon, lat,
+               sta_fc, sta_rt, province, fc_lon, fc_lat, rt_lon, rt_lat, origin_areacode, exclude, remark from territor
     </sql>
 
     <select id="selectTerritorList" parameterType="Territor" resultMap="TerritorResult">
@@ -45,16 +46,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where territor_id = #{territorId}
     </select>
 
-
     <select id="getChinaProvince" resultType="com.ruoyi.territorInfo.domain.Territor" resultMap="TerritorResult">
         select distinct province,territor_id,city_geocode,city from territor group by (province)
     </select>
 
-
     <select id="getChinaCity" resultType="com.ruoyi.territorInfo.domain.Territor" parameterType="string" resultMap="TerritorResult">
         select distinct city ,province,city_geocode FROM territor where province = #{Province} GROUP BY(city)
     </select>
-
 
     <select id="searchChinaProvince" resultType="com.ruoyi.territorInfo.domain.Territor" parameterType="string" resultMap="TerritorResult">
         <include refid="selectTerritorVo"/>
@@ -74,8 +72,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getCityArea" resultType="com.ruoyi.territorInfo.domain.Territor" parameterType="string" resultMap="TerritorResult">
         select territor_id ,district ,province from  territor where city_geocode = #{cityGeocode}
     </select>
-
-
 
     <insert id="insertTerritor" parameterType="Territor" useGeneratedKeys="true" keyProperty="territorId">
         insert into territor
@@ -156,4 +152,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{territorId}
         </foreach>
     </delete>
+
 </mapper>

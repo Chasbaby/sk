@@ -57,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sightsView != null "> and sights_view &gt;= #{sightsView}</if>
             <if test="sightsHits != null "> and sights_hits &gt;= #{sightsHits}</if>
             <if test="sightsLike != null "> and sights_like >= #{sightsLike}</if>
-            <if test="territorId != null"> and territor_id = #{territorId}</if>
+            <if test="territorId != null and territorId !=''"> and territor_id = #{territorId}</if>
             <if test="sightsVideo !=null and sightsVideo !=''">and sights_video = #{sightsVideo}</if>
             <if test="sightsCover !=null and sightsCover !=''">and sights_cover = #{sightsCover}</if>
 
@@ -201,7 +201,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertSightsBase" parameterType="SightsBase" useGeneratedKeys="true" keyProperty="sightsId">
         insert into sights_base
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="territorId !=null">terrior_id,</if>
+            <if test="territorId !=null and territor !=''">terrior_id,</if>
             <if test="sightsName != null and sightsName != ''">sights_name,</if>
             <if test="sightsView != null">sights_view,</if>
             <if test="sightsHits != null">sights_hits,</if>
@@ -229,7 +229,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sightsTelephone !=null and sightsTelephone !=''">sights_telephone,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="territorId !=null">#{territorId},</if>
+            <if test="territorId !=null and territor !=''">#{territorId},</if>
             <if test="sightsView != null">#{sightsView},</if>
             <if test="sightsHits != null">#{sightsHits},</if>
             <if test="sightsLike != null">#{sightsLike},</if>
@@ -280,7 +280,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateSightsBase" parameterType="SightsBase">
         update sights_base
         <trim prefix="SET" suffixOverrides=",">
-            <if test="territorId !=null and territor !=''">territor_id = #{territorId},</if>
+            <if test="territorId !=null and territorId !=''">territor_id = #{territorId},</if>
             <if test="sightsName != null and sightsName != ''">sights_name = #{sightsName},</if>
             <if test="sightsLocation != null and sightsLocation != ''">sights_location = #{sightsLocation},</if>
             <if test="sightsLongitude != null">sights_longitude = #{sightsLongitude},</if>

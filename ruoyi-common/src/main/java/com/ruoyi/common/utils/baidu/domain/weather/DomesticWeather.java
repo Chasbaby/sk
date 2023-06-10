@@ -43,9 +43,10 @@ public class DomesticWeather implements Serializable{
 
     // todo 待补充
     public String ObjectToPara(){
-        return "districtId" +getDistrictId()
-                +"&ak"+getAk()
-                +((StringUtils.isEmpty(getOutput()))?"":"output"+getOutput())
+        return "district_id=" +getDistrictId()
+                +"&ak="+getAk()
+                +((StringUtils.isEmpty(getOutput()))?"":"&output="+getOutput())
+                +((StringUtils.isEmpty(getDataType()))?"":"&data_type="+getDataType())
                 ;
     }
 

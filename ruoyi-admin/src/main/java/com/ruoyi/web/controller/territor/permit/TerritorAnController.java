@@ -1,12 +1,10 @@
 package com.ruoyi.web.controller.territor.permit;
 
 import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.sights.domain.SightsBase;
 import com.ruoyi.sights.service.ISightsBaseService;
 import com.ruoyi.territorInfo.service.ITerritorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -95,7 +95,6 @@ public class SightsBaseServiceImpl implements ISightsBaseService
      */
     public SightsDTO selectDetailSightsById(Long sightsId,Long userId){
         SightsDTO sightsDTO = new SightsDTO();
-
         SightsBulletin sightsBulletin = new SightsBulletin();
         sightsBulletin.setSightsId(sightsId);
         sightsBulletin.setDelFlag("N");// 没有删除
@@ -116,7 +115,6 @@ public class SightsBaseServiceImpl implements ISightsBaseService
             bulletinDTOS.add(dto);
         }
 
-
         SightsBase sightsBase = sightsBaseMapper.selectSightsBaseBySightsId(sightsId);
         BeanUtils.copyBeanProp(sightsDTO,sightsBase);
         sightsDTO.setBulletin(bulletinDTOS);
@@ -132,12 +130,12 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         Double score = recordMapper.getSightsScoreByUser(userId, sightsId);
         sightsDTO.setScore(score == null ? -1 : score);
 
-
-
-//        Territor territor = territorMapper.selectTerritorByTerritorId();
-//        // todo  获取天气信息
-//        Weather weather = getWeather(territor.getDistrict());
-//        sightsDTO.setWeather(weather.getResult());
+        if (!sightsBase.getTerritorId().isEmpty()){
+            String[] split = sightsBase.getTerritorId().split("/");
+            Territor territor = territorMapper.selectTerritorByTerritorId(Integer.parseInt(split[3]));
+            Weather weather = getWeather(territor.getDistrictcode());
+            sightsDTO.setWeather(weather.getResult());
+        }
         return sightsDTO;
     }
 
@@ -149,8 +147,7 @@ public class SightsBaseServiceImpl implements ISightsBaseService
      * @return 景点基本信息
      */
     @Override
-    public List<SightsBase> selectSightsBaseList(SightsBase sightsBase)
-    {
+    public List<SightsBase> selectSightsBaseList(SightsBase sightsBase){
         return sightsBaseMapper.selectSightsBaseList(sightsBase);
     }
 

@@ -19,7 +19,7 @@ public class BaiduUtils {
     @Value("${baidu.map.ak}")
     private final static String AK="qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt";
     private final static String Geocoder_url="https://api.map.baidu.com/geocoding/v3/";
-    private final static String Weather_url = "https://api.map.baidu.com/weather/v1/?";
+    private final static String Weather_url = "https://api.map.baidu.com/weather/v1/";
     private final static String UTF8 ="utf-8";
     private final static Logger logger = LoggerFactory.getLogger("baiduService");
 
@@ -43,15 +43,13 @@ public class BaiduUtils {
 
     public static Weather getWeather(String district){
         DomesticWeather weather= new DomesticWeather();
+        weather.setDataType("all");
         weather.setDistrictId(district);
         weather.setOutput("json");
         weather.setAk(AK);
         String s = HttpUtils.sendGet(Weather_url, weather.ObjectToPara(), UTF8);
         return JSONObject.parseObject(s, Weather.class);
     }
-
-
-
 
     public static void main(String[] args) {
 //        ParaGeo paraGeo = new ParaGeo();

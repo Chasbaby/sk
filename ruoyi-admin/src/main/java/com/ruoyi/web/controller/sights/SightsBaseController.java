@@ -118,8 +118,8 @@ public class SightsBaseController extends BaseController {
     @PreAuthorize("@ss.hasPermi('sightBase:sights:edit')")
     @Log(title = "景点基本信息", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody SightsBase sightsBase)
-    {
+    public AjaxResult edit(@RequestBody SightsBase sightsBase) {
+
         sightsBase.setUpdateBy(getUsername());
         sightsBase.setUpdateTime(new Date());
         return toAjax(sightsBaseService.updateSightsBase(sightsBase));

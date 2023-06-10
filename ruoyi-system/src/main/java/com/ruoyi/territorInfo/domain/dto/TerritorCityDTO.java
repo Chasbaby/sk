@@ -15,4 +15,5 @@ public class TerritorCityDTO implements Serializable {
     private String city;
     private String province;
     private String district;
+    private String cityGeocode;
 }

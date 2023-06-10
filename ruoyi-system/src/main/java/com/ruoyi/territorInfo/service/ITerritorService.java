@@ -2,6 +2,7 @@ package com.ruoyi.territorInfo.service;
 
 import java.util.List;
 import com.ruoyi.territorInfo.domain.Territor;
+import com.ruoyi.territorInfo.domain.dto.TerritorAreaDTO;
 import com.ruoyi.territorInfo.domain.dto.TerritorCityDTO;
 import com.ruoyi.territorInfo.domain.dto.TerritorProvinceDTO;
 
@@ -67,7 +68,17 @@ public interface ITerritorService
     public List<TerritorProvinceDTO> getProvinceInfo();
 
     /**
-     * 根据省份获取区
+     * 根据省份获取市
      */
-    public List<TerritorCityDTO> getCityInfo(String cityGeocode);
+    public List<TerritorCityDTO> getCityInfo(String province);
+
+    /**
+     * 根据市 获取区
+     */
+    public List<TerritorAreaDTO> getAreaInfo(String cityGeocode);
+
+
+    public List<TerritorProvinceDTO> searchProvinceInfo(String province);
+
+    public List<TerritorCityDTO> searchCityInfo(String city,String cityGeocode);
 }

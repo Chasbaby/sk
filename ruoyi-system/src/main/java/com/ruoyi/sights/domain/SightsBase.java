@@ -152,7 +152,7 @@ public class SightsBase extends BaseEntity
     private String sightsNation;
 
     /** 编码ID*/
-    private Long territorId;
+    private String territorId;
 
     @IndexField(exist = false)
     /** 景点城市 */
@@ -167,8 +167,6 @@ public class SightsBase extends BaseEntity
     /** decimalPlaces：得分保留小数位，实体类中被作为ES查询得分返回的字段使用 **/
     @Score
     private Float score;
-
-
 
 
     public synchronized void addView(){

@@ -2,6 +2,7 @@ package com.ruoyi.territorInfo.mapper;
 
 import java.util.List;
 import com.ruoyi.territorInfo.domain.Territor;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 国内数据Mapper接口
@@ -62,5 +63,12 @@ public interface TerritorMapper
 
     public List<Territor> getChinaProvince();
 
-    public List<Territor> getChinaCity(String cityGeocode);
+    public List<Territor> getChinaCity(String Province);
+
+    public List<Territor> getCityArea(String cityGeocode);
+
+
+    public List<Territor> searchChinaCity(@Param("City") String City, @Param("CityGeocode") String cityGeocode);
+
+    public List<Territor> searchChinaProvince(String Province);
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.territorInfo.domain.dto.TerritorAreaDTO;
 import com.ruoyi.territorInfo.domain.dto.TerritorCityDTO;
 import com.ruoyi.territorInfo.domain.dto.TerritorProvinceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,14 +111,35 @@ public class TerritorServiceImpl implements ITerritorService {
     }
 
     @Override
-    public List<TerritorCityDTO> getCityInfo(String cityGeocode) {
-        List<Territor> city = territorMapper.getChinaCity(cityGeocode);
+    public List<TerritorCityDTO> getCityInfo(String province) {
+        List<Territor> city = territorMapper.getChinaCity(province);
 
         return city.stream().map(item->{
             TerritorCityDTO cityDTO = new TerritorCityDTO();
             BeanUtils.copyBeanProp(cityDTO,item);
             return cityDTO;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TerritorAreaDTO> getAreaInfo(String cityGeocode) {
+        List<Territor> area = territorMapper.getCityArea(cityGeocode);
+        return area.stream().map(item->{
+            TerritorAreaDTO areaDTO = new TerritorAreaDTO();
+            BeanUtils.copyBeanProp(areaDTO,item);
+            return areaDTO;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TerritorProvinceDTO> searchProvinceInfo(String province) {
+
+        return null;
+    }
+
+    @Override
+    public List<TerritorCityDTO> searchCityInfo(String city,String cityGeocode) {
+        return null;
     }
 
 

@@ -1,6 +1,8 @@
 package com.ruoyi.territorInfo.domain;
 
 import java.math.BigDecimal;
+
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -12,8 +14,8 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2023-06-01
  */
-public class Territor extends BaseEntity
-{
+@Data
+public class Territor extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /** 区域id */
@@ -78,169 +80,6 @@ public class Territor extends BaseEntity
     /** 主区 */
     @Excel(name = "主区")
     private Integer exclude;
-
-    public void setTerritorId(Integer territorId) 
-    {
-        this.territorId = territorId;
-    }
-
-    public Integer getTerritorId() 
-    {
-        return territorId;
-    }
-    public void setAreacode(String areacode) 
-    {
-        this.areacode = areacode;
-    }
-
-    public String getAreacode() 
-    {
-        return areacode;
-    }
-    public void setDistrictcode(String districtcode) 
-    {
-        this.districtcode = districtcode;
-    }
-
-    public String getDistrictcode() 
-    {
-        return districtcode;
-    }
-    public void setCityGeocode(String cityGeocode) 
-    {
-        this.cityGeocode = cityGeocode;
-    }
-
-    public String getCityGeocode() 
-    {
-        return cityGeocode;
-    }
-    public void setCity(String city) 
-    {
-        this.city = city;
-    }
-
-    public String getCity() 
-    {
-        return city;
-    }
-    public void setDistrictGeocode(String districtGeocode) 
-    {
-        this.districtGeocode = districtGeocode;
-    }
-
-    public String getDistrictGeocode() 
-    {
-        return districtGeocode;
-    }
-    public void setDistrict(String district) 
-    {
-        this.district = district;
-    }
-
-    public String getDistrict() 
-    {
-        return district;
-    }
-    public void setLon(BigDecimal lon) 
-    {
-        this.lon = lon;
-    }
-
-    public BigDecimal getLon() 
-    {
-        return lon;
-    }
-    public void setLat(BigDecimal lat) 
-    {
-        this.lat = lat;
-    }
-
-    public BigDecimal getLat() 
-    {
-        return lat;
-    }
-    public void setStaFc(String staFc) 
-    {
-        this.staFc = staFc;
-    }
-
-    public String getStaFc() 
-    {
-        return staFc;
-    }
-    public void setStaRt(String staRt) 
-    {
-        this.staRt = staRt;
-    }
-
-    public String getStaRt() 
-    {
-        return staRt;
-    }
-    public void setProvince(String province) 
-    {
-        this.province = province;
-    }
-
-    public String getProvince() 
-    {
-        return province;
-    }
-    public void setFcLon(BigDecimal fcLon) 
-    {
-        this.fcLon = fcLon;
-    }
-
-    public BigDecimal getFcLon() 
-    {
-        return fcLon;
-    }
-    public void setFcLat(BigDecimal fcLat) 
-    {
-        this.fcLat = fcLat;
-    }
-
-    public BigDecimal getFcLat() 
-    {
-        return fcLat;
-    }
-    public void setRtLon(BigDecimal rtLon) 
-    {
-        this.rtLon = rtLon;
-    }
-
-    public BigDecimal getRtLon() 
-    {
-        return rtLon;
-    }
-    public void setRtLat(BigDecimal rtLat) 
-    {
-        this.rtLat = rtLat;
-    }
-
-    public BigDecimal getRtLat() 
-    {
-        return rtLat;
-    }
-    public void setOriginAreacode(String originAreacode) 
-    {
-        this.originAreacode = originAreacode;
-    }
-
-    public String getOriginAreacode() 
-    {
-        return originAreacode;
-    }
-    public void setExclude(Integer exclude) 
-    {
-        this.exclude = exclude;
-    }
-
-    public Integer getExclude() 
-    {
-        return exclude;
-    }
 
     @Override
     public String toString() {

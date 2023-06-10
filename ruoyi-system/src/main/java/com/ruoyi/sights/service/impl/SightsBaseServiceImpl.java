@@ -95,12 +95,6 @@ public class SightsBaseServiceImpl implements ISightsBaseService
      */
     public SightsDTO selectDetailSightsById(Long sightsId,Long userId){
         SightsDTO sightsDTO = new SightsDTO();
-        Integer territorId = sightsDTO.getTerritorId();
-
-        Territor territor = territorMapper.selectTerritorByTerritorId(territorId);
-        // todo  获取天气信息
-        Weather weather = getWeather(territor.getDistrict());
-        sightsDTO.setWeather(weather.getResult());
 
         SightsBulletin sightsBulletin = new SightsBulletin();
         sightsBulletin.setSightsId(sightsId);
@@ -121,6 +115,8 @@ public class SightsBaseServiceImpl implements ISightsBaseService
             dto.setBulletinContent("暂时没有公告哦,请等待相关景点安排，谢谢!");
             bulletinDTOS.add(dto);
         }
+
+
         SightsBase sightsBase = sightsBaseMapper.selectSightsBaseBySightsId(sightsId);
         BeanUtils.copyBeanProp(sightsDTO,sightsBase);
         sightsDTO.setBulletin(bulletinDTOS);
@@ -135,6 +131,13 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         sightsDTO.setIfLike(recordMapper.judgeLike(userId,sightsId));
         Double score = recordMapper.getSightsScoreByUser(userId, sightsId);
         sightsDTO.setScore(score == null ? -1 : score);
+
+
+
+//        Territor territor = territorMapper.selectTerritorByTerritorId();
+//        // todo  获取天气信息
+//        Weather weather = getWeather(territor.getDistrict());
+//        sightsDTO.setWeather(weather.getResult());
         return sightsDTO;
     }
 

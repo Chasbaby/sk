@@ -44,14 +44,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTerritorVo"/>
         where territor_id = #{territorId}
     </select>
-    <select id="getChinaProvince" resultType="com.ruoyi.territorInfo.domain.Territor">
-        <include refid="selectTerritorVo"/>
-        where exclude = 1
+
+
+    <select id="getChinaProvince" resultType="com.ruoyi.territorInfo.domain.Territor" resultMap="TerritorResult">
+        select distinct province,territor_id,city_geocode,city from territor group by (province)
     </select>
-    <select id="getChinaCity" resultType="com.ruoyi.territorInfo.domain.Territor" parameterType="string">
-        <include refid="selectTerritorVo"/>
-        where exclude = 0 and city_geocode = #{cityGeocode}
+
+
+    <select id="getChinaCity" resultType="com.ruoyi.territorInfo.domain.Territor" parameterType="string" resultMap="TerritorResult">
+        select distinct city ,province,city_geocode FROM territor where province = #{Province} GROUP BY(city)
     </select>
+
+
+    <select id="searchChinaProvince" resultType="com.ruoyi.territorInfo.domain.Territor" parameterType="string" resultMap="TerritorResult">
+        <include refid="selectTerritorVo"/>
+        <where>
+            <if test="province !=null and province !=''">and province like concat('%,'#{Province},'%')</if>
+        </where>
+        and exclude = 1
+    </select>
+    <select id="searchChinaCity" resultType="com.ruoyi.territorInfo.domain.Territor" resultMap="TerritorResult">
+        <include refid="selectTerritorVo"/>
+        <where>
+            <if test="city !=null and city !=''"> and city like concat('%',#{City},'%')</if>
+        </where>
+        where exclude = 0 and city_geocode = #{CityGeocode}
+    </select>
+
+    <select id="getCityArea" resultType="com.ruoyi.territorInfo.domain.Territor" parameterType="string" resultMap="TerritorResult">
+        select territor_id ,district ,province from  territor where city_geocode = #{cityGeocode}
+    </select>
+
+
 
     <insert id="insertTerritor" parameterType="Territor" useGeneratedKeys="true" keyProperty="territorId">
         insert into territor

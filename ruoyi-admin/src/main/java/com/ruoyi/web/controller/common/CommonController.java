@@ -38,8 +38,7 @@ public class CommonController
      * @param delete 是否删除
      */
     @GetMapping("common/download")
-    public void fileDownload(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request)
-    {
+    public void fileDownload(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request) {
         try
         {
             if (!FileUtils.checkAllowDownload(fileName))

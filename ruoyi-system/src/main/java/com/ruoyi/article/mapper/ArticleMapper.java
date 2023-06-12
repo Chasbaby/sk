@@ -6,6 +6,7 @@ import com.ruoyi.article.domain.Article;
 import com.ruoyi.article.domain.dto.ArticleCreateDTO;
 import com.ruoyi.article.domain.dto.ArticleShowDTO;
 import com.ruoyi.article.domain.dto.ArticleStatisticPie;
+import com.ruoyi.article.domain.dto.ArticleStatusDTO;
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -118,7 +119,7 @@ public interface ArticleMapper
      * @param ways
      * @return
      */
-    public List<Article> getAllArticlesByWays(@Param("userId") Long userId,@Param("ways") Integer ways );
+    public List<ArticleStatusDTO> getAllArticlesByWays(@Param("userId") Long userId, @Param("ways") Integer ways);
 
     /**
      * 批量删除(逻辑删除)

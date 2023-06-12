@@ -346,19 +346,7 @@ public class ArticleServiceImpl implements IArticleService
      */
     @Override
     public List<ArticleStatusDTO> getUserAllArticleByWays(Long userId, Integer ways) {
-        List<Article> articlesByWays = articleMapper.getAllArticlesByWays(userId, ways);
-        List<ArticleStatusDTO> collect = articlesByWays.stream().map(item -> {
-            ArticleStatusDTO statusDTO = new ArticleStatusDTO();
-            try {
-                BeanUtils.copyProperties(statusDTO, item);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
-            return statusDTO;
-        }).collect(Collectors.toList());
-        return collect;
+         return articleMapper.getAllArticlesByWays(userId, ways);
     }
 
     /**

@@ -300,7 +300,6 @@ public class ArticleAnController extends BaseController {
         startPage();
         Long userId = getUserId();
         List<ArticleStatusDTO> articles = articleService.getUserAllArticleByWays(userId, num);
-
         return getDataTable(articles);
     }
 

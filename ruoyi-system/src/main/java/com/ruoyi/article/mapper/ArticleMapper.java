@@ -3,10 +3,7 @@ package com.ruoyi.article.mapper;
 import java.util.List;
 
 import com.ruoyi.article.domain.Article;
-import com.ruoyi.article.domain.dto.ArticleCreateDTO;
-import com.ruoyi.article.domain.dto.ArticleShowDTO;
-import com.ruoyi.article.domain.dto.ArticleStatisticPie;
-import com.ruoyi.article.domain.dto.ArticleStatusDTO;
+import com.ruoyi.article.domain.dto.*;
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -38,7 +35,7 @@ public interface ArticleMapper
     /**
      * 个人信息中获取文章列表
      */
-    public List<Article> selectArticleInPersonPage(@Param("userId") Long userId , @Param("way") Integer way);
+    public List<ArticleHomeDTO> selectArticleInPersonPage(@Param("userId") Long userId , @Param("way") Integer way);
 
     /**
      * 新增文章
@@ -83,7 +80,7 @@ public interface ArticleMapper
      * @param userId
      * @return list
      */
-    public List<Article> selectArticleCollectByUserId(Long userId);
+    public List<ArticleReturnDTO> selectArticleCollectByUserId(Long userId);
 
     /**
      * 获取用户点赞列表
@@ -111,7 +108,7 @@ public interface ArticleMapper
      * @param userId
      * @return
      */
-    public List<Article> getArticleDraft(Long userId);
+    public List<ArticleReturnDTO> getArticleDraft(Long userId);
 
     /**
      * 获取用户所有的文章

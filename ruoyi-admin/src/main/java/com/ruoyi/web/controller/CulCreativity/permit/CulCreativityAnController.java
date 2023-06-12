@@ -49,9 +49,6 @@ public class CulCreativityAnController extends BaseController {
     private ISysUserService userService;
 
     @Autowired
-    private ISysVisitorService visitorService;
-
-    @Autowired
     private IConcernsService concernsService;
 
     @Autowired

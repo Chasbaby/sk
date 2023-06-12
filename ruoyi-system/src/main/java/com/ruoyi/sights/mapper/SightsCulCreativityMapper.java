@@ -87,14 +87,14 @@ public interface SightsCulCreativityMapper
      * @param way
      * @return
      */
-    public List<SightsCulCreativity> selectCulInPersonPage(@Param("userId") Long userId, @Param("way") Integer way);
+    public List<CulHomeDTO> selectCulInPersonPage(@Param("userId") Long userId, @Param("way") Integer way);
 
     /**
      * 获取用户收藏
      * @param userId
      * @return
      */
-    public List<SightsCulCreativity> selectCulCollectByUserId(Long userId);
+    public List<CulHomeDTO> selectCulCollectByUserId(Long userId);
 
     public List<SightsCulCreativity> selectCulLikeByUserId(Long userId);
 
@@ -141,7 +141,7 @@ public interface SightsCulCreativityMapper
     /**
      * 获取用户草稿文创
      */
-    public List<SightsCulCreativity> getCulDraft(Long userId);
+    public List<CulHomeDTO> getCulDraft(Long userId);
 
     /**批量删除*/
     public int deleteBatchesCul(Long[] culCreativityId);

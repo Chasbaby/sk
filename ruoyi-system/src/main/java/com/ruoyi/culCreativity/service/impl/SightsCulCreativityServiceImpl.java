@@ -257,14 +257,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      */
     @Override
     public List<CulHomeDTO> getDraft(Long userId) {
-        List<SightsCulCreativity> draft = sightsCulCreativityMapper.getCulDraft(userId);
-        List<CulHomeDTO> homeDTOS = new ArrayList<>();
-        draft.forEach(item->{
-            CulHomeDTO homeDTO = new CulHomeDTO();
-            BeanUtils.copyBeanProp(homeDTO,item);
-            homeDTOS.add(homeDTO);
-        });
-        return homeDTOS;
+       return sightsCulCreativityMapper.getCulDraft(userId);
     }
 
     /** 批量删除*/
@@ -327,14 +320,13 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      */
     @Override
     public List<CulHomeDTO> getAllCulByUserId(Long userId, Integer way) {
-        List<CulHomeDTO> culHomeDTOS = new ArrayList<>();
-        List<SightsCulCreativity> personPage = sightsCulCreativityMapper.selectCulInPersonPage(userId, way);
-        personPage.stream().forEach(item->{
-            CulHomeDTO culHomeDTO = new CulHomeDTO();
-            BeanUtils.copyBeanProp(culHomeDTO,item);
-            culHomeDTOS.add(culHomeDTO);
-        });
-        return culHomeDTOS;
+        List<CulHomeDTO> dtos = sightsCulCreativityMapper.selectCulInPersonPage(userId, way);
+        Iterator<CulHomeDTO> iterator = dtos.iterator();
+        while (iterator.hasNext()){
+            CulHomeDTO next = iterator.next();
+            next.setCulCreativityIntro(next.getCulCreativityIntro().replaceAll(pattern,""));
+        }
+        return dtos;
     }
 
     /**
@@ -344,9 +336,13 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      */
     @Override
     public List<CulHomeDTO> getAllCulCollect(Long userId) {
-        List<SightsCulCreativity> creativities = sightsCulCreativityMapper.selectCulCollectByUserId(userId);
-        List<CulHomeDTO> culHomeDTOS = getHomeDTOS(creativities);
-        return culHomeDTOS;
+        List<CulHomeDTO> dtos = sightsCulCreativityMapper.selectCulCollectByUserId(userId);
+        Iterator<CulHomeDTO> iterator = dtos.iterator();
+        while (iterator.hasNext()){
+            CulHomeDTO next = iterator.next();
+            next.setCulCreativityIntro(next.getCulCreativityIntro().replaceAll(pattern,""));
+        }
+        return dtos;
     }
 
     private List<CulHomeDTO> getHomeDTOS(List<SightsCulCreativity> creativities) {

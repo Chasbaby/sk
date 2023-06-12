@@ -2,6 +2,7 @@ package com.ruoyi.tags.service;
 
 import java.util.List;
 import com.ruoyi.tags.domain.TagsChoice;
+import com.ruoyi.tags.domain.dto.TagsDTO;
 
 /**
  * 标签选择Service接口
@@ -58,4 +59,6 @@ public interface ITagsChoiceService
      * @return 结果
      */
     public int deleteTagsChoiceByTagsId(Long tagsId);
+
+    public List<TagsDTO> getTagsByPosition(Integer position);
 }

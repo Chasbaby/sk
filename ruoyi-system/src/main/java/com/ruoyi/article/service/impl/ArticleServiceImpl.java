@@ -220,10 +220,13 @@ public class ArticleServiceImpl implements IArticleService
      */
     @Override
     public List<ArticleReturnDTO> getAllArticleCollect(Long userId) {
-        List<Article> articles = articleMapper.selectArticleCollectByUserId(userId);
-        List<ArticleReturnDTO> collect = getReturnDTOList(articles);
-
-        return collect;
+        List<ArticleReturnDTO> dtos = articleMapper.selectArticleCollectByUserId(userId);
+        Iterator<ArticleReturnDTO> iterator = dtos.iterator();
+        while (iterator.hasNext()){
+            ArticleReturnDTO next = iterator.next();
+            next.setArticleContent(next.getArticleContent().replaceAll(pattern,""));
+        }
+        return dtos;
     }
 
     @Override
@@ -262,25 +265,14 @@ public class ArticleServiceImpl implements IArticleService
      * @return
      */
     @Override
-    public List<ArticleHomeDTO> getAllArticleByUserId(Long userId,int way ) {
-
-        List<ArticleHomeDTO> createDTOS = new ArrayList<>();
-
-        List<Article> articles = articleMapper.selectArticleInPersonPage(userId,way);
-
-        articles.stream().forEach(item->{
-            ArticleHomeDTO homeDTO = new ArticleHomeDTO();
-            try {
-                BeanUtils.copyProperties(homeDTO,item);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
-            createDTOS.add(homeDTO);
-        });
-
-        return createDTOS;
+    public List<ArticleHomeDTO> getAllArticleByUserId(Long userId,int way) {
+        List<ArticleHomeDTO> homeDTOList = articleMapper.selectArticleInPersonPage(userId, way);
+        Iterator<ArticleHomeDTO> iterator = homeDTOList.iterator();
+        while (iterator.hasNext()){
+            ArticleHomeDTO next = iterator.next();
+            next.setArticleContent(next.getArticleContent().replaceAll(pattern,""));
+        }
+        return homeDTOList;
     }
 
     /**
@@ -331,9 +323,7 @@ public class ArticleServiceImpl implements IArticleService
      */
     @Override
     public List<ArticleReturnDTO> getDraft(Long userId) {
-        List<Article> drafts = articleMapper.getArticleDraft(userId);
-        List<ArticleReturnDTO> returnDTOList = getReturnDTOList(drafts);
-        return returnDTOList;
+        return articleMapper.getArticleDraft(userId);
     }
 
     /**

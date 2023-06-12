@@ -1,5 +1,6 @@
 package com.ruoyi.concerns.mapper;
 
+import com.ruoyi.common.core.domain.entity.DTO.UserFCDTO;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.concerns.domain.Concerns;
 import org.apache.ibatis.annotations.*;
@@ -27,12 +28,12 @@ public interface ConcernsMapper {
     /**
      * 查询粉丝列表
      */
-    public List<SysUser> searchCountFans(Long userId);
+    public List<UserFCDTO> searchCountFans(Long userId);
 
     /**
      * 查询关注列表
      */
-    public List<SysUser> searchCountCon(Long userId);
+    public List<UserFCDTO> searchCountCon(Long userId);
 
     /**
      * 检测是否关注

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -19,18 +20,20 @@ import java.util.List;
  */
 @Service
 public class SightsRecordService implements ISightsRecordService {
-    @Autowired
-    private SightsBaseMapper baseMapper;
+    private final static String pattern="<(\\S*?)[^>]*>.*?|<.*? />";
 
     @Autowired
     private SightsRecordLikeMapper likeMapper;
 
     @Override
     public List<SightsReturnDTO> getUserCollectRecord(Long userId) {
-        List<SightsBase> bases = likeMapper.getUserSightsCollect(userId);
-
-        List<SightsReturnDTO> returnDTOS = getSightsReturnDTOS(bases);
-        return returnDTOS;
+        List<SightsReturnDTO> collect = likeMapper.getUserSightsCollect(userId);
+        Iterator<SightsReturnDTO> iterator = collect.iterator();
+        while (iterator.hasNext()){
+            SightsReturnDTO next = iterator.next();
+            next.setSightsIntro(next.getSightsIntro().replaceAll(pattern,""));
+        }
+        return  collect;
     }
 
     @Override

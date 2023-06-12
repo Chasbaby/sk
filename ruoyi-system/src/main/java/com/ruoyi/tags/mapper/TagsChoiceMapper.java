@@ -2,6 +2,7 @@ package com.ruoyi.tags.mapper;
 
 import java.util.List;
 import com.ruoyi.tags.domain.TagsChoice;
+import com.ruoyi.tags.domain.dto.TagsDTO;
 
 /**
  * 标签选择Mapper接口
@@ -58,4 +59,7 @@ public interface TagsChoiceMapper
      * @return 结果
      */
     public int deleteTagsChoiceByTagsIds(Long[] tagsIds);
+
+
+    public List<TagsChoice> getTagsByPosition(Integer position);
 }

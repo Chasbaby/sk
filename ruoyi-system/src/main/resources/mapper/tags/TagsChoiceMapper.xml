@@ -35,7 +35,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTagsChoiceVo"/>
         where tags_id = #{tagsId}
     </select>
-        
+    <select id="getTagsByPosition" resultType="com.ruoyi.tags.domain.TagsChoice" resultMap="TagsChoiceResult" parameterType="integer">
+        <include refid="selectTagsChoiceVo"/>
+        where if_del = "N" and if_ban ="N" and (tags_type = 3 or tags_type = #{position})
+                and tags_id >=(select floor(Rand() * (select MAX(tags_id) from tags_choice)))
+        limit 10
+    </select>
+
     <insert id="insertTagsChoice" parameterType="TagsChoice" useGeneratedKeys="true" keyProperty="tagsId">
         insert into tags_choice
         <trim prefix="(" suffix=")" suffixOverrides=",">

@@ -129,7 +129,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSightsCulCreativityVo"/>
         where del_flag = 'N' and cul_creativity_id = #{culCreativityId}
     </select>
-    <select id="selectCulInPersonPage" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" resultMap="SightsCulCreativityResult">
+    <select id="selectCulInPersonPage" resultType="com.ruoyi.culCreativity.domain.dto.CulHomeDTO" resultMap="CulHomeDTOResult">
         <include refid="selectSightsCulCreativityVo"/>
         <where>
             <if test="way ==0"> and is_ok = 'Y' and status = '0' and del_flag = 'N'</if>
@@ -138,7 +138,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         and user_id = #{userId}
         order by create_time desc
     </select>
-    <select id="selectCulCollectByUserId" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" parameterType="Long" resultMap="SightsCulCreativityResult">
+    <select id="selectCulCollectByUserId" resultType="com.ruoyi.culCreativity.domain.dto.CulHomeDTO" parameterType="Long" resultMap="CulHomeDTOResult">
         select a.cul_creativity_id, a.user_id,a.cul_creativity_title,a.cul_creativity_intro,a.cul_creativity_like,a.cul_creativity_view,a.cul_creativity_collection,
                a.cul_creativity_image,a.cul_creativity_type,a.cul_creativity_category,b.create_time
         from sights_cul_creativity a
@@ -185,8 +185,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by 0.2 * cul_creativity_hits + 0.3 * cul_creativity_like + 0.5 * cul_creativity_collection +0.1*cul_creativity_view desc
         limit 15
     </select>
-    <select id="getCulDraft" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity"
-            parameterType="Long" resultMap="SightsCulCreativityResult">
+    <select id="getCulDraft" resultType="com.ruoyi.culCreativity.domain.dto.CulHomeDTO"
+            parameterType="Long" resultMap="CulHomeDTOResult">
         <include refid="selectSightsCulCreativityVo"/>
         where user_id = #{userId} and del_flag = 'N' and status = '3'
         order by create_time desc

@@ -297,8 +297,9 @@ public class ArticleAnController extends BaseController {
         if (num == null){
             return errorMsg("类型错误，请联系管理员");
         }
-        startPage();
+
         Long userId = getUserId();
+        startPage();
         List<ArticleStatusDTO> articles = articleService.getUserAllArticleByWays(userId, num);
         return getDataTable(articles);
     }

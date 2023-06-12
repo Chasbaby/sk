@@ -65,7 +65,6 @@ public class SightsHotAnController extends BaseController {
     private RedisCache redisCache;
 
 
-
     @Anonymous
     @GetMapping("/xxxxxxxxx")
     public AjaxResult xxx(){

@@ -1,5 +1,6 @@
 package com.ruoyi.sights.mapper;
 
+import com.ruoyi.sights.domain.DTO.SightsReturnDTO;
 import com.ruoyi.sights.domain.SightsBase;
 import com.ruoyi.sights.domain.SightsRecordLike;
 
@@ -33,7 +34,7 @@ public interface SightsRecordLikeMapper {
     public int judgeUserSightsExistLike(SightsRecordLike sightsRecordLike);
 
 
-    public List<SightsBase> getUserSightsCollect(Long userId);
+    public List<SightsReturnDTO> getUserSightsCollect(Long userId);
 
     public List<SightsBase> getUserSightsLike(Long userId);
 

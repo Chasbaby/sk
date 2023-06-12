@@ -1,7 +1,11 @@
 package com.ruoyi.tags.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.bean.BeanUtils;
+import com.ruoyi.tags.domain.dto.TagsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.tags.mapper.TagsChoiceMapper;
@@ -92,5 +96,15 @@ public class TagsChoiceServiceImpl implements ITagsChoiceService
     public int deleteTagsChoiceByTagsId(Long tagsId)
     {
         return tagsChoiceMapper.deleteTagsChoiceByTagsId(tagsId);
+    }
+
+    @Override
+    public List<TagsDTO> getTagsByPosition(Integer position) {
+        List<TagsChoice> tags = tagsChoiceMapper.getTagsByPosition(position);
+        return tags.stream().map(item->{
+            TagsDTO dto = new TagsDTO();
+            BeanUtils.copyBeanProp(dto,item);
+            return dto;
+        }).collect(Collectors.toList());
     }
 }

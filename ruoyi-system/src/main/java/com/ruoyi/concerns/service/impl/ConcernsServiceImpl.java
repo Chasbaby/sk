@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author chas
@@ -57,14 +54,28 @@ public class ConcernsServiceImpl implements IConcernsService {
     @Override
     public List<UserFCDTO> showFans(Long PriorUser) {
         Collection<String> keys = redisCache.keys(Constants.LOGIN_TOKEN_KEY + "*");
-        List<SysUser> sysUsers = concernsMapper.searchCountFans(PriorUser);
-        List<UserFCDTO> userFCDTOS = new ArrayList<>();
-        sysUsers.stream().forEach(item->{
-            UserFCDTO userFCDTO = new UserFCDTO();
-            BeanUtils.copyProperties(item,userFCDTO);
-            setIfLogin(keys, userFCDTOS, item, userFCDTO);
-        });
-        return userFCDTOS;
+        List<UserFCDTO> fans = concernsMapper.searchCountFans(PriorUser);
+        Iterator<UserFCDTO> iterator = fans.iterator();
+        setIfLogin(keys, fans, iterator,false);
+        return fans;
+    }
+
+    private void setIfLogin(Collection<String> keys, List<UserFCDTO> fans, Iterator<UserFCDTO> iterator,boolean flag) {
+        while (iterator.hasNext()){
+            UserFCDTO next = iterator.next();
+            next.setIfLoginIng(false);
+            if (flag){
+                next.setFlag(true);
+            }
+            for(String key : keys){
+                LoginUser user = redisCache.getCacheObject(key);
+                if (next.getUserId().equals(user.getUserId())){
+                    next.setIfLoginIng(true);
+                    break;
+                }
+            }
+        }
+        fans.sort((o1, o2)->o1.getIfLoginIng()?-1:1);
     }
 
     /**
@@ -75,36 +86,32 @@ public class ConcernsServiceImpl implements IConcernsService {
     @Override
     public List<UserFCDTO> showConcerns(Long mainUser) {
         Collection<String> keys = redisCache.keys(Constants.LOGIN_TOKEN_KEY + "*");
-        List<SysUser> sysUsers = concernsMapper.searchCountCon(mainUser);
-        List<UserFCDTO> userFCDTOS = new ArrayList<>();
-        sysUsers.stream().forEach(item->{
-            UserFCDTO userFCDTO = new UserFCDTO();
-            BeanUtils.copyProperties(item,userFCDTO);
-            userFCDTO.setFlag(true);
-            setIfLogin(keys, userFCDTOS, item, userFCDTO);
-        });
-        return userFCDTOS;
+        List<UserFCDTO> sysUsers = concernsMapper.searchCountCon(mainUser);
+        Iterator<UserFCDTO> iterator = sysUsers.iterator();
+        setIfLogin(keys,sysUsers,iterator,true);
+        return sysUsers;
     }
 
-    /**
-     * 在线用户高亮
-     * @param keys
-     * @param userFCDTOS
-     * @param item
-     * @param userFCDTO
-     */
-    private void setIfLogin(Collection<String> keys, List<UserFCDTO> userFCDTOS, SysUser item, UserFCDTO userFCDTO) {
-        userFCDTO.setIfLoginIng(false);
-        for (String key : keys) {
-            LoginUser user = redisCache.getCacheObject(key);
-            if (item.getUserName().equals(user.getUser().getUserName())){
-                userFCDTO.setIfLoginIng(true);
-                break;
-            }
-        }
-        userFCDTOS.add(userFCDTO);
-        userFCDTOS.sort((o1, o2) -> o1.getIfLoginIng() ? -1 : 1);
-    }
+//    /**
+//     * 在线用户高亮
+//     * @param keys
+//     * @param userFCDTOS
+//     * @param item
+//     * @param userFCDTO
+//     */
+//    private void setIfLogin(Collection<String> keys, List<UserFCDTO> userFCDTOS, SysUser item, UserFCDTO userFCDTO) {
+//        userFCDTO.setIfLoginIng(false);
+//        for (String key : keys) {
+//            LoginUser user = redisCache.getCacheObject(key);
+//            if (item.getUserName().equals(user.getUser().getUserName())){
+//                userFCDTO.setIfLoginIng(true);
+//                break;
+//            }
+//        }
+//
+//        userFCDTOS.add(userFCDTO);
+//        userFCDTOS.sort((o1, o2) -> o1.getIfLoginIng() ? -1 : 1);
+//    }
 
     /**
      * 重置是否提醒

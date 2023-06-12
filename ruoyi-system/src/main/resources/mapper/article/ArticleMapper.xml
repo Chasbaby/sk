@@ -57,6 +57,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
     </resultMap>
 
+    <resultMap id="ArticleReturnDTOResult" type="ArticleReturnDTO">
+        <result property="articleId"    column="article_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="articleCover"    column="article_cover"    />
+        <result property="articleTitle"    column="article_title"    />
+        <result property="articleContent"    column="article_content"    />
+        <result property="articleType"    column="article_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="articleLike"    column="article_like"    />
+        <result property="articleView"    column="article_view"    />
+        <result property="articleCollect"    column="article_collect"    />
+    </resultMap>
+
+    <resultMap id="ArticleHomeDTOResult" type="ArticleHomeDTO">
+        <result property="articleId"    column="article_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="articleCategory"    column="article_category"    />
+        <result property="articleCover"    column="article_cover"    />
+        <result property="articleTitle"    column="article_title"    />
+        <result property="articleContent"    column="article_content"    />
+        <result property="articleType"    column="article_type"    />
+        <result property="originalUrl"    column="original_url"    />
+        <result property="articleLike"    column="article_like"    />
+        <result property="articleView"    column="article_view"    />
+        <result property="articleCollect"    column="article_collect"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
     <sql id="selectArticleVo">
         select article_id, user_id, article_category, article_cover, article_title, article_content,article_tags,
                article_type, original_url, article_like, article_view, article_collect, is_top, is_delete,
@@ -96,7 +124,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
-    <select id="selectArticleCollectByUserId" resultType="com.ruoyi.article.domain.Article" parameterType="Long" resultMap="ArticleResult">
+    <select id="selectArticleCollectByUserId" resultType="com.ruoyi.article.domain.dto.ArticleReturnDTO" parameterType="Long" resultMap="ArticleReturnDTOResult">
         select distinct a.article_id,a.user_id,a.article_title,a.article_cover,a.article_content,a.article_type,b.create_time,a.article_like,a.article_view,a.article_collect
         from article a
             left join article_record_collect b
@@ -104,6 +132,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where b.user_id = #{userId} and a.is_delete = 'N' and a.is_ok= 'Y' and a.status = '0'
         order by b.create_time desc
     </select>
+
+
     <select id="selectArticleLikeByUserId" resultType="com.ruoyi.article.domain.Article" parameterType="Long" resultMap="ArticleResult">
         select a.article_id,a.user_id,a.article_cover,a.article_content,a.article_type,b.create_time,a.article_title,a.article_like,a.article_view,a.article_collect
         from article a
@@ -120,11 +150,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where b.user_id = #{userId} and a.is_delete = 'N' and a.is_ok= 'Y' and a.status = '0'
         order by b.create_time desc
     </select>
-    <select id="getArticleDraft" resultType="com.ruoyi.article.domain.Article" parameterType="Long" resultMap="ArticleResult">
+
+
+    <select id="getArticleDraft" resultType="com.ruoyi.article.domain.dto.ArticleReturnDTO" parameterType="Long" resultMap="ArticleReturnDTOResult">
         <include refid="selectArticleVo"/>
         where user_id = #{userId} and  is_delete = 'N' and status = '3'
         order by create_time desc
     </select>
+
+
     <select id="getAllArticlesByWays" resultType="com.ruoyi.article.domain.dto.ArticleStatusDTO" resultMap="ArticleStatusDTOResult">
         <include refid="selectArticleVo"/>
         <where>
@@ -135,7 +169,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         and is_delete = 'N' and user_id = #{userId}
         order by create_time desc
     </select>
-    <select id="selectArticleInPersonPage" resultType="com.ruoyi.article.domain.Article" resultMap="ArticleResult">
+
+
+
+    <select id="selectArticleInPersonPage" resultType="com.ruoyi.article.domain.dto.ArticleHomeDTO" resultMap="ArticleHomeDTOResult">
         <include refid="selectArticleVo"/>
         <where>
             <if test="way == 0">and is_ok = 'Y' and  status = '0' and is_delete = 'N'</if>

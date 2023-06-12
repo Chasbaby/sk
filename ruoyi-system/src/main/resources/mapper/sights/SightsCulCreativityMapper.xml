@@ -60,6 +60,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="culCreativityImage" column="cul_creativity_image"/>
     </resultMap>
 
+    <resultMap id="CulHomeDTOResult" type="CulHomeDTO">
+        <result property="culCreativityId"    column="cul_creativity_id"    />
+        <result property="userId" column="user_id"/>
+        <result property="culCreativityTitle"    column="cul_creativity_title"    />
+        <result property="culCreativityImage" column="cul_creativity_image"/>
+        <result property="culCreativityIntro"    column="cul_creativity_intro"    />
+        <result property="culCreativityCategory"    column="cul_creativity_category"    />
+        <result property="culCreativityLike"    column="cul_creativity_like"    />
+        <result property="culCreativityType" column="cul_creativity_type"/>
+        <result property="culCreativityCollection"    column="cul_creativity_collection"    />
+        <result property="culCreativityHits"    column="cul_creativity_hits"    />
+        <result property="culCreativityView" column="cul_creativity_view"/>
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+
     <sql id="selectSightsCulCreativityVo">
         select cul_creativity_id, sights_id, user_id,cul_creativity_title,cul_creativity_image, cul_creativity_intro, cul_creativity_category,cul_creativity_content,status,cul_creativity_view,
                is_ok,judge_by,judge_time,cul_creativity_tags, cul_creativity_key, cul_creativity_like, cul_creativity_dislike, cul_creativity_collection,cul_creativity_type,
@@ -193,7 +209,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where b.user_id = #{userId} and a.del_flag = 'N' and a.is_ok ='Y' and a.status ='0'
         order by b.create_time desc
     </select>
-    <select id="getAllCUlByWays" resultType="com.ruoyi.culCreativity.domain.SightsCulCreativity" resultMap="SightsCulCreativityResult">
+    <select id="getAllCUlByWays" resultType="com.ruoyi.culCreativity.domain.dto.CulHomeDTO" resultMap="CulHomeDTOResult">
         <include refid="selectSightsCulCreativityVo"/>
         <where>
             <if test="ways == 0"> and is_ok='Y'</if>

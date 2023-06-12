@@ -284,13 +284,8 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      */
     @Override
     public List<CulHomeDTO> getUserAllArticleByWays(Long user, Integer way) {
-        List<SightsCulCreativity> culCreativities = sightsCulCreativityMapper.getAllCUlByWays(user, way);
-        List<CulHomeDTO> collect = culCreativities.stream().map(item -> {
-            CulHomeDTO homeDTO = new CulHomeDTO();
-            BeanUtils.copyBeanProp(homeDTO, item);
-            return homeDTO;
-        }).collect(Collectors.toList());
-        return collect;
+        return sightsCulCreativityMapper.getAllCUlByWays(user, way);
+
     }
 
     /**

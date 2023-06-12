@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.culCreativity.domain.SightsCulCreativity;
+import com.ruoyi.culCreativity.domain.dto.CulHomeDTO;
 import com.ruoyi.culCreativity.domain.dto.CulLazyDTO;
 import com.ruoyi.culCreativity.domain.dto.CulRandomLazyDTO;
 import org.apache.ibatis.annotations.Param;
@@ -146,7 +147,7 @@ public interface SightsCulCreativityMapper
     public int deleteBatchesCul(Long[] culCreativityId);
 
     /** 获取用户所有文创*/
-    public List<SightsCulCreativity> getAllCUlByWays(@Param("userId") Long userId,@Param("ways") Integer ways);
+    public List<CulHomeDTO> getAllCUlByWays(@Param("userId") Long userId, @Param("ways") Integer ways);
 
     public List<CulRandomLazyDTO> selectFallLazy();
 

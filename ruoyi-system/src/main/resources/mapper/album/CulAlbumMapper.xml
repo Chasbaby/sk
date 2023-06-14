@@ -52,11 +52,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where if_ban = "N"
         order by create_time
     </select>
-    <select id="getCulByAlbumId" resultType="com.ruoyi.album.domain.dto.AlbumCulDTO" parameterType="integer" resultMap="CulAlbumInfoResult">
+
+    <select id="getCulByAlbumId" resultType="com.ruoyi.album.domain.dto.AlbumCulDTO" parameterType="long" resultMap="CulAlbumInfoResult">
         select  a.cul_creativity_id,a.sights_id,a.user_id,a.cul_creativity_title,a.cul_creativity_image
-                from sights_cul_creativity a left join cul_album b on a.cul_creativity_id = b.cul_id
-                where b.if_ban = "N" and a.is_ok = "Y"  and a.status = 0 and a.del_flag = "N" and b.album_id = #{albumId}
+                from sights_cul_creativity a left join cul_album_connect b on a.cul_creativity_id = b.cul_id
+                where a.is_ok = "Y"  and a.status = 0 and a.del_flag = "N" and b.album_id = #{albumId}
     </select>
+
     <select id="getAlbumInfo" resultType="com.ruoyi.album.domain.CulAlbum" parameterType="long" resultMap="CulAlbumResult">
         <include refid="selectCulAlbumVo"/>
         where if_ban = "N" and album_id = #{albumId}

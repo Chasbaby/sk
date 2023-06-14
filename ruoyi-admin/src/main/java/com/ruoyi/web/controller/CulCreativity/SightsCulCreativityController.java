@@ -41,8 +41,7 @@ public class SightsCulCreativityController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:cul_creativity:list')")
     @GetMapping("/list")
-    public TableDataInfo list(SightsCulCreativity sightsCulCreativity)
-    {
+    public TableDataInfo list(SightsCulCreativity sightsCulCreativity) {
         startPage();
         List<SightsCulCreativity> list = sightsCulCreativityService.selectSightsCulCreativityList(sightsCulCreativity);
         return getDataTable(list);
@@ -54,8 +53,7 @@ public class SightsCulCreativityController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:cul_creativity:export')")
     @Log(title = "文创", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, SightsCulCreativity sightsCulCreativity)
-    {
+    public void export(HttpServletResponse response, SightsCulCreativity sightsCulCreativity) {
         List<SightsCulCreativity> list = sightsCulCreativityService.selectSightsCulCreativityList(sightsCulCreativity);
         ExcelUtil<SightsCulCreativity> util = new ExcelUtil<SightsCulCreativity>(SightsCulCreativity.class);
         util.exportExcel(response, list, "文创数据");
@@ -66,8 +64,7 @@ public class SightsCulCreativityController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:cul_creativity:query')")
     @GetMapping(value = "/{culCreativityId}")
-    public AjaxResult getInfo(@PathVariable("culCreativityId") Long culCreativityId)
-    {
+    public AjaxResult getInfo(@PathVariable("culCreativityId") Long culCreativityId) {
         return AjaxResult.success(sightsCulCreativityService.selectSightsCulCreativityByCulCreativityId(culCreativityId));
     }
 
@@ -77,8 +74,7 @@ public class SightsCulCreativityController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:cul_creativity:add')")
     @Log(title = "文创", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody SightsCulCreativity sightsCulCreativity)
-    {
+    public AjaxResult add(@RequestBody SightsCulCreativity sightsCulCreativity) {
         sightsCulCreativity.setCreateBy(getUsername());
         sightsCulCreativity.setUpdateTime(new Date());
         return toAjax(sightsCulCreativityService.insertSightsCulCreativity(sightsCulCreativity));
@@ -90,8 +86,7 @@ public class SightsCulCreativityController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:cul_creativity:edit')")
     @Log(title = "文创", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody SightsCulCreativity sightsCulCreativity)
-    {
+    public AjaxResult edit(@RequestBody SightsCulCreativity sightsCulCreativity) {
         sightsCulCreativity.setUpdateBy(getUsername());
         sightsCulCreativity.setUpdateTime(new Date());
         return toAjax(sightsCulCreativityService.updateSightsCulCreativity(sightsCulCreativity));
@@ -103,9 +98,7 @@ public class SightsCulCreativityController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:cul_creativity:remove')")
     @Log(title = "文创", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{culCreativityIds}")
-    public AjaxResult remove(@PathVariable Long[] culCreativityIds)
-    {
-
+    public AjaxResult remove(@PathVariable Long[] culCreativityIds) {
         return toAjax(sightsCulCreativityService.deleteSightsCulCreativityByCulCreativityIds(culCreativityIds));
     }
 
@@ -122,4 +115,6 @@ public class SightsCulCreativityController extends BaseController
        sightsCulCreativityService.updateSightsCulCreativity(sightsCulCreativity);
         return AjaxResult.success("绑定成功");
     }
+
+
 }

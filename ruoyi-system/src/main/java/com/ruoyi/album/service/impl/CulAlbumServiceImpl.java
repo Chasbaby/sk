@@ -113,10 +113,17 @@ public class CulAlbumServiceImpl implements ICulAlbumService {
     }
 
     @Override
-    public AlbumInfoDTO getAlbumInfo(Long albumId) {
+    public AlbumInfoDTO getAlbumInfo(Long albumId){
         CulAlbum info = culAlbumMapper.getAlbumInfo(albumId);
         AlbumInfoDTO infoDTO = new AlbumInfoDTO();
         BeanUtils.copyBeanProp(infoDTO,info);
+        infoDTO.setAlbumImage(infoDTO.getAlbumImage().split(",")[1]);
         return infoDTO;
+    }
+
+    @Override
+    public int AddCulToAlbum(Long albumId, Long culId) {
+
+        return 0;
     }
 }

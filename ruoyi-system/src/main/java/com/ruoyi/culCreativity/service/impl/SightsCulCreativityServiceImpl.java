@@ -311,8 +311,20 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
 
     @Override
     public List<CulRandomLazyDTO> getFallLazyDTO() {
-
         return sightsCulCreativityMapper.selectFallLazy();
+    }
+
+    @Override
+    public List<CulAlbumShowDTO> selectAlbumCulLists(SightsCulCreativity culCreativity) {
+
+        // 查询本专辑中已经存在的数据 保存id即可
+
+        // 分页查询数据
+
+        // 判是否
+
+
+        return null;
     }
 
     /**

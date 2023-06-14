@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.album.service.ICulAlbumService;
+import com.ruoyi.culCreativity.domain.dto.CulAlbumShowDTO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,10 +33,13 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/system/cul_creativity")
-public class SightsCulCreativityController extends BaseController
-{
+
+public class SightsCulCreativityController extends BaseController {
     @Autowired
     private ISightsCulCreativityService sightsCulCreativityService;
+
+    @Autowired
+    private ICulAlbumService albumService;
 
     /**
      * 查询文创列表
@@ -114,6 +119,22 @@ public class SightsCulCreativityController extends BaseController
        sightsCulCreativity.setSightsId(sightsId);
        sightsCulCreativityService.updateSightsCulCreativity(sightsCulCreativity);
         return AjaxResult.success("绑定成功");
+    }
+
+    @PreAuthorize("@ss.hasPermi('system:cul_creativity:edit')")
+    @Log(title = "加入专辑",businessType = BusinessType.GRANT)
+    @GetMapping("/addAlbum/{albumId}/{culCreativityId}")
+    public AjaxResult addAlbum(@PathVariable Long albumId,@PathVariable Long culCreativityId ){
+
+        return null;
+    }
+
+    @PreAuthorize("@ss.hasPermi('system:cul_creativity:list')")
+    @GetMapping("/listCulAlbum")
+    public TableDataInfo listCulAlbum(SightsCulCreativity sightsCulCreativity) {
+        startPage();
+        List<CulAlbumShowDTO> list = sightsCulCreativityService.selectAlbumCulLists(sightsCulCreativity);
+        return getDataTable(list);
     }
 
 

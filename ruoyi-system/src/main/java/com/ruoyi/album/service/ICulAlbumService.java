@@ -66,4 +66,6 @@ public interface ICulAlbumService {
     public List<AlbumCulDTO> getCulByAlbum(Long albumId);
 
     public AlbumInfoDTO getAlbumInfo(Long albumId);
+
+    public int AddCulToAlbum(Long albumId,Long culId);
 }

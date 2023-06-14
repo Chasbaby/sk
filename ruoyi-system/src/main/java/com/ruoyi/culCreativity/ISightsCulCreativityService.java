@@ -181,4 +181,6 @@ public interface ISightsCulCreativityService
 
     public List<CulRandomLazyDTO> getFallLazyDTO();
 
+    public List<CulAlbumShowDTO> selectAlbumCulLists(SightsCulCreativity culCreativity);
+
 }

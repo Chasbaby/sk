@@ -46,6 +46,7 @@ public class CulAlbumAnController extends BaseController {
     @ApiOperation("获取专栏本身信息")
     @GetMapping("/albumInfo/{albumId}")
     public AjaxResult getAlbum(@PathVariable Long albumId){
+
         return AjaxResult.success(albumService.getAlbumInfo(albumId));
     }
 }

@@ -29,8 +29,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/system/album")
-public class CulAlbumController extends BaseController
-{
+public class CulAlbumController extends BaseController {
     @Autowired
     private ICulAlbumService culAlbumService;
 
@@ -52,8 +51,7 @@ public class CulAlbumController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:album:export')")
     @Log(title = "文创专栏", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, CulAlbum culAlbum)
-    {
+    public void export(HttpServletResponse response, CulAlbum culAlbum) {
         List<CulAlbum> list = culAlbumService.selectCulAlbumList(culAlbum);
         ExcelUtil<CulAlbum> util = new ExcelUtil<CulAlbum>(CulAlbum.class);
         util.exportExcel(response, list, "文创专栏数据");

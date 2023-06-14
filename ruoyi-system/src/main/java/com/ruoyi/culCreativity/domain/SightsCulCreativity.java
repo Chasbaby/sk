@@ -3,6 +3,7 @@ package com.ruoyi.culCreativity.domain;
 //import com.alibaba.excel.annotation.format.NumberFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.annotation.Excels;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -16,6 +17,7 @@ import java.util.Date;
  * @author ruoyi
  * @date 2022-11-10
  */
+@Data
 public class SightsCulCreativity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
@@ -92,183 +94,6 @@ public class SightsCulCreativity extends BaseEntity {
     /** 是否置顶(Y表示置顶N表示未置顶) */
     @Excel(name = "是否置顶(Y表示置顶N表示未置顶)")
     private String topFlag;
-
-
-    public Long getCulCreativityId() {
-        return culCreativityId;
-    }
-
-    public void setCulCreativityId(Long culCreativityId) {
-        this.culCreativityId = culCreativityId;
-    }
-
-    public Long getSightsId() {
-        return sightsId;
-    }
-
-    public void setSightsId(Long sightsId) {
-        this.sightsId = sightsId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getCulCreativityTitle() {
-        return culCreativityTitle;
-    }
-
-    public void setCulCreativityTitle(String culCreativityTitle) {
-        this.culCreativityTitle = culCreativityTitle;
-    }
-
-    public String getCulCreativityImage() {
-        return culCreativityImage;
-    }
-
-    public void setCulCreativityImage(String culCreativityImage) {
-        this.culCreativityImage = culCreativityImage;
-    }
-
-    public String getCulCreativityIntro() {
-        return culCreativityIntro;
-    }
-
-    public void setCulCreativityIntro(String culCreativityIntro) {
-        this.culCreativityIntro = culCreativityIntro;
-    }
-
-    public String getCulCreativityContent() {
-        return culCreativityContent;
-    }
-
-    public void setCulCreativityContent(String culCreativityContent) {
-        this.culCreativityContent = culCreativityContent;
-    }
-
-    public String getCulCreativityCategory() {
-        return culCreativityCategory;
-    }
-
-    public void setCulCreativityCategory(String culCreativityCategory) {
-        this.culCreativityCategory = culCreativityCategory;
-    }
-
-    public String getCulCreativityType() {
-        return culCreativityType;
-    }
-
-    public void setCulCreativityType(String culCreativityType) {
-        this.culCreativityType = culCreativityType;
-    }
-
-    public String getCulCreativityTags() {
-        return culCreativityTags;
-    }
-
-    public void setCulCreativityTags(String culCreativityTags) {
-        this.culCreativityTags = culCreativityTags;
-    }
-
-    public String getCulCreativityKey() {
-        return culCreativityKey;
-    }
-
-    public void setCulCreativityKey(String culCreativityKey) {
-        this.culCreativityKey = culCreativityKey;
-    }
-
-    public Long getCulCreativityLike() {
-        return culCreativityLike;
-    }
-
-    public void setCulCreativityLike(Long culCreativityLike) {
-        this.culCreativityLike = culCreativityLike;
-    }
-
-    public Long getCulCreativityDislike() {
-        return culCreativityDislike;
-    }
-
-    public void setCulCreativityDislike(Long culCreativityDislike) {
-        this.culCreativityDislike = culCreativityDislike;
-    }
-
-    public Long getCulCreativityCollection() {
-        return culCreativityCollection;
-    }
-
-    public void setCulCreativityCollection(Long culCreativityCollection) {
-        this.culCreativityCollection = culCreativityCollection;
-    }
-
-    public Long getCulCreativityHits() {
-        return culCreativityHits;
-    }
-
-    public void setCulCreativityHits(Long culCreativityHits) {
-        this.culCreativityHits = culCreativityHits;
-    }
-
-    public Long getCulCreativityView() {
-        return culCreativityView;
-    }
-
-    public void setCulCreativityView(Long culCreativityView) {
-        this.culCreativityView = culCreativityView;
-    }
-
-    public String getIsOk() {
-        return isOk;
-    }
-
-    public void setIsOk(String isOk) {
-        this.isOk = isOk;
-    }
-
-    public String getJudgeBy() {
-        return judgeBy;
-    }
-
-    public void setJudgeBy(String judgeBy) {
-        this.judgeBy = judgeBy;
-    }
-
-    public Date getJudgeTime() {
-        return judgeTime;
-    }
-
-    public void setJudgeTime(Date judgeTime) {
-        this.judgeTime = judgeTime;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getDelFlag() {
-        return delFlag;
-    }
-
-    public void setDelFlag(String delFlag) {
-        this.delFlag = delFlag;
-    }
-
-    public String getTopFlag() {
-        return topFlag;
-    }
-
-    public void setTopFlag(String topFlag) {
-        this.topFlag = topFlag;
-    }
 
     @Override
     public String toString() {

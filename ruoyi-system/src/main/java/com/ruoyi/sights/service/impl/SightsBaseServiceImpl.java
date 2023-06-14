@@ -4,6 +4,7 @@ import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.baidu.domain.weather.Weather;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.sights.domain.DTO.*;
@@ -130,7 +131,7 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         Double score = recordMapper.getSightsScoreByUser(userId, sightsId);
         sightsDTO.setScore(score == null ? -1 : score);
 
-        if (!sightsBase.getTerritorId().isEmpty()){
+        if (StringUtils.isNotNull(sightsBase.getTerritorId())){
             String[] split = sightsBase.getTerritorId().split("/");
             Territor territor = territorMapper.selectTerritorByTerritorId(Integer.parseInt(split[3]));
             Weather weather = getWeather(territor.getDistrictcode());

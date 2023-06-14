@@ -1,6 +1,7 @@
 package com.ruoyi.common.utils.baidu;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.utils.baidu.domain.IP.Geocoder;
 import com.ruoyi.common.utils.baidu.domain.IP.ParaGeo;
 import com.ruoyi.common.utils.baidu.domain.weather.DomesticWeather;
@@ -9,6 +10,13 @@ import com.ruoyi.common.utils.http.HttpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * @author Chas
@@ -69,13 +77,34 @@ public class BaiduUtils {
 //        System.out.println(api.getTransResult(query, "auto", "en"));
 
 
-        String xxxx ="https://api.map.baidu.com/weather/v1/?district_id=222405&data_type=all&ak=qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt";
-        String xxx="https://api.map.baidu.com/weather_abroad/v1/?district_id=141025&data_type=all&ak=qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt";
-        String s = HttpUtils.sendGet(xxxx);
-        Weather weather = JSONObject.parseObject(s, Weather.class);
-        System.out.println(weather.getMessage());
-        System.out.println(weather.getStatus());
-        System.out.println(weather);
+//        String xxxx ="https://api.map.baidu.com/weather/v1/?district_id=222405&data_type=all&ak=qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt";
+//        String xxx="https://api.map.baidu.com/weather_abroad/v1/?district_id=141025&data_type=all&ak=qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt";
+//        String s = HttpUtils.sendGet(xxxx);
+//        Weather weather = JSONObject.parseObject(s, Weather.class);
+//        System.out.println(weather.getMessage());
+//        System.out.println(weather.getStatus());
+//        System.out.println(weather);
+
+        String xxx = "https://api.map.baidu.com/panorama/v2?width=512&height=256&location=103.811,33.322&fov=55&heading=50&pitch=45&ak=qOODeQG4eQRtkrNor1lFe4rLS6sWEhDt";
+        String s = HttpUtils.sendGet(xxx);
+        String path = RuoYiConfig.getUploadPath();
+
+        try {
+            URL url = new URL(xxx);
+            URLConnection conn= url.openConnection();
+            byte[] buffer = new byte[1024];
+            int len;
+            FileOutputStream fos = new FileOutputStream("C:\\ruoyi\\uploadPath\\xxx1.jpg");
+            InputStream inputStream = conn.getInputStream();
+
+            while ((len = inputStream.read(buffer)) > 0) {
+                fos.write(buffer, 0, len);
+            }
+            fos.close();
+            inputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 package com.ruoyi.album.domain;
 
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -8,11 +9,11 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 文创专栏对象 cul_album
  * 
- * @author ruoyi
+ * @author ruoyi chas
  * @date 2023-06-01
  */
-public class CulAlbum extends BaseEntity
-{
+@Data
+public class CulAlbum extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /** 专栏id */
@@ -42,69 +43,6 @@ public class CulAlbum extends BaseEntity
     @Excel(name = "是否禁用")
     private String ifBan;
 
-    public void setAlbumId(Long albumId) 
-    {
-        this.albumId = albumId;
-    }
-
-    public Long getAlbumId() 
-    {
-        return albumId;
-    }
-    public void setAlbumName(String albumName) 
-    {
-        this.albumName = albumName;
-    }
-
-    public String getAlbumName() 
-    {
-        return albumName;
-    }
-    public void setAlbumImage(String albumImage) 
-    {
-        this.albumImage = albumImage;
-    }
-
-    public String getAlbumImage() 
-    {
-        return albumImage;
-    }
-    public void setAlbumTitle(String albumTitle) 
-    {
-        this.albumTitle = albumTitle;
-    }
-
-    public String getAlbumTitle() 
-    {
-        return albumTitle;
-    }
-    public void setAlbumSlogan(String albumSlogan) 
-    {
-        this.albumSlogan = albumSlogan;
-    }
-
-    public String getAlbumSlogan() 
-    {
-        return albumSlogan;
-    }
-    public void setAlbumIntroduce(String albumIntroduce) 
-    {
-        this.albumIntroduce = albumIntroduce;
-    }
-
-    public String getAlbumIntroduce() 
-    {
-        return albumIntroduce;
-    }
-    public void setIfBan(String ifBan) 
-    {
-        this.ifBan = ifBan;
-    }
-
-    public String getIfBan() 
-    {
-        return ifBan;
-    }
 
     @Override
     public String toString() {

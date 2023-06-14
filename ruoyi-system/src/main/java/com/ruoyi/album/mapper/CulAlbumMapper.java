@@ -2,6 +2,7 @@ package com.ruoyi.album.mapper;
 
 import java.util.List;
 import com.ruoyi.album.domain.CulAlbum;
+import com.ruoyi.album.domain.dto.AlbumCulDTO;
 
 /**
  * 文创专栏Mapper接口
@@ -45,7 +46,6 @@ public interface CulAlbumMapper
 
     /**
      * 删除文创专栏
-     * 
      * @param albumId 文创专栏主键
      * @return 结果
      */
@@ -53,9 +53,14 @@ public interface CulAlbumMapper
 
     /**
      * 批量删除文创专栏
-     * 
      * @param albumIds 需要删除的数据主键集合
      * @return 结果
      */
     public int deleteCulAlbumByAlbumIds(Long[] albumIds);
+
+    public List<CulAlbum> getAlbumSwiper();
+
+    public List<AlbumCulDTO> getCulByAlbumId(Long albumId);
+
+    public CulAlbum getAlbumInfo(Long albumId);
 }

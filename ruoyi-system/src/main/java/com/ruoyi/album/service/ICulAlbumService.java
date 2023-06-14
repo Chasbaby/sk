@@ -2,6 +2,9 @@ package com.ruoyi.album.service;
 
 import java.util.List;
 import com.ruoyi.album.domain.CulAlbum;
+import com.ruoyi.album.domain.dto.AlbumCulDTO;
+import com.ruoyi.album.domain.dto.AlbumInfoDTO;
+import com.ruoyi.album.domain.dto.AlbumSwiperDTO;
 
 /**
  * 文创专栏Service接口
@@ -9,8 +12,7 @@ import com.ruoyi.album.domain.CulAlbum;
  * @author ruoyi
  * @date 2023-06-01
  */
-public interface ICulAlbumService 
-{
+public interface ICulAlbumService {
     /**
      * 查询文创专栏
      * 
@@ -58,4 +60,10 @@ public interface ICulAlbumService
      * @return 结果
      */
     public int deleteCulAlbumByAlbumId(Long albumId);
+
+    public List<AlbumSwiperDTO> geAlbumSwiper();
+
+    public List<AlbumCulDTO> getCulByAlbum(Long albumId);
+
+    public AlbumInfoDTO getAlbumInfo(Long albumId);
 }

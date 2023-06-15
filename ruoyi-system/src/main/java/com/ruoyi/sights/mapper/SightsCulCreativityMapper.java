@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.article.domain.Article;
 import com.ruoyi.culCreativity.domain.SightsCulCreativity;
+import com.ruoyi.culCreativity.domain.dto.CulAlbumShowDTO;
 import com.ruoyi.culCreativity.domain.dto.CulHomeDTO;
 import com.ruoyi.culCreativity.domain.dto.CulLazyDTO;
 import com.ruoyi.culCreativity.domain.dto.CulRandomLazyDTO;
@@ -17,8 +18,7 @@ import org.springframework.security.core.parameters.P;
  * @author ruoyi
  * @date 2022-11-10
  */
-public interface SightsCulCreativityMapper 
-{
+public interface SightsCulCreativityMapper {
     /**
      * 查询文创
      * 
@@ -150,6 +150,8 @@ public interface SightsCulCreativityMapper
     public List<CulHomeDTO> getAllCUlByWays(@Param("userId") Long userId, @Param("ways") Integer ways);
 
     public List<CulRandomLazyDTO> selectFallLazy();
+
+    public List<CulAlbumShowDTO> getCulAlbumList(SightsCulCreativity culCreativity);
 
 
 }

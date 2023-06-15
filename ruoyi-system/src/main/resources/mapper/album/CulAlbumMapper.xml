@@ -63,6 +63,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectCulAlbumVo"/>
         where if_ban = "N" and album_id = #{albumId}
     </select>
+    <select id="getIdByAlbum" resultType="java.lang.Long" parameterType="long">
+        select cul_id from cul_album_connect where album_id=#{albumId}
+    </select>
+    <select id="judgeCulIfAlbum" resultType="java.lang.Integer">
+        select count(*) from cul_album_connect where  cul_id = #{culId} and album_id =#{albumId} limit 1
+    </select>
 
     <insert id="insertCulAlbum" parameterType="CulAlbum" useGeneratedKeys="true" keyProperty="albumId">
         insert into cul_album
@@ -93,6 +99,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null">#{remark},</if>
          </trim>
     </insert>
+    <insert id="addCulInAlbum">
+        insert into cul_album_connect(cul_id,album_id,create_by) values (#{culId},#{albumId},#{createBy})
+    </insert>
 
     <update id="updateCulAlbum" parameterType="CulAlbum">
         update cul_album
@@ -121,5 +130,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach item="albumId" collection="array" open="(" separator="," close=")">
             #{albumId}
         </foreach>
+    </delete>
+    <delete id="delCulInAlbum">
+        delete from cul_album_connect where  cul_id = #{culId} and album_id =#{albumId} limit 1
     </delete>
 </mapper>

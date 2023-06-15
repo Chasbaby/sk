@@ -1,5 +1,6 @@
 package com.ruoyi.culCreativity.service.impl;
 
+import com.ruoyi.album.mapper.CulAlbumMapper;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.entity.DTO.UserDTO;
 import com.ruoyi.common.core.domain.entity.SysUser;
@@ -56,6 +57,9 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
 
     @Autowired
     private SysAudioMapper audioMapper;
+
+    @Autowired
+    private CulAlbumMapper albumMapper;
 
     /**
      * 查询文创
@@ -315,16 +319,27 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
     }
 
     @Override
-    public List<CulAlbumShowDTO> selectAlbumCulLists(SightsCulCreativity culCreativity) {
-
+    public List<CulAlbumShowDTO> selectAlbumCulLists(SightsCulCreativity culCreativity,Long albumId) {
+        // 分页查询所有文创
+        List<CulAlbumShowDTO> list = sightsCulCreativityMapper.getCulAlbumList(culCreativity);
         // 查询本专辑中已经存在的数据 保存id即可
+        List<Long> culs = albumMapper.getIdByAlbum(albumId);
+        if (list.isEmpty()){
+            return new LinkedList<>();
+        }
 
-        // 分页查询数据
-
-        // 判是否
-
-
-        return null;
+        if (culs.isEmpty()){
+            list.forEach(item->{
+                item.setIfChoice(false);
+            });
+            return list;
+        }
+        Iterator<CulAlbumShowDTO> iterator = list.iterator();
+        while (iterator.hasNext()){
+            CulAlbumShowDTO next = iterator.next();
+            next.setIfChoice(culs.contains(next.getCulCreativityId()));
+        }
+        return list;
     }
 
     /**

@@ -122,8 +122,16 @@ public class CulAlbumServiceImpl implements ICulAlbumService {
     }
 
     @Override
-    public int AddCulToAlbum(Long albumId, Long culId) {
-
-        return 0;
+    public int AddCulToAlbum(Long albumId, Long culId,String createBy) {
+        // 判断是否存在
+        int i = culAlbumMapper.judgeCulIfAlbum(albumId, culId);
+        if (i>0){
+            // 则删除
+            culAlbumMapper.delCulInAlbum(albumId,culId);
+        }else {
+            // 加入
+            culAlbumMapper.addCulInAlbum(albumId,culId,createBy);
+        }
+        return i;
     }
 }

@@ -67,5 +67,5 @@ public interface ICulAlbumService {
 
     public AlbumInfoDTO getAlbumInfo(Long albumId);
 
-    public int AddCulToAlbum(Long albumId,Long culId);
+    public int AddCulToAlbum(Long albumId,Long culId,String createBy);
 }

@@ -124,16 +124,19 @@ public class SightsCulCreativityController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:cul_creativity:edit')")
     @Log(title = "加入专辑",businessType = BusinessType.GRANT)
     @GetMapping("/addAlbum/{albumId}/{culCreativityId}")
-    public AjaxResult addAlbum(@PathVariable Long albumId,@PathVariable Long culCreativityId ){
-
-        return null;
+    public AjaxResult addAlbum(@PathVariable Long albumId,@PathVariable Long culCreativityId){
+        int i = albumService.AddCulToAlbum(albumId, culCreativityId,getUsername());
+        if (i>0){
+            return AjaxResult.success("移除专辑成功");
+        }
+        return AjaxResult.success("加入专辑成功");
     }
 
     @PreAuthorize("@ss.hasPermi('system:cul_creativity:list')")
-    @GetMapping("/listCulAlbum")
-    public TableDataInfo listCulAlbum(SightsCulCreativity sightsCulCreativity) {
+    @GetMapping("/listCulAlbum/{albumId}")
+    public TableDataInfo listCulAlbum(SightsCulCreativity sightsCulCreativity,@PathVariable Long albumId) {
         startPage();
-        List<CulAlbumShowDTO> list = sightsCulCreativityService.selectAlbumCulLists(sightsCulCreativity);
+        List<CulAlbumShowDTO> list = sightsCulCreativityService.selectAlbumCulLists(sightsCulCreativity,albumId);
         return getDataTable(list);
     }
 

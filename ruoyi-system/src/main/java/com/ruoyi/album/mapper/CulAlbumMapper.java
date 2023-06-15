@@ -3,6 +3,7 @@ package com.ruoyi.album.mapper;
 import java.util.List;
 import com.ruoyi.album.domain.CulAlbum;
 import com.ruoyi.album.domain.dto.AlbumCulDTO;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 文创专栏Mapper接口
@@ -10,8 +11,7 @@ import com.ruoyi.album.domain.dto.AlbumCulDTO;
  * @author ruoyi
  * @date 2023-06-01
  */
-public interface CulAlbumMapper 
-{
+public interface CulAlbumMapper {
     /**
      * 查询文创专栏
      * 
@@ -63,4 +63,12 @@ public interface CulAlbumMapper
     public List<AlbumCulDTO> getCulByAlbumId(Long albumId);
 
     public CulAlbum getAlbumInfo(Long albumId);
+
+    public List<Long> getIdByAlbum(Long albumId);
+
+    public int judgeCulIfAlbum(@Param("albumId") Long albumId, @Param("culId") Long culId);
+
+    public int delCulInAlbum(@Param("albumId") Long albumId, @Param("culId") Long culId);
+
+    public int addCulInAlbum(@Param("albumId") Long albumId, @Param("culId") Long culId,@Param("createBy") String createBy);
 }

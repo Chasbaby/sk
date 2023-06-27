@@ -11,7 +11,6 @@ import java.util.Date;
 public class UserFCDTO implements Serializable {
     private Long userId;
     private String nickName;
-
     private String intro;
     private String sex;
     private String avatar;

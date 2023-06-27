@@ -137,6 +137,11 @@ public class SightsHotAnController extends BaseController {
         String key = "userId:"+getUserId();
         Boolean hasKey = redisCache.hasKey(key);
         String value = sightsId + ":" + score;
+        int i = hotService.ifScore(sightsId, score, getUserId());
+        if (i == 0){
+            kafkaTemplate.send(KafkaTopicsConstant.SIGHTSSCORE,sightsId+KafkaTopicsConstant.DELIMITER
+                    +getUserId()+KafkaTopicsConstant.DELIMITER+score);
+        }
         if (hasKey){
             redisCache.lock(key); // 加锁
             // 格式 : sightsId:score
@@ -164,13 +169,6 @@ public class SightsHotAnController extends BaseController {
         }
 
         logger.info("SIGHTS:"+getUserId()+"|"+sightsId+"|"+score+"|"+ DateUtils.getNowDate().getTime());
-
-        int i = hotService.ifScore(sightsId, score, getUserId());
-        if (i == 0){
-            kafkaTemplate.send(KafkaTopicsConstant.SIGHTSSCORE,sightsId+KafkaTopicsConstant.DELIMITER
-                    +getUserId()+KafkaTopicsConstant.DELIMITER+score);
-        }
-
         return AjaxResult.success("评分成功喽");
     }
 

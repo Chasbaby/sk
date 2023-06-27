@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.person;
 
 import cn.hutool.http.server.HttpServerRequest;
 import cn.hutool.http.server.HttpServerResponse;
+import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -149,9 +150,17 @@ public class PersonDataController extends BaseController {
     }
 
     @ApiOperation("获取创作中心活动图")
+    @Anonymous
     @GetMapping("/activity/picture")
     public AjaxResult getActPerson(){
         return AjaxResult.success(sysTypesetService.getPersonPicture());
+    }
+
+    @ApiOperation("个人全部数据")
+    @PreAuthorize("@ss.hasRole('common')")
+    @GetMapping("/statistic")
+    public AjaxResult statisticDataByPerson(){
+        return AjaxResult.success(visitorService.statisticUser(getUserId()));
     }
 
 

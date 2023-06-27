@@ -1,5 +1,6 @@
 package com.ruoyi.system.service;
 
+import com.ruoyi.common.core.domain.entity.DTO.UserStatisticsDTO;
 import com.ruoyi.common.core.domain.entity.DTO.UserVisitorDTO;
 import com.ruoyi.common.core.domain.entity.SysVisitor;
 
@@ -29,5 +30,11 @@ public interface ISysVisitorService {
      * @return
      */
     public UserVisitorDTO getCreateIntro(Long userId);
+
+    /**
+     * 获取用户数据统计信息
+     */
+
+    public UserStatisticsDTO statisticUser(Long userId);
 
 }

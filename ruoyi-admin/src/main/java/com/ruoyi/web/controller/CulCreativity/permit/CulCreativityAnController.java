@@ -127,6 +127,20 @@ public class CulCreativityAnController extends BaseController {
         return AjaxResult.success(detail);
     }
 
+    @ApiOperation("判断文创是否被收藏")
+    @Anonymous
+    @GetMapping("/ifCollect/{culCreativityId}")
+    public AjaxResult judgeIfCollect(@PathVariable Long culCreativityId){
+        try{
+            Long userId = getUserId();
+            Boolean ifCollect = creativityService.judgeIfCollect(culCreativityId, userId);
+            return AjaxResult.success(ifCollect);
+        }catch (Exception e){
+            return AjaxResult.success(false);
+        }
+    }
+
+
     /**
      * 订阅用户 -> 文创
      * @param userId id

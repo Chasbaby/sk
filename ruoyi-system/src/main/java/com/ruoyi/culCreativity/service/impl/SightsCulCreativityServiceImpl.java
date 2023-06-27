@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.ruoyi.common.utils.baidu.TranslateUtils.getTranslateResult;
 
@@ -68,8 +67,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      * @return 文创
      */
     @Override
-    public SightsCulCreativity selectSightsCulCreativityByCulCreativityId(Long culCreativityId)
-    {
+    public SightsCulCreativity selectSightsCulCreativityByCulCreativityId(Long culCreativityId) {
         return sightsCulCreativityMapper.selectSightsCulCreativityByCulCreativityId(culCreativityId);
     }
 
@@ -80,8 +78,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      * @return 文创
      */
     @Override
-    public List<SightsCulCreativity> selectSightsCulCreativityList(SightsCulCreativity sightsCulCreativity)
-    {
+    public List<SightsCulCreativity> selectSightsCulCreativityList(SightsCulCreativity sightsCulCreativity) {
         return sightsCulCreativityMapper.selectSightsCulCreativityList(sightsCulCreativity);
     }
 
@@ -92,8 +89,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      * @return 结果
      */
     @Override
-    public int insertSightsCulCreativity(SightsCulCreativity sightsCulCreativity)
-    {
+    public int insertSightsCulCreativity(SightsCulCreativity sightsCulCreativity) {
         sightsCulCreativity.setCreateTime(DateUtils.getNowDate());
         return sightsCulCreativityMapper.insertSightsCulCreativity(sightsCulCreativity);
     }
@@ -105,8 +101,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      * @return 结果
      */
     @Override
-    public int updateSightsCulCreativity(SightsCulCreativity sightsCulCreativity)
-    {
+    public int updateSightsCulCreativity(SightsCulCreativity sightsCulCreativity) {
         sightsCulCreativity.setUpdateTime(DateUtils.getNowDate());
         return sightsCulCreativityMapper.updateSightsCulCreativity(sightsCulCreativity);
     }
@@ -118,8 +113,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      * @return 结果
      */
     @Override
-    public int deleteSightsCulCreativityByCulCreativityIds(Long[] culCreativityIds)
-    {
+    public int deleteSightsCulCreativityByCulCreativityIds(Long[] culCreativityIds) {
         return sightsCulCreativityMapper.deleteSightsCulCreativityByCulCreativityIds(culCreativityIds);
     }
 
@@ -130,8 +124,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      * @return 结果
      */
     @Override
-    public int deleteSightsCulCreativityByCulCreativityId(Long culCreativityId)
-    {
+    public int deleteSightsCulCreativityByCulCreativityId(Long culCreativityId) {
         return sightsCulCreativityMapper.deleteSightsCulCreativityByCulCreativityId(culCreativityId);
     }
     /**
@@ -205,14 +198,13 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
      */
     @Transactional
     @Override
-    public int addCulCollect(CulRecord record) {
+    public int addCulCollect(CulRecord record){
         int i = recordMapper.judgeOnlyOneCollectCul(record.getUserId(),record.getCulId());
-        if (i==0){
+        if(i==0){
             recordMapper.addCollectCul(record.getUserId(),record.getCulId());
         }else {
             recordMapper.deleteCollectCul(record.getUserId(),record.getCulId());
         }
-
         return i;
     }
 
@@ -340,6 +332,12 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
             next.setIfChoice(culs.contains(next.getCulCreativityId()));
         }
         return list;
+    }
+
+    @Override
+    public Boolean judgeIfCollect(Long culId, Long userId) {
+        int i = recordMapper.judgeOnlyOneCollectCul(userId, culId);
+        return i>0;
     }
 
     /**
@@ -560,5 +558,7 @@ public class SightsCulCreativityServiceImpl implements ISightsCulCreativityServi
         createDTO.setCulCreativityTags(split);
         return createDTO;
     }
+
+
 
 }

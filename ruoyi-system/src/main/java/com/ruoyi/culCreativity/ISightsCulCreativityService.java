@@ -183,4 +183,6 @@ public interface ISightsCulCreativityService
 
     public List<CulAlbumShowDTO> selectAlbumCulLists(SightsCulCreativity culCreativity,Long albumId);
 
+    public Boolean judgeIfCollect(Long culId,Long userId);
+
 }

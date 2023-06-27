@@ -2,7 +2,7 @@ package com.ruoyi.culCreativity.domain.dto;
 
 import lombok.Data;
 
-import java.io.Serializable;
+import java.io.*;
 
 /**
  * @author chas
@@ -21,4 +21,5 @@ public class CulAlbumShowDTO implements Serializable{
     private String culCreativityType;
     private String culCreativityTags;
     private Boolean IfChoice;
+
 }

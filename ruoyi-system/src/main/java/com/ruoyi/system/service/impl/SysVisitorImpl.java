@@ -1,5 +1,6 @@
 package com.ruoyi.system.service.impl;
 
+import com.ruoyi.common.core.domain.entity.DTO.UserStatisticsDTO;
 import com.ruoyi.common.core.domain.entity.DTO.UserVisitorDTO;
 import com.ruoyi.common.core.domain.entity.DTO.VisitorDTO;
 import com.ruoyi.common.core.domain.entity.SysUser;
@@ -58,5 +59,13 @@ public class SysVisitorImpl implements ISysVisitorService {
         BeanUtils.copyBeanProp(visitor,sysVisitor);
         visitorDTO.setVisitor(visitor);
         return visitorDTO;
+    }
+
+    @Override
+    public UserStatisticsDTO statisticUser(Long userId) {
+        SysVisitor visitor = selectVisitorById(userId);
+        UserStatisticsDTO statisticsDTO = new UserStatisticsDTO();
+        BeanUtils.copyBeanProp(statisticsDTO,visitor);
+        return statisticsDTO;
     }
 }

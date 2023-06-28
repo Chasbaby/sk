@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class UserStatisticsDTO implements Serializable {
     private Long visitorId;
     private Long userId;
+    private Long original;
     private Long visitorArticle;
     private Long visitorCul;
     private Long visitorLike;
@@ -19,6 +20,13 @@ public class UserStatisticsDTO implements Serializable {
     private Long visitorConcerns;
     private Long comments;
 
+    public Long getOriginal() {
+        return original;
+    }
+
+    public void setOriginal(Long original) {
+        this.original = original;
+    }
 
     public Long getVisitorId() {
         return visitorId;

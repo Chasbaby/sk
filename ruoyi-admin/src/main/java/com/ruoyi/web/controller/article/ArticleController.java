@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.article;
 
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
@@ -87,8 +88,9 @@ public class ArticleController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:article:edit')")
     @Log(title = "文章", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody Article article)
-    {
+    public AjaxResult edit(@RequestBody Article article) {
+        article.setJudgeBy(getUsername());
+        article.setJudgeTime(new Date());
         return toAjax(articleService.updateArticle(article));
     }
 

@@ -24,8 +24,7 @@ import com.ruoyi.framework.config.ServerConfig;
  * @author ruoyi
  */
 @RestController
-public class CommonController
-{
+public class CommonController {
     private static final Logger log = LoggerFactory.getLogger(CommonController.class);
 
     @Autowired

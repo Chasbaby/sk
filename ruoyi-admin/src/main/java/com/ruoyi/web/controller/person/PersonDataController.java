@@ -140,7 +140,6 @@ public class PersonDataController extends BaseController {
         return AjaxResult.success(intro);
     }
 
-
     @ApiOperation("获取主页信息 和 相关状态")
     @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/remind")

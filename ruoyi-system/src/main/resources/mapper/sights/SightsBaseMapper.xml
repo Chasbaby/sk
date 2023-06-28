@@ -42,6 +42,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <resultMap id="SightsCountryDTOResult" type="SightsCountryDTO">
+        <result property="name" column="sights_nation"/>
+        <result property="value" column="sights_num"/>
+    </resultMap>
+
     <sql id="selectSightsBaseVo">
         select sights_id,sights_hits,sights_like,sights_view,sights_score,sights_video,sights_cover,territor_id,
                sights_hot,sights_telephone,sights_eng,sights_open,sights_collect,
@@ -196,6 +201,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sightsCity !=null and sightsCity !=null">or sights_city like concat('%',#{sightsCity},'%')</if>
         </where>
         order by sights_hot desc
+    </select>
+    <select id="selectCountryNum" resultType="com.ruoyi.sights.domain.DTO.SightsCountryDTO" resultMap="SightsCountryDTOResult">
+        SELECT sights_nation,COUNT(*) sights_num FROM `sights_base` GROUP BY sights_nation ORDER BY sights_num desc limit 5;
     </select>
 
     <insert id="insertSightsBase" parameterType="SightsBase" useGeneratedKeys="true" keyProperty="sightsId">

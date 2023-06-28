@@ -367,7 +367,7 @@ public class ArticleServiceImpl implements IArticleService
             e.printStackTrace();
         }
 
-        String[] split = null;
+        String[] split;
         if (article.getArticleTags()!=null){
             split = article.getArticleTags().split("\\|");
 
@@ -427,7 +427,6 @@ public class ArticleServiceImpl implements IArticleService
             data[i] = 0L;
         }
         List<Article> articleData = articleMapper.getArticleData();
-        System.out.println(articleData);
         if (articleData.isEmpty()) {
             for (int i = 0; i < data.length; i++) {
                 data[i] = 0L;
@@ -456,7 +455,6 @@ public class ArticleServiceImpl implements IArticleService
         data[4] = articleMapper.getYearNOArtData();
         return data;
     }
-
     /**
      * 文章排行
      */

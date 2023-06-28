@@ -242,4 +242,6 @@ public interface ISightsBaseService
 
     public List<SightsSwiperDTO> getSightsSwiper();
 
+    public List<SightsCountryDTO> getCountryData();
+
 }

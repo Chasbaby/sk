@@ -594,6 +594,11 @@ public class SightsBaseServiceImpl implements ISightsBaseService
         }).collect(Collectors.toList());
     }
 
+    @Override
+    public List<SightsCountryDTO> getCountryData() {
+        return sightsBaseMapper.selectCountryNum();
+    }
+
     /**
      * 点击排行榜 ( 定时多久刷新一次 )
      * @param num

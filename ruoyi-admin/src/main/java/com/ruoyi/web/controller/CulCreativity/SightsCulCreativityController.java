@@ -94,6 +94,8 @@ public class SightsCulCreativityController extends BaseController {
     public AjaxResult edit(@RequestBody SightsCulCreativity sightsCulCreativity) {
         sightsCulCreativity.setUpdateBy(getUsername());
         sightsCulCreativity.setUpdateTime(new Date());
+        sightsCulCreativity.setJudgeBy(getUsername());
+        sightsCulCreativity.setJudgeTime(new Date());
         return toAjax(sightsCulCreativityService.updateSightsCulCreativity(sightsCulCreativity));
     }
 

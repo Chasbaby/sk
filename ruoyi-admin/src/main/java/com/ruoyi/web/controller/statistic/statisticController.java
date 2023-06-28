@@ -168,4 +168,11 @@ public class statisticController {
 
         return null;
     }
+
+    @ApiOperation("国家景点数量分布")
+    @GetMapping("/country")
+    public AjaxResult countryNum(){
+        return AjaxResult.success(baseservice.getCountryData());
+    }
+
 }

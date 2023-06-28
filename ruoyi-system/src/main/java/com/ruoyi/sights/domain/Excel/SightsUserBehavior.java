@@ -10,6 +10,7 @@ import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.excel.domain.excelRecord;
 import com.ruoyi.excel.mapper.excelRecordMapper;
 import com.ruoyi.excel.service.impl.ExcelServiceImpl;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,6 +22,7 @@ import java.util.Objects;
  * @introduction 景点用户行为数据统计 存入excel
  * @data 2023-3
  */
+@Data
 public class SightsUserBehavior implements Serializable {
 
     private static final String excelName = "sightsUser";
@@ -61,11 +63,13 @@ public class SightsUserBehavior implements Serializable {
                 return;
             }
         }
-        cacheList.add(behavior);
-        // 删除redis中key数据
-        SpringUtils.getBean(RedisCache.class).deleteObject(SUKEY);
-        // 重新设置
-        SpringUtils.getBean(RedisCache.class).setCacheList(SUKEY,cacheList);
+        // 直接向list 里面放数据啦
+        SpringUtils.getBean(RedisCache.class).lPush(SUKEY,behavior);
+//        cacheList.add(behavior);
+//        // 删除redis中key数据
+//        SpringUtils.getBean(RedisCache.class).deleteObject(SUKEY);
+//        // 重新设置
+//        SpringUtils.getBean(RedisCache.class).setCacheList(SUKEY,cacheList);
     }
 
     /**
@@ -86,72 +90,6 @@ public class SightsUserBehavior implements Serializable {
         System.out.println(i+"条记录插入成功");
         SpringUtils.getBean(RedisCache.class).deleteObject(SUKEY);
 
-    }
-
-
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Long getSightsId() {
-        return sightsId;
-    }
-
-    public void setSightsId(Long sightsId) {
-        this.sightsId = sightsId;
-    }
-
-    public Long getSightsLike() {
-        return sightsLike;
-    }
-
-    public void setSightsLike(Long sightsLike) {
-        this.sightsLike = sightsLike;
-    }
-
-    public Long getSightsHits() {
-        return sightsHits;
-    }
-
-    public void setSightsHits(Long sightsHits) {
-        this.sightsHits = sightsHits;
-    }
-
-    public Long getSightsView() {
-        return sightsView;
-    }
-
-    public void setSightsView(Long sightsView) {
-        this.sightsView = sightsView;
-    }
-
-    public Long getSightsCollect() {
-        return sightsCollect;
-    }
-
-    public void setSightsCollect(Long sightsCollect) {
-        this.sightsCollect = sightsCollect;
-    }
-
-    public Double getSightsScore() {
-        return sightsScore;
-    }
-
-    public void setSightsScore(Double sightsScore) {
-        this.sightsScore = sightsScore;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
     }
 
     @Override

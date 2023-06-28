@@ -135,7 +135,7 @@ public interface ArticleMapper
     // 今年累计发布
     public Long getYearArtData();
 
-    @Select("select COUNT(0) from article where DATE_FORMAT(create_time,'YYYY-MM')= DATE_FORMAT(curdate(),'YYYY-MM')")
+    @Select("select COUNT(0) from article where DATE_FORMAT(create_time,'%Y-%m')= DATE_FORMAT(curdate(),'%Y-%m')")
     // 本月累计发布
     public Long getMonthArtData();
 

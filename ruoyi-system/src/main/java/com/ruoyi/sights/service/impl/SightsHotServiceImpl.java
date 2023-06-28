@@ -137,8 +137,8 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Transactional
     @Override
     public void addView(Long sightsId, Long userId) {
-        // 1. 若缓存中有 且 没有过期 直接将缓存中的数据 + 1
-        if(redisCache.hasKey(HOTLABLE + sightsId) && !redisCache.isExpire(HOTLABLE + sightsId)){
+        // 1. 若缓存中有 且 没有过期 直接将缓存中的数据 + 1    && !redisCache.isExpire(HOTLABLE + sightsId)
+        if(redisCache.hasKey(HOTLABLE + sightsId)){
             redisCache.lock(HOTLABLE + sightsId);
             SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
             base.addView(); // 提高热度
@@ -240,8 +240,10 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Transactional
     @Override
     public void addLike(Long sightsId, Long userId) {
-        if(redisCache.hasKey(HOTLABLE + sightsId) && !redisCache.isExpire(HOTLABLE + sightsId)){
-            redisCache.lock(HOTLABLE + sightsId);
+        //&& !redisCache.isExpire(HOTLABLE + sightsId)
+        if(redisCache.hasKey(HOTLABLE + sightsId) ){
+            // todo
+            //redisCache.lock(HOTLABLE + sightsId);
             SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
             base.addLike();
             redisCache.setCacheObject(HOTLABLE + sightsId,base);
@@ -261,8 +263,6 @@ public class SightsHotServiceImpl implements ISightsHotService {
 
         // 将信息保存至
         storeSightsUserDataInRedis(userBehavior);
-
-
     }
 
     /**
@@ -274,9 +274,10 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Transactional
     @Override
     public void cancelLike(Long sightsId, Long userId) {
-        // 如果在 缓存中 则直接在缓存中修改
-        if(redisCache.hasKey(HOTLABLE + sightsId) && !redisCache.isExpire(HOTLABLE + sightsId)){
-            redisCache.lock(HOTLABLE + sightsId);
+        // 如果在 缓存中 则直接在缓存中修改 && !redisCache.isExpire(HOTLABLE + sightsId)
+        if(redisCache.hasKey(HOTLABLE + sightsId)){
+            // todo
+            //redisCache.lock(HOTLABLE + sightsId);
             SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
             base.setSightsLike(base.getSightsLike()-1);
             redisCache.setCacheObject(HOTLABLE+sightsId,base);
@@ -314,8 +315,9 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Transactional
     @Override
     public void score(Long sightsId, Double score, Long userId) {
-        if(redisCache.hasKey(HOTLABLE + sightsId) && !redisCache.isExpire(HOTLABLE + sightsId)){
-            redisCache.lock(HOTLABLE + sightsId);
+        if(redisCache.hasKey(HOTLABLE + sightsId)){
+            // todo
+            //redisCache.lock(HOTLABLE + sightsId);
             SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
             base.addScore(score);
             redisCache.setCacheObject(HOTLABLE + sightsId,base);
@@ -365,8 +367,9 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Transactional
     @Override
     public void addCollect(Long sightsId, Long userId) {
-        if(redisCache.hasKey(HOTLABLE + sightsId) && !redisCache.isExpire(HOTLABLE + sightsId)){
-            redisCache.lock(HOTLABLE + sightsId);
+        if(redisCache.hasKey(HOTLABLE + sightsId)){
+            // todo
+            //redisCache.lock(HOTLABLE + sightsId);
             SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
             base.addCollect();
             redisCache.setCacheObject(HOTLABLE + sightsId,base);
@@ -394,9 +397,9 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Transactional
     @Override
     public void cancelCollect(Long sightsId, Long userId) {
-        if (redisCache.hasKey(HOTLABLE+sightsId) && !redisCache.isExpire(HOTLABLE+sightsId)){
+        if (redisCache.hasKey(HOTLABLE+sightsId)){
 
-            redisCache.lock(HOTLABLE+sightsId);
+            //redisCache.lock(HOTLABLE+sightsId);
 
             SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
                 // 已经通过触发器实现了
@@ -416,8 +419,9 @@ public class SightsHotServiceImpl implements ISightsHotService {
     @Transactional
     @Override
     public void addHit(Long sightsId, Long userId) {
-        if (redisCache.hasKey(HOTLABLE+sightsId) && !redisCache.isExpire(HOTLABLE+sightsId)){
-            redisCache.lock(HOTLABLE+sightsId);
+        if (redisCache.hasKey(HOTLABLE+sightsId) ){
+            // todo
+            //redisCache.lock(HOTLABLE+sightsId);
             SightsBase base = redisCache.getCacheObject(HOTLABLE + sightsId);
             base.addHits();
             redisCache.setCacheObject(HOTLABLE+sightsId,base);
